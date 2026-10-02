@@ -47,9 +47,12 @@ export function PlanActions({
   planId,
   status,
   price,
+  isGuest = false,
   className,
 }: {
   planId: string;
+  /** Guests create a free account first; their plan carries over. */
+  isGuest?: boolean;
   /** Undefined when payments aren't configured. */
   status?: PremiumStatus;
   price?: PremiumPrice;
@@ -76,6 +79,14 @@ export function PlanActions({
         >
           Payment processing…
         </span>
+      ) : isGuest && price ? (
+        <ButtonLink
+          href={`/signup?reason=premium&next=${encodeURIComponent(`/plans/${planId}`)}`}
+          size="lg"
+        >
+          <DownloadIcon />
+          Create a free account to get the PDF
+        </ButtonLink>
       ) : status && price ? (
         <form action={startPremiumCheckout}>
           <input type="hidden" name="planId" value={planId} />
@@ -91,7 +102,9 @@ export function PlanActions({
       </ButtonLink>
       {status && status !== "active" && price ? (
         <span className="text-xs text-muted-foreground">
-          Test mode: no real payment is taken.
+          {isGuest
+            ? `Then unlock it for ${price.display}. Test mode: no real payment is taken.`
+            : "Test mode: no real payment is taken."}
         </span>
       ) : null}
     </div>

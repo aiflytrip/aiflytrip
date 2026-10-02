@@ -35,6 +35,11 @@ export async function startPremiumCheckout(formData: FormData): Promise<void> {
 
   const user = await getCurrentUser();
   if (!user) redirect(`/login?next=${encodeURIComponent(`/plans/${planId}`)}`);
+  // Guests must create an account before paying; their plan carries over.
+  if (user.isAnonymous)
+    redirect(
+      `/signup?reason=premium&next=${encodeURIComponent(`/plans/${planId}`)}`,
+    );
   const config = getStripeConfig();
   const supabase = await createClient();
   if (!config || !supabase) back("unavailable");

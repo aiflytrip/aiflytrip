@@ -8,7 +8,7 @@ import {
   safeNextPath,
 } from "@/features/auth";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { getCurrentUser } from "@/server/auth";
+import { getAccountUser, getCurrentUser } from "@/server/auth";
 
 export const metadata: Metadata = {
   title: "Create an account",
@@ -31,13 +31,25 @@ export default async function SignupPage({
       </AuthCard>
     );
   }
-  if (await getCurrentUser()) redirect(next);
+  if (await getAccountUser()) redirect(next);
+
+  const guest = Boolean((await getCurrentUser())?.isAnonymous);
+  const forPremium = params.reason === "premium";
 
   return (
     <AuthCard
-      title="Create an account"
+      title={
+        forPremium ? "Create your account to get the PDF" : "Create an account"
+      }
       description="Free. We'll email you a link to confirm your address."
     >
+      {guest ? (
+        <FormMessage tone="success">
+          {forPremium
+            ? "Your plan stays with you. Confirm your email, then you'll be able to unlock and download the PDF."
+            : "The plans you made as a guest will be saved to your new account."}
+        </FormMessage>
+      ) : null}
       <SignupForm next={next} />
     </AuthCard>
   );

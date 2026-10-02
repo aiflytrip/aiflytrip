@@ -11,7 +11,7 @@ import {
   searchToParams,
 } from "@/features/flights/lib/search-params";
 import { type Json } from "@/lib/supabase/database.types";
-import { getCurrentUser } from "@/server/auth";
+import { getAccountUser } from "@/server/auth";
 import { createClient } from "@/server/supabase/server";
 
 export type SaveSearchState =
@@ -32,7 +32,7 @@ export async function saveSearch(
   _prev: SaveSearchState,
   formData: FormData,
 ): Promise<SaveSearchState> {
-  const user = await getCurrentUser();
+  const user = await getAccountUser();
   const supabase = await createClient();
   if (!user || !supabase)
     return { status: "error", message: "Please sign in to save searches." };
@@ -74,7 +74,7 @@ const idSchema = z.uuid();
 export async function deleteSavedSearch(formData: FormData): Promise<void> {
   const id = idSchema.safeParse(formData.get("id"));
   const supabase = await createClient();
-  if (!id.success || !supabase || !(await getCurrentUser())) return;
+  if (!id.success || !supabase || !(await getAccountUser())) return;
 
   const { error } = await supabase
     .from("saved_trips")

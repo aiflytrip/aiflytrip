@@ -5,7 +5,6 @@ import { Container } from "@/components/ui/container";
 import { FormMessage } from "@/features/auth";
 import { PLAN_LIMITS, PlanForm } from "@/features/trip-planner";
 import { isAnthropicConfigured } from "@/server/anthropic/client";
-import { requireUser } from "@/server/auth";
 import { AIRPORTS } from "@/features/flights/data/airports";
 
 // The planner's Server Action keeps working after the response via after()
@@ -25,9 +24,6 @@ export default async function PlanPage({ searchParams }: PageProps<"/plan">) {
     typeof to === "string" && AIRPORTS.some((airport) => airport.code === to)
       ? to
       : undefined;
-  await requireUser(
-    initialDestination ? `/plan?to=${initialDestination}` : "/plan",
-  );
 
   return (
     <Container className="flex max-w-3xl flex-col gap-6 py-10">
@@ -35,8 +31,9 @@ export default async function PlanPage({ searchParams }: PageProps<"/plan">) {
         <h1 className="text-3xl font-semibold tracking-tight">Plan a trip</h1>
         <p className="mt-2 text-muted-foreground">
           Tell us the basics and what you enjoy. We&apos;ll compare flight
-          options and draft a day-by-day plan with a budget estimate. Up to{" "}
-          {PLAN_LIMITS.perHour} plans per hour.
+          options and draft a day-by-day plan with a budget estimate. Free, and
+          no account needed: create one later if you want the PDF. Up to{" "}
+          {PLAN_LIMITS.perHour} plans per hour with an account.
         </p>
       </div>
       {isAnthropicConfigured() ? (

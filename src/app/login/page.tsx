@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
@@ -8,7 +9,7 @@ import {
   safeNextPath,
 } from "@/features/auth";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
-import { getCurrentUser } from "@/server/auth";
+import { getAccountUser, getCurrentUser } from "@/server/auth";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -29,13 +30,26 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       </AuthCard>
     );
   }
-  if (await getCurrentUser()) redirect(next);
+  if (await getAccountUser()) redirect(next);
 
   return (
     <AuthCard
       title="Sign in"
       description="Save searches and pick up your trip plans on any device."
     >
+      {(await getCurrentUser())?.isAnonymous ? (
+        <FormMessage>
+          You have plans saved as a guest. Signing in to an existing account
+          won&apos;t move them; to keep them,{" "}
+          <Link
+            href={`/signup?next=${encodeURIComponent(next)}`}
+            className="font-semibold underline"
+          >
+            create an account
+          </Link>{" "}
+          instead.
+        </FormMessage>
+      ) : null}
       <LoginForm next={next} />
     </AuthCard>
   );

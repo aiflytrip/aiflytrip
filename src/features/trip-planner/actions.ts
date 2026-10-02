@@ -8,7 +8,10 @@ import { getAirport } from "@/features/flights/data/airports";
 import { toIsoDate } from "@/features/flights/lib/dates";
 import { currencyDecimals } from "@/features/flights/lib/money";
 import { parseFlightSearch } from "@/features/flights/lib/search-params";
-import { PLAN_LIMITS } from "@/features/trip-planner/lib/limits";
+import {
+  GUEST_PLAN_LIMITS,
+  PLAN_LIMITS,
+} from "@/features/trip-planner/lib/limits";
 import { PROMPT_VERSION } from "@/features/trip-planner/lib/prompt";
 import {
   parsePlanForm,
@@ -21,7 +24,8 @@ import {
 import { PLANNER_MODEL } from "@/features/trip-planner/server/generate-plan";
 import { runPlan } from "@/features/trip-planner/server/run-plan";
 import { isAnthropicConfigured } from "@/server/anthropic/client";
-import { getCurrentUser } from "@/server/auth";
+import { getCurrentUser, type SessionUser } from "@/server/auth";
+import { createAdminClient } from "@/server/supabase/admin";
 import { createClient } from "@/server/supabase/server";
 
 export type PlanFormState =
@@ -35,7 +39,14 @@ export type PlanFormState =
 
 type SupabaseClient = NonNullable<Awaited<ReturnType<typeof createClient>>>;
 
-async function overLimit(supabase: SupabaseClient): Promise<string | null> {
+const SIGN_UP_TO_CONTINUE =
+  "Create a free account to keep planning: it only takes a minute, and your plans stay with you.";
+
+async function overLimit(
+  supabase: SupabaseClient,
+  guest: boolean,
+): Promise<string | null> {
+  const limits = guest ? GUEST_PLAN_LIMITS : PLAN_LIMITS;
   const since = (ms: number) => new Date(Date.now() - ms).toISOString();
   const [hour, day] = await Promise.all([
     supabase
@@ -49,11 +60,51 @@ async function overLimit(supabase: SupabaseClient): Promise<string | null> {
   ]);
   if (hour.error || day.error)
     return "Couldn't check your plan allowance. Please try again.";
-  if ((hour.count ?? 0) >= PLAN_LIMITS.perHour)
-    return `You can create up to ${PLAN_LIMITS.perHour} plans per hour. Please try again later.`;
-  if ((day.count ?? 0) >= PLAN_LIMITS.perDay)
-    return `You've reached today's limit of ${PLAN_LIMITS.perDay} plans.`;
+  if (
+    guest &&
+    ((hour.count ?? 0) >= limits.perHour || (day.count ?? 0) >= limits.perDay)
+  )
+    return `You've used the free guest plans for now. ${SIGN_UP_TO_CONTINUE}`;
+  if ((hour.count ?? 0) >= limits.perHour)
+    return `You can create up to ${limits.perHour} plans per hour. Please try again later.`;
+  if ((day.count ?? 0) >= limits.perDay)
+    return `You've reached today's limit of ${limits.perDay} plans.`;
+  if (guest) {
+    // Site-wide ceiling on free guest plans (all plans today, via the
+    // server-only admin client; counts only, no user data is read).
+    const admin = createAdminClient();
+    if (admin) {
+      const { count, error } = await admin
+        .from("travel_plans")
+        .select("id", { count: "exact", head: true })
+        .gte("created_at", since(86_400_000));
+      if (!error && (count ?? 0) >= GUEST_PLAN_LIMITS.siteWidePerDay)
+        return `The planner is very busy today. ${SIGN_UP_TO_CONTINUE}`;
+    }
+  }
   return null;
+}
+
+/**
+ * The visitor's session, creating a guest (anonymous) session for a
+ * signed-out visitor so they can plan without an account. Returns null when
+ * guest sessions aren't enabled in Supabase.
+ */
+async function currentOrGuestUser(
+  supabase: SupabaseClient,
+): Promise<SessionUser | null> {
+  const user = await getCurrentUser();
+  if (user) return user;
+  const { data, error } = await supabase.auth.signInAnonymously();
+  if (error || !data.user) {
+    if (error?.code !== "anonymous_provider_disabled")
+      console.error("[planner] guest session failed", {
+        code: error?.code,
+        status: error?.status,
+      });
+    return null;
+  }
+  return { id: data.user.id, isAnonymous: true };
 }
 
 /** Inserts a pending plan and schedules generation after the response. */
@@ -85,10 +136,9 @@ export async function createPlan(
   _prev: PlanFormState,
   formData: FormData,
 ): Promise<PlanFormState> {
-  const user = await getCurrentUser();
   const supabase = await createClient();
-  if (!user || !supabase)
-    return { status: "error", message: "Please sign in to create a plan." };
+  if (!supabase)
+    return { status: "error", message: "The AI planner isn't available yet." };
   if (!isAnthropicConfigured())
     return { status: "error", message: "The AI planner isn't available yet." };
 
@@ -100,7 +150,15 @@ export async function createPlan(
       values: parsed.values,
     };
 
-  const limited = await overLimit(supabase);
+  const user = await currentOrGuestUser(supabase);
+  if (!user)
+    return {
+      status: "error",
+      message: `Please sign in to create a plan. ${SIGN_UP_TO_CONTINUE}`,
+      values: parsed.values,
+    };
+
+  const limited = await overLimit(supabase, user.isAnonymous);
   if (limited)
     return { status: "error", message: limited, values: parsed.values };
 
@@ -169,7 +227,10 @@ export async function retryPlan(formData: FormData): Promise<void> {
   const user = await getCurrentUser();
   const supabase = await createClient();
   if (!planId.success || !user || !supabase) redirect("/plans");
-  if (!isAnthropicConfigured() || (await overLimit(supabase)))
+  if (
+    !isAnthropicConfigured() ||
+    (await overLimit(supabase, user!.isAnonymous))
+  )
     redirect(`/plans/${planId.data}?retry=limited`);
 
   // RLS: these reads only return the user's own rows.

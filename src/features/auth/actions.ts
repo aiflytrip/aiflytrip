@@ -93,6 +93,37 @@ export async function signUp(
   const confirmUrl = new URL("/auth/confirm", siteConfig.url);
   confirmUrl.searchParams.set("next", next);
 
+  // A guest (anonymous session) converts in place: same user id, so their
+  // plans carry over. Supabase emails a confirmation link for the address.
+  const { data: claims } = await supabase.auth.getClaims();
+  if (claims?.claims?.is_anonymous === true) {
+    const { error } = await supabase.auth.updateUser(
+      {
+        email: parsed.data.email,
+        password: parsed.data.password,
+        data: parsed.data.fullName
+          ? { full_name: parsed.data.fullName }
+          : undefined,
+      },
+      { emailRedirectTo: confirmUrl.toString() },
+    );
+    if (error) {
+      console.error("[auth] guest upgrade failed", {
+        code: error.code,
+        status: error.status,
+      });
+      return { status: "error", message: authErrorMessage(error), values };
+    }
+    if (parsed.data.fullName) {
+      // The profile row was created for the guest; keep its name in sync.
+      await supabase
+        .from("profiles")
+        .update({ full_name: parsed.data.fullName })
+        .eq("id", claims.claims.sub);
+    }
+    redirect("/signup/check-email");
+  }
+
   const { data, error } = await supabase.auth.signUp({
     email: parsed.data.email,
     password: parsed.data.password,

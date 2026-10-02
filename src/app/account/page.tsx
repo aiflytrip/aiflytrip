@@ -10,7 +10,7 @@ import {
   type PurchaseItem,
 } from "@/features/premium/components/purchase-list";
 import { SavedSearchList, type SavedSearchItem } from "@/features/saved-trips";
-import { requireUser } from "@/server/auth";
+import { requireAccount } from "@/server/auth";
 import { createClient } from "@/server/supabase/server";
 
 export const metadata: Metadata = {
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 export default async function AccountPage() {
   // The proxy already redirects signed-out visitors; this re-checks so the
   // page is safe even if the proxy matcher changes.
-  const user = await requireUser("/account");
+  const user = await requireAccount("/account");
   const supabase = await createClient();
 
   const [profileResult, savedResult, purchasesResult] = supabase

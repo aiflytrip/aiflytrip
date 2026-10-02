@@ -42,7 +42,7 @@ export default async function PlanDetailPage({
 }: PageProps<"/plans/[id]">) {
   const { id } = await params;
   const { retry, checkout } = await searchParams;
-  await requireUser(`/plans/${id}`);
+  const user = await requireUser(`/plans/${id}`);
   if (!z.uuid().safeParse(id).success) notFound();
 
   const supabase = await createClient();
@@ -117,10 +117,11 @@ export default async function PlanDetailPage({
                 planId={plan.id}
                 status={premiumStatus}
                 price={premiumPrice}
+                isGuest={user.isAnonymous}
               />
             }
           />
-          {premiumStatus ? (
+          {premiumStatus && !user.isAnonymous ? (
             <PremiumPanel
               planId={plan.id}
               status={premiumStatus}

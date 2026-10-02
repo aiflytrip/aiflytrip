@@ -151,7 +151,6 @@ ok("Open Graph images and logo");
 // --- private routes: redirect (signed out) or noindex ------------------------------
 for (const path of [
   "/account",
-  "/plan",
   "/plans",
   "/plans/00000000-0000-4000-8000-000000000000",
   "/plans/00000000-0000-4000-8000-000000000000/pdf",
@@ -165,6 +164,7 @@ for (const path of [
   }
 }
 for (const path of [
+  "/plan",
   "/login",
   "/signup",
   "/signup/check-email",

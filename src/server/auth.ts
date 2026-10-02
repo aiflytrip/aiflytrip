@@ -8,6 +8,13 @@ import { createClient } from "@/server/supabase/server";
 export type SessionUser = {
   id: string;
   email?: string;
+  /**
+   * A guest: a Supabase anonymous session created when a signed-out visitor
+   * generates a plan. Guests can plan and view their own plans; paying,
+   * the account page and saved searches require a real account. Signing up
+   * converts the same user id, so plans carry over.
+   */
+  isAnonymous: boolean;
 };
 
 /**
@@ -26,10 +33,26 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
   return {
     id: claims.sub,
     email: typeof claims.email === "string" ? claims.email : undefined,
+    isAnonymous: claims.is_anonymous === true,
   };
 });
 
-/** Redirects to /login (then back to `returnTo`) when nobody is signed in. */
+/** Signed in with a real account (not a guest session). */
+export async function getAccountUser(): Promise<SessionUser | null> {
+  const user = await getCurrentUser();
+  return user && !user.isAnonymous ? user : null;
+}
+
+/** Like requireUser, but guests are sent to sign-up to create an account. */
+export async function requireAccount(returnTo: string): Promise<SessionUser> {
+  const user = await getCurrentUser();
+  if (!user) redirect(`/login?next=${encodeURIComponent(returnTo)}`);
+  if (user.isAnonymous)
+    redirect(`/signup?next=${encodeURIComponent(returnTo)}`);
+  return user;
+}
+
+/** Redirects to /login (then back to `returnTo`) when nobody is signed in. Guests pass. */
 export async function requireUser(returnTo: string): Promise<SessionUser> {
   const user = await getCurrentUser();
   if (!user) redirect(`/login?next=${encodeURIComponent(returnTo)}`);

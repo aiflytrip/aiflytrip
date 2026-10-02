@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PlansPage() {
-  await requireUser("/plans");
+  const user = await requireUser("/plans");
   const supabase = await createClient();
 
   // RLS limits both queries to the signed-in user's rows.
@@ -57,6 +57,17 @@ export default async function PlansPage() {
           New plan
         </ButtonLink>
       </div>
+      {user.isAnonymous ? (
+        <div className="glass flex flex-col gap-3 rounded-2xl p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted-foreground">
+            You&apos;re planning as a guest. These plans live in this browser
+            only: create a free account to keep them and get PDFs.
+          </p>
+          <ButtonLink href="/signup?next=%2Fplans" size="sm">
+            Create free account
+          </ButtonLink>
+        </div>
+      ) : null}
       {failed ? (
         <FormMessage>
           Your plans couldn&apos;t be loaded. Please refresh to try again.

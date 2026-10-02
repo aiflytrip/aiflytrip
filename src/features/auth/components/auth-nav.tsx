@@ -9,7 +9,7 @@ import { signOut } from "@/features/auth/actions";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { cn } from "@/lib/utils";
 
-type Status = "unknown" | "signed-in" | "signed-out";
+type Status = "unknown" | "signed-in" | "guest" | "signed-out";
 
 const linkClass =
   "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
@@ -28,8 +28,10 @@ export function AuthNav() {
     const controller = new AbortController();
     fetch("/api/auth/status", { cache: "no-store", signal: controller.signal })
       .then((response) => (response.ok ? response.json() : { signedIn: false }))
-      .then((body: { signedIn?: boolean }) =>
-        setStatus(body.signedIn ? "signed-in" : "signed-out"),
+      .then((body: { signedIn?: boolean; guest?: boolean }) =>
+        setStatus(
+          body.signedIn ? "signed-in" : body.guest ? "guest" : "signed-out",
+        ),
       )
       .catch(() => {
         if (!controller.signal.aborted) setStatus("signed-out");
@@ -51,6 +53,22 @@ export function AuthNav() {
             Sign out
           </button>
         </form>
+      </div>
+    );
+  }
+
+  if (status === "guest") {
+    return (
+      <div className="flex items-center gap-1">
+        <Link href="/plans" className={linkClass}>
+          My plans
+        </Link>
+        <Link
+          href="/signup?next=%2Fplans"
+          className={buttonVariants({ variant: "secondary", size: "sm" })}
+        >
+          Create account
+        </Link>
       </div>
     );
   }

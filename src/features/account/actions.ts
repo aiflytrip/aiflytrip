@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 
-import { getCurrentUser } from "@/server/auth";
+import { getAccountUser } from "@/server/auth";
 import { createClient } from "@/server/supabase/server";
 
 export type ProfileFormState =
@@ -44,7 +44,7 @@ export async function updateProfile(
     return { status: "error", fieldErrors };
   }
 
-  const user = await getCurrentUser();
+  const user = await getAccountUser();
   const supabase = await createClient();
   if (!user || !supabase)
     return {
