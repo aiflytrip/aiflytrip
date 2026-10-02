@@ -17,9 +17,26 @@ function isProtected(pathname: string): boolean {
  * Refreshes the Supabase session on every request and writes updated auth
  * cookies, following Supabase's official Next.js guidance.
  */
+function redirectToLogin(request: NextRequest) {
+  const url = request.nextUrl.clone();
+  url.pathname = "/login";
+  url.search = "";
+  url.searchParams.set(
+    "next",
+    request.nextUrl.pathname + request.nextUrl.search,
+  );
+  return NextResponse.redirect(url);
+}
+
 export async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
-  if (!supabasePublicConfig) return response;
+  // Without Supabase nobody can be signed in: still send protected routes
+  // to /login with a real redirect instead of rendering their loading UI.
+  if (!supabasePublicConfig) {
+    return isProtected(request.nextUrl.pathname)
+      ? redirectToLogin(request)
+      : response;
+  }
 
   // A new client per request: never reuse one across requests.
   const supabase = createServerClient<Database>(
@@ -54,14 +71,7 @@ export async function updateSession(request: NextRequest) {
   const signedIn = Boolean(data?.claims?.sub);
 
   if (!signedIn && isProtected(request.nextUrl.pathname)) {
-    const url = request.nextUrl.clone();
-    url.pathname = "/login";
-    url.search = "";
-    url.searchParams.set(
-      "next",
-      request.nextUrl.pathname + request.nextUrl.search,
-    );
-    const redirect = NextResponse.redirect(url);
+    const redirect = redirectToLogin(request);
     // Carry over any cookies the refresh attempt changed (e.g. clearing a
     // stale session) so browser and server stay in sync.
     for (const cookie of response.cookies.getAll()) {
