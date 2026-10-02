@@ -54,7 +54,7 @@ export async function GET(
 
   const { data: trip } = await supabase
     .from("trips")
-    .select("origin, destination, depart_date, return_date, adults")
+    .select("origin, destination, depart_date, return_date, adults, cabin")
     .eq("id", plan.trip_id)
     .maybeSingle();
   const tripLabel = trip
@@ -66,6 +66,8 @@ export async function GET(
   const pdf = await renderPlanPdf(plan.itinerary, {
     tripLabel,
     generatedOn: new Date(),
+    travellers: trip?.adults,
+    cabin: trip?.cabin,
   });
   const slug =
     plan.itinerary.plan.title

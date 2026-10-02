@@ -21,7 +21,19 @@ export type FlightOptionSnapshot = {
   inbound: LegSnapshot | null;
 };
 
-type LegSnapshot = {
+export type SegmentSnapshot = {
+  flightNumber: string;
+  airline: string;
+  /** Set when another airline operates the flight (codeshare). */
+  operatedBy?: string;
+  from: string;
+  to: string;
+  departs: string;
+  arrives: string;
+  duration: string;
+};
+
+export type LegSnapshot = {
   from: string;
   to: string;
   departs: string;
@@ -29,6 +41,8 @@ type LegSnapshot = {
   duration: string;
   stops: number;
   via: string[];
+  /** Per-flight details for the itinerary PDF. Absent on plans created before it was added. */
+  segments?: SegmentSnapshot[];
 };
 
 const totalMinutes = (offer: FlightOffer) =>
@@ -60,10 +74,26 @@ export function selectFlightOptions(
   return [...picked.values()];
 }
 
+const localDateTime = (iso: string, timeZone: string) =>
+  `${toIsoDate(new Date(iso), timeZone)} ${formatTime(iso, timeZone)} local`;
+
 function legSnapshot(leg: FlightItinerary): LegSnapshot {
   const first = leg.segments[0]!;
   const last = leg.segments.at(-1)!;
   return {
+    segments: leg.segments.map((segment) => ({
+      flightNumber: segment.flightNumber,
+      airline: segment.airline.name,
+      ...(segment.operatingCarrier &&
+      segment.operatingCarrier.name !== segment.airline.name
+        ? { operatedBy: segment.operatingCarrier.name }
+        : {}),
+      from: segment.origin,
+      to: segment.destination,
+      departs: localDateTime(segment.departAt, segment.originTimeZone),
+      arrives: localDateTime(segment.arriveAt, segment.destinationTimeZone),
+      duration: formatDuration(segment.durationMinutes),
+    })),
     from: first.origin,
     to: last.destination,
     departs: `${toIsoDate(new Date(first.departAt), first.originTimeZone)} ${formatTime(first.departAt, first.originTimeZone)} local`,
@@ -71,6 +101,16 @@ function legSnapshot(leg: FlightItinerary): LegSnapshot {
     duration: formatDuration(leg.durationMinutes),
     stops: leg.stops,
     via: leg.segments.slice(0, -1).map((segment) => segment.destination),
+  };
+}
+
+/** The snapshot without per-flight details: what the planner model sees. */
+export function promptSnapshot(option: FlightOptionSnapshot) {
+  const leg = ({ segments: _segments, ...rest }: LegSnapshot) => rest;
+  return {
+    ...option,
+    outbound: leg(option.outbound),
+    inbound: option.inbound ? leg(option.inbound) : null,
   };
 }
 

@@ -1,6 +1,9 @@
 import { addDays } from "@/features/flights/lib/dates";
 import { CABIN_LABELS } from "@/features/flights/types";
-import { type FlightOptionSnapshot } from "@/features/trip-planner/lib/flight-options";
+import {
+  promptSnapshot,
+  type FlightOptionSnapshot,
+} from "@/features/trip-planner/lib/flight-options";
 import { type PlanRequest } from "@/features/trip-planner/lib/request";
 
 /** Bump when the prompt or output schema changes; stored with each plan. */
@@ -77,7 +80,7 @@ export function buildUserMessage(
     "",
     "<flight_options>",
     context.flightOptions.length > 0
-      ? JSON.stringify(context.flightOptions, null, 2)
+      ? JSON.stringify(context.flightOptions.map(promptSnapshot), null, 2)
       : "(no flight options were found for these dates)",
     "</flight_options>",
   ].join("\n");

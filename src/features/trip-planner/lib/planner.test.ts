@@ -264,3 +264,40 @@ describe("stored plan helpers", () => {
     expect(isStoredItinerary(null)).toBe(false);
   });
 });
+
+describe("promptSnapshot", () => {
+  it("keeps per-flight details out of the model prompt", async () => {
+    const { promptSnapshot } =
+      await import("@/features/trip-planner/lib/flight-options");
+    const leg = {
+      from: "LHR",
+      to: "LIS",
+      departs: "d",
+      arrives: "a",
+      duration: "2h 45m",
+      stops: 0,
+      via: [],
+      segments: [
+        {
+          flightNumber: "ZZ1",
+          airline: "X",
+          from: "LHR",
+          to: "LIS",
+          departs: "d",
+          arrives: "a",
+          duration: "2h 45m",
+        },
+      ],
+    };
+    const out = promptSnapshot({
+      id: "o",
+      airlines: ["X"],
+      price: "£1",
+      pricePerTraveller: "£1",
+      outbound: leg,
+      inbound: null,
+    });
+    expect(out.outbound).not.toHaveProperty("segments");
+    expect(out.outbound.duration).toBe("2h 45m");
+  });
+});

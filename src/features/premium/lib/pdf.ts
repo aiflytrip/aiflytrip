@@ -6,7 +6,12 @@ import {
   type PDFPage,
 } from "pdf-lib";
 
-import { type FlightOptionSnapshot } from "@/features/trip-planner/lib/flight-options";
+import { getAirport } from "@/features/flights/data/airports";
+import { CABIN_LABELS, type CabinClass } from "@/features/flights/types";
+import {
+  type FlightOptionSnapshot,
+  type LegSnapshot,
+} from "@/features/trip-planner/lib/flight-options";
 import { type StoredItinerary } from "@/features/trip-planner/lib/stored-plan";
 
 const PAGE = { width: 595.28, height: 841.89 }; // A4 in points
@@ -17,7 +22,13 @@ const COLORS = {
   muted: rgb(0.36, 0.4, 0.47),
   accent: rgb(0.01, 0.41, 0.63),
   rule: rgb(0.85, 0.88, 0.92),
+  warning: rgb(0.6, 0.25, 0.02),
+  warningBg: rgb(1, 0.96, 0.9),
 };
+
+/** Shown on every itinerary: this document must never pass as a ticket. */
+export const ITINERARY_NOTICE =
+  "NOT A TICKET OR RESERVATION. This is a proposed flight itinerary from an AI-generated trip plan. No seat is booked or held, there is no booking reference, and it cannot be used to board a flight or as proof of a booking.";
 
 // Characters outside Latin-1 that WinAnsi (the standard PDF fonts) can encode.
 const WIN_ANSI_EXTRAS = new Set("€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ");
@@ -176,6 +187,41 @@ class Writer {
     this.space(8);
   }
 
+  /** Text in a tinted, bordered box (used for the itinerary notice). */
+  notice(value: string) {
+    const size = 9;
+    const pad = 8;
+    const lines = wrapText(
+      value,
+      this.fonts.bold,
+      size,
+      CONTENT_WIDTH - pad * 2,
+    );
+    const height = lines.length * size * 1.35 + pad * 2;
+    this.ensure(height + 4);
+    this.page.drawRectangle({
+      x: MARGIN,
+      y: this.y - height,
+      width: CONTENT_WIDTH,
+      height,
+      color: COLORS.warningBg,
+      borderColor: COLORS.warning,
+      borderWidth: 1,
+    });
+    let y = this.y - pad;
+    for (const line of lines) {
+      this.page.drawText(line, {
+        x: MARGIN + pad,
+        y: y - size,
+        size,
+        font: this.fonts.bold,
+        color: COLORS.warning,
+      });
+      y -= size * 1.35;
+    }
+    this.y -= height + 6;
+  }
+
   row(label: string, value: string) {
     const size = 10;
     const valueX = MARGIN + 320;
@@ -226,25 +272,94 @@ function longDate(isoDate: string): string {
   }).format(new Date(`${isoDate}T00:00:00Z`));
 }
 
-function flightLines(option: FlightOptionSnapshot): string[] {
-  const legs = [
-    ["Outbound", option.outbound],
-    ...(option.inbound ? [["Return", option.inbound] as const] : []),
-  ] as const;
-  return legs.map(
-    ([label, leg]) =>
-      `${label}: ${leg.from} to ${leg.to}, departs ${leg.departs}, arrives ${leg.arrives}, ${leg.duration}, ${
-        leg.stops === 0
-          ? "nonstop"
-          : `${leg.stops} stop via ${leg.via.join(", ")}`
-      }`,
+const airportLabel = (code: string) => {
+  const airport = getAirport(code);
+  return airport ? `${code} - ${airport.name}, ${airport.city}` : code;
+};
+
+/** Per-flight itinerary for one leg; falls back to the leg summary for older plans. */
+function writeLeg(w: Writer, label: string, leg: LegSnapshot) {
+  w.text(`${label}: ${leg.from} to ${leg.to}`, {
+    size: 11,
+    bold: true,
+    gap: 1,
+  });
+  w.text(
+    `Total journey time ${leg.duration}, ${leg.stops === 0 ? "nonstop" : `${leg.stops} stop${leg.stops === 1 ? "" : "s"} via ${leg.via.join(", ")}`}`,
+    { size: 9, color: COLORS.muted, gap: 4 },
+  );
+  const segments = leg.segments ?? [];
+  if (segments.length === 0) {
+    w.text(`Departs ${leg.departs}, arrives ${leg.arrives}`, {
+      indent: 10,
+      gap: 6,
+    });
+    return;
+  }
+  segments.forEach((segment, index) => {
+    const carrier = segment.operatedBy
+      ? `${segment.airline} (operated by ${segment.operatedBy})`
+      : segment.airline;
+    w.text(
+      `Flight ${segment.flightNumber}  -  ${carrier}  -  ${segment.duration}`,
+      {
+        indent: 10,
+        bold: true,
+        gap: 1,
+      },
+    );
+    w.text(`Depart  ${segment.departs}   ${airportLabel(segment.from)}`, {
+      indent: 20,
+      gap: 1,
+    });
+    w.text(`Arrive  ${segment.arrives}   ${airportLabel(segment.to)}`, {
+      indent: 20,
+      gap: 4,
+    });
+    if (index < segments.length - 1) {
+      w.text(`Connection in ${segment.to}`, {
+        indent: 20,
+        size: 9,
+        color: COLORS.muted,
+        gap: 4,
+      });
+    }
+  });
+  w.space(4);
+}
+
+function writeItinerary(
+  w: Writer,
+  option: FlightOptionSnapshot,
+  meta: { travellers?: number; cabin?: CabinClass | null },
+) {
+  w.heading("Proposed flight itinerary");
+  w.notice(ITINERARY_NOTICE);
+  const details = [
+    option.airlines.join(", "),
+    meta.cabin ? CABIN_LABELS[meta.cabin] : null,
+    meta.travellers
+      ? `${meta.travellers} traveller${meta.travellers === 1 ? "" : "s"}`
+      : null,
+  ].filter(Boolean);
+  w.text(details.join("  -  "), { bold: true, gap: 6 });
+  writeLeg(w, "Outbound", option.outbound);
+  if (option.inbound) writeLeg(w, "Return", option.inbound);
+  w.text(
+    "Times are local to each airport. Flight details can change and offers expire; check with the airline before booking.",
+    { size: 9, color: COLORS.muted },
   );
 }
 
 /** Renders a stored plan as a printable A4 PDF. Pure: no I/O. */
 export async function renderPlanPdf(
   itinerary: StoredItinerary,
-  meta: { tripLabel: string; generatedOn: Date },
+  meta: {
+    tripLabel: string;
+    generatedOn: Date;
+    travellers?: number;
+    cabin?: CabinClass | null;
+  },
 ): Promise<Uint8Array> {
   const { plan, flightOptions, flightSource } = itinerary;
   const doc = await PDFDocument.create();
@@ -283,7 +398,6 @@ export async function renderPlanPdf(
       bold: true,
       gap: 2,
     });
-    for (const line of flightLines(recommended)) w.text(line, { indent: 10 });
     w.space(4);
   } else {
     w.text("No flight was recommended.", { color: COLORS.muted });
@@ -298,6 +412,8 @@ export async function renderPlanPdf(
       },
     );
   }
+
+  if (recommended) writeItinerary(w, recommended, meta);
 
   w.heading("Day by day");
   plan.days.forEach((day, index) => {
