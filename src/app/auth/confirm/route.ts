@@ -50,6 +50,16 @@ export async function GET(request: NextRequest) {
     return fail("invalid_link");
   }
 
+  // Link opened in a different browser from the one that signed up: the
+  // email IS confirmed (Supabase verified it before redirecting here), but
+  // the sign-in code can't be exchanged without that browser's verifier.
+  if (error?.code === "pkce_code_verifier_not_found") {
+    const login = new URL("/login", request.url);
+    login.searchParams.set("confirmed", "1");
+    login.searchParams.set("next", next);
+    return NextResponse.redirect(login);
+  }
+
   if (error) {
     console.error("[auth] email link verification failed", {
       code: error.code,

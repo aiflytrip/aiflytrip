@@ -37,6 +37,11 @@ export default async function LoginPage({ searchParams }: PageProps<"/login">) {
       title="Sign in"
       description="Save searches and pick up your trip plans on any device."
     >
+      {params.confirmed === "1" ? (
+        <FormMessage tone="success">
+          Your email is confirmed. Sign in to continue.
+        </FormMessage>
+      ) : null}
       {(await getCurrentUser())?.isAnonymous ? (
         <FormMessage>
           You have plans saved as a guest. Signing in to an existing account
