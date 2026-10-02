@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Components use the semantic utilities (bg-background,
+ * text-muted-foreground, border-border, bg-primary, ...) rather than raw
+ * palette colors, so light/dark and future rebrands change in one place.
+ */
+:root {
+  --background: #ffffff;
+  --foreground: #0b1324;
+  --muted: #f3f6fa;
+  --muted-foreground: #526079;
+  --card: #ffffff;
+  --border: #e2e8f0;
+  --primary: #0369a1;
+  --primary-hover: #075985;
+  --primary-foreground: #ffffff;
+  --accent: #e0f2fe;
+  --accent-foreground: #075985;
+  --ring: #0284c7;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #070d1a;
+    --foreground: #e8eef8;
+    --muted: #0f1829;
+    --muted-foreground: #94a3bb;
+    --card: #0c1424;
+    --border: #1e2a40;
+    --primary: #38bdf8;
+    --primary-hover: #7dd3fc;
+    --primary-foreground: #04121f;
+    --accent: #0c2a42;
+    --accent-foreground: #bae6fd;
+    --ring: #38bdf8;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ring;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
