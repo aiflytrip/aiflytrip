@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # No secrets: the app runs without Supabase, Claude, Duffel and Stripe,
+    # and protected routes still redirect to /login.
+    env:
+      NEXT_TELEMETRY_DISABLED: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Type-check, lint, format, unit tests
+        run: npm run check
+      - name: Migration and RLS tests
+        run: npm run test:db
+      - name: Production build
+        run: npm run build
+      - name: End-to-end SEO and bundle secret check
+        run: |
+          npx next start -p 3100 &
+          for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:3100/api/health && break; sleep 1; done
+          SEO_BASE_URL=http://localhost:3100 npm run seo:check
