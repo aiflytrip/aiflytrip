@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Card } from "@/components/ui/card";
@@ -8,6 +9,7 @@ import {
   isIndexable,
   type Entry,
 } from "@/content/registry";
+import { destinationPhoto } from "@/content/data/photos";
 import { type Destination } from "@/content/schema";
 import {
   BulletList,
@@ -18,6 +20,7 @@ import {
   RelatedLinks,
   SourcesList,
 } from "@/features/content/components/blocks";
+import { PhotoCredit } from "@/features/content/components/photo-credit";
 import { destinationArt } from "@/features/content/destination-art";
 import {
   destinationLinks,
@@ -50,6 +53,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
   const cities = page.kind === "country" ? citiesOf(page.slug) : [];
   const parent =
     page.kind === "city" && page.country ? getCountry(page.country) : undefined;
+  const photo = destinationPhoto(page.slug);
 
   return (
     <Container className="flex max-w-5xl flex-col gap-12 py-10">
@@ -57,41 +61,59 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
       {isIndexable(page) ? (
         <JsonLd data={graph(destinationLd(page), faqLd(page.faqs))} />
       ) : null}
-      <div
-        className="relative flex flex-col gap-4 overflow-hidden rounded-[28px] border border-white/10 p-6 sm:p-10"
-        style={{ background: destinationArt(page.slug).background }}
-      >
-        <span
-          aria-hidden="true"
-          className="pointer-events-none absolute -right-4 -bottom-8 font-display text-[160px] leading-none font-bold text-white/[0.08] sm:text-[220px]"
-        >
-          {destinationArt(page.slug).mark}
-        </span>
+      <div className="flex flex-col gap-2">
         <div
-          className="absolute inset-0 bg-linear-to-t from-background/85 via-background/40 to-background/10"
-          aria-hidden="true"
-        />
-        <div className="relative flex flex-col gap-4">
-          <Breadcrumbs crumbs={destinationCrumbs(page)} />
-          <h1 className="text-4xl font-bold text-balance text-white sm:text-5xl">
-            {page.headline}
-          </h1>
-          <p className="max-w-3xl text-lg leading-8 text-white/85">
-            {page.intro}
-          </p>
-          {parent ? (
-            <p className="text-sm text-white/85">
-              Part of our{" "}
-              <Link
-                href={parent.path}
-                className="font-semibold text-white underline underline-offset-4"
-              >
-                {parent.name} travel planning guide
-              </Link>
-              .
+          className="relative flex min-h-[360px] flex-col justify-end gap-4 overflow-hidden rounded-[28px] border border-white/10 p-6 sm:min-h-[440px] sm:p-10"
+          style={
+            photo
+              ? undefined
+              : { background: destinationArt(page.slug).background }
+          }
+        >
+          {photo ? (
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              preload
+              sizes="(min-width: 1024px) 1024px, 100vw"
+              className="object-cover"
+            />
+          ) : (
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-4 -bottom-8 font-display text-[160px] leading-none font-bold text-white/[0.08] sm:text-[220px]"
+            >
+              {destinationArt(page.slug).mark}
+            </span>
+          )}
+          <div
+            className="absolute inset-0 bg-linear-to-t from-background via-background/60 to-background/20"
+            aria-hidden="true"
+          />
+          <div className="relative flex flex-col gap-4">
+            <Breadcrumbs crumbs={destinationCrumbs(page)} />
+            <h1 className="text-4xl font-bold text-balance text-white sm:text-5xl">
+              {page.headline}
+            </h1>
+            <p className="max-w-3xl text-lg leading-8 text-white/85">
+              {page.intro}
             </p>
-          ) : null}
+            {parent ? (
+              <p className="text-sm text-white/85">
+                Part of our{" "}
+                <Link
+                  href={parent.path}
+                  className="font-semibold text-white underline underline-offset-4"
+                >
+                  {parent.name} travel planning guide
+                </Link>
+                .
+              </p>
+            ) : null}
+          </div>
         </div>
+        {photo ? <PhotoCredit photo={photo} className="px-2" /> : null}
       </div>
 
       <ContentSection id="overview" title={`${page.name} at a glance`}>

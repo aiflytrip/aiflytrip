@@ -148,3 +148,31 @@ describe("planner links", () => {
     }
   });
 });
+
+describe("destination photos", () => {
+  it("has a licensed, credited photo file for every destination", async () => {
+    const { existsSync } = await import("node:fs");
+    const { join } = await import("node:path");
+    const { destinationPhoto } = await import("@/content/data/photos");
+    for (const d of destinations) {
+      const photo = destinationPhoto(d.slug);
+      expect(photo, d.path).toBeDefined();
+      expect(
+        existsSync(join(process.cwd(), "public", photo!.src)),
+        photo!.src,
+      ).toBe(true);
+      // Licences that allow commercial use with attribution.
+      expect(photo!.license, d.path).toMatch(
+        /^(CC0|Public domain|CC BY(-SA)? [0-9.]+)$/,
+      );
+      expect(photo!.licenseUrl, d.path).toMatch(
+        /^https:\/\/creativecommons\.org\//,
+      );
+      expect(photo!.sourceUrl, d.path).toMatch(
+        /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/,
+      );
+      expect(photo!.author.length, d.path).toBeGreaterThan(1);
+      expect(photo!.alt.length, d.path).toBeGreaterThan(30);
+    }
+  });
+});

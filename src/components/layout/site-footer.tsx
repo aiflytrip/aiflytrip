@@ -44,6 +44,7 @@ export function SiteFooter() {
       links: [
         { href: "/about", label: "About AIFlyTrip" },
         { href: "/editorial-policy", label: "Editorial policy" },
+        { href: "/photo-credits", label: "Photo credits" },
       ],
     },
   ];

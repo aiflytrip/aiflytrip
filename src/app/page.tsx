@@ -9,7 +9,7 @@ import {
 } from "@/content/registry";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
 import { FaqList } from "@/features/content/components/blocks";
-import { destinationArt } from "@/features/content/destination-art";
+import { DestinationCard } from "@/features/content/components/destination-card";
 import { FlightSearchForm } from "@/features/flights";
 import { FeatureGrid, Hero, HowItWorks } from "@/features/marketing";
 import { homeFaqs } from "@/features/marketing/content";
@@ -59,37 +59,18 @@ export default function HomePage() {
             </Link>
           </div>
           <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {countries().map((country) => {
-              const art = destinationArt(country.slug);
-              return (
-                <li key={country.path} className="reveal">
-                  <Link
-                    href={country.path}
-                    className="lift relative flex h-80 flex-col justify-end overflow-hidden rounded-3xl border border-white/10 p-6 text-white"
-                    style={{ background: art.background }}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="absolute top-4 right-4 rounded-lg bg-background/55 px-2.5 py-1 font-mono text-xs"
-                    >
-                      {country.airports[0] ?? art.mark}
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className="absolute top-10 -left-2 font-display text-[120px] leading-none font-bold text-white/[0.07]"
-                    >
-                      {art.mark}
-                    </span>
-                    <span className="relative font-display text-3xl font-bold">
-                      {country.name}
-                    </span>
-                    <span className="relative mt-1 text-sm text-white/80">
-                      {country.tripLength.summary}
-                    </span>
-                  </Link>
-                </li>
-              );
-            })}
+            {countries().map((country) => (
+              <li key={country.path} className="reveal">
+                <DestinationCard
+                  href={country.path}
+                  slug={country.slug}
+                  name={country.name}
+                  summary={country.tripLength.summary}
+                  badge={country.airports[0]}
+                  sizes="(min-width: 1024px) 300px, (min-width: 640px) 50vw, 100vw"
+                />
+              </li>
+            ))}
           </ul>
         </Container>
       </section>

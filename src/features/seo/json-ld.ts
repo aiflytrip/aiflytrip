@@ -5,6 +5,7 @@ import {
   type Itinerary,
 } from "@/content/schema";
 import { siteConfig } from "@/config/site";
+import { destinationPhoto } from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
 
 /**
@@ -106,6 +107,21 @@ function articleBase(page: {
   };
 }
 
+function photoLd(slug: string): Thing {
+  const photo = destinationPhoto(slug);
+  if (!photo) return {};
+  return {
+    image: {
+      "@type": "ImageObject",
+      url: absoluteUrl(photo.src),
+      caption: photo.caption,
+      creditText: photo.author,
+      license: photo.licenseUrl,
+      acquireLicensePage: photo.sourceUrl,
+    },
+  };
+}
+
 export function destinationLd(page: Destination & { path: string }): Thing[] {
   return [
     {
@@ -122,6 +138,7 @@ export function destinationLd(page: Destination & { path: string }): Thing[] {
       name: page.name,
       description: page.intro,
       url: absoluteUrl(page.path),
+      ...photoLd(page.slug),
       includesAttraction: page.highlights.map((h) => ({
         "@type": "TouristAttraction",
         name: h.name,

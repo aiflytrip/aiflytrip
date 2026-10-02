@@ -1,8 +1,7 @@
-import Link from "next/link";
-
 import { Container } from "@/components/ui/container";
 import { citiesOf, countries } from "@/content/registry";
 import { PlannerCta } from "@/features/content/components/blocks";
+import { DestinationCard } from "@/features/content/components/destination-card";
 import { Breadcrumbs } from "@/features/seo/components";
 import { pageMetadata } from "@/features/seo/metadata";
 
@@ -16,7 +15,7 @@ export const metadata = pageMetadata({
 export default function DestinationsPage() {
   const list = countries();
   return (
-    <Container className="flex max-w-5xl flex-col gap-10 py-10">
+    <Container className="flex max-w-6xl flex-col gap-10 py-10">
       <div className="flex flex-col gap-4">
         <Breadcrumbs
           crumbs={[
@@ -24,7 +23,7 @@ export default function DestinationsPage() {
             { name: "Destinations", path: "/destinations" },
           ]}
         />
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+        <h1 className="text-4xl font-bold text-white sm:text-5xl">
           Destination travel guides
         </h1>
         <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
@@ -35,39 +34,33 @@ export default function DestinationsPage() {
           and timetables.
         </p>
       </div>
-      <ul className="grid gap-6 md:grid-cols-2">
+      <ul className="flex flex-col gap-6">
         {list.map((country) => (
           <li
             key={country.path}
-            className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-5"
+            className="reveal grid gap-5 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]"
           >
-            <h2 className="text-xl font-semibold">
-              <Link
-                href={country.path}
-                className="hover:text-primary hover:underline"
-              >
-                {country.name}
-              </Link>
-            </h2>
-            <p className="text-sm leading-6 text-muted-foreground">
-              {country.description}
-            </p>
-            {citiesOf(country.slug).length > 0 ? (
-              <p className="text-sm">
-                <span className="text-muted-foreground">City guides: </span>
-                {citiesOf(country.slug).map((city, i) => (
-                  <span key={city.path}>
-                    {i > 0 ? ", " : null}
-                    <Link
-                      href={city.path}
-                      className="text-primary hover:underline"
-                    >
-                      {city.name}
-                    </Link>
-                  </span>
-                ))}
-              </p>
-            ) : null}
+            <DestinationCard
+              href={country.path}
+              slug={country.slug}
+              name={country.name}
+              summary={country.description}
+              badge={country.airports[0]}
+              heading="h2"
+              sizes="(min-width: 768px) 640px, 100vw"
+            />
+            {citiesOf(country.slug).map((city) => (
+              <DestinationCard
+                key={city.path}
+                href={city.path}
+                slug={city.slug}
+                name={city.name}
+                summary={city.description}
+                badge={city.airports[0]}
+                heading="h3"
+                sizes="(min-width: 768px) 420px, 100vw"
+              />
+            ))}
           </li>
         ))}
       </ul>

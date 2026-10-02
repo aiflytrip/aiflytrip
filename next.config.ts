@@ -37,6 +37,12 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    formats: ["image/avif", "image/webp"],
+    // Only our own photos may be optimized (no open image proxy).
+    localPatterns: [{ pathname: "/images/**", search: "" }],
+    qualities: [75],
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },
