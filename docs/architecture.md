@@ -153,6 +153,26 @@ roles and default grants.
 - **Test mode only.** `sk_live_`/`rk_live_` keys are rejected at startup and
   live-mode events, sessions, prices and charges are ignored.
 
+## Public content and SEO
+
+- **Content lives in code** (`src/content/data`), validated by Zod schemas
+  (`src/content/schema.ts`) and collected by `src/content/registry.ts`.
+  Routes, the sitemap, `llms.txt`, footer links and structured data all read
+  the registry, so nothing outside it can be linked or rendered.
+- **Quality gate** (`src/content/quality.ts`): minimum words, sources, FAQs,
+  title/description lengths and review age. A page that fails is rendered
+  with `noindex`, left out of the sitemap and fails `npm test`.
+- **Static rendering**: content routes use `generateStaticParams` with
+  `dynamicParams = false`; unknown slugs are real 404s. The header's
+  sign-in state is fetched client-side from `/api/auth/status` and the proxy
+  only runs on auth-related routes, so public pages stay static.
+- **Metadata** goes through `pageMetadata()` (`src/features/seo/metadata.ts`):
+  one canonical per page, OG/Twitter tags, explicit robots.
+- **Structured data** comes from `src/features/seo/json-ld.ts`. It only
+  describes visible content; no ratings, reviews, offers or prices.
+
+Full details and the launch checklist are in [`SEO.md`](../SEO.md).
+
 ## Where upcoming work goes
 
 | Concern                     | Location                                                                      |
@@ -162,6 +182,7 @@ roles and default grants.
 | Server-only env vars        | `src/server/env.ts` (server-only), separate from the public `src/lib/env.ts`  |
 | Route handlers and webhooks | `src/app/api/<name>/route.ts`, delegating to `src/server/`                    |
 | Shared domain types         | `src/types/`                                                                  |
+| A new destination or guide  | `src/content/data/` + registry; must pass the quality gate                    |
 
 `src/types/` will be created when the first shared type lands.
 

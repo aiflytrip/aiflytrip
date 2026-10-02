@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { siteConfig } from "@/config/site";
+import { Analytics } from "@/features/analytics/analytics";
 
 import "./globals.css";
 
@@ -20,21 +21,25 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: siteConfig.url,
   title: {
-    default: `${siteConfig.name} | ${siteConfig.tagline}`,
+    default: `${siteConfig.name}: AI trip planner`,
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
   // Canonical URLs are set per page: a layout-level value would be inherited
   // by every route and mark them all as duplicates of the homepage.
+  // Pages opt in to indexing explicitly via pageMetadata(); private pages
+  // set noindex themselves.
+  formatDetection: { telephone: false, email: false, address: false },
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
+    locale: "en_GB",
     title: siteConfig.name,
     description: siteConfig.description,
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
   },
@@ -65,6 +70,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
+        <Analytics />
       </body>
     </html>
   );

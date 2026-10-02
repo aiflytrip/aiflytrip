@@ -21,13 +21,20 @@ export async function generateMetadata({
 }: PageProps<"/flights">): Promise<Metadata> {
   const parsed = parseFlightSearch(await searchParams, toIsoDate(new Date()));
   const alternates = { canonical: "/flights" };
-  if (parsed.status !== "valid") return { title: "Search flights", alternates };
-  // Result pages are endless permutations of the same page: keep them out of search indexes.
-  return {
-    title: `${searchTitle(parsed.search)} flights`,
-    alternates,
-    robots: { index: false, follow: true },
-  };
+  // Flight results currently come from test data, and result URLs are
+  // endless permutations of one page: keep every /flights URL out of search
+  // indexes until live fares exist (see SEO.md).
+  const robots = { index: false, follow: true };
+  if (parsed.status !== "valid") {
+    return {
+      title: "Search flights",
+      description:
+        "Compare example flight options by route and dates while you plan your trip with AIFlyTrip.",
+      alternates,
+      robots,
+    };
+  }
+  return { title: `${searchTitle(parsed.search)} flights`, alternates, robots };
 }
 
 export default async function FlightsPage({

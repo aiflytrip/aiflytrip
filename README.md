@@ -3,11 +3,13 @@
 AI-assisted flight search and trip planning, built with Next.js (App Router),
 TypeScript and Tailwind CSS.
 
-> **Status: Phase 6 (premium plans, Stripe test mode).** Flight search
-> (sample data or Duffel test mode), Supabase accounts, Claude-powered trip
-> plans, and a **premium PDF** of a plan sold through **Stripe Checkout in
-> test mode only**. Live Stripe keys are refused. Real flight booking is out
-> of scope.
+> **Status: Phase 7 (SEO and content).** Flight search (sample data or
+> Duffel test mode), Supabase accounts, Claude-powered trip plans, a
+> **premium PDF** sold through **Stripe Checkout in test mode only**, and a
+> statically rendered public content system (destination guides,
+> itineraries, travel planning guides) with technical SEO and structured
+> data. Live Stripe keys are refused. Real flight booking is out of scope.
+> See [`SEO.md`](./SEO.md) for the SEO system and launch checklist.
 
 ## Requirements
 
@@ -113,6 +115,7 @@ Pay with test card `4242 4242 4242 4242`, any future expiry and any CVC.
 | `npm run db:types`     | Generate DB types from the linked project                  |
 | `npm run stripe:setup` | Create/find the premium product + price (Stripe test mode) |
 | `npm run check`        | Type-check, lint, format check and tests                   |
+| `npm run seo:check`    | End-to-end SEO/privacy check against a running build       |
 
 ## Environment variables
 
@@ -135,14 +138,22 @@ src/
 │   ├── error.tsx         Error boundary for route segments
 │   ├── global-error.tsx  Fallback when the root layout itself fails
 │   ├── not-found.tsx     404 page
+│   ├── destinations/, itineraries/, guides/   Static content pages (SSG)
+│   ├── travel-planner/, about/, editorial-policy/
+│   ├── opengraph-image.tsx  Social cards (plus one per content route)
+│   ├── llms.txt/         /llms.txt for AI assistants
 │   ├── robots.ts         /robots.txt
-│   └── sitemap.ts        /sitemap.xml
+│   └── sitemap.ts        /sitemap.xml (built from the content registry)
 ├── components/
 │   ├── layout/           Site chrome: header, mobile nav, footer, logo
 │   └── ui/               Reusable primitives (Button, Input, Select, Field, Card, …)
 ├── config/               Static app configuration (site name, nav)
+├── content/              Public content: Zod schemas, data, quality gate, registry
 ├── features/             Feature modules, each owning its components and data
 │   ├── account/          Profile form + action
+│   ├── analytics/        Opt-in Plausible/GA4 loader + conversion events
+│   ├── content/          Destination, itinerary and guide page views
+│   ├── seo/              Metadata builder, JSON-LD, breadcrumbs, OG image
 │   ├── auth/             Sign-up/in/out actions, forms, validation, header nav
 │   ├── flights/          Flight search: form, results, validation, providers
 │   │   ├── components/

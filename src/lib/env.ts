@@ -21,6 +21,40 @@ function parseSiteUrl(value: string | undefined): URL {
   }
 }
 
+export type AnalyticsConfig =
+  | { provider: "none" }
+  | { provider: "plausible"; domain: string; scriptSrc: string }
+  | { provider: "ga4"; measurementId: string };
+
+/**
+ * Analytics is opt-in: nothing loads unless NEXT_PUBLIC_ANALYTICS_PROVIDER
+ * is set. Invalid combinations fall back to "none" instead of breaking pages.
+ */
+export function parseAnalytics(input: {
+  provider?: string;
+  plausibleDomain?: string;
+  plausibleSrc?: string;
+  gaId?: string;
+}): AnalyticsConfig {
+  const provider = input.provider?.trim().toLowerCase();
+  if (provider === "plausible" && input.plausibleDomain) {
+    const src = input.plausibleSrc || "https://plausible.io/js/script.js";
+    return src.startsWith("https://")
+      ? { provider: "plausible", domain: input.plausibleDomain, scriptSrc: src }
+      : { provider: "none" };
+  }
+  if (provider === "ga4" && input.gaId && /^G-[A-Z0-9]+$/.test(input.gaId)) {
+    return { provider: "ga4", measurementId: input.gaId };
+  }
+  return { provider: "none" };
+}
+
 export const env = {
   siteUrl: parseSiteUrl(process.env.NEXT_PUBLIC_SITE_URL),
+  analytics: parseAnalytics({
+    provider: process.env.NEXT_PUBLIC_ANALYTICS_PROVIDER,
+    plausibleDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
+    plausibleSrc: process.env.NEXT_PUBLIC_PLAUSIBLE_SCRIPT_SRC,
+    gaId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID,
+  }),
 } as const;

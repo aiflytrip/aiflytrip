@@ -33,7 +33,10 @@ const INITIAL: PlanFormState = { status: "idle" };
 const label = (interest: string) =>
   interest.charAt(0).toUpperCase() + interest.slice(1);
 
-export function PlanForm() {
+/** `initialDestination` prefills "To" (e.g. from a destination guide CTA). */
+export function PlanForm({
+  initialDestination,
+}: { initialDestination?: string } = {}) {
   const id = useId();
   const today = useToday();
   const [state, formAction, pending] = useActionState(createPlan, INITIAL);
@@ -78,7 +81,7 @@ export function PlanForm() {
               placeholder="City or airport code"
               autoComplete="off"
               required
-              defaultValue={values?.destination}
+              defaultValue={values?.destination ?? initialDestination}
             />
           )}
         </Field>

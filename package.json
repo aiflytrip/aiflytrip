@@ -23,7 +23,8 @@
     "db:push": "npx --yes supabase@2.119.0 db push",
     "db:push:dry": "npx --yes supabase@2.119.0 db push --dry-run",
     "db:types": "npx --yes supabase@2.119.0 gen types typescript --linked --schema public > src/lib/supabase/database.types.generated.ts",
-    "stripe:setup": "node scripts/stripe-setup.mjs"
+    "stripe:setup": "node scripts/stripe-setup.mjs",
+    "seo:check": "node scripts/seo-check.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

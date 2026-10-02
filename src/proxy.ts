@@ -7,9 +7,16 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
+  // Only routes that read or refresh the session. Public marketing and
+  // content pages skip the proxy entirely, so they stay fast and static.
   matcher: [
-    // Everything except static assets, image optimization, the health check
-    // and metadata files, which never need a session.
-    "/((?!_next/static|_next/image|api/health|api/webhooks|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    "/account/:path*",
+    "/plan",
+    "/plans/:path*",
+    "/flights",
+    "/login",
+    "/signup/:path*",
+    "/auth/:path*",
+    "/api/auth/:path*",
   ],
 };

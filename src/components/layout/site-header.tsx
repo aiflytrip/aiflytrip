@@ -11,7 +11,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
       <Container className="flex h-16 items-center justify-between gap-6">
         <Logo />
-        <nav aria-label="Main" className="hidden md:block">
+        <nav aria-label="Main" className="hidden lg:block">
           <ul className="flex items-center gap-2">
             {siteConfig.nav.map((item) => (
               <li key={item.href}>

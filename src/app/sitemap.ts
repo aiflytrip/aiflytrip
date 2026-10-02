@@ -1,18 +1,34 @@
 import type { MetadataRoute } from "next";
 
-import { siteConfig } from "@/config/site";
+import { allContent, isIndexable, latestReview } from "@/content/registry";
+import { absoluteUrl } from "@/features/seo/metadata";
+
+/**
+ * Indexable pages only. Content pages come from the registry and are
+ * included only when they pass the quality gate, so a draft or thin page
+ * can never be submitted to search engines.
+ */
+export const STATIC_PUBLIC_PATHS = [
+  "/",
+  "/travel-planner",
+  "/destinations",
+  "/itineraries",
+  "/guides",
+  "/about",
+  "/editorial-policy",
+] as const;
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const content = allContent().filter(isIndexable);
+  const hubDate = latestReview(content);
   return [
-    {
-      url: new URL("/", siteConfig.url).toString(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: new URL("/flights", siteConfig.url).toString(),
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
+    ...STATIC_PUBLIC_PATHS.map((path) => ({
+      url: absoluteUrl(path),
+      lastModified: hubDate,
+    })),
+    ...content.map((entry) => ({
+      url: absoluteUrl(entry.path),
+      lastModified: entry.lastReviewed,
+    })),
   ];
 }
