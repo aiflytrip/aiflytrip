@@ -9,7 +9,8 @@ TypeScript and Tailwind CSS.
 > statically rendered public content system (destination guides,
 > itineraries, travel planning guides) with technical SEO and structured
 > data. Live Stripe keys are refused. Real flight booking is out of scope.
-> See [`SEO.md`](./SEO.md) for the SEO system and launch checklist.
+> See [`SEO.md`](./SEO.md) for the SEO system and launch checklist, and
+> [`DEPLOY.md`](./DEPLOY.md) for production deployment on Vercel.
 
 ## Requirements
 

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { isPublicDeployment } from "@/config/deployment";
 import { siteConfig } from "@/config/site";
 
 /**
@@ -16,6 +17,10 @@ export const PRIVATE_PATHS = [
 ] as const;
 
 export default function robots(): MetadataRoute.Robots {
+  // Preview deployments: block everything (they also send X-Robots-Tag).
+  if (!isPublicDeployment(process.env)) {
+    return { rules: { userAgent: "*", disallow: "/" } };
+  }
   return {
     rules: {
       userAgent: "*",

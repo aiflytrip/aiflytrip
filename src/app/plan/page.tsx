@@ -8,6 +8,11 @@ import { isAnthropicConfigured } from "@/server/anthropic/client";
 import { requireUser } from "@/server/auth";
 import { AIRPORTS } from "@/features/flights/data/airports";
 
+// The planner's Server Action keeps working after the response via after()
+// (Duffel search + Claude generation, typically ~1-2 minutes). Vercel uses
+// this as the function's time limit.
+export const maxDuration = 300;
+
 export const metadata: Metadata = {
   title: "Plan a trip",
   robots: { index: false, follow: false },
