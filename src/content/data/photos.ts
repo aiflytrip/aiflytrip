@@ -120,3 +120,19 @@ export const DESTINATION_PHOTOS: Record<string, DestinationPhoto> = {
 export function destinationPhoto(slug: string): DestinationPhoto | undefined {
   return DESTINATION_PHOTOS[slug];
 }
+
+/** City photo for a destination airport, used to illustrate generated plans. */
+const PHOTO_BY_AIRPORT: Record<string, string> = {
+  CDG: "paris",
+  ORY: "paris",
+  FCO: "rome",
+  HND: "tokyo",
+  NRT: "tokyo",
+  LIS: "lisbon",
+};
+
+export function photoForAirport(
+  code: string | undefined,
+): DestinationPhoto | undefined {
+  return code ? DESTINATION_PHOTOS[PHOTO_BY_AIRPORT[code] ?? ""] : undefined;
+}
