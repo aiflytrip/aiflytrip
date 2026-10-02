@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { getAirport } from "@/features/flights/data/airports";
 import {
   arrivalDayOffset,
   formatDuration,
@@ -11,33 +10,62 @@ import {
 } from "@/features/flights/lib/format";
 import {
   CABIN_LABELS,
+  type FlightDataSource,
   type FlightItinerary,
   type FlightOffer,
 } from "@/features/flights/types";
+
+const SOURCE_BADGES: Record<FlightDataSource["mode"], string | undefined> = {
+  sample: "Sample data",
+  test: "Test data",
+  live: undefined,
+};
 
 export function FlightOfferCard({
   offer,
   travellers,
   highlight,
+  sourceMode,
 }: {
   offer: FlightOffer;
   travellers: number;
   highlight?: string;
+  sourceMode: FlightDataSource["mode"];
 }) {
+  const segments = [
+    ...offer.outbound.segments,
+    ...(offer.inbound?.segments ?? []),
+  ];
   const airlines = [
+    ...new Set(segments.map((segment) => segment.airline.name)),
+  ];
+  // Operating carriers must be shown prominently (US DOT rule, per Duffel docs).
+  const operatedBy = [
     ...new Set(
-      [...offer.outbound.segments, ...(offer.inbound?.segments ?? [])].map(
-        (segment) => segment.airline.name,
+      segments.flatMap((segment) =>
+        segment.operatingCarrier ? [segment.operatingCarrier.name] : [],
       ),
     ),
   ];
+  const sourceBadge = SOURCE_BADGES[sourceMode];
+  const bookingNoteId = `${offer.id}-booking-note`;
 
   return (
     <Card className="flex flex-col md:flex-row">
       <div className="flex flex-1 flex-col gap-5 p-5">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-semibold">{airlines.join(" · ")}</span>
-          {highlight ? <Badge variant="success">{highlight}</Badge> : null}
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-semibold">
+              {airlines.join(" · ")}
+            </span>
+            {highlight ? <Badge variant="success">{highlight}</Badge> : null}
+            {sourceBadge ? <Badge>{sourceBadge}</Badge> : null}
+          </div>
+          {operatedBy.length > 0 ? (
+            <p className="text-xs text-muted-foreground">
+              Operated by {operatedBy.join(", ")}
+            </p>
+          ) : null}
         </div>
         <ItineraryRow label="Outbound" itinerary={offer.outbound} />
         {offer.inbound ? (
@@ -59,14 +87,11 @@ export function FlightOfferCard({
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <Button disabled aria-describedby={`${offer.id}-booking-note`}>
+          <Button disabled aria-describedby={bookingNoteId}>
             Select
           </Button>
-          <p
-            id={`${offer.id}-booking-note`}
-            className="text-xs text-muted-foreground"
-          >
-            Booking coming soon
+          <p id={bookingNoteId} className="text-xs text-muted-foreground">
+            Booking not available
           </p>
         </div>
       </div>
@@ -85,15 +110,11 @@ function ItineraryRow({
   const last = itinerary.segments.at(-1);
   if (!first || !last) return null;
 
-  const from = getAirport(first.origin);
-  const to = getAirport(last.destination);
-  const fromZone = from?.timeZone ?? "UTC";
-  const toZone = to?.timeZone ?? "UTC";
   const dayOffset = arrivalDayOffset(
     first.departAt,
-    fromZone,
+    first.originTimeZone,
     last.arriveAt,
-    toZone,
+    last.destinationTimeZone,
   );
   const connections = itinerary.segments
     .slice(0, -1)
@@ -106,7 +127,7 @@ function ItineraryRow({
       </p>
       <div>
         <p className="text-lg font-semibold">
-          {formatTime(first.departAt, fromZone)}
+          {formatTime(first.departAt, first.originTimeZone)}
         </p>
         <p className="text-sm text-muted-foreground">{first.origin}</p>
       </div>
@@ -116,10 +137,13 @@ function ItineraryRow({
           {formatDuration(itinerary.durationMinutes)}
         </p>
         <div aria-hidden="true" className="relative h-px w-full bg-border">
-          {connections.map((code) => (
+          {connections.map((code, index) => (
             <span
-              key={code}
-              className="absolute top-1/2 left-1/2 size-2 -translate-1/2 rounded-full border border-muted-foreground bg-card"
+              key={`${code}-${index}`}
+              style={{
+                left: `${((index + 1) / (connections.length + 1)) * 100}%`,
+              }}
+              className="absolute top-1/2 size-2 -translate-1/2 rounded-full border border-muted-foreground bg-card"
             />
           ))}
         </div>
@@ -132,11 +156,14 @@ function ItineraryRow({
 
       <div className="text-right">
         <p className="text-lg font-semibold">
-          {formatTime(last.arriveAt, toZone)}
+          {formatTime(last.arriveAt, last.destinationTimeZone)}
           {dayOffset > 0 ? (
             <sup className="ml-0.5 text-xs font-medium text-primary">
               <span className="sr-only">arrives </span>+{dayOffset}
-              <span className="sr-only"> day</span>
+              <span className="sr-only">
+                {" "}
+                {dayOffset === 1 ? "day" : "days"} later
+              </span>
             </sup>
           ) : null}
         </p>

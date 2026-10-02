@@ -3,9 +3,9 @@
 AI-assisted flight search and trip planning, built with Next.js (App Router),
 TypeScript and Tailwind CSS.
 
-> **Status: Phase 2 (UI foundation).** Flight search works end to end against a
-> deterministic **mock** provider. No database, auth, payments, AI or real
-> flight-data integrations are wired up yet.
+> **Status: Phase 3 (flight data).** Flight search runs against either local
+> **sample data** (default) or the **Duffel API v2 in test mode**. Booking and
+> payments are intentionally not implemented, and live Duffel tokens are refused.
 
 ## Requirements
 
@@ -21,6 +21,25 @@ npm run dev
 ```
 
 Open http://localhost:3000.
+
+### Using Duffel test mode
+
+By default `/flights` uses generated sample data. To search Duffel's sandbox:
+
+1. Create a Duffel account and switch the dashboard to **test mode**.
+2. Create an access token (Developers → Access tokens). It must start with
+   `duffel_test_`; live tokens are rejected.
+3. In `.env.local` set:
+
+   ```bash
+   FLIGHTS_PROVIDER=duffel
+   DUFFEL_ACCESS_TOKEN=duffel_test_...
+   ```
+
+4. Restart `npm run dev` (env files are read at startup).
+
+Test-mode results are labelled on the page. Expect sandbox data, including
+Duffel's fictional "Duffel Airways" (code ZZ), not real fares.
 
 ## Scripts
 
@@ -65,9 +84,10 @@ src/
 │   │   ├── components/
 │   │   ├── data/         Mock airports and airlines
 │   │   ├── lib/          Pure logic: URL parsing, sorting, dates, formatting
-│   │   └── server/       Provider interface, mock provider, searchFlights()
+│   │   └── server/       Provider interface, mock + Duffel providers, cache, searchFlights()
 │   └── marketing/        Homepage sections
-└── lib/                  Framework-agnostic helpers (env parsing, cn)
+├── lib/                  Framework-agnostic helpers (public env, cn)
+└── server/               Server-only code: secrets (env.ts), Duffel API client
 ```
 
 See [`docs/architecture.md`](./docs/architecture.md) for conventions and where

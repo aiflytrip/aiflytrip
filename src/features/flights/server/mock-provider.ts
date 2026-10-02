@@ -72,6 +72,8 @@ function buildSegment(
     airline,
     origin: from.code,
     destination: to.code,
+    originTimeZone: from.timeZone,
+    destinationTimeZone: to.timeZone,
     departAt: departAt.toISOString(),
     arriveAt: new Date(
       departAt.getTime() + durationMinutes * 60_000,
@@ -183,7 +185,7 @@ export function generateMockOffers(query: FlightSearch): FlightOffer[] {
 }
 
 export const mockFlightProvider: FlightSearchProvider = {
-  name: "mock",
+  source: { id: "mock", name: "Sample data", mode: "sample" },
   async search(query) {
     return generateMockOffers(query);
   },

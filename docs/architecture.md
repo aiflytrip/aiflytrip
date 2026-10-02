@@ -28,23 +28,48 @@
 - **Sorting and filtering are links**, not client state, so they work without
   JavaScript.
 - **Providers are swappable.** Pages call `searchFlights()` in
-  `features/flights/server`, which delegates to a `FlightSearchProvider`. The
-  mock provider is deterministic (seeded by route and dates) and adds 600 ms of
-  fake latency so loading states are visible.
+  `features/flights/server`, which delegates to a `FlightSearchProvider`
+  chosen by `FLIGHTS_PROVIDER` (`mock` or `duffel`). Adding a provider means
+  implementing that interface; no UI changes.
+  - **Mock**: deterministic (seeded by route and dates), 600 ms fake latency.
+  - **Duffel** (`server/duffel/`): `POST /air/offer_requests` on API v2.
+    `mapper.ts` is pure and converts Duffel's airport-local times to UTC using
+    each airport's time zone; malformed offers are skipped, not shown.
+- **Every result says where it came from.** Providers declare a
+  `FlightDataSource` (`sample` / `test` / `live`); results show a banner and
+  per-card badge for anything that isn't live.
+- **Errors are categorised.** Providers throw `FlightSearchError` with a kind
+  (`configuration`, `rate_limited`, `invalid_search`, `unavailable`), which
+  the UI turns into a friendly message. Provider details (status, request id)
+  are logged server-side only. Unexpected errors reach the route error boundary.
+- **Results are cached server-side** for 10 minutes per search, and concurrent
+  identical searches share one request. Sorting and filtering never re-query
+  the provider, which keeps us inside Duffel's ~10 searches/minute limit.
+  The cache is per instance; move it to a shared store when scaling out.
+
+## Secrets
+
+- Server-only variables are parsed in `src/server/env.ts`, which imports
+  `server-only` so any client import fails the build. Validation is lazy, so
+  builds don't need secrets.
+- The Duffel token lives only inside the client closure in
+  `src/server/duffel/client.ts` and is sent only in the `Authorization`
+  header. It is never logged, returned or prefixed with `NEXT_PUBLIC_`.
+- Only `duffel_test_` tokens are accepted, and a response flagged
+  `live_mode` is rejected as a second guard.
 
 ## Where upcoming work goes
 
-| Concern                     | Location                                                                        |
-| --------------------------- | ------------------------------------------------------------------------------- |
-| Real flight data provider   | `src/features/flights/server/<provider>.ts` implementing `FlightSearchProvider` |
-| AI trip planner             | `src/features/trip-planner/`                                                    |
-| Third-party API clients     | `src/server/<provider>/`, each file starting with `import "server-only"`        |
-| Server-only env vars        | `src/server/env.ts` (server-only), separate from the public `src/lib/env.ts`    |
-| Route handlers and webhooks | `src/app/api/<name>/route.ts`, delegating to `src/server/`                      |
-| Shared domain types         | `src/types/`                                                                    |
+| Concern                     | Location                                                                      |
+| --------------------------- | ----------------------------------------------------------------------------- |
+| Another flight provider     | `src/features/flights/server/<provider>/` implementing `FlightSearchProvider` |
+| AI trip planner             | `src/features/trip-planner/`                                                  |
+| Third-party API clients     | `src/server/<provider>/`, each file starting with `import "server-only"`      |
+| Server-only env vars        | `src/server/env.ts` (server-only), separate from the public `src/lib/env.ts`  |
+| Route handlers and webhooks | `src/app/api/<name>/route.ts`, delegating to `src/server/`                    |
+| Shared domain types         | `src/types/`                                                                  |
 
-`src/server/` and `src/types/` will be created when the first code that needs
-them lands, rather than as empty placeholders.
+`src/types/` will be created when the first shared type lands.
 
 ## Quality gates
 

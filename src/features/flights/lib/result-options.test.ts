@@ -24,6 +24,8 @@ function itinerary(
         airline: { code: "SB", name: "SkyBridge Air" },
         origin: "JFK",
         destination: "LHR",
+        originTimeZone: "America/New_York",
+        destinationTimeZone: "Europe/London",
         departAt,
         arriveAt: departAt,
         durationMinutes,

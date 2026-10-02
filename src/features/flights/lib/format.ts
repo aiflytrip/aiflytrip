@@ -1,4 +1,5 @@
 import { daysBetween, toIsoDate } from "@/features/flights/lib/dates";
+import { currencyDecimals } from "@/features/flights/lib/money";
 import { type Money } from "@/features/flights/types";
 
 const LOCALE = "en-US";
@@ -30,13 +31,13 @@ export function formatDate(isoDate: string): string {
   }).format(new Date(`${isoDate}T00:00:00Z`));
 }
 
-/** Formats minor units ("cents") as currency, without decimals. */
+/** Formats minor units as currency, rounded to whole units for display. */
 export function formatMoney({ amountMinor, currency }: Money): string {
   return new Intl.NumberFormat(LOCALE, {
     style: "currency",
     currency,
     maximumFractionDigits: 0,
-  }).format(amountMinor / 100);
+  }).format(amountMinor / 10 ** currencyDecimals(currency));
 }
 
 /**

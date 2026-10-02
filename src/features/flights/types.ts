@@ -50,9 +50,16 @@ export type FlightSearch = {
 
 export type FlightSegment = {
   flightNumber: string;
+  /** Marketing carrier: the airline selling the flight under its code. */
   airline: Airline;
+  /** Airline flying the aircraft, when it differs from the marketing carrier. */
+  operatingCarrier?: Airline;
+  /** IATA airport code. */
   origin: string;
   destination: string;
+  /** IANA time zones of the airports, used to display local times. */
+  originTimeZone: string;
+  destinationTimeZone: string;
   /** ISO 8601 UTC timestamp. */
   departAt: string;
   /** ISO 8601 UTC timestamp. */
@@ -68,7 +75,10 @@ export type FlightItinerary = {
 };
 
 export type Money = {
-  /** Amount in minor units (cents) to avoid floating-point rounding. */
+  /**
+   * Amount in the currency's minor units (cents for USD, whole yen for JPY)
+   * to avoid floating-point rounding.
+   */
   amountMinor: number;
   currency: string;
 };
@@ -81,4 +91,16 @@ export type FlightOffer = {
   totalPrice: Money;
   pricePerTraveller: Money;
   cabin: CabinClass;
+  /** ISO 8601 timestamp after which the provider no longer honours the price. */
+  expiresAt?: string;
+};
+
+/** Where results came from, so the UI can label test and sample data. */
+export type FlightDataSource = {
+  /** Stable identifier, e.g. "mock" or "duffel". */
+  id: string;
+  /** Human-readable provider name. */
+  name: string;
+  /** "sample": generated locally. "test": provider sandbox. "live": real fares. */
+  mode: "sample" | "test" | "live";
 };

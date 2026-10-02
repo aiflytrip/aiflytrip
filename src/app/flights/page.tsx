@@ -63,22 +63,13 @@ export default async function FlightsPage({
       </Card>
 
       {parsed.status === "valid" ? (
-        <>
-          <p
-            role="note"
-            className="rounded-xl border border-border bg-accent px-4 py-3 text-sm text-accent-foreground"
-          >
-            These are sample results generated for development. Airlines,
-            schedules and prices are not real, and booking isn&apos;t available
-            yet.
-          </p>
-          <Suspense
-            key={`${searchToParams(parsed.search).toString()}|${options.sort}|${options.stops}`}
-            fallback={<ResultsSkeleton />}
-          >
-            <FlightResults search={parsed.search} options={options} />
-          </Suspense>
-        </>
+        // Results label their own data source (sample / test mode).
+        <Suspense
+          key={`${searchToParams(parsed.search).toString()}|${options.sort}|${options.stops}`}
+          fallback={<ResultsSkeleton />}
+        >
+          <FlightResults search={parsed.search} options={options} />
+        </Suspense>
       ) : null}
     </Container>
   );

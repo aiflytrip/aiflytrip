@@ -19,7 +19,7 @@ export function Hero({ search }: { search?: ReactNode }) {
             aria-hidden="true"
             className="size-1.5 rounded-full bg-primary"
           />
-          Preview with sample flight data
+          Preview · not real fares yet
         </Badge>
         <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-6xl">
           Plan your next trip with an AI that gets it
