@@ -97,12 +97,38 @@ live in the unexposed `private` schema with `search_path = ''`.
 `npm run test:db` proves this in PGlite against an emulation of Supabase's
 roles and default grants.
 
+## AI trip planner (Claude API)
+
+- **Workflow, not an agent.** One server-side call per plan: the app runs the
+  flight search itself, then sends Claude the trip, preferences and up to 8
+  real (test-mode) flight options, and gets back a plan in a fixed schema.
+  Claude can only recommend a flight by an id it was given; unknown ids are
+  dropped.
+- **Request:** `claude-opus-5-5`, adaptive thinking, `effort: "medium"` set
+  explicitly (Opus 5.5's default is medium), streaming + `finalMessage()`,
+  structured outputs via `betaZodOutputFormat`, and server-side
+  `fallbacks: "default"` (beta `server-side-fallback-2026-07-01`) so a
+  safety-classifier decline is retried on Anthropic's recommended model.
+  `stop_reason` is checked (`refusal`, `max_tokens`) before reading output,
+  which is re-validated with Zod and sanitized (lengths, dates, currency).
+- **Prompt safety.** The system prompt is fixed; traveller notes go in a
+  delimited data block and are described as preferences, not instructions.
+  Output is rendered as text (React escapes it). Bump `PROMPT_VERSION`
+  whenever the prompt or schema changes; it's stored on every plan.
+- **Background generation.** The server action saves a trip, preferences and
+  a `pending` plan, then runs generation in `after()` with the user's own
+  session (RLS applies). The plan page polls via `router.refresh()`; plans
+  stuck in progress for 6+ minutes show as failed with **Try again**.
+- **Cost controls.** Sign-in required, 5 plans/hour and 20/day per user
+  (counted from `travel_plans`), capped input sizes, token usage logged per
+  plan. The API key is server-only (`src/server/anthropic/client.ts`).
+- **Tests** inject a fake client: no network or API key needed.
+
 ## Where upcoming work goes
 
 | Concern                     | Location                                                                      |
 | --------------------------- | ----------------------------------------------------------------------------- |
 | Another flight provider     | `src/features/flights/server/<provider>/` implementing `FlightSearchProvider` |
-| AI trip planner             | `src/features/trip-planner/`                                                  |
 | Third-party API clients     | `src/server/<provider>/`, each file starting with `import "server-only"`      |
 | Server-only env vars        | `src/server/env.ts` (server-only), separate from the public `src/lib/env.ts`  |
 | Route handlers and webhooks | `src/app/api/<name>/route.ts`, delegating to `src/server/`                    |

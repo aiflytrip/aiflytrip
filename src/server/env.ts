@@ -50,6 +50,17 @@ const serverEnvSchema = z
       .trim()
       .optional()
       .transform((value) => value || undefined),
+    // Claude API key for the AI trip planner. Optional: the planner shows
+    // "not available" without it. Never prefix with NEXT_PUBLIC_.
+    ANTHROPIC_API_KEY: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => value || undefined)
+      .refine(
+        (value) => value === undefined || value.startsWith("sk-ant-"),
+        "ANTHROPIC_API_KEY must be an Anthropic API key (sk-ant-…)",
+      ),
   })
   .superRefine((env, ctx) => {
     const secret = env.SUPABASE_SECRET_KEY;
@@ -94,6 +105,7 @@ export function parseServerEnv(
     FLIGHTS_PROVIDER: source.FLIGHTS_PROVIDER?.trim() || undefined,
     DUFFEL_ACCESS_TOKEN: source.DUFFEL_ACCESS_TOKEN,
     SUPABASE_SECRET_KEY: source.SUPABASE_SECRET_KEY,
+    ANTHROPIC_API_KEY: source.ANTHROPIC_API_KEY,
   });
   return result.success
     ? { ok: true, env: result.data }

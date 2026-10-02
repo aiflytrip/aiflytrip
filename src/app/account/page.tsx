@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { ProfileForm } from "@/features/account/components/profile-form";
@@ -74,6 +75,25 @@ export default async function AccountPage() {
             fullName={profile?.full_name ?? ""}
             homeAirport={profile?.home_airport ?? ""}
           />
+        </Card>
+      </section>
+
+      <section aria-labelledby="plans-heading" className="flex flex-col gap-4">
+        <h2 id="plans-heading" className="text-lg font-semibold">
+          Trip plans
+        </h2>
+        <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted-foreground">
+            AI-drafted, day-by-day plans for your trips.
+          </p>
+          <div className="flex gap-2">
+            <ButtonLink href="/plans" variant="secondary" size="sm">
+              My plans
+            </ButtonLink>
+            <ButtonLink href="/plan" size="sm">
+              Plan a trip
+            </ButtonLink>
+          </div>
         </Card>
       </section>
 

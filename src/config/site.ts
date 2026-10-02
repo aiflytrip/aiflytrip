@@ -13,6 +13,7 @@ export const siteConfig = {
   url: env.siteUrl,
   nav: [
     { label: "Flights", href: "/flights" },
+    { label: "Plan a trip", href: "/plan" },
     { label: "Features", href: "/#features" },
     { label: "How it works", href: "/#how-it-works" },
   ] satisfies NavItem[],

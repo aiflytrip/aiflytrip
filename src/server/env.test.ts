@@ -59,4 +59,16 @@ describe("parseServerEnv", () => {
     expect(result.ok).toBe(false);
     expect(JSON.stringify(result)).not.toContain(key);
   });
+
+  it("accepts an Anthropic API key", () => {
+    const result = parseServerEnv({ ANTHROPIC_API_KEY: " sk-ant-api03-abc " });
+    expect(result.ok && result.env.ANTHROPIC_API_KEY).toBe("sk-ant-api03-abc");
+  });
+
+  it("rejects a non-Anthropic value in ANTHROPIC_API_KEY without echoing it", () => {
+    const value = "sb_secret_wrong_variable";
+    const result = parseServerEnv({ ANTHROPIC_API_KEY: value });
+    expect(result.ok).toBe(false);
+    expect(JSON.stringify(result)).not.toContain(value);
+  });
 });

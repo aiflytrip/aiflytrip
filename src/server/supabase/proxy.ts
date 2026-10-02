@@ -5,7 +5,7 @@ import { supabasePublicConfig } from "@/lib/supabase/config";
 import { type Database } from "@/lib/supabase/database.types";
 
 /** Routes that require a signed-in user. Pages also re-check (defence in depth). */
-const PROTECTED_PREFIXES = ["/account"];
+const PROTECTED_PREFIXES = ["/account", "/plan", "/plans"];
 
 function isProtected(pathname: string): boolean {
   return PROTECTED_PREFIXES.some(

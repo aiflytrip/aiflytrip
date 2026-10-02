@@ -3,12 +3,12 @@
 AI-assisted flight search and trip planning, built with Next.js (App Router),
 TypeScript and Tailwind CSS.
 
-> **Status: Phase 4 (accounts and database).** Flight search runs on local
-> sample data or **Duffel API v2 test mode**. Optional **Supabase** accounts
-> (email + password) let users save searches. The database schema covers
-> profiles, trips, preferences, travelers, AI plans, saved trips,
-> subscriptions and payments, all protected by Row Level Security. Booking,
-> payments and AI are intentionally not implemented yet.
+> **Status: Phase 5 (AI trip planner).** Flight search runs on local sample
+> data or **Duffel API v2 test mode**. Optional **Supabase** accounts let users
+> save searches and generate **AI trip plans with Claude** (day-by-day
+> itinerary, flight recommendation from real test-mode options, budget
+> estimate), stored with Row Level Security. Booking and payments are
+> intentionally not implemented yet.
 
 ## Requirements
 
@@ -69,6 +69,14 @@ accounts:
 The schema is tested locally without Docker: `npm run test:db` runs every
 migration in PGlite (Postgres compiled to WASM) and checks the RLS policies.
 
+### Enabling the AI trip planner
+
+Requires Supabase accounts (above). Create an API key at
+console.anthropic.com → API Keys and set `ANTHROPIC_API_KEY=sk-ant-...` in
+`.env.local`, then restart. Each plan is one Claude API call (Claude Opus 5.5)
+and is rate-limited to 5 per user per hour and 20 per day. Without the key,
+`/plan` says the planner isn't available.
+
 ## Scripts
 
 | Script                 | What it does                                        |
@@ -104,6 +112,7 @@ src/
 │   ├── api/health/       GET /api/health liveness probe
 │   ├── auth/             Email-link confirmation route and error page
 │   ├── login/, signup/   Auth pages
+│   ├── plan/, plans/     AI trip planner: form, plan list, plan detail
 │   ├── flights/          /flights search + results (driven by URL params)
 │   ├── error.tsx         Error boundary for route segments
 │   ├── global-error.tsx  Fallback when the root layout itself fails
@@ -123,12 +132,14 @@ src/
 │   │   ├── lib/          Pure logic: URL parsing, sorting, dates, formatting
 │   │   └── server/       Provider interface, mock + Duffel providers, cache, searchFlights()
 │   ├── marketing/        Homepage sections
+│   ├── trip-planner/     Claude-powered plans: validation, prompt, schema, runner
 │   └── saved-trips/      "Save search" + saved list (Supabase saved_trips)
 ├── lib/                  Client-safe helpers: public env, cn, Supabase config,
 │                         browser client and DB types
 ├── proxy.ts              Refreshes the Supabase session on each request
 └── server/               Server-only: env.ts (secrets), auth.ts (current user),
-                          supabase/ (server, admin, proxy clients), duffel/
+                          supabase/ (server, admin, proxy clients), duffel/,
+                          anthropic/ (Claude client)
 supabase/
 ├── config.toml           Supabase CLI config (local auth settings)
 ├── migrations/           SQL schema + RLS, applied with `npm run db:push`
