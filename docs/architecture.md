@@ -58,6 +58,45 @@
 - Only `duffel_test_` tokens are accepted, and a response flagged
   `live_mode` is rejected as a second guard.
 
+## Accounts and data (Supabase)
+
+- **Official `@supabase/ssr` pattern.** `src/proxy.ts` refreshes the session
+  on every request; `src/server/supabase/server.ts` creates a per-request
+  client from cookies. Identity always comes from `getClaims()` (verifies the
+  JWT), never `getSession()`. `getCurrentUser()` in `src/server/auth.ts`
+  wraps this and is cached per request.
+- **Keys.** The browser only ever sees the _publishable_ key, which is safe
+  because RLS protects every table. `src/lib/supabase/config.ts` refuses to
+  start if a secret key is put in a `NEXT_PUBLIC_` variable. The _secret_ key
+  is server-only (`src/server/env.ts`) and only used by
+  `createAdminClient()`, reserved for payment webhooks.
+- **Defence in depth for protected pages.** The proxy redirects signed-out
+  visitors away from `/account`, and the page calls `requireUser()` again.
+- **Mutations are Server Actions** using the user's own session, so RLS
+  enforces ownership; actions re-validate all input with Zod and only log
+  error codes.
+- **Optional by design.** With no Supabase env vars, auth UI hides itself and
+  the rest of the app (including flight search) works unchanged.
+
+### Schema (`supabase/migrations`)
+
+| Table              | Owner access           | Notes                                              |
+| ------------------ | ---------------------- | -------------------------------------------------- |
+| `profiles`         | read, update 3 columns | Created by trigger on signup; column-level grants  |
+| `trips`            | full                   | Validated airports/dates/passengers                |
+| `trip_preferences` | full                   | 1:1 with a trip; composite FK pins it to the owner |
+| `travel_plans`     | full                   | AI output (later phase); composite FK to the trip  |
+| `saved_trips`      | full                   | Saved /flights searches; unique per user + search  |
+| `travelers`        | full                   | Passenger PII; no passport numbers stored yet      |
+| `subscriptions`    | read only              | Written only by service_role (webhooks)            |
+| `payments`         | read only              | Written only by service_role; kept on user delete  |
+
+Every table: RLS enabled, `anon` revoked, explicit grants, per-operation
+policies using `(select auth.uid())`, `user_id` indexes. Helper functions
+live in the unexposed `private` schema with `search_path = ''`.
+`npm run test:db` proves this in PGlite against an emulation of Supabase's
+roles and default grants.
+
 ## Where upcoming work goes
 
 | Concern                     | Location                                                                      |
@@ -68,6 +107,7 @@
 | Server-only env vars        | `src/server/env.ts` (server-only), separate from the public `src/lib/env.ts`  |
 | Route handlers and webhooks | `src/app/api/<name>/route.ts`, delegating to `src/server/`                    |
 | Shared domain types         | `src/types/`                                                                  |
+| Payment webhooks            | `src/app/api/webhooks/<provider>/route.ts` using `createAdminClient()`        |
 
 `src/types/` will be created when the first shared type lands.
 

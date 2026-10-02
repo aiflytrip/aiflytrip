@@ -45,4 +45,18 @@ describe("parseServerEnv", () => {
   it("rejects unknown providers", () => {
     expect(parseServerEnv({ FLIGHTS_PROVIDER: "amadeus" }).ok).toBe(false);
   });
+
+  it("accepts a Supabase secret key", () => {
+    const result = parseServerEnv({ SUPABASE_SECRET_KEY: "sb_secret_abc123" });
+    expect(result.ok && result.env.SUPABASE_SECRET_KEY).toBe(
+      "sb_secret_abc123",
+    );
+  });
+
+  it("rejects a publishable key in SUPABASE_SECRET_KEY without echoing it", () => {
+    const key = "sb_publishable_wrong_slot";
+    const result = parseServerEnv({ SUPABASE_SECRET_KEY: key });
+    expect(result.ok).toBe(false);
+    expect(JSON.stringify(result)).not.toContain(key);
+  });
 });

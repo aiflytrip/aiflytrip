@@ -4,6 +4,7 @@ import { Logo } from "@/components/layout/logo";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Container } from "@/components/ui/container";
 import { siteConfig } from "@/config/site";
+import { AuthNav } from "@/features/auth";
 
 export function SiteHeader() {
   return (
@@ -24,7 +25,10 @@ export function SiteHeader() {
             ))}
           </ul>
         </nav>
-        <MobileNav items={siteConfig.nav} />
+        <div className="flex items-center gap-1">
+          <AuthNav />
+          <MobileNav items={siteConfig.nav} />
+        </div>
       </Container>
     </header>
   );

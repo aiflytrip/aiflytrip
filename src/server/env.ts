@@ -11,6 +11,22 @@ import { z } from "zod";
 export const FLIGHT_PROVIDERS = ["mock", "duffel"] as const;
 export type FlightProviderId = (typeof FLIGHT_PROVIDERS)[number];
 
+/** Legacy JWT-style service_role key, decoded without verification. */
+function isLegacyServiceRoleKey(key: string): boolean {
+  const payload = key.split(".")[1];
+  if (!payload) return false;
+  try {
+    const json = JSON.parse(
+      Buffer.from(payload, "base64url").toString("utf8"),
+    ) as {
+      role?: unknown;
+    };
+    return json.role === "service_role";
+  } catch {
+    return false;
+  }
+}
+
 /** Phase 3 is restricted to Duffel's sandbox; live tokens are refused. */
 export const DUFFEL_TEST_TOKEN_PREFIX = "duffel_test_";
 
@@ -27,8 +43,28 @@ const serverEnvSchema = z
       .trim()
       .optional()
       .transform((value) => value || undefined),
+    // Supabase secret key (bypasses Row Level Security). Optional: only
+    // trusted server jobs such as payment webhooks need it.
+    SUPABASE_SECRET_KEY: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => value || undefined),
   })
   .superRefine((env, ctx) => {
+    const secret = env.SUPABASE_SECRET_KEY;
+    if (
+      secret &&
+      !secret.startsWith("sb_secret_") &&
+      !isLegacyServiceRoleKey(secret)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["SUPABASE_SECRET_KEY"],
+        message:
+          "SUPABASE_SECRET_KEY must be a Supabase secret key (sb_secret_…)",
+      });
+    }
     if (env.FLIGHTS_PROVIDER !== "duffel") return;
     if (!env.DUFFEL_ACCESS_TOKEN) {
       ctx.addIssue({
@@ -57,6 +93,7 @@ export function parseServerEnv(
   const result = serverEnvSchema.safeParse({
     FLIGHTS_PROVIDER: source.FLIGHTS_PROVIDER?.trim() || undefined,
     DUFFEL_ACCESS_TOKEN: source.DUFFEL_ACCESS_TOKEN,
+    SUPABASE_SECRET_KEY: source.SUPABASE_SECRET_KEY,
   });
   return result.success
     ? { ok: true, env: result.data }

@@ -3,9 +3,12 @@
 AI-assisted flight search and trip planning, built with Next.js (App Router),
 TypeScript and Tailwind CSS.
 
-> **Status: Phase 3 (flight data).** Flight search runs against either local
-> **sample data** (default) or the **Duffel API v2 in test mode**. Booking and
-> payments are intentionally not implemented, and live Duffel tokens are refused.
+> **Status: Phase 4 (accounts and database).** Flight search runs on local
+> sample data or **Duffel API v2 test mode**. Optional **Supabase** accounts
+> (email + password) let users save searches. The database schema covers
+> profiles, trips, preferences, travelers, AI plans, saved trips,
+> subscriptions and payments, all protected by Row Level Security. Booking,
+> payments and AI are intentionally not implemented yet.
 
 ## Requirements
 
@@ -41,6 +44,31 @@ By default `/flights` uses generated sample data. To search Duffel's sandbox:
 Test-mode results are labelled on the page. Expect sandbox data, including
 Duffel's fictional "Duffel Airways" (code ZZ), not real fares.
 
+### Setting up Supabase (accounts)
+
+Without Supabase the app runs normally and simply hides sign-in. To enable
+accounts:
+
+1. Create a project at supabase.com. In **Project Settings → API Keys**, copy
+   the project URL, the **publishable** key and (optionally) the **secret** key
+   into `.env.local` (see `.env.example`).
+2. Apply the database schema:
+
+   ```bash
+   npm run db:login      # once, opens the browser
+   npm run db:link       # pick your project
+   npm run db:push:dry   # preview
+   npm run db:push       # apply supabase/migrations
+   ```
+
+3. In **Authentication → URL Configuration** set the Site URL to your app URL
+   and add `<site>/auth/confirm` to Redirect URLs (for local dev:
+   `http://localhost:3000/auth/confirm`).
+4. Restart `npm run dev`.
+
+The schema is tested locally without Docker: `npm run test:db` runs every
+migration in PGlite (Postgres compiled to WASM) and checks the RLS policies.
+
 ## Scripts
 
 | Script                 | What it does                                        |
@@ -55,6 +83,10 @@ Duffel's fictional "Duffel Airways" (code ZZ), not real fares.
 | `npm run format:check` | Check formatting without writing                    |
 | `npm run test`         | Unit tests (Vitest)                                 |
 | `npm run test:watch`   | Unit tests in watch mode                            |
+| `npm run test:db`      | Migrations + Row Level Security tests (PGlite)      |
+| `npm run db:link`      | Link this folder to your Supabase project           |
+| `npm run db:push`      | Apply `supabase/migrations` to the linked project   |
+| `npm run db:types`     | Generate DB types from the linked project           |
 | `npm run check`        | Type-check, lint, format check and tests            |
 
 ## Environment variables
@@ -68,7 +100,10 @@ to the browser, so never put secrets in them.
 ```
 src/
 ├── app/                  Routes, layouts and route handlers (App Router)
+│   ├── account/          Signed-in area: profile, saved searches
 │   ├── api/health/       GET /api/health liveness probe
+│   ├── auth/             Email-link confirmation route and error page
+│   ├── login/, signup/   Auth pages
 │   ├── flights/          /flights search + results (driven by URL params)
 │   ├── error.tsx         Error boundary for route segments
 │   ├── global-error.tsx  Fallback when the root layout itself fails
@@ -80,14 +115,24 @@ src/
 │   └── ui/               Reusable primitives (Button, Input, Select, Field, Card, …)
 ├── config/               Static app configuration (site name, nav)
 ├── features/             Feature modules, each owning its components and data
+│   ├── account/          Profile form + action
+│   ├── auth/             Sign-up/in/out actions, forms, validation, header nav
 │   ├── flights/          Flight search: form, results, validation, providers
 │   │   ├── components/
 │   │   ├── data/         Mock airports and airlines
 │   │   ├── lib/          Pure logic: URL parsing, sorting, dates, formatting
 │   │   └── server/       Provider interface, mock + Duffel providers, cache, searchFlights()
-│   └── marketing/        Homepage sections
-├── lib/                  Framework-agnostic helpers (public env, cn)
-└── server/               Server-only code: secrets (env.ts), Duffel API client
+│   ├── marketing/        Homepage sections
+│   └── saved-trips/      "Save search" + saved list (Supabase saved_trips)
+├── lib/                  Client-safe helpers: public env, cn, Supabase config,
+│                         browser client and DB types
+├── proxy.ts              Refreshes the Supabase session on each request
+└── server/               Server-only: env.ts (secrets), auth.ts (current user),
+                          supabase/ (server, admin, proxy clients), duffel/
+supabase/
+├── config.toml           Supabase CLI config (local auth settings)
+├── migrations/           SQL schema + RLS, applied with `npm run db:push`
+└── tests/                PGlite migration and RLS tests
 ```
 
 See [`docs/architecture.md`](./docs/architecture.md) for conventions and where

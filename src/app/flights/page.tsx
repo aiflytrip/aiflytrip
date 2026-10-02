@@ -13,6 +13,7 @@ import {
   searchTitle,
 } from "@/features/flights";
 import { toIsoDate } from "@/features/flights/lib/dates";
+import { SaveSearch } from "@/features/saved-trips";
 import { searchToParams } from "@/features/flights/lib/search-params";
 
 export async function generateMetadata({
@@ -42,7 +43,10 @@ export default async function FlightsPage({
   return (
     <Container className="flex flex-col gap-8 py-10">
       {parsed.status === "valid" ? (
-        <SearchSummary search={parsed.search} />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <SearchSummary search={parsed.search} />
+          <SaveSearch search={searchToParams(parsed.search).toString()} />
+        </div>
       ) : (
         <div>
           <h1 className="text-3xl font-semibold tracking-tight">
