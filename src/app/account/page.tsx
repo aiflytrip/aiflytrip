@@ -5,6 +5,10 @@ import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { ProfileForm } from "@/features/account/components/profile-form";
 import { FormMessage } from "@/features/auth";
+import {
+  PurchaseList,
+  type PurchaseItem,
+} from "@/features/premium/components/purchase-list";
 import { SavedSearchList, type SavedSearchItem } from "@/features/saved-trips";
 import { requireUser } from "@/server/auth";
 import { createClient } from "@/server/supabase/server";
@@ -20,7 +24,7 @@ export default async function AccountPage() {
   const user = await requireUser("/account");
   const supabase = await createClient();
 
-  const [profileResult, savedResult] = supabase
+  const [profileResult, savedResult, purchasesResult] = supabase
     ? await Promise.all([
         supabase
           .from("profiles")
@@ -32,10 +36,20 @@ export default async function AccountPage() {
           .select("id, label, search_key, created_at")
           .order("created_at", { ascending: false })
           .limit(50),
+        supabase
+          .from("payments")
+          .select(
+            "id, travel_plan_id, amount_minor, amount_refunded_minor, currency, status, created_at",
+          )
+          .eq("product", "premium_plan")
+          .order("created_at", { ascending: false })
+          .limit(50),
       ])
-    : [undefined, undefined];
+    : [undefined, undefined, undefined];
 
-  const loadFailed = Boolean(profileResult?.error || savedResult?.error);
+  const loadFailed = Boolean(
+    profileResult?.error || savedResult?.error || purchasesResult?.error,
+  );
   if (loadFailed) {
     console.error("[account] load failed", {
       profile: profileResult?.error?.code,
@@ -44,6 +58,7 @@ export default async function AccountPage() {
   }
   const profile = profileResult?.data;
   const saved: SavedSearchItem[] = savedResult?.data ?? [];
+  const purchases: PurchaseItem[] = purchasesResult?.data ?? [];
 
   return (
     <Container className="flex flex-col gap-10 py-10">
@@ -95,6 +110,16 @@ export default async function AccountPage() {
             </ButtonLink>
           </div>
         </Card>
+      </section>
+
+      <section
+        aria-labelledby="purchases-heading"
+        className="flex flex-col gap-4"
+      >
+        <h2 id="purchases-heading" className="text-lg font-semibold">
+          Purchases
+        </h2>
+        <PurchaseList items={purchases} />
       </section>
 
       <section aria-labelledby="saved-heading" className="flex flex-col gap-4">

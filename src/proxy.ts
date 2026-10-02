@@ -10,6 +10,6 @@ export const config = {
   matcher: [
     // Everything except static assets, image optimization, the health check
     // and metadata files, which never need a session.
-    "/((?!_next/static|_next/image|api/health|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    "/((?!_next/static|_next/image|api/health|api/webhooks|favicon.ico|robots.txt|sitemap.xml|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
   ],
 };

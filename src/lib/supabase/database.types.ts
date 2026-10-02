@@ -139,6 +139,29 @@ type PaymentRow = Timestamps & {
   currency: string;
   status: PaymentStatus;
   description: string | null;
+  travel_plan_id: string | null;
+  product: "premium_plan" | null;
+  checkout_session_id: string | null;
+  livemode: boolean;
+  amount_refunded_minor: number;
+};
+
+type BillingCustomerRow = Timestamps & {
+  user_id: string;
+  provider: "stripe";
+  provider_customer_id: string;
+  livemode: boolean;
+};
+
+type StripeWebhookEventRow = {
+  id: string;
+  type: string;
+  livemode: boolean;
+  status: "processing" | "processed" | "ignored" | "failed";
+  attempts: number;
+  error: string | null;
+  received_at: string;
+  processed_at: string | null;
 };
 
 /** Insert type: columns with DB defaults become optional. */
@@ -189,9 +212,22 @@ export type Database = {
           "provider_payment_id" | "amount_minor" | "currency" | "status"
         >
       >;
+      billing_customers: Table<
+        BillingCustomerRow,
+        Insertable<BillingCustomerRow, "user_id" | "provider_customer_id">
+      >;
+      stripe_webhook_events: Table<
+        StripeWebhookEventRow,
+        Insertable<StripeWebhookEventRow, "id" | "type" | "livemode">
+      >;
     };
     Views: Record<never, never>;
-    Functions: Record<never, never>;
+    Functions: {
+      claim_stripe_webhook_event: {
+        Args: { p_event_id: string; p_type: string; p_livemode: boolean };
+        Returns: boolean;
+      };
+    };
     Enums: {
       trip_type: TripType;
       cabin_class: CabinClass;

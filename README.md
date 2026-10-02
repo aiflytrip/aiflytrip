@@ -3,12 +3,11 @@
 AI-assisted flight search and trip planning, built with Next.js (App Router),
 TypeScript and Tailwind CSS.
 
-> **Status: Phase 5 (AI trip planner).** Flight search runs on local sample
-> data or **Duffel API v2 test mode**. Optional **Supabase** accounts let users
-> save searches and generate **AI trip plans with Claude** (day-by-day
-> itinerary, flight recommendation from real test-mode options, budget
-> estimate), stored with Row Level Security. Booking and payments are
-> intentionally not implemented yet.
+> **Status: Phase 6 (premium plans, Stripe test mode).** Flight search
+> (sample data or Duffel test mode), Supabase accounts, Claude-powered trip
+> plans, and a **premium PDF** of a plan sold through **Stripe Checkout in
+> test mode only**. Live Stripe keys are refused. Real flight booking is out
+> of scope.
 
 ## Requirements
 
@@ -77,25 +76,43 @@ console.anthropic.com → API Keys and set `ANTHROPIC_API_KEY=sk-ant-...` in
 and is rate-limited to 5 per user per hour and 20 per day. Without the key,
 `/plan` says the planner isn't available.
 
+### Enabling premium plans (Stripe test mode)
+
+1. In the Stripe Dashboard (test mode), copy a **test** secret key into
+   `STRIPE_SECRET_KEY` (`sk_test_...`). Live keys are rejected.
+2. Run `npm run stripe:setup`. It creates the "AIFlyTrip Premium Trip Plan"
+   product and a $4.99 one-time price (idempotent) and prints
+   `STRIPE_PREMIUM_PRICE_ID=price_...` for `.env.local`.
+3. Webhooks: locally run `stripe listen --forward-to localhost:3000/api/webhooks/stripe`
+   and put the printed `whsec_...` in `STRIPE_WEBHOOK_SECRET`. Subscribe a
+   deployed endpoint to `checkout.session.completed`,
+   `checkout.session.async_payment_succeeded`,
+   `checkout.session.async_payment_failed`, `checkout.session.expired` and
+   `charge.refunded`.
+4. Apply `supabase/migrations/20261002060000_premium_payments.sql`, then restart.
+
+Pay with test card `4242 4242 4242 4242`, any future expiry and any CVC.
+
 ## Scripts
 
-| Script                 | What it does                                        |
-| ---------------------- | --------------------------------------------------- |
-| `npm run dev`          | Start the dev server (Turbopack)                    |
-| `npm run build`        | Production build                                    |
-| `npm run start`        | Serve the production build                          |
-| `npm run lint`         | ESLint (Next.js core-web-vitals + TypeScript rules) |
-| `npm run lint:fix`     | ESLint with auto-fix                                |
-| `npm run typecheck`    | Generate route types, then `tsc --noEmit`           |
-| `npm run format`       | Format everything with Prettier                     |
-| `npm run format:check` | Check formatting without writing                    |
-| `npm run test`         | Unit tests (Vitest)                                 |
-| `npm run test:watch`   | Unit tests in watch mode                            |
-| `npm run test:db`      | Migrations + Row Level Security tests (PGlite)      |
-| `npm run db:link`      | Link this folder to your Supabase project           |
-| `npm run db:push`      | Apply `supabase/migrations` to the linked project   |
-| `npm run db:types`     | Generate DB types from the linked project           |
-| `npm run check`        | Type-check, lint, format check and tests            |
+| Script                 | What it does                                               |
+| ---------------------- | ---------------------------------------------------------- |
+| `npm run dev`          | Start the dev server (Turbopack)                           |
+| `npm run build`        | Production build                                           |
+| `npm run start`        | Serve the production build                                 |
+| `npm run lint`         | ESLint (Next.js core-web-vitals + TypeScript rules)        |
+| `npm run lint:fix`     | ESLint with auto-fix                                       |
+| `npm run typecheck`    | Generate route types, then `tsc --noEmit`                  |
+| `npm run format`       | Format everything with Prettier                            |
+| `npm run format:check` | Check formatting without writing                           |
+| `npm run test`         | Unit tests (Vitest)                                        |
+| `npm run test:watch`   | Unit tests in watch mode                                   |
+| `npm run test:db`      | Migrations + Row Level Security tests (PGlite)             |
+| `npm run db:link`      | Link this folder to your Supabase project                  |
+| `npm run db:push`      | Apply `supabase/migrations` to the linked project          |
+| `npm run db:types`     | Generate DB types from the linked project                  |
+| `npm run stripe:setup` | Create/find the premium product + price (Stripe test mode) |
+| `npm run check`        | Type-check, lint, format check and tests                   |
 
 ## Environment variables
 
@@ -112,7 +129,8 @@ src/
 │   ├── api/health/       GET /api/health liveness probe
 │   ├── auth/             Email-link confirmation route and error page
 │   ├── login/, signup/   Auth pages
-│   ├── plan/, plans/     AI trip planner: form, plan list, plan detail
+│   ├── plan/, plans/     AI trip planner; plans/[id]/pdf and checkout/success
+│   ├── api/webhooks/     Stripe webhook (signature-verified, idempotent)
 │   ├── flights/          /flights search + results (driven by URL params)
 │   ├── error.tsx         Error boundary for route segments
 │   ├── global-error.tsx  Fallback when the root layout itself fails
@@ -139,7 +157,7 @@ src/
 ├── proxy.ts              Refreshes the Supabase session on each request
 └── server/               Server-only: env.ts (secrets), auth.ts (current user),
                           supabase/ (server, admin, proxy clients), duffel/,
-                          anthropic/ (Claude client)
+                          anthropic/ (Claude client), stripe/ (Stripe client)
 supabase/
 ├── config.toml           Supabase CLI config (local auth settings)
 ├── migrations/           SQL schema + RLS, applied with `npm run db:push`

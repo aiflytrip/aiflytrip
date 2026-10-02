@@ -61,8 +61,62 @@ const serverEnvSchema = z
         (value) => value === undefined || value.startsWith("sk-ant-"),
         "ANTHROPIC_API_KEY must be an Anthropic API key (sk-ant-…)",
       ),
+    // Stripe (premium plans). TEST MODE ONLY in this phase: live keys are
+    // refused below. All three are needed to enable premium checkout.
+    STRIPE_SECRET_KEY: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => value || undefined),
+    STRIPE_WEBHOOK_SECRET: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => value || undefined),
+    STRIPE_PREMIUM_PRICE_ID: z
+      .string()
+      .trim()
+      .optional()
+      .transform((value) => value || undefined),
   })
   .superRefine((env, ctx) => {
+    const stripeKey = env.STRIPE_SECRET_KEY;
+    if (stripeKey && /^(sk|rk)_live_/.test(stripeKey)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["STRIPE_SECRET_KEY"],
+        message:
+          "Live Stripe keys are not allowed yet: use a test key (sk_test_… or rk_test_…)",
+      });
+    } else if (stripeKey && !/^(sk|rk)_test_/.test(stripeKey)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["STRIPE_SECRET_KEY"],
+        message:
+          "STRIPE_SECRET_KEY must be a Stripe test secret key (sk_test_… or rk_test_…)",
+      });
+    }
+    if (
+      env.STRIPE_WEBHOOK_SECRET &&
+      !env.STRIPE_WEBHOOK_SECRET.startsWith("whsec_")
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["STRIPE_WEBHOOK_SECRET"],
+        message:
+          "STRIPE_WEBHOOK_SECRET must be a webhook signing secret (whsec_…)",
+      });
+    }
+    if (
+      env.STRIPE_PREMIUM_PRICE_ID &&
+      !/^price_[A-Za-z0-9]+$/.test(env.STRIPE_PREMIUM_PRICE_ID)
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["STRIPE_PREMIUM_PRICE_ID"],
+        message: "STRIPE_PREMIUM_PRICE_ID must be a Stripe price id (price_…)",
+      });
+    }
     const secret = env.SUPABASE_SECRET_KEY;
     if (
       secret &&
@@ -106,6 +160,9 @@ export function parseServerEnv(
     DUFFEL_ACCESS_TOKEN: source.DUFFEL_ACCESS_TOKEN,
     SUPABASE_SECRET_KEY: source.SUPABASE_SECRET_KEY,
     ANTHROPIC_API_KEY: source.ANTHROPIC_API_KEY,
+    STRIPE_SECRET_KEY: source.STRIPE_SECRET_KEY,
+    STRIPE_WEBHOOK_SECRET: source.STRIPE_WEBHOOK_SECRET,
+    STRIPE_PREMIUM_PRICE_ID: source.STRIPE_PREMIUM_PRICE_ID,
   });
   return result.success
     ? { ok: true, env: result.data }

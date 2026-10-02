@@ -16,7 +16,11 @@ import {
   retryPlan,
   type PlanStatus,
 } from "@/features/trip-planner";
+import { CHECKOUT_NOTICES, PremiumPanel } from "@/features/premium";
+import { getPremiumPrice } from "@/features/premium/server/billing";
+import { getPremiumStatus } from "@/features/premium/server/entitlement";
 import { requireUser } from "@/server/auth";
+import { isStripeConfigured } from "@/server/stripe/client";
 import { createClient } from "@/server/supabase/server";
 
 export const metadata: Metadata = {
@@ -35,7 +39,7 @@ export default async function PlanDetailPage({
   searchParams,
 }: PageProps<"/plans/[id]">) {
   const { id } = await params;
-  const { retry } = await searchParams;
+  const { retry, checkout } = await searchParams;
   await requireUser(`/plans/${id}`);
   if (!z.uuid().safeParse(id).success) notFound();
 
@@ -53,6 +57,16 @@ export default async function PlanDetailPage({
 
   const status = effectiveStatus(plan.status as PlanStatus, plan.updated_at);
   const notice = typeof retry === "string" ? RETRY_NOTICES[retry] : undefined;
+  const checkoutNotice =
+    typeof checkout === "string" ? CHECKOUT_NOTICES[checkout] : undefined;
+  const isReady = status === "ready" && isStoredItinerary(plan.itinerary);
+  const [premiumStatus, premiumPrice] =
+    isReady && isStripeConfigured()
+      ? await Promise.all([
+          getPremiumStatus(supabase, plan.id),
+          getPremiumPrice(),
+        ])
+      : [undefined, undefined];
 
   return (
     <Container className="flex max-w-4xl flex-col gap-6 py-10">
@@ -63,6 +77,11 @@ export default async function PlanDetailPage({
         ← My plans
       </Link>
       {notice ? <FormMessage>{notice}</FormMessage> : null}
+      {checkoutNotice ? (
+        <FormMessage tone={checkoutNotice.tone}>
+          {checkoutNotice.text}
+        </FormMessage>
+      ) : null}
 
       {status === "pending" || status === "generating" ? (
         <>
@@ -71,8 +90,17 @@ export default async function PlanDetailPage({
           </h1>
           <PlanPending startedAt={plan.created_at} />
         </>
-      ) : status === "ready" && isStoredItinerary(plan.itinerary) ? (
-        <PlanView itinerary={plan.itinerary} />
+      ) : isReady && isStoredItinerary(plan.itinerary) ? (
+        <>
+          {premiumStatus ? (
+            <PremiumPanel
+              planId={plan.id}
+              status={premiumStatus}
+              price={premiumPrice}
+            />
+          ) : null}
+          <PlanView itinerary={plan.itinerary} />
+        </>
       ) : (
         <Card role="alert" className="flex flex-col items-start gap-4 p-6">
           <h1 className="text-xl font-semibold">

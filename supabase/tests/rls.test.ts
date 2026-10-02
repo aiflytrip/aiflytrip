@@ -22,7 +22,13 @@ const USER_TABLES = [
   "travelers",
 ];
 const BILLING_TABLES = ["subscriptions", "payments"];
-const ALL_TABLES = ["profiles", ...USER_TABLES, ...BILLING_TABLES];
+const SERVER_ONLY_TABLES = ["billing_customers", "stripe_webhook_events"];
+const ALL_TABLES = [
+  "profiles",
+  ...USER_TABLES,
+  ...BILLING_TABLES,
+  ...SERVER_ONLY_TABLES,
+];
 
 let db: PGlite;
 let alice: string;
@@ -60,6 +66,7 @@ describe("migrations", () => {
       "20261002050100_trips.sql",
       "20261002050200_travelers.sql",
       "20261002050300_billing.sql",
+      "20261002060000_premium_payments.sql",
     ]);
   });
 
@@ -76,10 +83,13 @@ describe("migrations", () => {
   });
 
   it("keep helper functions out of the exposed schema", async () => {
-    const { rows } = await db.query<{ proname: string }>(
-      "select proname from pg_proc where pronamespace = 'public'::regnamespace",
+    // The only exposed function is the webhook claim, which API roles can't run.
+    const { rows } = await db.query<{ proname: string; prosecdef: boolean }>(
+      "select proname, prosecdef from pg_proc where pronamespace = 'public'::regnamespace",
     );
-    expect(rows).toEqual([]);
+    expect(rows).toEqual([
+      { proname: "claim_stripe_webhook_event", prosecdef: false },
+    ]);
   });
 });
 

@@ -124,6 +124,35 @@ roles and default grants.
   plan. The API key is server-only (`src/server/anthropic/client.ts`).
 - **Tests** inject a fake client: no network or API key needed.
 
+## Premium plans and payments (Stripe, test mode)
+
+- **Product.** One one-time "Premium Trip Plan" price per plan unlocks a
+  server-rendered PDF (`pdf-lib`, standard fonts). Defined in
+  `features/premium/config.ts`; created in Stripe by `npm run stripe:setup`
+  via a lookup key. Before every checkout the configured Price is checked
+  (active, one-time, test mode, expected amount/currency).
+- **Checkout** is Stripe-hosted (no publishable key). A server action checks
+  sign-in, plan ownership (RLS), readiness and existing purchase, links a
+  Stripe customer to the Supabase user (`billing_customers`), and creates the
+  session with metadata (user, plan, trip) and a per-minute idempotency key.
+- **Fulfilment** follows Stripe's pattern: one idempotent
+  `fulfillCheckout(sessionId)` called from both the webhook and the success
+  page. It re-reads the session (line items, PaymentIntent, latest charge),
+  validates product, ids, price and quantity, re-checks plan ownership, and
+  upserts one `payments` row per PaymentIntent. Refund state always wins.
+- **Webhook** (`/api/webhooks/stripe`): raw-body signature verification
+  (5-minute tolerance), live-mode events refused, only five event types
+  handled, and an idempotency ledger (`stripe_webhook_events` +
+  `claim_stripe_webhook_event`, service_role only) so duplicate or
+  concurrent deliveries are processed once; failures return 500 so Stripe
+  retries.
+- **Access.** Entitlement is computed with the user's own session (RLS on
+  `payments`), so only the buyer's purchase unlocks their plan; the PDF route
+  returns 404 for others' plans and 402 without a purchase. All billing
+  writes use the secret-key admin client; users can only read their rows.
+- **Test mode only.** `sk_live_`/`rk_live_` keys are rejected at startup and
+  live-mode events, sessions, prices and charges are ignored.
+
 ## Where upcoming work goes
 
 | Concern                     | Location                                                                      |
@@ -133,7 +162,6 @@ roles and default grants.
 | Server-only env vars        | `src/server/env.ts` (server-only), separate from the public `src/lib/env.ts`  |
 | Route handlers and webhooks | `src/app/api/<name>/route.ts`, delegating to `src/server/`                    |
 | Shared domain types         | `src/types/`                                                                  |
-| Payment webhooks            | `src/app/api/webhooks/<provider>/route.ts` using `createAdminClient()`        |
 
 `src/types/` will be created when the first shared type lands.
 

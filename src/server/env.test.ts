@@ -71,4 +71,36 @@ describe("parseServerEnv", () => {
     expect(result.ok).toBe(false);
     expect(JSON.stringify(result)).not.toContain(value);
   });
+
+  it("accepts Stripe test keys, price ids and webhook secrets", () => {
+    const result = parseServerEnv({
+      STRIPE_SECRET_KEY: "sk_test_abc",
+      STRIPE_PREMIUM_PRICE_ID: "price_123",
+      STRIPE_WEBHOOK_SECRET: "whsec_abc",
+    });
+    expect(result.ok).toBe(true);
+    expect(parseServerEnv({ STRIPE_SECRET_KEY: "rk_test_restricted" }).ok).toBe(
+      true,
+    );
+  });
+
+  it.each(["sk_live_realmoney", "rk_live_realmoney"])(
+    "refuses live Stripe key %s without echoing it",
+    (key) => {
+      const result = parseServerEnv({ STRIPE_SECRET_KEY: key });
+      expect(result.ok).toBe(false);
+      expect(!result.ok && result.problems.join(" ")).toMatch(
+        /Live Stripe keys are not allowed/,
+      );
+      expect(JSON.stringify(result)).not.toContain(key);
+    },
+  );
+
+  it.each([
+    [{ STRIPE_SECRET_KEY: "pk_test_publishable" }],
+    [{ STRIPE_WEBHOOK_SECRET: "sk_test_wrong_slot" }],
+    [{ STRIPE_PREMIUM_PRICE_ID: "prod_123" }],
+  ])("rejects misplaced Stripe values %j", (source) => {
+    expect(parseServerEnv(source).ok).toBe(false);
+  });
 });
