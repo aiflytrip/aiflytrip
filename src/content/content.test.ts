@@ -137,3 +137,14 @@ describe("internal links", () => {
     for (const g of guides) expect(g.related.guides).not.toContain(g.slug);
   });
 });
+
+describe("planner links", () => {
+  it("only references airports the planner accepts", async () => {
+    const { isKnownAirportCode } =
+      await import("@/features/flights/data/airports");
+    for (const d of destinations) {
+      for (const code of d.airports)
+        expect(isKnownAirportCode(code), `${d.path} -> ${code}`).toBe(true);
+    }
+  });
+});

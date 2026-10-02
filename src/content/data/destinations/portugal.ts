@@ -159,7 +159,7 @@ export const portugal: DestinationInput = {
         "It depends on your nationality and the length and purpose of your stay. Portugal follows Schengen Area rules and the EU is introducing new border systems, so check the official EU entry website and your government's travel advice before booking.",
     },
   ],
-  airports: [],
+  airports: ["LIS"],
   related: {
     destinations: [
       "/destinations/portugal/lisbon",
@@ -336,7 +336,7 @@ export const lisbon: DestinationInput = {
         "Baixa and Chiado are central and flat by Lisbon standards, with good transport links. Príncipe Real is quieter and stylish, while Alfama is charming but hilly. Pick an area close to a metro station if you plan day trips.",
     },
   ],
-  airports: [],
+  airports: ["LIS"],
   related: {
     destinations: [
       "/destinations/portugal",

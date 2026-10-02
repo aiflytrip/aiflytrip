@@ -164,7 +164,7 @@ export const italy: DestinationInput = {
         "It depends on your nationality and the purpose and length of your stay. Italy follows Schengen Area rules and the EU is introducing new border systems, so check the official EU entry website and your government's travel advice before booking.",
     },
   ],
-  airports: [],
+  airports: ["FCO"],
   related: {
     destinations: [
       "/destinations/italy/rome",
@@ -348,7 +348,7 @@ export const rome: DestinationInput = {
         "Yes. The historic centre is very walkable, and many major sights are within a short walk of each other. Comfortable shoes are essential because of the cobbled streets, and buses, trams or the metro help for longer distances.",
     },
   ],
-  airports: [],
+  airports: ["FCO"],
   related: {
     destinations: [
       "/destinations/italy",

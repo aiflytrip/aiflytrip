@@ -220,7 +220,10 @@ SEO_BASE_URL=http://localhost:3100 npm run seo:check
 2. Go to <https://search.google.com/search-console> → **Add property** →
    **Domain** → enter the domain → add the TXT record at your DNS provider →
    **Verify**.
-3. **Sitemaps** → submit `https://<domain>/sitemap.xml`. Expect 21 URLs.
+3. **Sitemaps** → enter the **full** URL `https://<domain>/sitemap.xml`
+   (Domain properties have no prefix, so `sitemap.xml` alone is rejected as
+   "Invalid sitemap address"). Expect Success with 21 discovered pages.
+   Submitted for aiflytrip.com on 2026-10-02.
 4. **URL Inspection** → test the homepage, one destination, one itinerary and
    one guide → **Request indexing**.
 5. After a few days, check **Pages** (indexing), **Enhancements**
