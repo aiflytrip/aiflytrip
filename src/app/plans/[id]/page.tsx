@@ -18,6 +18,7 @@ import {
   type PlanStatus,
 } from "@/features/trip-planner";
 import { CHECKOUT_NOTICES, PremiumPanel } from "@/features/premium";
+import { PlanActions } from "@/features/premium/components/plan-actions";
 import { getPremiumPrice } from "@/features/premium/server/billing";
 import { getPremiumStatus } from "@/features/premium/server/entitlement";
 import { requireUser } from "@/server/auth";
@@ -64,14 +65,15 @@ export default async function PlanDetailPage({
     typeof checkout === "string" ? CHECKOUT_NOTICES[checkout] : undefined;
   const isReady = status === "ready" && isStoredItinerary(plan.itinerary);
   const isGenerating = status === "pending" || status === "generating";
-  // Route details for the progress screen (RLS: only the owner's trip).
-  const { data: trip } = isGenerating
-    ? await supabase
-        .from("trips")
-        .select("origin, destination")
-        .eq("id", plan.trip_id)
-        .maybeSingle()
-    : { data: null };
+  // Trip details for the progress screen and itinerary (RLS: owner only).
+  const { data: trip } =
+    isGenerating || isReady
+      ? await supabase
+          .from("trips")
+          .select("origin, destination, cabin, adults")
+          .eq("id", plan.trip_id)
+          .maybeSingle()
+      : { data: null };
   const [premiumStatus, premiumPrice] =
     isReady && isStripeConfigured()
       ? await Promise.all([
@@ -107,6 +109,17 @@ export default async function PlanDetailPage({
         />
       ) : isReady && isStoredItinerary(plan.itinerary) ? (
         <>
+          <PlanView
+            itinerary={plan.itinerary}
+            trip={{ cabin: trip?.cabin, travellers: trip?.adults }}
+            actions={
+              <PlanActions
+                planId={plan.id}
+                status={premiumStatus}
+                price={premiumPrice}
+              />
+            }
+          />
           {premiumStatus ? (
             <PremiumPanel
               planId={plan.id}
@@ -114,7 +127,6 @@ export default async function PlanDetailPage({
               price={premiumPrice}
             />
           ) : null}
-          <PlanView itinerary={plan.itinerary} />
         </>
       ) : (
         <Card role="alert" className="flex flex-col items-start gap-4 p-6">

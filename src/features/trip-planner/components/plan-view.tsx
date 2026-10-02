@@ -4,7 +4,10 @@ import { type ReactNode } from "react";
 import { Badge } from "@/components/ui/badge";
 import { photoForAirport } from "@/content/data/photos";
 import { PhotoCredit } from "@/features/content/components/photo-credit";
+import { getAirport } from "@/features/flights/data/airports";
 import { formatDate } from "@/features/flights/lib/format";
+import { CABIN_LABELS, type CabinClass } from "@/features/flights/types";
+import { ITINERARY_NOTICE } from "@/features/premium/lib/itinerary-notice";
 import {
   type FlightOptionSnapshot,
   type LegSnapshot,
@@ -220,6 +223,128 @@ function FlightMarker({ label, leg }: { label: string; leg: LegSnapshot }) {
   );
 }
 
+const airportName = (code: string) => {
+  const airport = getAirport(code);
+  return airport ? `${airport.name}, ${airport.city}` : code;
+};
+
+/** Per-flight list for one leg; falls back to the leg summary for older plans. */
+function ItineraryLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
+  const segments = leg.segments ?? [];
+  return (
+    <div className="flex flex-col gap-3">
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="font-semibold text-white">
+          {label}: {leg.from} → {leg.to}
+        </h3>
+        <p className="text-xs text-muted-foreground">
+          Total {leg.duration} ·{" "}
+          {leg.stops === 0
+            ? "nonstop"
+            : `${leg.stops} stop${leg.stops === 1 ? "" : "s"} via ${leg.via.join(", ")}`}
+        </p>
+      </div>
+      {segments.length === 0 ? (
+        <p className="text-sm text-muted-foreground">
+          Departs {leg.departs} · arrives {leg.arrives}
+        </p>
+      ) : (
+        <ol className="flex flex-col gap-2">
+          {segments.map((segment, index) => (
+            <li
+              key={`${segment.flightNumber}-${index}`}
+              className="flex flex-col gap-2"
+            >
+              <div className="rounded-2xl border border-white/[0.07] bg-white/[0.03] p-4">
+                <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm">
+                  <span className="rounded-md bg-primary/15 px-2 py-0.5 font-mono text-primary">
+                    {segment.flightNumber}
+                  </span>
+                  <span className="font-semibold text-white">
+                    {segment.airline}
+                  </span>
+                  {segment.operatedBy ? (
+                    <span className="text-muted-foreground">
+                      operated by {segment.operatedBy}
+                    </span>
+                  ) : null}
+                  <span className="ml-auto text-xs text-muted-foreground">
+                    {segment.duration}
+                  </span>
+                </p>
+                <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
+                  <div>
+                    <dt className="text-xs text-muted-foreground">Depart</dt>
+                    <dd className="text-white">{segment.departs}</dd>
+                    <dd className="text-muted-foreground">
+                      {segment.from} · {airportName(segment.from)}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-xs text-muted-foreground">Arrive</dt>
+                    <dd className="text-white">{segment.arrives}</dd>
+                    <dd className="text-muted-foreground">
+                      {segment.to} · {airportName(segment.to)}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+              {index < segments.length - 1 ? (
+                <p className="pl-4 text-xs text-muted-foreground">
+                  Connection in {segment.to}
+                </p>
+              ) : null}
+            </li>
+          ))}
+        </ol>
+      )}
+    </div>
+  );
+}
+
+function ProposedItinerary({
+  option,
+  trip,
+  actions,
+}: {
+  option: FlightOptionSnapshot;
+  trip?: { cabin?: CabinClass | null; travellers?: number | null };
+  actions?: ReactNode;
+}) {
+  const details = [
+    option.airlines.join(", "),
+    trip?.cabin ? CABIN_LABELS[trip.cabin] : null,
+    trip?.travellers
+      ? `${trip.travellers} traveller${trip.travellers === 1 ? "" : "s"}`
+      : null,
+  ].filter(Boolean);
+  return (
+    <div
+      id="itinerary"
+      className="glass flex scroll-mt-24 flex-col gap-5 rounded-3xl p-5 sm:p-6"
+    >
+      <div className="flex flex-col gap-1">
+        <p className="eyebrow text-[11px]">Proposed flight itinerary</p>
+        <p className="font-semibold text-white">{details.join(" · ")}</p>
+      </div>
+      <p className="rounded-2xl border border-amber-400/40 bg-amber-400/10 p-4 text-sm font-semibold text-amber-200">
+        {ITINERARY_NOTICE}
+      </p>
+      <ItineraryLeg label="Outbound" leg={option.outbound} />
+      {option.inbound ? (
+        <ItineraryLeg label="Return" leg={option.inbound} />
+      ) : null}
+      <p className="text-xs text-muted-foreground">
+        Times are local to each airport. Flight details can change and offers
+        expire; check with the airline before booking.
+      </p>
+      {actions ? (
+        <div className="border-t border-white/[0.07] pt-5">{actions}</div>
+      ) : null}
+    </div>
+  );
+}
+
 const SLOTS = [
   { key: "morning", label: "Morning", icon: "morning", tint: "text-amber-300" },
   {
@@ -236,7 +361,16 @@ const SLOTS = [
   },
 ] as const;
 
-export function PlanView({ itinerary }: { itinerary: StoredItinerary }) {
+export function PlanView({
+  itinerary,
+  actions,
+  trip,
+}: {
+  itinerary: StoredItinerary;
+  /** Download / create buttons, rendered under the header and the itinerary. */
+  actions?: ReactNode;
+  trip?: { cabin?: CabinClass | null; travellers?: number | null };
+}) {
   const { plan, flightOptions, flightSource } = itinerary;
   const recommended = flightOptions.find(
     (option) => option.id === plan.flight.recommended_offer_id,
@@ -322,6 +456,28 @@ export function PlanView({ itinerary }: { itinerary: StoredItinerary }) {
         ))}
       </dl>
 
+      {actions ? (
+        <div className="glass flex flex-col gap-3 rounded-2xl p-4 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-sm text-muted-foreground">
+            {recommended ? (
+              <>
+                Includes a{" "}
+                <a
+                  href="#itinerary"
+                  className="font-semibold text-primary hover:text-primary-hover"
+                >
+                  proposed flight itinerary
+                </a>{" "}
+                and the full day-by-day plan.
+              </>
+            ) : (
+              "Includes the full day-by-day plan and budget."
+            )}
+          </p>
+          {actions}
+        </div>
+      ) : null}
+
       <section aria-labelledby="flight-heading" className="flex flex-col gap-4">
         <SectionTitle id="flight-heading" icon="plane">
           Suggested flight
@@ -340,6 +496,13 @@ export function PlanView({ itinerary }: { itinerary: StoredItinerary }) {
           Flight options are from a test environment: schedules and prices
           aren&apos;t real and can&apos;t be booked.
         </p>
+        {recommended ? (
+          <ProposedItinerary
+            option={recommended}
+            trip={trip}
+            actions={actions}
+          />
+        ) : null}
       </section>
 
       <section aria-labelledby="days-heading" className="flex flex-col gap-5">

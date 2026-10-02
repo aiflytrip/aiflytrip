@@ -7,6 +7,7 @@ import {
 } from "pdf-lib";
 
 import { getAirport } from "@/features/flights/data/airports";
+import { ITINERARY_NOTICE } from "@/features/premium/lib/itinerary-notice";
 import { CABIN_LABELS, type CabinClass } from "@/features/flights/types";
 import {
   type FlightOptionSnapshot,
@@ -26,9 +27,7 @@ const COLORS = {
   warningBg: rgb(1, 0.96, 0.9),
 };
 
-/** Shown on every itinerary: this document must never pass as a ticket. */
-export const ITINERARY_NOTICE =
-  "NOT A TICKET OR RESERVATION. This is a proposed flight itinerary from an AI-generated trip plan. No seat is booked or held, there is no booking reference, and it cannot be used to board a flight or as proof of a booking.";
+export { ITINERARY_NOTICE } from "@/features/premium/lib/itinerary-notice";
 
 // Characters outside Latin-1 that WinAnsi (the standard PDF fonts) can encode.
 const WIN_ANSI_EXTRAS = new Set("€‚ƒ„…†‡ˆ‰Š‹ŒŽ‘’“”•–—˜™š›œžŸ");
