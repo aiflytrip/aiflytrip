@@ -18,6 +18,7 @@ import {
   RelatedLinks,
   SourcesList,
 } from "@/features/content/components/blocks";
+import { destinationArt } from "@/features/content/destination-art";
 import {
   destinationLinks,
   guideLinks,
@@ -56,23 +57,41 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
       {isIndexable(page) ? (
         <JsonLd data={graph(destinationLd(page), faqLd(page.faqs))} />
       ) : null}
-      <div className="flex flex-col gap-4">
-        <Breadcrumbs crumbs={destinationCrumbs(page)} />
-        <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          {page.headline}
-        </h1>
-        <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
-          {page.intro}
-        </p>
-        {parent ? (
-          <p className="text-sm text-muted-foreground">
-            Part of our{" "}
-            <Link href={parent.path} className="text-primary hover:underline">
-              {parent.name} travel planning guide
-            </Link>
-            .
+      <div
+        className="relative flex flex-col gap-4 overflow-hidden rounded-[28px] border border-white/10 p-6 sm:p-10"
+        style={{ background: destinationArt(page.slug).background }}
+      >
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-4 -bottom-8 font-display text-[160px] leading-none font-bold text-white/[0.08] sm:text-[220px]"
+        >
+          {destinationArt(page.slug).mark}
+        </span>
+        <div
+          className="absolute inset-0 bg-linear-to-t from-background/85 via-background/40 to-background/10"
+          aria-hidden="true"
+        />
+        <div className="relative flex flex-col gap-4">
+          <Breadcrumbs crumbs={destinationCrumbs(page)} />
+          <h1 className="text-4xl font-bold text-balance text-white sm:text-5xl">
+            {page.headline}
+          </h1>
+          <p className="max-w-3xl text-lg leading-8 text-white/85">
+            {page.intro}
           </p>
-        ) : null}
+          {parent ? (
+            <p className="text-sm text-white/85">
+              Part of our{" "}
+              <Link
+                href={parent.path}
+                className="font-semibold text-white underline underline-offset-4"
+              >
+                {parent.name} travel planning guide
+              </Link>
+              .
+            </p>
+          ) : null}
+        </div>
       </div>
 
       <ContentSection id="overview" title={`${page.name} at a glance`}>

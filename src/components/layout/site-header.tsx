@@ -8,7 +8,7 @@ import { AuthNav } from "@/features/auth";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-background/80 backdrop-blur">
+    <header className="sticky top-0 z-40 border-b border-white/5 bg-background/70 backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between gap-6">
         <Logo />
         <nav aria-label="Main" className="hidden lg:block">
@@ -17,7 +17,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                  className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
                 >
                   {item.label}
                 </Link>

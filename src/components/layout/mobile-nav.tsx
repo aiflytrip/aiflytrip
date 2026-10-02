@@ -36,7 +36,7 @@ export function MobileNav({ items }: { items: readonly NavItem[] }) {
         id={panelId}
         aria-label="Main"
         hidden={!open}
-        className="absolute inset-x-0 top-16 border-b border-border bg-background shadow-lg"
+        className="absolute inset-x-0 top-16 border-b border-white/10 bg-background/95 shadow-2xl backdrop-blur-xl"
       >
         <ul className="flex flex-col p-2">
           {items.map((item) => (

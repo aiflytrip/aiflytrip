@@ -8,13 +8,13 @@ export function Logo({ className }: { className?: string }) {
     <Link
       href="/"
       className={cn(
-        "flex items-center gap-2 text-lg font-semibold tracking-tight",
+        "flex items-center gap-2.5 font-display text-xl font-bold tracking-tight",
         className,
       )}
     >
       <span
         aria-hidden="true"
-        className="grid size-8 place-items-center rounded-lg bg-primary text-primary-foreground"
+        className="grid size-9 place-items-center rounded-xl bg-linear-to-br from-primary to-violet text-primary-foreground shadow-[0_8px_24px_-8px_rgb(56_189_248/0.6)]"
       >
         <PlaneIcon className="size-4" />
       </span>

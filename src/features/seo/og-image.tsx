@@ -24,8 +24,8 @@ export function renderOgImage({
         justifyContent: "space-between",
         padding: "72px 80px",
         background:
-          "linear-gradient(135deg, #e0f2fe 0%, #ffffff 55%, #f0f9ff 100%)",
-        color: "#0b1324",
+          "radial-gradient(circle at 15% 10%, rgba(56,189,248,0.35), transparent 45%), radial-gradient(circle at 90% 30%, rgba(167,139,250,0.32), transparent 50%), #070b16",
+        color: "#ffffff",
         fontFamily: "sans-serif",
       }}
     >
@@ -35,8 +35,8 @@ export function renderOgImage({
             width: 64,
             height: 64,
             borderRadius: 16,
-            background: "#0369a1",
-            color: "#ffffff",
+            background: "linear-gradient(135deg, #38bdf8, #a78bfa)",
+            color: "#04121f",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -49,7 +49,7 @@ export function renderOgImage({
         <div style={{ fontSize: 36, fontWeight: 700 }}>AIFlyTrip</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-        <div style={{ fontSize: 30, color: "#0369a1", fontWeight: 600 }}>
+        <div style={{ fontSize: 30, color: "#7dd3fc", fontWeight: 600 }}>
           {eyebrow}
         </div>
         <div
@@ -63,7 +63,7 @@ export function renderOgImage({
           {title}
         </div>
       </div>
-      <div style={{ fontSize: 26, color: "#526079" }}>
+      <div style={{ fontSize: 26, color: "#a2abbf" }}>
         AI trip planner · personalized itineraries
       </div>
     </div>,

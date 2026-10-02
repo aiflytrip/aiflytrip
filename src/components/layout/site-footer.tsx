@@ -49,7 +49,7 @@ export function SiteFooter() {
   ];
 
   return (
-    <footer className="border-t border-border">
+    <footer className="border-t border-white/[0.07] bg-background/60">
       <Container className="flex flex-col gap-10 py-10">
         <nav
           aria-label="Footer"
@@ -57,7 +57,7 @@ export function SiteFooter() {
         >
           {columns.map((column) => (
             <div key={column.title}>
-              <p className="text-sm font-semibold">{column.title}</p>
+              <p className="eyebrow">{column.title}</p>
               <ul className="mt-3 flex flex-col gap-2 text-sm text-muted-foreground">
                 {column.links.map((link) => (
                   <li key={link.href}>
@@ -73,7 +73,7 @@ export function SiteFooter() {
             </div>
           ))}
         </nav>
-        <div className="flex flex-col gap-2 border-t border-border pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-2 border-t border-white/[0.07] pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>
             © {new Date().getFullYear()} {siteConfig.name}. Planning tool only:
             AIFlyTrip doesn&apos;t book flights or hotels.

@@ -12,9 +12,11 @@ type ButtonStyleProps = {
 };
 
 const variantClasses: Record<ButtonVariant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
-  secondary: "border border-border bg-card text-foreground hover:bg-muted",
-  ghost: "text-muted-foreground hover:bg-muted hover:text-foreground",
+  primary:
+    "bg-primary font-semibold text-primary-foreground hover:-translate-y-0.5 hover:bg-primary-hover hover:shadow-[0_0_0_4px_rgb(56_189_248/0.18),0_14px_40px_-12px_rgb(56_189_248/0.7)]",
+  secondary:
+    "border border-white/15 bg-white/5 text-foreground backdrop-blur hover:-translate-y-0.5 hover:bg-white/10",
+  ghost: "text-muted-foreground hover:bg-white/5 hover:text-foreground",
 };
 
 const sizeClasses: Record<ButtonSize, string> = {
@@ -29,7 +31,7 @@ export function buttonVariants({
   size = "md",
 }: ButtonStyleProps = {}): string {
   return cn(
-    "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-colors disabled:pointer-events-none disabled:opacity-50",
+    "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap transition-all duration-200 disabled:pointer-events-none disabled:opacity-50",
     variantClasses[variant],
     sizeClasses[size],
   );

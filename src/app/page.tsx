@@ -1,17 +1,19 @@
 import Link from "next/link";
 
-import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
+import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import {
   countries,
   publishedGuides,
   publishedItineraries,
 } from "@/content/registry";
+import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
 import { FaqList } from "@/features/content/components/blocks";
+import { destinationArt } from "@/features/content/destination-art";
 import { FlightSearchForm } from "@/features/flights";
 import { FeatureGrid, Hero, HowItWorks } from "@/features/marketing";
 import { homeFaqs } from "@/features/marketing/content";
+import { SectionHeading } from "@/features/marketing/components/section-heading";
 import { JsonLd } from "@/features/seo/components";
 import {
   faqLd,
@@ -34,88 +36,105 @@ export default function HomePage() {
     <>
       <JsonLd data={graph(websiteLd(), organizationLd(), faqLd(homeFaqs))} />
       <Hero />
-      <FeatureGrid />
       <HowItWorks />
 
       <section
         aria-labelledby="destinations-heading"
-        className="py-16 sm:py-20"
+        className="py-20 sm:py-24"
       >
-        <Container className="flex flex-col gap-8">
-          <div className="flex flex-col gap-2 text-center">
-            <h2
+        <Container className="flex flex-col gap-10">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeading
               id="destinations-heading"
-              className="text-3xl font-semibold tracking-tight"
+              eyebrow="Destination guides"
+              title="Start with where you want to go"
+              description="When to go, how long to stay and what to see, with official sources."
+              align="left"
+            />
+            <Link
+              href="/destinations"
+              className="reveal text-sm font-semibold text-primary hover:text-primary-hover"
             >
-              Destination guides to start planning
-            </h2>
-            <p className="text-muted-foreground">
-              When to go, how long to stay and what to see, with official
-              sources.
-            </p>
+              Browse all destination guides →
+            </Link>
           </div>
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {countries().map((country) => (
-              <li key={country.path}>
-                <Link
-                  href={country.path}
-                  className="block h-full rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary"
-                >
-                  <span className="text-lg font-semibold">{country.name}</span>
-                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                    {country.tripLength.summary}
-                  </span>
-                </Link>
-              </li>
-            ))}
+          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {countries().map((country) => {
+              const art = destinationArt(country.slug);
+              return (
+                <li key={country.path} className="reveal">
+                  <Link
+                    href={country.path}
+                    className="lift relative flex h-80 flex-col justify-end overflow-hidden rounded-3xl border border-white/10 p-6 text-white"
+                    style={{ background: art.background }}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="absolute top-4 right-4 rounded-lg bg-background/55 px-2.5 py-1 font-mono text-xs"
+                    >
+                      {country.airports[0] ?? art.mark}
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="absolute top-10 -left-2 font-display text-[120px] leading-none font-bold text-white/[0.07]"
+                    >
+                      {art.mark}
+                    </span>
+                    <span className="relative font-display text-3xl font-bold">
+                      {country.name}
+                    </span>
+                    <span className="relative mt-1 text-sm text-white/80">
+                      {country.tripLength.summary}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
-          <Link
-            href="/destinations"
-            className="self-center text-sm font-medium text-primary hover:underline"
-          >
-            Browse all destination guides
-          </Link>
         </Container>
       </section>
 
-      <section
-        aria-labelledby="itineraries-heading"
-        className="bg-muted py-16 sm:py-20"
-      >
-        <Container className="grid gap-10 lg:grid-cols-2">
-          <div className="flex flex-col gap-4">
+      <FeatureGrid />
+
+      <section aria-labelledby="itineraries-heading" className="py-20 sm:py-24">
+        <Container className="flex flex-wrap gap-5">
+          <div className="glass reveal flex min-w-0 flex-[1_1_min(520px,100%)] flex-col gap-4 rounded-[28px] p-8">
+            <p className="eyebrow">Ready-made itineraries</p>
             <h2
               id="itineraries-heading"
-              className="text-2xl font-semibold tracking-tight"
+              className="text-3xl font-bold text-white"
             >
-              Ready-made itineraries
+              Hand-written day plans
             </h2>
             <ul className="flex flex-col gap-3">
               {publishedItineraries().map((it) => (
                 <li key={it.path}>
                   <Link
                     href={it.path}
-                    className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-card p-4 hover:border-primary"
+                    className="lift flex items-center justify-between gap-3 rounded-2xl border border-white/[0.07] bg-white/[0.035] px-4.5 py-4 text-white"
                   >
-                    <span className="font-medium">{it.name}</span>
-                    <Badge variant="accent">{it.days} days</Badge>
+                    <span className="font-semibold">{it.name}</span>
+                    <span className="rounded-full bg-primary px-2.5 py-1 font-mono text-xs text-primary-foreground">
+                      {it.days} DAYS
+                    </span>
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="flex flex-col gap-4">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Travel planning guides
+          <div className="glass reveal flex min-w-0 flex-[1_1_min(380px,100%)] flex-col gap-4 rounded-[28px] p-8">
+            <p className="eyebrow">Travel planning guides</p>
+            <h2 className="text-3xl font-bold text-white">
+              Plan smarter, not longer
             </h2>
             <ul className="flex flex-col gap-3">
               {publishedGuides().map((guide) => (
                 <li key={guide.path}>
                   <Link
                     href={guide.path}
-                    className="block rounded-2xl border border-border bg-card p-4 hover:border-primary"
+                    className="lift block rounded-2xl border border-white/[0.07] bg-white/[0.035] px-4.5 py-4 font-semibold text-white"
                   >
-                    <span className="font-medium">{guide.headline}</span>
+                    {guide.headline}
                   </Link>
                 </li>
               ))}
@@ -124,30 +143,73 @@ export default function HomePage() {
         </Container>
       </section>
 
-      <section aria-labelledby="flights-heading" className="py-16 sm:py-20">
-        <Container className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2 text-center">
-            <h2
-              id="flights-heading"
-              className="text-2xl font-semibold tracking-tight"
-            >
-              Compare flight options
-            </h2>
-            <p className="text-muted-foreground">
-              Search flights by route and dates.{" "}
-              <Badge className="align-middle">Test data</Badge> Schedules and
-              prices are examples for planning, not bookable fares.
-            </p>
+      <section aria-labelledby="premium-heading" className="pb-20 sm:pb-24">
+        <Container>
+          <div className="reveal flex flex-wrap items-center justify-between gap-6 rounded-[28px] border border-white/10 bg-linear-to-br from-primary/20 to-violet/20 p-8 sm:p-10">
+            <div className="max-w-2xl">
+              <p className="eyebrow text-accent-foreground">Premium</p>
+              <h2
+                id="premium-heading"
+                className="mt-3 text-3xl font-bold text-white"
+              >
+                Take your plan offline
+              </h2>
+              <p className="mt-3 leading-relaxed text-white/85">
+                Download a printable PDF of your trip: the day-by-day plan, a
+                proposed flight itinerary and the budget. Currently in test
+                mode, so no real payments are taken.
+              </p>
+            </div>
+            <ButtonLink href="/travel-planner" variant="secondary" size="lg">
+              Learn about the planner
+            </ButtonLink>
           </div>
-          <Card className="mx-auto w-full max-w-5xl p-5 sm:p-6">
+        </Container>
+      </section>
+
+      <section aria-labelledby="flights-heading" className="pb-20 sm:pb-24">
+        <Container className="flex flex-col gap-8">
+          <SectionHeading
+            id="flights-heading"
+            eyebrow="Flight search"
+            title="Compare flight options"
+            description="Search by route and dates. Results come from a test environment: schedules and prices are examples for planning, not bookable fares."
+          />
+          <div className="glass reveal mx-auto w-full max-w-5xl rounded-3xl p-5 sm:p-7">
             <FlightSearchForm />
-          </Card>
+          </div>
         </Container>
       </section>
 
       <Container className="max-w-3xl pb-20">
         <FaqList faqs={homeFaqs} headingId="home-faq-heading" />
       </Container>
+
+      <section className="pb-24">
+        <Container>
+          <div className="glass reveal relative flex flex-col items-center gap-5 overflow-hidden rounded-[32px] px-6 py-16 text-center sm:py-20">
+            <div
+              aria-hidden="true"
+              className="orb -bottom-56 left-1/2 -ml-[320px] h-[420px] w-[640px] bg-[radial-gradient(circle,rgb(56_189_248/0.3),transparent_70%)]"
+            />
+            <h2 className="relative max-w-3xl text-[clamp(2.1rem,4.5vw,3.5rem)] leading-[1.05] font-bold text-balance text-white">
+              Your next trip, planned in minutes
+            </h2>
+            <p className="relative max-w-xl text-lg leading-relaxed text-muted-foreground">
+              Tell us where and when. We&apos;ll draft the days, compare flight
+              options and estimate the budget.
+            </p>
+            <PlannerCtaLink
+              href="/plan"
+              placement="home_footer_cta"
+              size="lg"
+              className="relative"
+            >
+              Create your personalized trip plan
+            </PlannerCtaLink>
+          </div>
+        </Container>
+      </section>
     </>
   );
 }

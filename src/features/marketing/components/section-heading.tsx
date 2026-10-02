@@ -1,20 +1,29 @@
+import { cn } from "@/lib/utils";
+
 export function SectionHeading({
   id,
   eyebrow,
   title,
   description,
+  align = "center",
 }: {
   id: string;
   eyebrow: string;
   title: string;
   description?: string;
+  align?: "center" | "left";
 }) {
   return (
-    <div className="mx-auto max-w-2xl text-center">
-      <p className="text-sm font-semibold text-primary">{eyebrow}</p>
+    <div
+      className={cn(
+        "reveal max-w-2xl",
+        align === "center" ? "mx-auto text-center" : "text-left",
+      )}
+    >
+      <p className="eyebrow">{eyebrow}</p>
       <h2
         id={id}
-        className="mt-2 text-3xl font-semibold tracking-tight text-balance sm:text-4xl"
+        className="mt-3 text-[clamp(2rem,4vw,2.875rem)] leading-tight font-bold text-balance text-white"
       >
         {title}
       </h2>
