@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { FormMessage } from "@/features/auth";
+import { getAirport } from "@/features/flights/data/airports";
 import {
   effectiveStatus,
   failureMessage,
@@ -49,7 +50,9 @@ export default async function PlanDetailPage({
   // RLS: another user's plan id returns no row, i.e. a 404.
   const { data: plan, error } = await supabase
     .from("travel_plans")
-    .select("id, status, itinerary, error_message, created_at, updated_at")
+    .select(
+      "id, trip_id, status, itinerary, error_message, created_at, updated_at",
+    )
     .eq("id", id)
     .maybeSingle();
   if (error) console.error("[plans] load failed", { code: error.code });
@@ -60,6 +63,15 @@ export default async function PlanDetailPage({
   const checkoutNotice =
     typeof checkout === "string" ? CHECKOUT_NOTICES[checkout] : undefined;
   const isReady = status === "ready" && isStoredItinerary(plan.itinerary);
+  const isGenerating = status === "pending" || status === "generating";
+  // Route details for the progress screen (RLS: only the owner's trip).
+  const { data: trip } = isGenerating
+    ? await supabase
+        .from("trips")
+        .select("origin, destination")
+        .eq("id", plan.trip_id)
+        .maybeSingle()
+    : { data: null };
   const [premiumStatus, premiumPrice] =
     isReady && isStripeConfigured()
       ? await Promise.all([
@@ -83,13 +95,16 @@ export default async function PlanDetailPage({
         </FormMessage>
       ) : null}
 
-      {status === "pending" || status === "generating" ? (
-        <>
-          <h1 className="text-3xl font-semibold tracking-tight">
-            Creating your plan
-          </h1>
-          <PlanPending startedAt={plan.created_at} />
-        </>
+      {isGenerating ? (
+        <PlanPending
+          startedAt={plan.created_at}
+          origin={trip?.origin ?? undefined}
+          destination={trip?.destination ?? undefined}
+          originCity={trip?.origin ? getAirport(trip.origin)?.city : undefined}
+          destinationCity={
+            trip?.destination ? getAirport(trip.destination)?.city : undefined
+          }
+        />
       ) : isReady && isStoredItinerary(plan.itinerary) ? (
         <>
           {premiumStatus ? (
