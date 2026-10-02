@@ -25,13 +25,13 @@ export const metadata: Metadata = {
   },
   description: siteConfig.description,
   applicationName: siteConfig.name,
-  alternates: { canonical: "/" },
+  // Canonical URLs are set per page: a layout-level value would be inherited
+  // by every route and mark them all as duplicates of the homepage.
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
     title: siteConfig.name,
     description: siteConfig.description,
-    url: "/",
   },
   twitter: {
     card: "summary",

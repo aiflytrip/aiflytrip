@@ -12,6 +12,7 @@ export const siteConfig = {
     "AIFlyTrip helps you find flights and plan trips with an AI travel assistant that understands what you actually want.",
   url: env.siteUrl,
   nav: [
+    { label: "Flights", href: "/flights" },
     { label: "Features", href: "/#features" },
     { label: "How it works", href: "/#how-it-works" },
   ] satisfies NavItem[],
