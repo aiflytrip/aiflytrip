@@ -24,7 +24,7 @@ export function GET() {
     "",
     `> ${siteConfig.description}`,
     "",
-    "AIFlyTrip is an AI trip planner. Signed-in users get a personalized day-by-day itinerary, a flight suggestion and a budget estimate. It does not book flights or hotels. Public guides link to official sources for entry requirements, prices and timetables, which change.",
+    "AIFlyTrip is a free AI trip planner. Anyone can create a personalized day-by-day itinerary with a flight suggestion and a budget estimate, without signing up; only an optional PDF is paid. It does not book flights or hotels. Public guides link to official sources for entry requirements, prices and timetables, which change.",
     "",
     "## Product",
     "",

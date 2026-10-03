@@ -52,7 +52,10 @@ export function webApplicationLd(): Thing {
     applicationCategory: "TravelApplication",
     operatingSystem: "Any (web browser)",
     description:
-      "Creates a personalized, day-by-day trip plan with a flight suggestion and budget estimate from your dates, budget, pace and interests.",
+      "Free AI trip planner: creates a personalized, day-by-day trip plan with a flight suggestion and budget estimate from your dates, budget, pace and interests.",
+    // Planning is free; only an optional PDF is paid (no Offer markup: no
+    // prices are claimed in structured data).
+    isAccessibleForFree: true,
     publisher: { "@id": ORG_ID() },
   };
 }

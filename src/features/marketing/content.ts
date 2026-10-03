@@ -51,7 +51,12 @@ export const homeFaqs: Faq[] = [
   {
     question: "What is AIFlyTrip?",
     answer:
-      "AIFlyTrip is an AI trip planner. You enter your trip details and preferences, and it creates a personalized, day-by-day travel itinerary with a suggested flight and an estimated budget. It also offers destination guides, ready-made itineraries and travel planning advice.",
+      "AIFlyTrip is a free AI trip planner. You enter your trip details and preferences, and it creates a personalized, day-by-day travel itinerary with a suggested flight and an estimated budget. It also offers free destination guides, ready-made itineraries and travel planning advice.",
+  },
+  {
+    question: "Is AIFlyTrip free?",
+    answer:
+      "Yes. Creating trip plans, reading destination guides, itineraries and the blog, and comparing flight options are all free, and you don't need an account to create a plan. The only paid extra is an optional printable PDF of a plan, which is currently in test mode.",
   },
   {
     question: "How is an AI trip planner different from a travel guide?",

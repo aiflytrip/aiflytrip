@@ -7,9 +7,9 @@ export type NavItem = {
 
 export const siteConfig = {
   name: "AIFlyTrip",
-  tagline: "Your AI trip planner.",
+  tagline: "Your free AI trip planner.",
   description:
-    "AIFlyTrip is an AI trip planner that turns your dates, budget and interests into a personalized, day-by-day travel itinerary with flight options and a budget estimate.",
+    "AIFlyTrip is a free AI trip planner that turns your dates, budget and interests into a personalized, day-by-day travel itinerary with flight options and a budget estimate.",
   url: env.siteUrl,
   nav: [
     { label: "AI trip planner", href: "/travel-planner" },

@@ -6,7 +6,7 @@ import { Breadcrumbs } from "@/features/seo/components";
 import { pageMetadata } from "@/features/seo/metadata";
 
 export const metadata = pageMetadata({
-  title: "Destination travel guides: plan your next trip",
+  title: "Free destination travel guides: plan your next trip",
   description:
     "Travel planning guides for popular destinations: when to visit, how many days to spend, what to see, how to get around and practical tips.",
   path: "/destinations",

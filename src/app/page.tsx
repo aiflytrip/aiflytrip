@@ -28,10 +28,10 @@ import { pageMetadata } from "@/features/seo/metadata";
 export const revalidate = 3600;
 
 export const metadata = pageMetadata({
-  title: "AIFlyTrip: AI trip planner and itinerary generator",
+  title: "AIFlyTrip: free AI trip planner and itinerary generator",
   absoluteTitle: true,
   description:
-    "AIFlyTrip is an AI trip planner that turns your dates, budget and interests into a personalized day-by-day itinerary, with flight options and a budget estimate.",
+    "AIFlyTrip is a free AI trip planner: turn your dates, budget and interests into a personalized day-by-day itinerary, with flight options. No sign-up needed.",
   path: "/",
 });
 
@@ -198,7 +198,7 @@ export default function HomePage() {
               size="lg"
               className="relative"
             >
-              Create your personalized trip plan
+              Create your free trip plan
             </PlannerCtaLink>
           </div>
         </Container>

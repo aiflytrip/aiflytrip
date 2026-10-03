@@ -18,9 +18,9 @@ import { faqLd, graph, webApplicationLd } from "@/features/seo/json-ld";
 import { pageMetadata } from "@/features/seo/metadata";
 
 export const metadata = pageMetadata({
-  title: "AI trip planner: personalized day-by-day itineraries",
+  title: "Free AI trip planner: personalized day-by-day itineraries",
   description:
-    "Use AIFlyTrip's AI trip planner to turn your dates, budget, pace and interests into a day-by-day travel itinerary with flight options and a budget estimate.",
+    "Use AIFlyTrip's free AI trip planner to turn your dates, budget, pace and interests into a day-by-day itinerary with flight options. No sign-up needed.",
   path: "/travel-planner",
 });
 
@@ -46,9 +46,9 @@ const FAQS: Faq[] = [
       "It creates a personalized trip plan with a title and summary, a suggested flight from the options found for your dates, a morning, afternoon and evening plan for each day, an estimated budget by category, a packing list, practical tips and things to check before you go.",
   },
   {
-    question: "Do I need an account to use the trip planner?",
+    question: "Is the AI trip planner free, and do I need an account?",
     answer:
-      "Yes. Creating a plan requires a free AIFlyTrip account, so your plans can be saved privately and revisited from any device. Your plans are only visible to you when you're signed in.",
+      "The planner is free and you don't need an account to create a plan: you can start straight away as a guest, and your plans stay private to you. Create a free account if you want to keep your plans across devices or get the optional PDF.",
   },
   {
     question: "Can I book flights or hotels through AIFlyTrip?",
@@ -79,13 +79,13 @@ export default function TravelPlannerPage() {
           ]}
         />
         <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          AI trip planner for personalized travel itineraries
+          Free AI trip planner for personalized travel itineraries
         </h1>
         <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
-          Plan a trip in minutes instead of hours. Tell AIFlyTrip where and when
-          you&apos;re going, how you like to travel and what you enjoy, and get
-          a day-by-day itinerary with a flight suggestion and a budget estimate
-          you can refine.
+          Plan a trip in minutes instead of hours, free and with no sign-up.
+          Tell AIFlyTrip where and when you&apos;re going, how you like to
+          travel and what you enjoy, and get a day-by-day itinerary with a
+          flight suggestion and a budget estimate you can refine.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <PlannerCtaLink
@@ -93,7 +93,7 @@ export default function TravelPlannerPage() {
             placement="travel_planner_hero"
             size="lg"
           >
-            Create your personalized trip plan
+            Create your free trip plan
           </PlannerCtaLink>
           <ButtonLink href="/itineraries" variant="secondary" size="lg">
             Browse example itineraries

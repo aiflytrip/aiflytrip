@@ -8,7 +8,7 @@ import { Breadcrumbs } from "@/features/seo/components";
 import { pageMetadata } from "@/features/seo/metadata";
 
 export const metadata = pageMetadata({
-  title: "Travel itineraries: day-by-day trip plans",
+  title: "Free travel itineraries: day-by-day trip plans",
   description:
     "Hand-written, day-by-day travel itineraries for popular cities, with practical notes, ways to adapt each plan and links to destination guides.",
   path: "/itineraries",

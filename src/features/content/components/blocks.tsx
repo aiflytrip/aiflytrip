@@ -198,7 +198,7 @@ export function PlannerCta({
         size="lg"
         className="shrink-0"
       >
-        Create your personalized trip plan
+        Create your free trip plan
       </PlannerCtaLink>
     </Card>
   );
