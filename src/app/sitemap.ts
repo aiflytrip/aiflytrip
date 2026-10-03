@@ -8,6 +8,10 @@ import { absoluteUrl } from "@/features/seo/metadata";
  * included only when they pass the quality gate, so a draft or thin page
  * can never be submitted to search engines.
  */
+// Scheduled posts go live on their publish date without a redeploy:
+// pages regenerate at most hourly (ISR).
+export const revalidate = 3600;
+
 export const STATIC_PUBLIC_PATHS = [
   "/",
   "/travel-planner",

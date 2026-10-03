@@ -6,7 +6,7 @@ import {
 } from "@/content/schema";
 import { siteConfig } from "@/config/site";
 import { countWords } from "@/content/quality";
-import { destinationPhoto } from "@/content/data/photos";
+import { blogPhoto, destinationPhoto } from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
 
 /**
@@ -177,6 +177,9 @@ export function guideLd(page: Guide & { path: string }): Thing[] {
     {
       "@type": "BlogPosting",
       ...articleBase(page),
+      ...(blogPhoto(page.photo)
+        ? { image: absoluteUrl(blogPhoto(page.photo)!.src) }
+        : {}),
       articleSection: page.category,
       wordCount: countWords(
         page.intro,

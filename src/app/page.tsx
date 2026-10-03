@@ -23,6 +23,10 @@ import {
 } from "@/features/seo/json-ld";
 import { pageMetadata } from "@/features/seo/metadata";
 
+// Scheduled posts go live on their publish date without a redeploy:
+// pages regenerate at most hourly (ISR).
+export const revalidate = 3600;
+
 export const metadata = pageMetadata({
   title: "AIFlyTrip: AI trip planner and itinerary generator",
   absoluteTitle: true,

@@ -103,6 +103,13 @@ export const GuideSchema = SeoSchema.merge(PublishingSchema).extend({
   slug,
   headline: text,
   intro: text,
+  /** Key into BLOG_PHOTOS for the article banner and blog cards. */
+  photo: z.string().optional(),
+  /**
+   * Scheduled publishing: a published post stays hidden (no page, sitemap
+   * or links) until this UTC date, then appears without a redeploy.
+   */
+  publishAt: isoDate.optional(),
   /** Blog category, used for grouping on /blog and related posts. */
   category: z.enum(["flights", "planning", "itineraries", "practical"]),
   sections: z.array(

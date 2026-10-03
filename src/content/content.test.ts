@@ -5,7 +5,6 @@ import {
   allContent,
   destinations,
   getDestinationByPath,
-  getGuide,
   getItinerary,
   guides,
   isIndexable,
@@ -78,28 +77,31 @@ describe("content quality gate", () => {
   });
 });
 
+// Related lists may name scheduled posts; the site hides them until live.
+const anyGuide = (slug: string) => guides.find((g) => g.slug === slug);
+
 describe("internal links", () => {
-  it("resolves every related reference to a published page", () => {
+  it("resolves every related reference to a real page (live or scheduled)", () => {
     for (const d of destinations) {
       for (const p of d.related.destinations)
         expect(getDestinationByPath(p), `${d.path} -> ${p}`).toBeDefined();
       for (const s of d.related.itineraries)
         expect(getItinerary(s), `${d.path} -> ${s}`).toBeDefined();
       for (const s of d.related.guides)
-        expect(getGuide(s), `${d.path} -> ${s}`).toBeDefined();
+        expect(anyGuide(s), `${d.path} -> ${s}`).toBeDefined();
     }
     for (const it of itineraries) {
       expect(getDestinationByPath(it.destination), it.path).toBeDefined();
       for (const s of it.related.itineraries)
         expect(getItinerary(s), `${it.path} -> ${s}`).toBeDefined();
       for (const s of it.related.guides)
-        expect(getGuide(s), `${it.path} -> ${s}`).toBeDefined();
+        expect(anyGuide(s), `${it.path} -> ${s}`).toBeDefined();
     }
     for (const g of guides) {
       for (const p of g.related.destinations)
         expect(getDestinationByPath(p), `${g.path} -> ${p}`).toBeDefined();
       for (const s of g.related.guides)
-        expect(getGuide(s), `${g.path} -> ${s}`).toBeDefined();
+        expect(anyGuide(s), `${g.path} -> ${s}`).toBeDefined();
     }
   });
 
@@ -178,11 +180,12 @@ describe("destination photos", () => {
 });
 
 describe("inline links in content", () => {
-  it("only link to pages that exist", async () => {
+  it("only link to pages that exist, and never to a post that isn't live yet", async () => {
     const { linkTargets } =
       await import("@/features/content/components/rich-text");
-    const known = new Set([
-      ...allContent().map((e) => e.path),
+    const all = [...destinations, ...itineraries, ...guides];
+    const byPath = new Map(all.map((e) => [e.path, e]));
+    const staticPaths = new Set([
       "/",
       "/travel-planner",
       "/destinations",
@@ -193,11 +196,60 @@ describe("inline links in content", () => {
       "/about",
       "/editorial-policy",
     ]);
-    for (const entry of [...destinations, ...itineraries, ...guides]) {
+    for (const entry of all) {
+      const from =
+        "publishAt" in entry && entry.publishAt
+          ? entry.publishAt
+          : "0000-00-00";
       const texts =
         JSON.stringify(entry).match(/\[[^\]]+\]\(\/[^)\s]*\)/g) ?? [];
-      for (const t of texts.flatMap(linkTargets))
-        expect(known.has(t), `${entry.path} -> ${t}`).toBe(true);
+      for (const target of texts.flatMap(linkTargets)) {
+        if (staticPaths.has(target)) continue;
+        const page = byPath.get(target);
+        expect(page, `${entry.path} -> ${target}`).toBeDefined();
+        const goesLive =
+          page && "publishAt" in page && page.publishAt
+            ? page.publishAt
+            : "0000-00-00";
+        expect(
+          goesLive <= from,
+          `${entry.path} links to ${target} before it goes live`,
+        ).toBe(true);
+      }
+    }
+  });
+});
+
+describe("blog photos and scheduling", () => {
+  it("gives every photo-referencing post a licensed, credited photo file", async () => {
+    const { existsSync } = await import("node:fs");
+    const { join } = await import("node:path");
+    const { blogPhoto } = await import("@/content/data/photos");
+    for (const post of guides.filter((g) => g.photo)) {
+      const photo = blogPhoto(post.photo);
+      expect(photo, post.path).toBeDefined();
+      expect(
+        existsSync(join(process.cwd(), "public", photo!.src)),
+        photo!.src,
+      ).toBe(true);
+      expect(photo!.license, post.path).toMatch(
+        /^(CC0|Public domain|CC BY(-SA)? [0-9.]+)$/,
+      );
+      expect(photo!.licenseUrl, post.path).toMatch(
+        /^https:\/\/creativecommons\.org\//,
+      );
+    }
+  });
+
+  it("hides scheduled posts until their publish date", async () => {
+    const { isLive } = await import("@/content/registry");
+    const today = new Date().toISOString().slice(0, 10);
+    const live = new Set(allContent().map((e) => e.path));
+    for (const post of guides.filter((g) => g.publishAt)) {
+      expect(live.has(post.path), post.path).toBe(post.publishAt! <= today);
+      expect(isLive({ status: "published", publishAt: "2999-01-01" })).toBe(
+        false,
+      );
     }
   });
 });

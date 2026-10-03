@@ -1,6 +1,7 @@
 import { getGuide, publishedGuides } from "@/content/registry";
 import { OG_SIZE, renderOgImage } from "@/features/seo/og-image";
 
+export const revalidate = 3600;
 export const size = OG_SIZE;
 export const contentType = "image/png";
 export const alt = "AIFlyTrip travel planning guide";

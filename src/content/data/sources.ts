@@ -2,6 +2,46 @@ import { type Source } from "@/content/schema";
 
 /** Authoritative sources reused across pages. Checked by `npm run check:links`. */
 export const SOURCES = {
+  govUkTravelInsurance: {
+    label: "Foreign travel insurance",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/guidance/foreign-travel-insurance",
+  },
+  govUkGhic: {
+    label: "Global Health Insurance Card (GHIC)",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/global-health-insurance-card",
+  },
+  parisAirports: {
+    label: "Paris airports: access and transport",
+    publisher: "Paris Aéroport (Groupe ADP)",
+    url: "https://www.parisaeroport.fr/en",
+  },
+  romeAirports: {
+    label: "Rome Fiumicino and Ciampino airports",
+    publisher: "Aeroporti di Roma",
+    url: "https://www.adr.it/web/aeroporti-di-roma-en/",
+  },
+  hanedaAirport: {
+    label: "Tokyo Haneda Airport: access",
+    publisher: "Tokyo International Airport (Haneda)",
+    url: "https://tokyo-haneda.com/en/",
+  },
+  naritaAirport: {
+    label: "Narita International Airport: access",
+    publisher: "Narita International Airport",
+    url: "https://www.narita-airport.jp/en/",
+  },
+  lisbonAirport: {
+    label: "Lisbon Airport: transport to the city",
+    publisher: "ANA Aeroportos de Portugal",
+    url: "https://www.aeroportolisboa.pt/en/lis/home",
+  },
+  visitLisboa: {
+    label: "Official Lisbon tourism website",
+    publisher: "Turismo de Lisboa",
+    url: "https://www.visitlisboa.com/en",
+  },
   euAirRights: {
     label: "Air passenger rights in the EU",
     publisher: "European Union (Your Europe)",

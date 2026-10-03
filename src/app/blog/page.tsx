@@ -1,11 +1,17 @@
+import Image from "next/image";
 import Link from "next/link";
 
 import { Container } from "@/components/ui/container";
+import { blogPhoto } from "@/content/data/photos";
 import { publishedGuides } from "@/content/registry";
 import { PlannerCta } from "@/features/content/components/blocks";
 import { BLOG_CATEGORIES } from "@/features/content/blog";
 import { Breadcrumbs } from "@/features/seo/components";
 import { pageMetadata } from "@/features/seo/metadata";
+
+// Scheduled posts go live on their publish date without a redeploy:
+// pages regenerate at most hourly (ISR).
+export const revalidate = 3600;
 
 export const metadata = pageMetadata({
   title: "Travel blog: cheap flight tips and trip planning",
@@ -99,8 +105,19 @@ export default function BlogPage() {
                 <li key={post.path} className="reveal">
                   <Link
                     href={post.path}
-                    className="glass lift flex h-full flex-col gap-2 rounded-3xl p-6"
+                    className="glass lift flex h-full flex-col gap-2 overflow-hidden rounded-3xl p-6"
                   >
+                    {blogPhoto(post.photo) ? (
+                      <div className="relative -mx-6 -mt-6 mb-3 aspect-[2/1] overflow-hidden">
+                        <Image
+                          src={blogPhoto(post.photo)!.src}
+                          alt={blogPhoto(post.photo)!.alt}
+                          fill
+                          sizes="(min-width: 768px) 460px, 100vw"
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : null}
                     <h3 className="text-lg font-semibold text-white">
                       {post.headline}
                     </h3>

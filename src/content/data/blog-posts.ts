@@ -116,7 +116,11 @@ export const blogPosts: PostInput[] = [
     related: {
       destinations: ["/destinations/portugal", "/destinations/japan"],
       itineraries: ["lisbon-3-days"],
-      guides: ["cheap-flight-tips", "budget-airline-fees-explained"],
+      guides: [
+        "cheap-flight-tips",
+        "budget-airline-fees-explained",
+        "how-much-layover-time-do-you-need",
+      ],
     },
     sources: [
       SOURCES.euAirRights,
@@ -334,6 +338,7 @@ export const blogPosts: PostInput[] = [
         "how-to-find-cheap-flights",
         "cheap-flight-tips",
         "travel-documents-checklist",
+        "carry-on-packing-list",
       ],
     },
     sources: [
@@ -450,7 +455,11 @@ export const blogPosts: PostInput[] = [
         "/destinations/portugal/lisbon",
       ],
       itineraries: ["paris-3-days", "tokyo-5-days", "lisbon-3-days"],
-      guides: ["how-to-plan-a-trip", "how-many-days-for-a-trip"],
+      guides: [
+        "how-to-plan-a-trip",
+        "how-many-days-for-a-trip",
+        "airport-to-city-paris-rome-tokyo-lisbon",
+      ],
     },
     sources: [
       SOURCES.ukAdviceIndex,

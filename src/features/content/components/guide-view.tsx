@@ -1,4 +1,7 @@
+import Image from "next/image";
+
 import { Container } from "@/components/ui/container";
+import { blogPhoto } from "@/content/data/photos";
 import { isIndexable, publishedGuides, type Entry } from "@/content/registry";
 import { type Guide } from "@/content/schema";
 import {
@@ -11,6 +14,7 @@ import {
   SourcesList,
 } from "@/features/content/components/blocks";
 import { categoryLabel } from "@/features/content/blog";
+import { PhotoCredit } from "@/features/content/components/photo-credit";
 import {
   destinationLinks,
   guideLinks,
@@ -44,6 +48,7 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
     )
     .map((g) => g.slug);
   const minutes = Math.max(1, Math.round(page.quality.words / 220));
+  const photo = blogPhoto(page.photo);
   const reviewed = new Intl.DateTimeFormat("en-GB", {
     dateStyle: "medium",
     timeZone: "UTC",
@@ -71,6 +76,24 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
         </h1>
         <p className="text-lg leading-8 text-muted-foreground">{page.intro}</p>
       </div>
+
+      {photo ? (
+        <figure className="flex flex-col gap-2">
+          <div className="relative aspect-[16/9] overflow-hidden rounded-3xl border border-white/10">
+            <Image
+              src={photo.src}
+              alt={photo.alt}
+              fill
+              preload
+              sizes="(min-width: 768px) 720px, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <figcaption>
+            <PhotoCredit photo={photo} className="px-1" />
+          </figcaption>
+        </figure>
+      ) : null}
 
       <nav aria-label="On this page" className="glass rounded-2xl p-5 text-sm">
         <p className="font-semibold">On this page</p>

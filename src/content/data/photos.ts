@@ -136,3 +136,61 @@ export function photoForAirport(
 ): DestinationPhoto | undefined {
   return code ? DESTINATION_PHOTOS[PHOTO_BY_AIRPORT[code] ?? ""] : undefined;
 }
+
+/** Blog post photos (Wikimedia Commons Quality/Featured images), keyed by post photo id. */
+export const BLOG_PHOTOS: Record<string, DestinationPhoto> = {
+  "airport-to-city": {
+    src: "/images/blog/airport-to-city.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "A high-speed train waiting at an airport railway station platform with travellers and their luggage",
+    caption: "Airport railway station, Frankfurt Airport",
+    author: "JoachimKohler-HB",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Mittelbahnsteig_Gleis_7_in_Frankfurt_a._M._Flughafen_(2024).jpg",
+  },
+  layover: {
+    src: "/images/blog/layover.jpg",
+    width: 1800,
+    height: 1286,
+    alt: "The long, wood-lined concourse of Madrid-Barajas Terminal 4 with moving walkways",
+    caption: "Terminal 4, Madrid-Barajas Airport",
+    author: "Diego Delso",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Terminal_4_del_aeropuerto_de_Madrid-Barajas,_Espa%C3%B1a,_2013-01-09,_DD_01.jpg",
+  },
+  "carry-on": {
+    src: "/images/blog/carry-on.jpg",
+    width: 1800,
+    height: 1198,
+    alt: "A wall of colourful travel backpacks in many sizes",
+    caption: "Travel backpacks",
+    author: "Wilfredor",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Backpacks_in_Quebec.jpg",
+  },
+  insurance: {
+    src: "/images/blog/insurance.jpg",
+    width: 1800,
+    height: 1165,
+    alt: "A row of airport luggage trolleys lined up in a terminal",
+    caption: "Luggage trolleys, Paris-Orly Airport",
+    author: "Jebulon",
+    license: "CC0",
+    licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Perspective_chariots_%C3%A0_bagages_Orly.jpg",
+  },
+};
+
+export function blogPhoto(
+  key: string | undefined,
+): DestinationPhoto | undefined {
+  return key ? BLOG_PHOTOS[key] : undefined;
+}

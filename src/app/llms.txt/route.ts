@@ -2,7 +2,7 @@ import { siteConfig } from "@/config/site";
 import { allContent, isIndexable } from "@/content/registry";
 import { absoluteUrl } from "@/features/seo/metadata";
 
-export const dynamic = "force-static";
+export const revalidate = 3600;
 
 /**
  * llms.txt: a plain-language map of the site's public, indexable content for

@@ -370,6 +370,8 @@ export const guides: GuideInput[] = [
         "how-to-plan-a-trip",
         "how-many-days-for-a-trip",
         "budget-airline-fees-explained",
+        "travel-insurance-basics",
+        "carry-on-packing-list",
       ],
     },
     sources: [

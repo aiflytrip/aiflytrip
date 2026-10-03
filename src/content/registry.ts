@@ -3,6 +3,7 @@ import { italy, rome } from "@/content/data/destinations/italy";
 import { japan, tokyo } from "@/content/data/destinations/japan";
 import { lisbon, portugal } from "@/content/data/destinations/portugal";
 import { blogPosts } from "@/content/data/blog-posts";
+import { octoberPosts } from "@/content/data/blog-posts-oct-2026";
 import { guides as planningGuides } from "@/content/data/guides";
 import { itineraries as itineraryInputs } from "@/content/data/itineraries";
 import {
@@ -63,15 +64,23 @@ export const itineraries: Entry<Itinerary>[] = itineraryInputs
     quality: assessItinerary(it),
   }));
 
-const guideInputs = [...blogPosts, ...planningGuides];
+const guideInputs = [...octoberPosts, ...blogPosts, ...planningGuides];
 
 export const guides: Entry<Guide>[] = guideInputs
   .map((input) => GuideSchema.parse(input))
   .map((g) => ({ ...g, path: `/blog/${g.slug}`, quality: assessGuide(g) }));
 
-/** Only published content is routable; drafts 404 in production. */
-const published = <T extends { status: string }>(items: T[]) =>
-  items.filter((i) => i.status === "published");
+/** Today's date (UTC), evaluated per call so scheduled posts appear on time. */
+const today = () => new Date().toISOString().slice(0, 10);
+
+/** Live = published and past any scheduled publish date. */
+export const isLive = (item: { status: string; publishAt?: string }) =>
+  item.status === "published" && (!item.publishAt || item.publishAt <= today());
+
+/** Only live content is routable; drafts and scheduled posts 404. */
+const published = <T extends { status: string; publishAt?: string }>(
+  items: T[],
+) => items.filter(isLive);
 
 export const countries = () =>
   published(destinations).filter((d) => d.kind === "country");
