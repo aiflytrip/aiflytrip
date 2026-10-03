@@ -1,4 +1,12 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+
 import { ImageResponse } from "next/og";
+
+/** The brand mark, inlined so social cards render without network access. */
+const LOGO_SRC = `data:image/png;base64,${readFileSync(
+  join(process.cwd(), "public", "logo.png"),
+).toString("base64")}`;
 
 export const OG_SIZE = { width: 1200, height: 630 };
 
@@ -30,22 +38,8 @@ export function renderOgImage({
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-        <div
-          style={{
-            width: 64,
-            height: 64,
-            borderRadius: 16,
-            background: "linear-gradient(135deg, #38bdf8, #a78bfa)",
-            color: "#04121f",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 36,
-            fontWeight: 700,
-          }}
-        >
-          A
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element -- ImageResponse renders plain img */}
+        <img src={LOGO_SRC} width={64} height={64} alt="" />
         <div style={{ fontSize: 36, fontWeight: 700 }}>AIFlyTrip</div>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
