@@ -1,6 +1,14 @@
 import type { MetadataRoute } from "next";
 
-import { allContent, isIndexable, latestReview } from "@/content/registry";
+import { blogPhoto, destinationPhoto } from "@/content/data/photos";
+import {
+  allContent,
+  getDestinationByPath,
+  isIndexable,
+  latestReview,
+  type Entry,
+} from "@/content/registry";
+import { type Destination, type Guide, type Itinerary } from "@/content/schema";
 import { absoluteUrl } from "@/features/seo/metadata";
 
 /**
@@ -22,6 +30,19 @@ export const STATIC_PUBLIC_PATHS = [
   "/editorial-policy",
 ] as const;
 
+/** The page's main photo, listed so it can appear in image search. */
+function pageImage(
+  entry: Entry<Destination> | Entry<Itinerary> | Entry<Guide>,
+): string[] {
+  const photo =
+    "kind" in entry
+      ? destinationPhoto(entry.slug)
+      : "destination" in entry
+        ? destinationPhoto(getDestinationByPath(entry.destination)?.slug ?? "")
+        : blogPhoto(entry.photo);
+  return photo ? [absoluteUrl(photo.src)] : [];
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const content = allContent().filter(isIndexable);
   const hubDate = latestReview(content);
@@ -33,6 +54,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...content.map((entry) => ({
       url: absoluteUrl(entry.path),
       lastModified: entry.lastReviewed,
+      images: pageImage(entry),
     })),
   ];
 }

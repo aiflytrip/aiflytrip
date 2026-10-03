@@ -48,6 +48,18 @@ const nextConfig: NextConfig = {
     return [
       { source: "/guides", destination: "/blog", permanent: true },
       { source: "/guides/:slug", destination: "/blog/:slug", permanent: true },
+      // One public host: the default Vercel address would otherwise serve
+      // an indexable copy of the site.
+      ...(process.env.VERCEL_ENV === "production"
+        ? [
+            {
+              source: "/:path*",
+              has: [{ type: "host" as const, value: "aiflytrip.vercel.app" }],
+              destination: "https://aiflytrip.com/:path*",
+              permanent: true,
+            },
+          ]
+        : []),
     ];
   },
   async headers() {

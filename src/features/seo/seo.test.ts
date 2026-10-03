@@ -216,3 +216,23 @@ describe("llms.txt", () => {
     for (const url of linked) expect(inSitemap.has(url), url).toBe(true);
   });
 });
+
+describe("image sitemap", () => {
+  it("lists an existing photo for every content page", async () => {
+    const { existsSync } = await import("node:fs");
+    const { join } = await import("node:path");
+    const contentEntries = sitemap().filter((e) =>
+      /\/(destinations|itineraries|blog)\/./.test(new URL(e.url).pathname),
+    );
+    expect(contentEntries.length).toBeGreaterThan(10);
+    for (const entry of contentEntries) {
+      expect(entry.images?.length, entry.url).toBeGreaterThan(0);
+      for (const img of entry.images ?? []) {
+        expect(
+          existsSync(join(process.cwd(), "public", new URL(img).pathname)),
+          img,
+        ).toBe(true);
+      }
+    }
+  });
+});
