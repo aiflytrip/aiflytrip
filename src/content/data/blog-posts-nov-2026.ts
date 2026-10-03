@@ -307,7 +307,7 @@ export const novemberPosts: PostInput[] = [
       {
         heading: "Keep track as you go",
         paragraphs: [
-          "A simple note on your phone with what you've spent each day keeps you honest without spoiling the trip. If you overspend one day, you can balance it with a cheaper one later. Our [AI trip planner](/travel-planner) can also draft an itinerary with a budget estimate in your currency to help you plan before you go.",
+          "A simple note on your phone with what you've spent each day keeps you honest without spoiling the trip. If you overspend one day, you can balance it with a cheaper one later. Our free [trip budget calculator](/tools/trip-budget-calculator) totals your costs per person and per day, and our [AI trip planner](/travel-planner) can draft an itinerary with a budget estimate in your currency.",
         ],
         bullets: [],
       },

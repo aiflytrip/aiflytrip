@@ -29,6 +29,7 @@ export function GET() {
     "## Product",
     "",
     `- [AI trip planner](${absoluteUrl("/travel-planner")}): what the planner creates, how it works and its limits.`,
+    `- [Trip budget calculator](${absoluteUrl("/tools/trip-budget-calculator")}): free tool to total flights, accommodation and daily costs per person and per day.`,
     `- [About AIFlyTrip](${absoluteUrl("/about")})`,
     `- [Editorial policy](${absoluteUrl("/editorial-policy")}): how guides are written, sourced and reviewed.`,
     "",

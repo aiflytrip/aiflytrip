@@ -195,6 +195,7 @@ describe("inline links in content", () => {
       "/plan",
       "/about",
       "/editorial-policy",
+      "/tools/trip-budget-calculator",
     ]);
     for (const entry of all) {
       const from =

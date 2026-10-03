@@ -23,6 +23,7 @@ export const revalidate = 3600;
 export const STATIC_PUBLIC_PATHS = [
   "/",
   "/travel-planner",
+  "/tools/trip-budget-calculator",
   "/destinations",
   "/itineraries",
   "/blog",

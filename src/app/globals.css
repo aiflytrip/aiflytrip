@@ -259,3 +259,11 @@
     display: none !important;
   }
 }
+
+@media print {
+  header,
+  footer,
+  nav[aria-label="Main"] {
+    display: none !important;
+  }
+}

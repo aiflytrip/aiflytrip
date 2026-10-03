@@ -61,7 +61,7 @@ export const blogPosts: PostInput[] = [
         heading: "5. Compare the total cost, not the headline price",
         paragraphs: [
           "The fare is only one part of the cost of flying. Add the extras you will actually need, the cost of getting to and from each airport, and the value of your time. A late-night arrival that needs a taxi instead of a train, or an extra hotel night because of an early departure, can wipe out a saving.",
-          "In the European Union, airlines and agents must show the final price including all unavoidable taxes and charges, and optional extras must be offered on an opt-in basis. That makes like-for-like comparisons easier, but optional extras such as bags and seats still need adding yourself.",
+          "In the European Union, airlines and agents must show the final price including all unavoidable taxes and charges, and optional extras must be offered on an opt-in basis. That makes like-for-like comparisons easier, but optional extras such as bags and seats still need adding yourself. Our free [trip budget calculator](/tools/trip-budget-calculator) adds up flights, accommodation and daily costs for you.",
         ],
         bullets: [
           "Bags you will really take, both cabin and checked",

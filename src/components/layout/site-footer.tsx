@@ -15,6 +15,10 @@ export function SiteFooter() {
       title: "Plan",
       links: [
         { href: "/travel-planner", label: "AI trip planner" },
+        {
+          href: "/tools/trip-budget-calculator",
+          label: "Trip budget calculator",
+        },
         { href: "/plan", label: "Create a trip plan" },
         { href: "/flights", label: "Compare flights" },
       ],
