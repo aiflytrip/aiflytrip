@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
@@ -54,6 +56,14 @@ export function Hero() {
               See how it works
             </ButtonLink>
           </div>
+          <p className="animate-rise text-sm delay-4">
+            <Link
+              href="/tools/trip-budget-calculator"
+              className="font-semibold text-primary hover:text-primary-hover"
+            >
+              Or estimate your trip cost with our free budget calculator →
+            </Link>
+          </p>
           <p className="animate-rise text-xs text-muted-foreground/80 delay-4">
             Free to use, no account needed. AIFlyTrip is a planning tool and
             doesn&apos;t book flights or hotels.

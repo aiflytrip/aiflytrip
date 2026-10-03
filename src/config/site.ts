@@ -16,6 +16,7 @@ export const siteConfig = {
     { label: "Destinations", href: "/destinations" },
     { label: "Itineraries", href: "/itineraries" },
     { label: "Blog", href: "/blog" },
+    { label: "Budget calculator", href: "/tools/trip-budget-calculator" },
     { label: "Flights", href: "/flights" },
   ] satisfies NavItem[],
 } as const;
