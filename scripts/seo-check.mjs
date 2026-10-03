@@ -136,7 +136,7 @@ ok(
 for (const path of [
   "/opengraph-image",
   "/destinations/japan/opengraph-image",
-  "/guides/how-to-plan-a-trip/opengraph-image",
+  "/blog/how-to-plan-a-trip/opengraph-image",
   "/logo.png",
 ]) {
   const res = await get(path);
@@ -193,7 +193,7 @@ for (const path of [
   "/destinations/atlantis",
   "/destinations/japan/atlantis",
   "/itineraries/nowhere-9-days",
-  "/guides/not-a-guide",
+  "/blog/not-a-post",
   "/no-such-page",
 ]) {
   const res = await get(path);

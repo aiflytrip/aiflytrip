@@ -176,6 +176,8 @@ export const italy: DestinationInput = {
       "how-to-plan-a-trip",
       "how-many-days-for-a-trip",
       "travel-documents-checklist",
+      "how-to-find-cheap-flights",
+      "cheap-flight-tips",
     ],
   },
   sources: [
@@ -356,7 +358,12 @@ export const rome: DestinationInput = {
       "/destinations/portugal/lisbon",
     ],
     itineraries: [],
-    guides: ["how-to-plan-a-trip", "how-many-days-for-a-trip"],
+    guides: [
+      "how-to-plan-a-trip",
+      "how-many-days-for-a-trip",
+      "how-to-find-cheap-flights",
+      "how-to-build-a-travel-itinerary",
+    ],
   },
   sources: [SOURCES.rome, SOURCES.italy, SOURCES.ukAdvice("italy", "Italy")],
 };

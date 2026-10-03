@@ -15,7 +15,7 @@ export const siteConfig = {
     { label: "AI trip planner", href: "/travel-planner" },
     { label: "Destinations", href: "/destinations" },
     { label: "Itineraries", href: "/itineraries" },
-    { label: "Guides", href: "/guides" },
+    { label: "Blog", href: "/blog" },
     { label: "Flights", href: "/flights" },
   ] satisfies NavItem[],
 } as const;

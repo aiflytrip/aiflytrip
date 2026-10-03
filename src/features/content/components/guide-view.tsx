@@ -1,5 +1,5 @@
 import { Container } from "@/components/ui/container";
-import { isIndexable, type Entry } from "@/content/registry";
+import { isIndexable, publishedGuides, type Entry } from "@/content/registry";
 import { type Guide } from "@/content/schema";
 import {
   BulletList,
@@ -10,14 +10,19 @@ import {
   RelatedLinks,
   SourcesList,
 } from "@/features/content/components/blocks";
-import { destinationLinks, guideLinks } from "@/features/content/links";
+import { categoryLabel } from "@/features/content/blog";
+import {
+  destinationLinks,
+  guideLinks,
+  itineraryLinks,
+} from "@/features/content/links";
 import { Breadcrumbs, JsonLd } from "@/features/seo/components";
 import { faqLd, graph, guideLd, type Crumb } from "@/features/seo/json-ld";
 
 export function guideCrumbs(page: Entry<Guide>): Crumb[] {
   return [
     { name: "Home", path: "/" },
-    { name: "Travel guides", path: "/guides" },
+    { name: "Blog", path: "/blog" },
     { name: page.headline, path: page.path },
   ];
 }
@@ -29,6 +34,21 @@ const anchor = (heading: string) =>
     .replace(/^-|-$/g, "");
 
 export function GuideView({ page }: { page: Entry<Guide> }) {
+  // Same-category posts not already linked, for extra internal links.
+  const moreInCategory = publishedGuides()
+    .filter(
+      (g) =>
+        g.category === page.category &&
+        g.slug !== page.slug &&
+        !page.related.guides.includes(g.slug),
+    )
+    .map((g) => g.slug);
+  const minutes = Math.max(1, Math.round(page.quality.words / 220));
+  const reviewed = new Intl.DateTimeFormat("en-GB", {
+    dateStyle: "medium",
+    timeZone: "UTC",
+  }).format(new Date(`${page.lastReviewed}T00:00:00Z`));
+
   return (
     <Container className="flex max-w-3xl flex-col gap-10 py-10">
       {isIndexable(page) ? (
@@ -36,16 +56,23 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
       ) : null}
       <div className="flex flex-col gap-4">
         <Breadcrumbs crumbs={guideCrumbs(page)} />
-        <h1 className="text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
+        <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
+          <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-semibold text-accent-foreground">
+            {categoryLabel(page.category)}
+          </span>
+          <span>{minutes} min read</span>
+          <span aria-hidden="true">·</span>
+          <span>
+            Reviewed <time dateTime={page.lastReviewed}>{reviewed}</time>
+          </span>
+        </p>
+        <h1 className="text-4xl font-bold text-balance text-white sm:text-5xl">
           {page.headline}
         </h1>
         <p className="text-lg leading-8 text-muted-foreground">{page.intro}</p>
       </div>
 
-      <nav
-        aria-label="On this page"
-        className="rounded-2xl border border-border bg-card p-5 text-sm"
-      >
+      <nav aria-label="On this page" className="glass rounded-2xl p-5 text-sm">
         <p className="font-semibold">On this page</p>
         <ol className="mt-2 flex list-decimal flex-col gap-1 pl-5 text-muted-foreground">
           {page.sections.map((section) => (
@@ -82,12 +109,16 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
 
       <FaqList faqs={page.faqs} />
       <RelatedLinks
-        title="Destination guides"
-        links={destinationLinks(page.related.destinations)}
+        title="Related articles"
+        links={guideLinks([...page.related.guides, ...moreInCategory])}
       />
       <RelatedLinks
-        title="More travel planning guides"
-        links={guideLinks(page.related.guides)}
+        title="Ready-made itineraries"
+        links={itineraryLinks(page.related.itineraries)}
+      />
+      <RelatedLinks
+        title="Destination guides"
+        links={destinationLinks(page.related.destinations)}
       />
       <SourcesList sources={page.sources} lastReviewed={page.lastReviewed} />
     </Container>

@@ -27,16 +27,19 @@ export function SiteFooter() {
       ],
     },
     {
-      title: "Itineraries & guides",
+      title: "Itineraries & blog",
       links: [
         ...publishedItineraries().map((it) => ({
           href: it.path,
           label: it.name,
         })),
-        ...publishedGuides().map((g) => ({
-          href: g.path,
-          label: g.headline.split(":")[0]!.replace(/\?$/, ""),
-        })),
+        ...publishedGuides()
+          .slice(0, 4)
+          .map((g) => ({
+            href: g.path,
+            label: g.headline.split(":")[0]!.replace(/\?$/, ""),
+          })),
+        { href: "/blog", label: "All blog articles" },
       ],
     },
     {

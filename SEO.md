@@ -22,11 +22,11 @@ of **manual actions** that can't be done from the codebase.
 | `/destinations/{country}/{city}` (4) | City guide     | SSG       | Article, TouristDestination, FAQPage, Breadcrumbs |
 | `/itineraries`                       | Hub            | Static    | BreadcrumbList                                    |
 | `/itineraries/{slug}` (3)            | Itinerary      | SSG       | Article (about TouristTrip), FAQPage, Breadcrumbs |
-| `/guides`                            | Hub            | Static    | BreadcrumbList                                    |
-| `/guides/{slug}` (3)                 | Planning guide | SSG       | Article, FAQPage, BreadcrumbList                  |
+| `/blog`                              | Hub            | Static    | BreadcrumbList                                    |
+| `/blog/{slug}` (3)                   | Planning guide | SSG       | Article, FAQPage, BreadcrumbList                  |
 | `/about`, `/editorial-policy`        | Trust pages    | Static    | Organization (about), BreadcrumbList              |
 
-21 URLs in total today. The content pages are France, Paris, Italy, Rome,
+25 URLs in total today (the Guides section became the Blog on 2026-10-03; `/guides/*` permanently redirects to `/blog/*`). The content pages are France, Paris, Italy, Rome,
 Japan, Tokyo, Portugal and Lisbon; the Paris (3 days), Tokyo (5 days) and
 Lisbon (3 days) itineraries; and the how-to-plan-a-trip,
 how-many-days-for-a-trip and travel-documents-checklist guides.
@@ -111,11 +111,17 @@ a page pass defeats the purpose. Improve the content instead.**
 
 ## 4. Site architecture and internal linking
 
+**Blog and inline links.** Blog posts (`src/content/data/blog-posts.ts` and
+the planning guides) can link inside their text with `[label](/path)`.
+Only site-relative paths render as links, and a test fails if any target
+isn't a real page. Article pages also list related articles automatically
+by category.
+
 ```
 Home ─┬─ AI trip planner (/travel-planner) ── /plan (app)
       ├─ Destinations hub ─ Country ─ City
       ├─ Itineraries hub ─ Itinerary ── its destination guide
-      ├─ Guides hub ─ Guide
+      ├─ Blog hub ─ Guide
       └─ About · Editorial policy
 ```
 
@@ -248,7 +254,7 @@ done** until a person completes them:
       a consent banner first), then set the env vars.
 - [ ] Manually open these source links, which returned HTTP 403 to the
       automated link check (likely bot protection rather than a broken link):
-      `travel.state.gov`, `ratp.fr`, `sncf-connect.com`,
+      `travel.state.gov`, `transportation.gov/airconsumer`, `ratp.fr`, `sncf-connect.com`,
       `iatatravelcentre.com`. Replace any that have actually moved.
 - [ ] Editorial review of every content page by a person before launch, and
       then at least yearly (the gate noindexes pages older than 365 days).

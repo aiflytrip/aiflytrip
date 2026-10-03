@@ -167,7 +167,7 @@ export default function TravelPlannerPage() {
       <p className="text-sm text-muted-foreground">
         New to trip planning? Read{" "}
         <Link
-          href="/guides/how-to-plan-a-trip"
+          href="/blog/how-to-plan-a-trip"
           className="text-primary hover:underline"
         >
           our step-by-step guide to planning a trip

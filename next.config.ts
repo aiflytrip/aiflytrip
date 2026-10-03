@@ -43,6 +43,13 @@ const nextConfig: NextConfig = {
     localPatterns: [{ pathname: "/images/**", search: "" }],
     qualities: [75],
   },
+  // The Guides section became the Blog: keep old links and search signals.
+  async redirects() {
+    return [
+      { source: "/guides", destination: "/blog", permanent: true },
+      { source: "/guides/:slug", destination: "/blog/:slug", permanent: true },
+    ];
+  },
   async headers() {
     return [
       { source: "/:path*", headers: securityHeaders },

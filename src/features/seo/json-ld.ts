@@ -5,6 +5,7 @@ import {
   type Itinerary,
 } from "@/content/schema";
 import { siteConfig } from "@/config/site";
+import { countWords } from "@/content/quality";
 import { destinationPhoto } from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
 
@@ -173,7 +174,16 @@ export function itineraryLd(page: Itinerary & { path: string }): Thing[] {
 
 export function guideLd(page: Guide & { path: string }): Thing[] {
   return [
-    { "@type": "Article", ...articleBase(page), articleSection: page.category },
+    {
+      "@type": "BlogPosting",
+      ...articleBase(page),
+      articleSection: page.category,
+      wordCount: countWords(
+        page.intro,
+        page.sections.flatMap((s) => [...s.paragraphs, ...s.bullets]),
+        page.faqs.map((f) => f.answer),
+      ),
+    },
   ];
 }
 

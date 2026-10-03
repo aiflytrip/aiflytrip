@@ -13,7 +13,7 @@ export const STATIC_PUBLIC_PATHS = [
   "/travel-planner",
   "/destinations",
   "/itineraries",
-  "/guides",
+  "/blog",
   "/about",
   "/editorial-policy",
 ] as const;

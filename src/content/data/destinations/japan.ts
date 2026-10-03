@@ -177,6 +177,8 @@ export const japan: DestinationInput = {
       "how-to-plan-a-trip",
       "how-many-days-for-a-trip",
       "travel-documents-checklist",
+      "how-to-find-cheap-flights",
+      "cheap-flight-tips",
     ],
   },
   sources: [
@@ -357,7 +359,12 @@ export const tokyo: DestinationInput = {
       "/destinations/portugal/lisbon",
     ],
     itineraries: ["tokyo-5-days"],
-    guides: ["how-to-plan-a-trip", "how-many-days-for-a-trip"],
+    guides: [
+      "how-to-plan-a-trip",
+      "how-many-days-for-a-trip",
+      "how-to-find-cheap-flights",
+      "how-to-build-a-travel-itinerary",
+    ],
   },
   sources: [SOURCES.tokyo, SOURCES.japan, SOURCES.ukAdvice("japan", "Japan")],
 };

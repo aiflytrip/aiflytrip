@@ -104,22 +104,30 @@ export default function HomePage() {
             </ul>
           </div>
           <div className="glass reveal flex min-w-0 flex-[1_1_min(380px,100%)] flex-col gap-4 rounded-[28px] p-8">
-            <p className="eyebrow">Travel planning guides</p>
+            <p className="eyebrow">From the blog</p>
             <h2 className="text-3xl font-bold text-white">
-              Plan smarter, not longer
+              Cheaper flights, smarter plans
             </h2>
             <ul className="flex flex-col gap-3">
-              {publishedGuides().map((guide) => (
-                <li key={guide.path}>
-                  <Link
-                    href={guide.path}
-                    className="lift block rounded-2xl border border-white/[0.07] bg-white/[0.035] px-4.5 py-4 font-semibold text-white"
-                  >
-                    {guide.headline}
-                  </Link>
-                </li>
-              ))}
+              {publishedGuides()
+                .slice(0, 4)
+                .map((guide) => (
+                  <li key={guide.path}>
+                    <Link
+                      href={guide.path}
+                      className="lift block rounded-2xl border border-white/[0.07] bg-white/[0.035] px-4.5 py-4 font-semibold text-white"
+                    >
+                      {guide.headline}
+                    </Link>
+                  </li>
+                ))}
             </ul>
+            <Link
+              href="/blog"
+              className="text-sm font-semibold text-primary hover:text-primary-hover"
+            >
+              All articles →
+            </Link>
           </div>
         </Container>
       </section>

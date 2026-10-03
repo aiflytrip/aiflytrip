@@ -2,6 +2,53 @@ import { type Source } from "@/content/schema";
 
 /** Authoritative sources reused across pages. Checked by `npm run check:links`. */
 export const SOURCES = {
+  euAirRights: {
+    label: "Air passenger rights in the EU",
+    publisher: "European Union (Your Europe)",
+    url: "https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_en.htm",
+  },
+  eu261: {
+    label:
+      "Regulation (EC) No 261/2004 on compensation and assistance to air passengers",
+    publisher: "EUR-Lex (Official Journal of the EU)",
+    url: "https://eur-lex.europa.eu/eli/reg/2004/261/oj",
+  },
+  eu1008: {
+    label:
+      "Regulation (EC) No 1008/2008, including air fare price transparency",
+    publisher: "EUR-Lex (Official Journal of the EU)",
+    url: "https://eur-lex.europa.eu/eli/reg/2008/1008/oj",
+  },
+  ukCaaDelays: {
+    label: "Flight delays and cancellations: your rights",
+    publisher: "UK Civil Aviation Authority",
+    url: "https://www.caa.co.uk/passengers-and-public/resolving-travel-problems/delays-and-cancellations/",
+  },
+  ukCaaBaggage: {
+    label: "Baggage: advice for passengers",
+    publisher: "UK Civil Aviation Authority",
+    url: "https://www.caa.co.uk/passengers-and-public/baggage/",
+  },
+  ukHandLuggage: {
+    label: "Hand luggage restrictions at UK airports",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/hand-luggage-restrictions",
+  },
+  usDotAirConsumer: {
+    label: "Aviation consumer protection",
+    publisher: "U.S. Department of Transportation",
+    url: "https://www.transportation.gov/airconsumer",
+  },
+  tsaWhatCanIBring: {
+    label: "What can I bring? (security screening)",
+    publisher: "U.S. Transportation Security Administration",
+    url: "https://www.tsa.gov/travel/security-screening/whatcanibring/all",
+  },
+  iataTravelers: {
+    label: "Information for travellers",
+    publisher: "IATA",
+    url: "https://www.iata.org/en/youandiata/travelers/",
+  },
   ukAdvice: (country: string, name: string): Source => ({
     label: `${name} travel advice`,
     publisher: "UK Foreign, Commonwealth & Development Office",

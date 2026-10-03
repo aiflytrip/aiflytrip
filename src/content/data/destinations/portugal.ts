@@ -171,6 +171,8 @@ export const portugal: DestinationInput = {
       "how-to-plan-a-trip",
       "how-many-days-for-a-trip",
       "travel-documents-checklist",
+      "how-to-find-cheap-flights",
+      "cheap-flight-tips",
     ],
   },
   sources: [
@@ -344,7 +346,12 @@ export const lisbon: DestinationInput = {
       "/destinations/italy/rome",
     ],
     itineraries: ["lisbon-3-days"],
-    guides: ["how-to-plan-a-trip", "how-many-days-for-a-trip"],
+    guides: [
+      "how-to-plan-a-trip",
+      "how-many-days-for-a-trip",
+      "how-to-find-cheap-flights",
+      "how-to-build-a-travel-itinerary",
+    ],
   },
   sources: [
     SOURCES.lisbon,

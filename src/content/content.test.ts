@@ -108,7 +108,7 @@ describe("internal links", () => {
     for (const d of destinations) {
       d.related.destinations.forEach((p) => inbound.add(p));
       d.related.itineraries.forEach((s) => inbound.add(`/itineraries/${s}`));
-      d.related.guides.forEach((s) => inbound.add(`/guides/${s}`));
+      d.related.guides.forEach((s) => inbound.add(`/blog/${s}`));
       // Countries are linked from the hub, cities from their country page.
       if (d.kind === "country") inbound.add(d.path);
       else if (
@@ -119,11 +119,11 @@ describe("internal links", () => {
     for (const it of itineraries) {
       inbound.add(it.destination);
       it.related.itineraries.forEach((s) => inbound.add(`/itineraries/${s}`));
-      it.related.guides.forEach((s) => inbound.add(`/guides/${s}`));
+      it.related.guides.forEach((s) => inbound.add(`/blog/${s}`));
     }
     for (const g of guides) {
       g.related.destinations.forEach((p) => inbound.add(p));
-      g.related.guides.forEach((s) => inbound.add(`/guides/${s}`));
+      g.related.guides.forEach((s) => inbound.add(`/blog/${s}`));
     }
     for (const entry of allContent())
       expect(inbound.has(entry.path), entry.path).toBe(true);
@@ -173,6 +173,31 @@ describe("destination photos", () => {
       );
       expect(photo!.author.length, d.path).toBeGreaterThan(1);
       expect(photo!.alt.length, d.path).toBeGreaterThan(30);
+    }
+  });
+});
+
+describe("inline links in content", () => {
+  it("only link to pages that exist", async () => {
+    const { linkTargets } =
+      await import("@/features/content/components/rich-text");
+    const known = new Set([
+      ...allContent().map((e) => e.path),
+      "/",
+      "/travel-planner",
+      "/destinations",
+      "/itineraries",
+      "/blog",
+      "/flights",
+      "/plan",
+      "/about",
+      "/editorial-policy",
+    ]);
+    for (const entry of [...destinations, ...itineraries, ...guides]) {
+      const texts =
+        JSON.stringify(entry).match(/\[[^\]]+\]\(\/[^)\s]*\)/g) ?? [];
+      for (const t of texts.flatMap(linkTargets))
+        expect(known.has(t), `${entry.path} -> ${t}`).toBe(true);
     }
   });
 });

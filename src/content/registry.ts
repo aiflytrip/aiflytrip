@@ -2,7 +2,8 @@ import { france, paris } from "@/content/data/destinations/france";
 import { italy, rome } from "@/content/data/destinations/italy";
 import { japan, tokyo } from "@/content/data/destinations/japan";
 import { lisbon, portugal } from "@/content/data/destinations/portugal";
-import { guides as guideInputs } from "@/content/data/guides";
+import { blogPosts } from "@/content/data/blog-posts";
+import { guides as planningGuides } from "@/content/data/guides";
 import { itineraries as itineraryInputs } from "@/content/data/itineraries";
 import {
   assessDestination,
@@ -62,9 +63,11 @@ export const itineraries: Entry<Itinerary>[] = itineraryInputs
     quality: assessItinerary(it),
   }));
 
+const guideInputs = [...blogPosts, ...planningGuides];
+
 export const guides: Entry<Guide>[] = guideInputs
   .map((input) => GuideSchema.parse(input))
-  .map((g) => ({ ...g, path: `/guides/${g.slug}`, quality: assessGuide(g) }));
+  .map((g) => ({ ...g, path: `/blog/${g.slug}`, quality: assessGuide(g) }));
 
 /** Only published content is routable; drafts 404 in production. */
 const published = <T extends { status: string }>(items: T[]) =>

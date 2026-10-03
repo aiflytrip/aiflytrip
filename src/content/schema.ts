@@ -103,8 +103,8 @@ export const GuideSchema = SeoSchema.merge(PublishingSchema).extend({
   slug,
   headline: text,
   intro: text,
-  /** "planning" articles vs "documents" style checklists, used for grouping. */
-  category: z.enum(["planning", "practical"]),
+  /** Blog category, used for grouping on /blog and related posts. */
+  category: z.enum(["flights", "planning", "itineraries", "practical"]),
   sections: z.array(
     z.object({
       heading: text,
@@ -115,6 +115,7 @@ export const GuideSchema = SeoSchema.merge(PublishingSchema).extend({
   faqs: z.array(FaqSchema),
   related: z.object({
     destinations: z.array(z.string()).default([]),
+    itineraries: z.array(slug).default([]),
     guides: z.array(slug).default([]),
   }),
 });

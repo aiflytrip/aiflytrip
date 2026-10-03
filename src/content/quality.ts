@@ -33,12 +33,16 @@ export const LIMITS = {
 export function countWords(
   ...parts: (string | string[] | undefined)[]
 ): number {
-  return parts
-    .flat()
-    .filter((p): p is string => typeof p === "string")
-    .join(" ")
-    .split(/\s+/)
-    .filter(Boolean).length;
+  return (
+    parts
+      .flat()
+      .filter((p): p is string => typeof p === "string")
+      .join(" ")
+      // [label](/path) counts as its label only.
+      .replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, "$1")
+      .split(/\s+/)
+      .filter(Boolean).length
+  );
 }
 
 function common(

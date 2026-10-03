@@ -4,6 +4,7 @@ import { type ReactNode } from "react";
 import { Card } from "@/components/ui/card";
 import { type Faq, type Source } from "@/content/schema";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
+import { RichText } from "@/features/content/components/rich-text";
 import { cn } from "@/lib/utils";
 
 export function ContentSection({
@@ -34,7 +35,9 @@ export function Prose({ paragraphs }: { paragraphs: string[] }) {
   return (
     <div className="flex max-w-3xl flex-col gap-4 leading-7 text-foreground/90">
       {paragraphs.map((p, i) => (
-        <p key={i}>{p}</p>
+        <p key={i}>
+          <RichText text={p} />
+        </p>
       ))}
     </div>
   );
@@ -44,7 +47,9 @@ export function BulletList({ items }: { items: string[] }) {
   return (
     <ul className="flex max-w-3xl list-disc flex-col gap-2 pl-5 leading-7 text-foreground/90">
       {items.map((item, i) => (
-        <li key={i}>{item}</li>
+        <li key={i}>
+          <RichText text={item} />
+        </li>
       ))}
     </ul>
   );

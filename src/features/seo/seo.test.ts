@@ -176,7 +176,7 @@ describe("sitemap.xml", () => {
       "/travel-planner",
       "/destinations",
       "/itineraries",
-      "/guides",
+      "/blog",
       "/about",
       "/editorial-policy",
     ]) {
