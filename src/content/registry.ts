@@ -3,6 +3,7 @@ import { italy, rome } from "@/content/data/destinations/italy";
 import { japan, tokyo } from "@/content/data/destinations/japan";
 import { lisbon, portugal } from "@/content/data/destinations/portugal";
 import { blogPosts } from "@/content/data/blog-posts";
+import { decemberPosts } from "@/content/data/blog-posts-dec-2026";
 import { novemberPosts } from "@/content/data/blog-posts-nov-2026";
 import { octoberPosts } from "@/content/data/blog-posts-oct-2026";
 import { guides as planningGuides } from "@/content/data/guides";
@@ -66,6 +67,7 @@ export const itineraries: Entry<Itinerary>[] = itineraryInputs
   }));
 
 const guideInputs = [
+  ...decemberPosts,
   ...novemberPosts,
   ...octoberPosts,
   ...blogPosts,

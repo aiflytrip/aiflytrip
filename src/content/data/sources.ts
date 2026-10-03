@@ -2,6 +2,16 @@ import { type Source } from "@/content/schema";
 
 /** Authoritative sources reused across pages. Checked by `npm run check:links`. */
 export const SOURCES = {
+  jnto: {
+    label: "Getting around Japan",
+    publisher: "Japan National Tourism Organization (JNTO)",
+    url: "https://www.japan.travel/en/plan/getting-around/",
+  },
+  jrCentral: {
+    label: "Tokaido Shinkansen information",
+    publisher: "Central Japan Railway Company (JR Central)",
+    url: "https://global.jr-central.co.jp/en/",
+  },
   nhsJetLag: {
     label: "Jet lag",
     publisher: "NHS",

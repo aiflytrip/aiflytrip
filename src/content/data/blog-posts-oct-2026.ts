@@ -109,7 +109,11 @@ export const octoberPosts: PostInput[] = [
         "/destinations/portugal/lisbon",
       ],
       itineraries: ["paris-3-days", "tokyo-5-days", "lisbon-3-days"],
-      guides: ["how-to-build-a-travel-itinerary", "how-to-find-cheap-flights"],
+      guides: [
+        "how-to-build-a-travel-itinerary",
+        "how-to-find-cheap-flights",
+        "where-to-stay-in-a-new-city",
+      ],
     },
     sources: [
       SOURCES.parisAirports,
@@ -229,6 +233,7 @@ export const octoberPosts: PostInput[] = [
         "budget-airline-fees-explained",
         "cheap-flight-tips",
         "how-to-beat-jet-lag",
+        "christmas-new-year-travel-tips",
       ],
     },
     sources: [

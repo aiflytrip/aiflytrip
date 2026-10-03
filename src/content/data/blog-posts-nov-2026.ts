@@ -110,6 +110,7 @@ export const novemberPosts: PostInput[] = [
         "how-to-build-a-travel-itinerary",
         "how-much-layover-time-do-you-need",
         "how-many-days-for-a-trip",
+        "japan-rail-pass-is-it-worth-it",
       ],
     },
     sources: [SOURCES.nhsJetLag, SOURCES.cdcJetLag],
@@ -335,6 +336,8 @@ export const novemberPosts: PostInput[] = [
         "cheap-flight-tips",
         "how-to-find-cheap-flights",
         "how-many-days-for-a-trip",
+        "where-to-stay-in-a-new-city",
+        "winter-city-breaks-paris-rome-lisbon",
       ],
     },
     sources: [

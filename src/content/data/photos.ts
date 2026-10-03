@@ -139,6 +139,54 @@ export function photoForAirport(
 
 /** Blog post photos (Wikimedia Commons Quality/Featured images), keyed by post photo id. */
 export const BLOG_PHOTOS: Record<string, DestinationPhoto> = {
+  "jr-pass": {
+    src: "/images/blog/jr-pass.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "A white Shinkansen bullet train passing in front of snow-capped Mount Fuji under a blue sky",
+    caption: "Shinkansen and Mount Fuji, Japan",
+    author: "MaedaAkihiko",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Series-N700a-Mt.Fuji.jpg",
+  },
+  "winter-city": {
+    src: "/images/blog/winter-city.jpg",
+    width: 1800,
+    height: 1201,
+    alt: "A yellow vintage funicular car climbing a steep cobbled street between old buildings in Lisbon",
+    caption: "Elevador da Glória, Lisbon",
+    author: "Jakub Hałun",
+    license: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Elevador_da_Gl%C3%B3ria,_Lisbon,_20250604_1603_9346.jpg",
+  },
+  "where-to-stay": {
+    src: "/images/blog/where-to-stay.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "A yellow tram passing pastel-coloured houses on a square in Lisbon's Alfama neighbourhood",
+    caption: "Largo de Santa Luzia, Alfama, Lisbon",
+    author: "Ingo Mehling",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Lissabon_-_Alfama_-_Largo_Santa_Luzia_-_Streetcar_-_1.jpg",
+  },
+  "holiday-travel": {
+    src: "/images/blog/holiday-travel.jpg",
+    width: 1800,
+    height: 1286,
+    alt: "A busy Christmas market at dusk with illuminated stalls and visitors",
+    caption: "Christmas market at Breitscheidplatz, Berlin",
+    author: "Arild Vågen",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Breitscheidplatz_November_2013.jpg",
+  },
   "jet-lag": {
     src: "/images/blog/jet-lag.jpg",
     width: 1800,
