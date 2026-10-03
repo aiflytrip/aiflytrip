@@ -3,6 +3,7 @@ import { italy, rome } from "@/content/data/destinations/italy";
 import { japan, tokyo } from "@/content/data/destinations/japan";
 import { lisbon, portugal } from "@/content/data/destinations/portugal";
 import { blogPosts } from "@/content/data/blog-posts";
+import { novemberPosts } from "@/content/data/blog-posts-nov-2026";
 import { octoberPosts } from "@/content/data/blog-posts-oct-2026";
 import { guides as planningGuides } from "@/content/data/guides";
 import { itineraries as itineraryInputs } from "@/content/data/itineraries";
@@ -64,7 +65,12 @@ export const itineraries: Entry<Itinerary>[] = itineraryInputs
     quality: assessItinerary(it),
   }));
 
-const guideInputs = [...octoberPosts, ...blogPosts, ...planningGuides];
+const guideInputs = [
+  ...novemberPosts,
+  ...octoberPosts,
+  ...blogPosts,
+  ...planningGuides,
+];
 
 export const guides: Entry<Guide>[] = guideInputs
   .map((input) => GuideSchema.parse(input))

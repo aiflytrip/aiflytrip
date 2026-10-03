@@ -228,6 +228,7 @@ export const octoberPosts: PostInput[] = [
         "how-to-find-cheap-flights",
         "budget-airline-fees-explained",
         "cheap-flight-tips",
+        "how-to-beat-jet-lag",
       ],
     },
     sources: [
@@ -354,6 +355,7 @@ export const octoberPosts: PostInput[] = [
         "budget-airline-fees-explained",
         "travel-documents-checklist",
         "cheap-flight-tips",
+        "flying-with-kids",
       ],
     },
     sources: [
@@ -478,6 +480,7 @@ export const octoberPosts: PostInput[] = [
         "travel-documents-checklist",
         "carry-on-packing-list",
         "how-to-plan-a-trip",
+        "solo-travel-tips",
       ],
     },
     sources: [

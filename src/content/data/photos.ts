@@ -139,6 +139,54 @@ export function photoForAirport(
 
 /** Blog post photos (Wikimedia Commons Quality/Featured images), keyed by post photo id. */
 export const BLOG_PHOTOS: Record<string, DestinationPhoto> = {
+  "jet-lag": {
+    src: "/images/blog/jet-lag.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "Early morning sunlight streaming through trees onto a quiet country road",
+    caption: "Morning light near Dülmen, Germany",
+    author: "Dietmar Rabich",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:D%C3%BClmen,_Umland,_Sonnenaufgang_--_2012_--_8069.jpg",
+  },
+  "flying-with-kids": {
+    src: "/images/blog/flying-with-kids.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "A row of three airline seats beside the cabin windows of an aircraft",
+    caption: "Aircraft cabin seats",
+    author: "Matti Blume",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Passenger_Experience_Week_2018,_Hamburg_(1X7A3833).jpg",
+  },
+  "budget-trip": {
+    src: "/images/blog/budget-trip.jpg",
+    width: 1800,
+    height: 1012,
+    alt: "Colourful fruit, vegetables and mushrooms on a market stall with handwritten price boards",
+    caption: "Naschmarkt, Vienna",
+    author: "Dietmar Rabich",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Wien,_Naschmarkt_--_2018_--_3109.jpg",
+  },
+  "solo-travel": {
+    src: "/images/blog/solo-travel.jpg",
+    width: 1800,
+    height: 1187,
+    alt: "A lone hiker climbing the last rocks to a summit cross above a wide mountain valley",
+    caption: "Approaching a summit in the Alps",
+    author: "Jörg Braukmann",
+    license: "CC BY-SA 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Die_letzten_Meter_zum_Gipfel.jpg",
+  },
   "cheap-flights": {
     src: "/images/blog/cheap-flights.jpg",
     width: 1800,

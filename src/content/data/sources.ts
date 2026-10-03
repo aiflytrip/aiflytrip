@@ -2,6 +2,41 @@ import { type Source } from "@/content/schema";
 
 /** Authoritative sources reused across pages. Checked by `npm run check:links`. */
 export const SOURCES = {
+  nhsJetLag: {
+    label: "Jet lag",
+    publisher: "NHS",
+    url: "https://www.nhs.uk/conditions/jet-lag/",
+  },
+  cdcJetLag: {
+    label: "Jet lag disorder (CDC Yellow Book)",
+    publisher: "U.S. Centers for Disease Control and Prevention",
+    url: "https://www.cdc.gov/yellow-book/hcp/travel-air-sea/jet-lag-disorder.html",
+  },
+  tsaChildren: {
+    label: "Traveling with children (security screening)",
+    publisher: "U.S. Transportation Security Administration",
+    url: "https://www.tsa.gov/travel/special-procedures/traveling-children",
+  },
+  govUkChildAbroad: {
+    label: "Taking your child abroad",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/permission-take-child-abroad",
+  },
+  ukCaaHolidayBooking: {
+    label: "Your holiday booking: advice for passengers",
+    publisher: "UK Civil Aviation Authority",
+    url: "https://www.caa.co.uk/passengers-and-public/your-holiday-booking/",
+  },
+  euCardCharges: {
+    label: "Money and charges when travelling in the EU",
+    publisher: "European Union (Your Europe)",
+    url: "https://europa.eu/youreurope/citizens/travel/money-charges/index_en.htm",
+  },
+  govUkWomenAbroad: {
+    label: "Advice for women travelling abroad",
+    publisher: "UK Foreign, Commonwealth & Development Office",
+    url: "https://www.gov.uk/guidance/advice-for-women-travelling-abroad",
+  },
   govUkTravelInsurance: {
     label: "Foreign travel insurance",
     publisher: "GOV.UK",

@@ -254,7 +254,7 @@ done** until a person completes them:
       a consent banner first), then set the env vars.
 - [ ] Manually open these source links, which returned HTTP 403 to the
       automated link check (likely bot protection rather than a broken link):
-      `travel.state.gov`, `transportation.gov/airconsumer`, `ratp.fr`, `sncf-connect.com`,
+      `travel.state.gov`, `transportation.gov/airconsumer`, `cdc.gov` (jet lag), `ratp.fr`, `sncf-connect.com`,
       `iatatravelcentre.com`. Replace any that have actually moved.
 - [ ] Editorial review of every content page by a person before launch, and
       then at least yearly (the gate noindexes pages older than 365 days).

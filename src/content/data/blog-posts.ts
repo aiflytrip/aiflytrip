@@ -230,7 +230,11 @@ export const blogPosts: PostInput[] = [
         "/destinations/france",
       ],
       itineraries: ["paris-3-days"],
-      guides: ["how-to-find-cheap-flights", "budget-airline-fees-explained"],
+      guides: [
+        "how-to-find-cheap-flights",
+        "budget-airline-fees-explained",
+        "how-to-plan-a-trip-on-a-budget",
+      ],
     },
     sources: [
       SOURCES.euAirRights,
