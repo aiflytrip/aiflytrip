@@ -139,6 +139,90 @@ export function photoForAirport(
 
 /** Blog post photos (Wikimedia Commons Quality/Featured images), keyed by post photo id. */
 export const BLOG_PHOTOS: Record<string, DestinationPhoto> = {
+  "cheap-flights": {
+    src: "/images/blog/cheap-flights.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "Wide-body airliners parked at gates at Munich Airport on a clear day",
+    caption: "Aircraft at Munich Airport",
+    author: "High Contrast",
+    license: "CC BY 3.0 de",
+    licenseUrl: "https://creativecommons.org/licenses/by/3.0/de/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:An_A380_at_Munich_airport,_2012.jpg",
+  },
+  "flight-tips": {
+    src: "/images/blog/flight-tips.jpg",
+    width: 1800,
+    height: 1200,
+    alt: "An aircraft wing and upturned winglet seen from a cabin window at sunset",
+    caption: "Wing view at sunset",
+    author: "PierreSelim",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Embraer_190_-_Wing_and_winglet_at_sunset.jpg",
+  },
+  "airline-fees": {
+    src: "/images/blog/airline-fees.jpg",
+    width: 1800,
+    height: 1118,
+    alt: "Passengers with cabin bags queuing to board a turboprop aircraft by stairs on the apron",
+    caption: "Boarding by stairs at Vienna Airport",
+    author: "Trougnouf",
+    license: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Austrian_Airlines_Bombardier_Dash_8_Q400_(flight_683)_boarding_at_Vienna_Airport,_Austria_(DSC_0003).jpg",
+  },
+  itinerary: {
+    src: "/images/blog/itinerary.jpg",
+    width: 1800,
+    height: 1195,
+    alt: "The red floating torii gate of Itsukushima Shrine in the sea at sunset, Miyajima, Japan",
+    caption: "Itsukushima Shrine torii, Miyajima, Japan",
+    author: "Jakub Hałun",
+    license: "CC BY 4.0",
+    licenseUrl: "https://creativecommons.org/licenses/by/4.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Itsukushima-jinja_torii_at_sunset,_Miyajima,_Japan,_20240816_1832_4167.jpg",
+  },
+  "plan-trip": {
+    src: "/images/blog/plan-trip.jpg",
+    width: 1800,
+    height: 1295,
+    alt: "A detailed vintage travel map of Switzerland from a 1913 Baedeker guidebook",
+    caption: "Map of Switzerland, Baedeker guidebook (1913)",
+    author: "Unknown author (Baedeker, 1913)",
+    license: "Public domain",
+    licenseUrl: "https://creativecommons.org/publicdomain/mark/1.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Schweiz_Karte_Baedeker,_1913.jpg",
+  },
+  "trip-length": {
+    src: "/images/blog/trip-length.jpg",
+    width: 1800,
+    height: 1238,
+    alt: "Travellers boarding a small passenger boat at a harbour on the island of Stromboli, Italy",
+    caption: "Boarding a boat on Stromboli, Italy",
+    author: "Norbert Nagel",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Island_Stromboli_-_Italy_-_July_18th_2013_-_16.jpg",
+  },
+  documents: {
+    src: "/images/blog/documents.jpg",
+    width: 1800,
+    height: 1045,
+    alt: "A bright, quiet arrivals hall with a baggage carousel at Tallinn Airport",
+    caption: "Arrivals hall, Tallinn Airport",
+    author: "Diego Delso",
+    license: "CC BY-SA 3.0",
+    licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/",
+    sourceUrl:
+      "https://commons.wikimedia.org/wiki/File:Aeropuerto_Internacional_de_Tallinn,_Estonia,_2012-08-05,_DD_05.JPG",
+  },
   "airport-to-city": {
     src: "/images/blog/airport-to-city.jpg",
     width: 1800,

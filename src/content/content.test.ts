@@ -232,8 +232,9 @@ describe("blog photos and scheduling", () => {
         existsSync(join(process.cwd(), "public", photo!.src)),
         photo!.src,
       ).toBe(true);
+      // Country ports such as "CC BY 3.0 de" are valid CC licences too.
       expect(photo!.license, post.path).toMatch(
-        /^(CC0|Public domain|CC BY(-SA)? [0-9.]+)$/,
+        /^(CC0|Public domain|CC BY(-SA)? [0-9.]+( [a-z]{2})?)$/,
       );
       expect(photo!.licenseUrl, post.path).toMatch(
         /^https:\/\/creativecommons\.org\//,

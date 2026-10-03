@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { Container } from "@/components/ui/container";
-import { DESTINATION_PHOTOS } from "@/content/data/photos";
+import { BLOG_PHOTOS, DESTINATION_PHOTOS } from "@/content/data/photos";
 import { PhotoCredit } from "@/features/content/components/photo-credit";
 import { Breadcrumbs } from "@/features/seo/components";
 import { pageMetadata } from "@/features/seo/metadata";
@@ -28,25 +28,27 @@ export default function PhotoCreditsPage() {
         />
         <h1 className="text-4xl font-bold text-white">Photo credits</h1>
         <p className="leading-relaxed text-muted-foreground">
-          Our destination photos are Featured pictures from Wikimedia Commons,
-          used under the Creative Commons licences shown. Thank you to the
-          photographers who share their work.
+          Our destination and blog photos come from Wikimedia Commons (Featured
+          and Quality images), used under the Creative Commons licences shown.
+          Thank you to the photographers who share their work.
         </p>
       </div>
       <ul className="grid gap-5 sm:grid-cols-2">
-        {Object.entries(DESTINATION_PHOTOS).map(([slug, photo]) => (
-          <li key={slug} className="glass overflow-hidden rounded-2xl">
-            <Image
-              src={photo.src}
-              alt={photo.alt}
-              width={photo.width}
-              height={photo.height}
-              sizes="(min-width: 640px) 440px, 100vw"
-              className="aspect-[3/2] w-full object-cover"
-            />
-            <PhotoCredit photo={photo} className="p-4" />
-          </li>
-        ))}
+        {Object.entries({ ...DESTINATION_PHOTOS, ...BLOG_PHOTOS }).map(
+          ([slug, photo]) => (
+            <li key={slug} className="glass overflow-hidden rounded-2xl">
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
+                sizes="(min-width: 640px) 440px, 100vw"
+                className="aspect-[3/2] w-full object-cover"
+              />
+              <PhotoCredit photo={photo} className="p-4" />
+            </li>
+          ),
+        )}
       </ul>
     </Container>
   );

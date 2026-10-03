@@ -7,6 +7,7 @@ type GuideInput = z.input<typeof GuideSchema>;
 export const guides: GuideInput[] = [
   {
     slug: "how-to-plan-a-trip",
+    photo: "plan-trip",
     category: "planning",
     status: "published",
     lastReviewed: "2026-10-02",
@@ -134,6 +135,7 @@ export const guides: GuideInput[] = [
   },
   {
     slug: "how-many-days-for-a-trip",
+    photo: "trip-length",
     category: "planning",
     status: "published",
     lastReviewed: "2026-10-02",
@@ -248,6 +250,7 @@ export const guides: GuideInput[] = [
   },
   {
     slug: "travel-documents-checklist",
+    photo: "documents",
     category: "practical",
     status: "published",
     lastReviewed: "2026-10-02",

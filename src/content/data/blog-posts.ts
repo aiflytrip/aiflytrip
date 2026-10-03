@@ -12,6 +12,7 @@ type PostInput = z.input<typeof GuideSchema>;
 export const blogPosts: PostInput[] = [
   {
     slug: "how-to-find-cheap-flights",
+    photo: "cheap-flights",
     category: "flights",
     status: "published",
     lastReviewed: "2026-10-03",
@@ -131,6 +132,7 @@ export const blogPosts: PostInput[] = [
   },
   {
     slug: "cheap-flight-tips",
+    photo: "flight-tips",
     category: "flights",
     status: "published",
     lastReviewed: "2026-10-03",
@@ -238,6 +240,7 @@ export const blogPosts: PostInput[] = [
   },
   {
     slug: "budget-airline-fees-explained",
+    photo: "airline-fees",
     category: "flights",
     status: "published",
     lastReviewed: "2026-10-03",
@@ -350,6 +353,7 @@ export const blogPosts: PostInput[] = [
   },
   {
     slug: "how-to-build-a-travel-itinerary",
+    photo: "itinerary",
     category: "itineraries",
     status: "published",
     lastReviewed: "2026-10-03",
