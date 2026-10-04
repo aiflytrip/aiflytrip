@@ -19,6 +19,7 @@ export function SiteFooter() {
           href: "/tools/trip-budget-calculator",
           label: "Trip budget calculator",
         },
+        { href: "/tools/layover-time-checker", label: "Layover time checker" },
         { href: "/plan", label: "Create a trip plan" },
         { href: "/flights", label: "Compare flights" },
       ],

@@ -203,7 +203,7 @@ export const octoberPosts: PostInput[] = [
         heading: "A quick way to judge any layover",
         paragraphs: [
           "When you're comparing options, ask four questions about each connection. Is it on one ticket? Will you change terminals or go through passport control? Do you need to collect and re-check bags? And how often does the next flight to your destination leave if you miss this one?",
-          "If the answers are one ticket, same terminal, no passport control, no bags and frequent onward flights, a short connection is usually fine. Each answer that goes the other way is a reason to add time.",
+          "If the answers are one ticket, same terminal, no passport control, no bags and frequent onward flights, a short connection is usually fine. Each answer that goes the other way is a reason to add time. Our free [layover time checker](/tools/layover-time-checker) runs through these questions for you.",
         ],
         bullets: [],
       },

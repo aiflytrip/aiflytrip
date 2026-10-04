@@ -64,6 +64,12 @@ export default function HomePage() {
             >
               Go to the trip budget calculator →
             </Link>
+            <Link
+              href="/tools/layover-time-checker"
+              className="text-sm font-semibold text-primary hover:text-primary-hover"
+            >
+              Check your layover time with our free layover checker →
+            </Link>
           </div>
           <div className="reveal">
             <QuickBudget />

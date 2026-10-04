@@ -94,6 +94,7 @@ export default function TripBudgetCalculatorPage() {
         <Breadcrumbs
           crumbs={[
             { name: "Home", path: "/" },
+            { name: "Free tools", path: "/tools" },
             { name: "Trip budget calculator", path: PATH },
           ]}
         />
