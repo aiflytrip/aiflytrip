@@ -6,7 +6,11 @@ import {
 } from "@/content/schema";
 import { siteConfig } from "@/config/site";
 import { countWords } from "@/content/quality";
-import { blogPhoto, destinationPhoto } from "@/content/data/photos";
+import {
+  blogPhoto,
+  destinationPhoto,
+  type DestinationPhoto,
+} from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
 
 /**
@@ -111,19 +115,35 @@ function articleBase(page: {
   };
 }
 
+const PUBLIC_DOMAIN = new Set(["Public domain", "CC0"]);
+
+/**
+ * Google image metadata for a credited Commons photo: creator, credit,
+ * copyright notice, licence and where to obtain it. The copyright stays
+ * with the photographer; public-domain works say so instead.
+ */
+export function imageObjectLd(photo: DestinationPhoto): Thing {
+  const publicDomain = PUBLIC_DOMAIN.has(photo.license);
+  return {
+    "@type": "ImageObject",
+    contentUrl: absoluteUrl(photo.src),
+    url: absoluteUrl(photo.src),
+    width: photo.width,
+    height: photo.height,
+    caption: photo.caption,
+    creator: { "@type": "Person", name: photo.author },
+    creditText: `${photo.author} / Wikimedia Commons`,
+    copyrightNotice: publicDomain
+      ? `${photo.author}. ${photo.license}`
+      : `© ${photo.author}. Licensed under ${photo.license}`,
+    license: photo.licenseUrl,
+    acquireLicensePage: photo.sourceUrl,
+  };
+}
+
 function photoLd(slug: string): Thing {
   const photo = destinationPhoto(slug);
-  if (!photo) return {};
-  return {
-    image: {
-      "@type": "ImageObject",
-      url: absoluteUrl(photo.src),
-      caption: photo.caption,
-      creditText: photo.author,
-      license: photo.licenseUrl,
-      acquireLicensePage: photo.sourceUrl,
-    },
-  };
+  return photo ? { image: imageObjectLd(photo) } : {};
 }
 
 export function destinationLd(page: Destination & { path: string }): Thing[] {
@@ -181,7 +201,7 @@ export function guideLd(page: Guide & { path: string }): Thing[] {
       "@type": "BlogPosting",
       ...articleBase(page),
       ...(blogPhoto(page.photo)
-        ? { image: absoluteUrl(blogPhoto(page.photo)!.src) }
+        ? { image: imageObjectLd(blogPhoto(page.photo)!) }
         : {}),
       articleSection: page.category,
       wordCount: countWords(
