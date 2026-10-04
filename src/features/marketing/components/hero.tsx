@@ -1,11 +1,15 @@
-import Link from "next/link";
-
 import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
 import { HeroPlanCard } from "@/features/marketing/components/hero-plan-card";
 
 /** Homepage hero: one clear H1, a plain-language value proposition and the primary CTA. */
+const HERO_TOOLS = [
+  { id: "budget", label: "Budget calculator" },
+  { id: "layover", label: "Layover checker" },
+  { id: "days", label: "How many days?" },
+];
+
 export function Hero() {
   return (
     <section className="relative">
@@ -56,14 +60,21 @@ export function Hero() {
               See how it works
             </ButtonLink>
           </div>
-          <p className="animate-rise text-sm delay-4">
-            <Link
-              href="/tools/trip-budget-calculator"
-              className="font-semibold text-primary hover:text-primary-hover"
-            >
-              Or estimate your trip cost with our free budget calculator →
-            </Link>
-          </p>
+          <nav
+            aria-label="Free travel tools"
+            className="animate-rise flex flex-wrap items-center gap-2 text-sm delay-4"
+          >
+            <span className="mr-1 text-muted-foreground">Free tools:</span>
+            {HERO_TOOLS.map((tool) => (
+              <a
+                key={tool.id}
+                href={`#tool-${tool.id}`}
+                className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 font-medium text-foreground/90 transition-colors hover:border-primary/50 hover:text-white"
+              >
+                {tool.label}
+              </a>
+            ))}
+          </nav>
           <p className="animate-rise text-xs text-muted-foreground/80 delay-4">
             Free to use, no account needed. AIFlyTrip is a planning tool and
             doesn&apos;t book flights or hotels.

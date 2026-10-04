@@ -14,7 +14,7 @@ import { FlightSearchForm } from "@/features/flights";
 import { FeatureGrid, Hero, HowItWorks } from "@/features/marketing";
 import { homeFaqs } from "@/features/marketing/content";
 import { SectionHeading } from "@/features/marketing/components/section-heading";
-import { QuickBudget } from "@/features/tools/budget/quick-budget";
+import { ToolsShowcase } from "@/features/tools/tools-showcase";
 import { JsonLd } from "@/features/seo/components";
 import {
   faqLd,
@@ -42,44 +42,28 @@ export default function HomePage() {
       <JsonLd data={graph(websiteLd(), organizationLd(), faqLd(homeFaqs))} />
       <Hero />
 
-      <section aria-labelledby="budget-heading" className="py-16 sm:py-20">
-        <Container className="grid items-center gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <div className="reveal flex flex-col gap-4">
-            <p className="eyebrow">Free tool</p>
-            <h2
-              id="budget-heading"
-              className="text-[clamp(2rem,4vw,2.875rem)] leading-tight font-bold text-balance text-white"
-            >
-              How much will your trip cost?
-            </h2>
-            <p className="leading-relaxed text-muted-foreground">
-              Add your flights, a nightly rate and what you expect to spend each
-              day to see your total in seconds. Open the full trip budget
-              calculator to break it down by food, transport, activities and
-              extras, then share it with your travel companions.
-            </p>
+      <section
+        id="free-tools"
+        aria-labelledby="tools-heading"
+        className="scroll-mt-20 py-16 sm:py-20"
+      >
+        <Container className="flex flex-col gap-8">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeading
+              id="tools-heading"
+              eyebrow="Free travel tools"
+              title="Answer the big trip questions in seconds"
+              description="How much it will cost, whether your connection is long enough and how many days you need. Free, no sign-up."
+              align="left"
+            />
             <Link
-              href="/tools/trip-budget-calculator"
-              className="text-sm font-semibold text-primary hover:text-primary-hover"
+              href="/tools"
+              className="reveal text-sm font-semibold text-primary hover:text-primary-hover"
             >
-              Go to the trip budget calculator →
-            </Link>
-            <Link
-              href="/tools/layover-time-checker"
-              className="text-sm font-semibold text-primary hover:text-primary-hover"
-            >
-              Check your layover time with our free layover checker →
-            </Link>
-            <Link
-              href="/tools/how-many-days"
-              className="text-sm font-semibold text-primary hover:text-primary-hover"
-            >
-              Work out how many days you need for your trip →
+              See all free tools →
             </Link>
           </div>
-          <div className="reveal">
-            <QuickBudget />
-          </div>
+          <ToolsShowcase />
         </Container>
       </section>
 
