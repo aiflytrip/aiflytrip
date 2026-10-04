@@ -57,7 +57,7 @@ describe("how many days planner", () => {
         { name: "C", type: "town", dayTrips: 0 },
       ],
     });
-    expect(r.warnings.join(" ")).toMatch(/rushed/);
+    expect(r.warnings).toContainEqual({ kind: "rushed" });
   });
 
   it("compares with the days available and names a stop to drop", () => {
@@ -70,7 +70,11 @@ describe("how many days planner", () => {
       ],
     });
     expect(r.fit?.status).toBe("packed");
-    expect(r.warnings.join(" ")).toMatch(/Orvieto/);
+    expect(r.warnings).toContainEqual({
+      kind: "needMore",
+      days: 2,
+      dropStop: 1,
+    });
   });
 
   it("sanitises names and round-trips through the share link", () => {

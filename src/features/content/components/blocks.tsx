@@ -59,12 +59,14 @@ export function BulletList({ items }: { items: string[] }) {
 export function FaqList({
   faqs,
   headingId = "faq-heading",
+  title = "Frequently asked questions",
 }: {
   faqs: Faq[];
   headingId?: string;
+  title?: string;
 }) {
   return (
-    <ContentSection id={headingId} title="Frequently asked questions">
+    <ContentSection id={headingId} title={title}>
       <div className="flex flex-col gap-3">
         {faqs.map((faq) => (
           <details
@@ -178,11 +180,13 @@ export function PlannerCta({
   body,
   href = "/plan",
   placement = "content",
+  buttonLabel = "Create your free trip plan",
 }: {
   heading: string;
   body: string;
   href?: string;
   placement?: string;
+  buttonLabel?: string;
 }) {
   return (
     <Card className="flex flex-col gap-4 bg-accent p-6 sm:flex-row sm:items-center sm:justify-between">
@@ -198,7 +202,7 @@ export function PlannerCta({
         size="lg"
         className="shrink-0"
       >
-        Create your free trip plan
+        {buttonLabel}
       </PlannerCtaLink>
     </Card>
   );

@@ -12,6 +12,7 @@ import {
   type DestinationPhoto,
 } from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
+import { ogImagePath } from "@/features/seo/og-targets";
 
 /**
  * Schema.org builders. Rules (see SEO.md):
@@ -111,7 +112,7 @@ function articleBase(page: {
       url: absoluteUrl("/editorial-policy"),
     },
     publisher: { "@id": ORG_ID() },
-    image: absoluteUrl(`${page.path}/opengraph-image`),
+    image: absoluteUrl(ogImagePath(page.path)),
   };
 }
 

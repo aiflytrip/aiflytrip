@@ -2,15 +2,15 @@ import { ButtonLink } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
 import { HeroPlanCard } from "@/features/marketing/components/hero-plan-card";
+import { type Locale } from "@/i18n/config";
+import { HOME_COPY } from "@/i18n/pages/home";
+import { plannerHref, route } from "@/i18n/routes";
 
 /** Homepage hero: one clear H1, a plain-language value proposition and the primary CTA. */
-const HERO_TOOLS = [
-  { id: "budget", label: "Budget calculator" },
-  { id: "layover", label: "Layover checker" },
-  { id: "days", label: "How many days?" },
-];
+const HERO_TOOLS = ["budget", "layover", "days"] as const;
 
-export function Hero() {
+export function Hero({ locale = "en" }: { locale?: Locale }) {
+  const t = HOME_COPY[locale].hero;
   return (
     <section className="relative">
       <div
@@ -29,20 +29,22 @@ export function Hero() {
         <div className="flex min-w-0 flex-[1_1_min(480px,100%)] flex-col gap-6">
           <p className="animate-rise inline-flex items-center gap-2.5 self-start rounded-full border border-primary/30 bg-primary/10 px-3.5 py-2 text-sm font-semibold text-accent-foreground">
             <span className="animate-live size-2 rounded-full bg-emerald-400" />
-            Free AI trip planner · no sign-up needed
+            {t.pill}
           </p>
           <h1 className="animate-rise text-[clamp(2.75rem,6vw,4.75rem)] leading-[1.02] font-bold text-balance text-white delay-1">
-            Plan your trip with a{" "}
-            <span className="text-gradient">free AI travel planner</span>
+            {t.titleStart}{" "}
+            <span className="text-gradient">{t.titleHighlight}</span>
           </h1>
           <p className="animate-rise max-w-xl text-lg leading-relaxed text-muted-foreground delay-2 sm:text-[19px]">
-            Turn your dates, budget, pace and interests into a personalized,
-            day-by-day travel itinerary, with flight options and a budget
-            estimate you can refine.
+            {t.lead}
           </p>
           <div className="animate-rise flex flex-col gap-3 delay-3 sm:flex-row">
-            <PlannerCtaLink href="/plan" placement="home_hero" size="lg">
-              Create your free trip plan
+            <PlannerCtaLink
+              href={plannerHref(locale)}
+              placement="home_hero"
+              size="lg"
+            >
+              {t.primary}
               <svg
                 aria-hidden="true"
                 viewBox="0 0 24 24"
@@ -56,32 +58,37 @@ export function Hero() {
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </PlannerCtaLink>
-            <ButtonLink href="/travel-planner" variant="secondary" size="lg">
-              See how it works
+            <ButtonLink
+              href={
+                locale === "en" ? "/travel-planner" : route("tools", locale)
+              }
+              variant="secondary"
+              size="lg"
+            >
+              {t.secondary}
             </ButtonLink>
           </div>
           <nav
-            aria-label="Free travel tools"
+            aria-label={t.toolsLabel.replace(/:s*$/, "")}
             className="animate-rise flex flex-wrap items-center gap-2 text-sm delay-4"
           >
-            <span className="mr-1 text-muted-foreground">Free tools:</span>
+            <span className="mr-1 text-muted-foreground">{t.toolsLabel}</span>
             {HERO_TOOLS.map((tool) => (
               <a
-                key={tool.id}
-                href={`#tool-${tool.id}`}
+                key={tool}
+                href={`#tool-${tool}`}
                 className="rounded-full border border-white/10 bg-white/[0.05] px-3 py-1.5 font-medium text-foreground/90 transition-colors hover:border-primary/50 hover:text-white"
               >
-                {tool.label}
+                {t.tools[tool]}
               </a>
             ))}
           </nav>
           <p className="animate-rise text-xs text-muted-foreground/80 delay-4">
-            Free to use, no account needed. AIFlyTrip is a planning tool and
-            doesn&apos;t book flights or hotels.
+            {t.note}
           </p>
         </div>
         <div className="animate-rise min-w-0 flex-[1_1_min(440px,100%)] delay-4">
-          <HeroPlanCard />
+          <HeroPlanCard locale={locale} />
         </div>
       </Container>
     </section>

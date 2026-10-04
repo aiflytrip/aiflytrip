@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/container";
-import { steps } from "@/features/marketing/content";
 import { SectionHeading } from "@/features/marketing/components/section-heading";
+import { type Locale } from "@/i18n/config";
+import { HOME_COPY } from "@/i18n/pages/home";
 
 const STEP_ICONS = [
   "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z",
@@ -8,7 +9,8 @@ const STEP_ICONS = [
   "M20 6 9 17l-5-5",
 ];
 
-export function HowItWorks() {
+export function HowItWorks({ locale = "en" }: { locale?: Locale }) {
+  const t = HOME_COPY[locale].howItWorks;
   return (
     <section
       id="how-it-works"
@@ -18,12 +20,12 @@ export function HowItWorks() {
       <Container>
         <SectionHeading
           id="how-it-works-heading"
-          eyebrow="How it works"
-          title="From idea to itinerary in three steps"
+          eyebrow={t.eyebrow}
+          title={t.title}
           align="left"
         />
         <ol className="mt-12 grid gap-5 md:grid-cols-3">
-          {steps.map((step, index) => (
+          {t.steps.map((step, index) => (
             <li
               key={step.title}
               className="glass lift reveal flex min-h-56 flex-col gap-3.5 rounded-3xl p-7"

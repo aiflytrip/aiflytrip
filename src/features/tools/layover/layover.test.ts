@@ -31,7 +31,7 @@ describe("layover time checker", () => {
     const yes = checkLayover({ ...simple, passportControl: "yes" });
     const unsure = checkLayover({ ...simple, passportControl: "unsure" });
     expect(unsure.neededMinutes).toBe(yes.neededMinutes);
-    expect(unsure.advice.join(" ")).toMatch(/Schengen/);
+    expect(unsure.advice).toContain("passportUnsure");
   });
 
   it("grades the margin", () => {
@@ -54,7 +54,8 @@ describe("layover time checker", () => {
     expect(two.neededMinutes - one.neededMinutes).toBe(
       ASSUMPTIONS.separateTicketsBuffer,
     );
-    expect(two.advice[0]).toMatch(/separate tickets/i);
+    expect(two.advice[0]).toBe("separateTickets");
+    expect(one.advice[0]).toBe("singleTicket");
   });
 
   it("bounds hostile query input and round-trips", () => {

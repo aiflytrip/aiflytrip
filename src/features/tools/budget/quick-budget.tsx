@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select } from "@/components/ui/select";
+import { formatMoney } from "@/features/tools/format";
 import {
   CURRENCIES,
   DEFAULT_INPUT,
@@ -15,18 +16,9 @@ import {
   tripDays,
   type Currency,
 } from "@/features/tools/budget/budget";
-
-function money(amount: number, currency: string) {
-  try {
-    return new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  } catch {
-    return `${Math.round(amount).toLocaleString("en-GB")} ${currency}`;
-  }
-}
+import { type Locale } from "@/i18n/config";
+import { toolsMessages } from "@/i18n/messages/tools";
+import { route } from "@/i18n/routes";
 
 const toNumber = (value: string) => {
   const n = Number(value);
@@ -38,11 +30,20 @@ const toNumber = (value: string) => {
  * that carries the values into the full calculator. Uses only the user's
  * own numbers (no built-in prices).
  */
-export function QuickBudget() {
+export function QuickBudget({
+  locale = "en",
+  defaultCurrency = "GBP",
+}: {
+  locale?: Locale;
+  defaultCurrency?: Currency;
+}) {
   const id = useId();
+  const m = toolsMessages(locale).budget;
+  const money = (amount: number, cur: string) =>
+    formatMoney(amount, cur, locale);
   const [travellers, setTravellers] = useState("2");
   const [nights, setNights] = useState("4");
-  const [currency, setCurrency] = useState<Currency>("GBP");
+  const [currency, setCurrency] = useState<Currency>(defaultCurrency);
   const [flights, setFlights] = useState("");
   const [stay, setStay] = useState("");
   const [daily, setDaily] = useState("");
@@ -53,7 +54,7 @@ export function QuickBudget() {
   const total =
     toNumber(flights) * t + toNumber(stay) * n + toNumber(daily) * days * t;
 
-  const fullHref = `/tools/trip-budget-calculator?${toQuery(
+  const fullHref = `${route("budget", locale)}?${toQuery(
     sanitise({
       ...DEFAULT_INPUT,
       travellers: t,
@@ -74,10 +75,10 @@ export function QuickBudget() {
       <form
         className="relative grid grid-cols-2 gap-3 sm:grid-cols-3"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Quick trip budget"
+        aria-label={m.quickFormLabel}
       >
         <div className={field}>
-          <Label htmlFor={`${id}-t`}>Travellers</Label>
+          <Label htmlFor={`${id}-t`}>{m.travellers}</Label>
           <Input
             id={`${id}-t`}
             type="number"
@@ -89,7 +90,7 @@ export function QuickBudget() {
           />
         </div>
         <div className={field}>
-          <Label htmlFor={`${id}-n`}>Nights</Label>
+          <Label htmlFor={`${id}-n`}>{m.nights}</Label>
           <Input
             id={`${id}-n`}
             type="number"
@@ -101,7 +102,7 @@ export function QuickBudget() {
           />
         </div>
         <div className={`${field} col-span-2 sm:col-span-1`}>
-          <Label htmlFor={`${id}-c`}>Currency</Label>
+          <Label htmlFor={`${id}-c`}>{m.currency}</Label>
           <Select
             id={`${id}-c`}
             value={currency}
@@ -115,7 +116,7 @@ export function QuickBudget() {
           </Select>
         </div>
         <div className={field}>
-          <Label htmlFor={`${id}-f`}>Flights per person</Label>
+          <Label htmlFor={`${id}-f`}>{m.flightsPerPerson}</Label>
           <Input
             id={`${id}-f`}
             type="number"
@@ -127,7 +128,7 @@ export function QuickBudget() {
           />
         </div>
         <div className={field}>
-          <Label htmlFor={`${id}-s`}>Stay per night</Label>
+          <Label htmlFor={`${id}-s`}>{m.stayPerNight}</Label>
           <Input
             id={`${id}-s`}
             type="number"
@@ -139,7 +140,7 @@ export function QuickBudget() {
           />
         </div>
         <div className={`${field} col-span-2 sm:col-span-1`}>
-          <Label htmlFor={`${id}-d`}>Daily spend per person</Label>
+          <Label htmlFor={`${id}-d`}>{m.dailySpend}</Label>
           <Input
             id={`${id}-d`}
             type="number"
@@ -154,7 +155,7 @@ export function QuickBudget() {
 
       <div className="relative mt-5 flex flex-col gap-4 border-t border-white/[0.07] pt-5 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="eyebrow text-[11px]">Estimated trip cost</p>
+          <p className="eyebrow text-[11px]">{m.estimated}</p>
           <p
             className="mt-1 font-display text-4xl font-bold text-white tabular-nums"
             aria-live="polite"
@@ -162,14 +163,14 @@ export function QuickBudget() {
             {money(total, currency)}
           </p>
           <p className="text-xs text-muted-foreground">
-            {money(total / t, currency)} per person · {days} days of spending
+            {m.quickSummary(money(total / t, currency), days)}
           </p>
         </div>
         <Link
           href={fullHref}
           className={buttonVariants({ variant: "secondary" })}
         >
-          Open the full calculator →
+          {m.openFull}
         </Link>
       </div>
     </div>

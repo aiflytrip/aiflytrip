@@ -3,10 +3,20 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 
-import { type NavItem } from "@/config/site";
+import { type ChromeLink } from "@/i18n/messages/site";
 import { cn } from "@/lib/utils";
 
-export function MobileNav({ items }: { items: readonly NavItem[] }) {
+export function MobileNav({
+  items,
+  openLabel = "Open menu",
+  closeLabel = "Close menu",
+  navLabel = "Main",
+}: {
+  items: readonly ChromeLink[];
+  openLabel?: string;
+  closeLabel?: string;
+  navLabel?: string;
+}) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
 
@@ -28,13 +38,13 @@ export function MobileNav({ items }: { items: readonly NavItem[] }) {
         onClick={() => setOpen((value) => !value)}
         className="grid size-10 place-items-center rounded-full text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
       >
-        <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
+        <span className="sr-only">{open ? closeLabel : openLabel}</span>
         <MenuIcon open={open} />
       </button>
 
       <nav
         id={panelId}
-        aria-label="Main"
+        aria-label={navLabel}
         hidden={!open}
         className="absolute inset-x-0 top-16 border-b border-white/10 bg-background/95 shadow-2xl backdrop-blur-xl"
       >
@@ -43,6 +53,7 @@ export function MobileNav({ items }: { items: readonly NavItem[] }) {
             <li key={item.href}>
               <Link
                 href={item.href}
+                hrefLang={item.englishOnly ? "en" : undefined}
                 onClick={() => setOpen(false)}
                 className="block rounded-xl px-4 py-3 text-base font-medium text-foreground hover:bg-muted"
               >

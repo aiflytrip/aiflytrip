@@ -1,0 +1,53 @@
+import { describe, expect, it } from "vitest";
+
+import { LOCALES } from "@/i18n/config";
+import {
+  languageAlternates,
+  localeForPath,
+  plannerHref,
+  ROUTE_KEYS,
+  ROUTES,
+  routeKeyForPath,
+  switchPath,
+} from "@/i18n/routes";
+
+describe("translated routes", () => {
+  it("gives every page a unique URL per language with the right prefix", () => {
+    const all = ROUTE_KEYS.flatMap((key) => LOCALES.map((l) => ROUTES[key][l]));
+    expect(new Set(all).size).toBe(all.length);
+    for (const key of ROUTE_KEYS) {
+      expect(localeForPath(ROUTES[key].en)).toBe("en");
+      expect(ROUTES[key].es.startsWith("/es")).toBe(true);
+      expect(ROUTES[key].fr.startsWith("/fr")).toBe(true);
+    }
+  });
+
+  it("switches to the same page in another language", () => {
+    expect(switchPath("/tools/how-many-days", "es")).toBe(
+      "/es/herramientas/cuantos-dias",
+    );
+    expect(switchPath("/fr/outils/combien-de-jours/", "en")).toBe(
+      "/tools/how-many-days",
+    );
+    expect(routeKeyForPath("/es")).toBe("home");
+  });
+
+  it("falls back to the homepage for English-only pages", () => {
+    expect(switchPath("/blog/cheap-flight-tips", "fr")).toBe("/fr");
+    expect(localeForPath("/blog/cheap-flight-tips")).toBe("en");
+    expect(localeForPath("/estonia")).toBe("en");
+  });
+
+  it("builds reciprocal hreflang alternates with an English x-default", () => {
+    for (const key of ROUTE_KEYS) {
+      const alt = languageAlternates(key);
+      expect(alt["x-default"]).toBe(alt.en);
+      for (const l of LOCALES) expect(alt[l]).toBe(ROUTES[key][l]);
+    }
+  });
+
+  it("preselects the plan language", () => {
+    expect(plannerHref("en")).toBe("/plan");
+    expect(plannerHref("fr")).toBe("/plan?lang=fr");
+  });
+});

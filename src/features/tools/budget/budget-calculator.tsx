@@ -24,6 +24,9 @@ import {
   type BudgetInput,
   type BudgetLine,
 } from "@/features/tools/budget/budget";
+import { formatMoney } from "@/features/tools/format";
+import { type Locale } from "@/i18n/config";
+import { toolsMessages, type ToolsMessages } from "@/i18n/messages/tools";
 import { cn } from "@/lib/utils";
 
 const COLORS: Record<BudgetLine["key"], string> = {
@@ -35,18 +38,6 @@ const COLORS: Record<BudgetLine["key"], string> = {
   extras: "bg-slate-400",
   buffer: "bg-slate-600",
 };
-
-function money(amount: number, currency: string) {
-  try {
-    return new Intl.NumberFormat("en-GB", {
-      style: "currency",
-      currency,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  } catch {
-    return `${Math.round(amount).toLocaleString("en-GB")} ${currency}`;
-  }
-}
 
 type NumberKey = Exclude<keyof BudgetInput, "currency">;
 
@@ -109,7 +100,14 @@ function NumberField({
  */
 const noopSubscribe = () => () => {};
 
-export function BudgetCalculator() {
+export function BudgetCalculator({
+  locale = "en",
+  defaultCurrency = DEFAULT_INPUT.currency,
+}: {
+  locale?: Locale;
+  /** Used when the link doesn't set a currency (e.g. EUR on /es and /fr). */
+  defaultCurrency?: BudgetInput["currency"];
+}) {
   // The page is statically rendered, so the shared query is only known in
   // the browser. Keying the form on it remounts once after hydration with
   // the shared values, without setting state inside an effect.
@@ -118,11 +116,33 @@ export function BudgetCalculator() {
     () => window.location.search,
     () => "",
   );
-  return <CalculatorForm key={query} initial={fromQuery(query)} />;
+  const shared = fromQuery(query);
+  const initial = new URLSearchParams(query).has("currency")
+    ? shared
+    : { ...shared, currency: defaultCurrency };
+  return (
+    <CalculatorForm
+      key={query}
+      initial={initial}
+      locale={locale}
+      m={toolsMessages(locale)}
+    />
+  );
 }
 
-function CalculatorForm({ initial }: { initial: BudgetInput }) {
+function CalculatorForm({
+  initial,
+  locale,
+  m,
+}: {
+  initial: BudgetInput;
+  locale: Locale;
+  m: ToolsMessages;
+}) {
   const id = useId();
+  const t = m.budget;
+  const money = (amount: number, currency: string) =>
+    formatMoney(amount, currency, locale);
   const [input, setInput] = useState<BudgetInput>(initial);
   const [copied, setCopied] = useState(false);
 
@@ -148,7 +168,7 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      window.prompt("Copy this link to share your budget:", url);
+      window.prompt(t.sharePrompt, url);
     }
     track("budget_calculator_shared");
   }
@@ -158,15 +178,15 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
       <form
         className="glass flex flex-col gap-6 rounded-3xl p-5 sm:p-6"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Trip budget inputs"
+        aria-label={t.formLabel}
       >
         <fieldset className="grid gap-4 sm:grid-cols-3">
           <legend className="mb-3 text-sm font-semibold text-white">
-            Your trip
+            {t.yourTrip}
           </legend>
           <NumberField
             id={`${id}-travellers`}
-            label="Travellers"
+            label={t.travellers}
             value={input.travellers}
             onChange={setNumber("travellers")}
             min={1}
@@ -174,14 +194,14 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
           />
           <NumberField
             id={`${id}-nights`}
-            label="Nights"
+            label={t.nights}
             value={input.nights}
             onChange={setNumber("nights")}
             min={1}
             max={90}
           />
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-currency`}>Currency</Label>
+            <Label htmlFor={`${id}-currency`}>{t.currency}</Label>
             <Select
               id={`${id}-currency`}
               value={input.currency}
@@ -202,12 +222,12 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
 
         <fieldset className="grid gap-4 sm:grid-cols-2">
           <legend className="mb-3 text-sm font-semibold text-white">
-            Getting there and staying
+            {t.gettingThere}
           </legend>
           <NumberField
             id={`${id}-flights`}
-            label="Flights per person"
-            hint="Return fare including bags you need"
+            label={t.flightsPerPerson}
+            hint={t.flightsHint}
             value={input.flightsPerPerson}
             onChange={setNumber("flightsPerPerson")}
             prefix={cur}
@@ -215,8 +235,8 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
           />
           <NumberField
             id={`${id}-accommodation`}
-            label="Accommodation per night"
-            hint="For the whole group, including taxes"
+            label={t.accommodation}
+            hint={t.accommodationHint}
             value={input.accommodationPerNight}
             onChange={setNumber("accommodationPerNight")}
             prefix={cur}
@@ -226,25 +246,25 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
 
         <fieldset className="grid gap-4 sm:grid-cols-3">
           <legend className="mb-3 text-sm font-semibold text-white">
-            Daily spending per person
+            {t.dailySpending}
           </legend>
           <NumberField
             id={`${id}-food`}
-            label="Food and drink"
+            label={t.food}
             value={input.foodPerDay}
             onChange={setNumber("foodPerDay")}
             prefix={cur}
           />
           <NumberField
             id={`${id}-transport`}
-            label="Local transport"
+            label={t.transport}
             value={input.transportPerDay}
             onChange={setNumber("transportPerDay")}
             prefix={cur}
           />
           <NumberField
             id={`${id}-activities`}
-            label="Activities"
+            label={t.activities}
             value={input.activitiesPerDay}
             onChange={setNumber("activitiesPerDay")}
             prefix={cur}
@@ -253,19 +273,19 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
 
         <fieldset className="grid gap-4 sm:grid-cols-2">
           <legend className="mb-3 text-sm font-semibold text-white">
-            Extras and buffer
+            {t.extrasAndBuffer}
           </legend>
           <NumberField
             id={`${id}-extras`}
-            label="One-off extras (group)"
-            hint="Insurance, visas, airport transfers, gifts"
+            label={t.extras}
+            hint={t.extrasHint}
             value={input.extras}
             onChange={setNumber("extras")}
             prefix={cur}
             step={10}
           />
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-buffer`}>Safety buffer</Label>
+            <Label htmlFor={`${id}-buffer`}>{t.buffer}</Label>
             <Select
               id={`${id}-buffer`}
               value={input.bufferPercent}
@@ -277,7 +297,7 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
             >
               {BUFFERS.map((b) => (
                 <option key={b} value={b}>
-                  {b === 0 ? "No buffer" : `${b}% for surprises`}
+                  {b === 0 ? t.noBuffer : t.bufferOption(b)}
                 </option>
               ))}
             </Select>
@@ -290,7 +310,7 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
           className="self-start"
           onClick={() => setInput(DEFAULT_INPUT)}
         >
-          Reset
+          {m.common.reset}
         </Button>
       </form>
 
@@ -304,7 +324,7 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
             className="orb -top-24 -right-24 size-[320px] bg-[radial-gradient(circle,rgb(56_189_248/0.22),transparent_65%)]"
           />
           <h2 id={`${id}-results`} className="eyebrow relative">
-            Estimated trip cost
+            {t.estimated}
           </h2>
           <p
             className="relative mt-2 font-display text-5xl font-bold text-white tabular-nums"
@@ -314,15 +334,13 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
           </p>
           <dl className="relative mt-4 grid grid-cols-2 gap-3 text-sm">
             <div className="rounded-2xl bg-white/[0.04] p-3">
-              <dt className="text-muted-foreground">Per person</dt>
+              <dt className="text-muted-foreground">{t.perPerson}</dt>
               <dd className="font-semibold text-white tabular-nums">
                 {money(result.perPerson, cur)}
               </dd>
             </div>
             <div className="rounded-2xl bg-white/[0.04] p-3">
-              <dt className="text-muted-foreground">
-                Per day ({result.days} days)
-              </dt>
+              <dt className="text-muted-foreground">{t.perDay(result.days)}</dt>
               <dd className="font-semibold text-white tabular-nums">
                 {money(result.perDay, cur)}
               </dd>
@@ -355,7 +373,9 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
                     aria-hidden="true"
                     className={cn("size-2.5 rounded-full", COLORS[line.key])}
                   />
-                  {line.label}
+                  {line.key === "buffer"
+                    ? t.bufferLine(input.bufferPercent)
+                    : t.lines[line.key]}
                 </span>
                 <span className="font-semibold text-white tabular-nums">
                   {money(line.amount, cur)}
@@ -366,19 +386,18 @@ function CalculatorForm({ initial }: { initial: BudgetInput }) {
 
           <div className="relative mt-5 flex flex-wrap gap-2 print:hidden">
             <Button type="button" onClick={share}>
-              {copied ? "Link copied" : "Copy share link"}
+              {copied ? m.common.copied : m.common.copyLink}
             </Button>
             <Button
               type="button"
               variant="secondary"
               onClick={() => window.print()}
             >
-              Print or save as PDF
+              {t.print}
             </Button>
           </div>
           <p className="relative mt-3 text-xs text-muted-foreground">
-            Based on your own estimates. Daily costs count {result.days} days
-            for {input.nights} nights, to include arrival and departure days.
+            {t.footnote(result.days, input.nights)}
           </p>
         </div>
       </section>

@@ -4,40 +4,25 @@
  * real fare. The plane animation is SMIL inside the SVG; it is hidden for
  * reduced-motion users via `.motion-only`.
  */
+import { type Locale } from "@/i18n/config";
+import { HOME_COPY } from "@/i18n/pages/home";
+
 const ROUTE = "M16 78 Q200 -30 384 78";
 
-const DAYS = [
-  {
-    label: "DAY 1",
-    chip: "bg-primary",
-    title: "Arrive · Baixa & Chiado",
-    detail: "Drop bags, flat-street wander, sunset at a miradouro",
-  },
-  {
-    label: "DAY 2",
-    chip: "bg-violet",
-    title: "Alfama & São Jorge Castle",
-    detail: "Tram up early, castle views, fado evening",
-  },
-  {
-    label: "DAY 3",
-    chip: "bg-emerald-400",
-    title: "Belém & the riverfront",
-    detail: "Monastery, riverside walk, pastries before your flight",
-  },
-];
+const CHIPS = ["bg-primary", "bg-violet", "bg-emerald-400"];
 
-export function HeroPlanCard() {
+export function HeroPlanCard({ locale = "en" }: { locale?: Locale }) {
+  const t = HOME_COPY[locale].heroCard;
   return (
     <div aria-hidden="true" className="relative">
       <div className="glass animate-float rounded-[28px] p-6 shadow-[0_40px_120px_-40px_rgb(0_0_0/0.8)]">
         <div className="mb-4 flex items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="size-2.5 rounded-full bg-emerald-400" />
-            <span className="text-[15px] font-bold">Lisbon · 3 days</span>
+            <span className="text-[15px] font-bold">{t.destination}</span>
           </div>
           <span className="rounded-full border border-violet/30 bg-violet/15 px-2.5 py-1 text-xs font-semibold text-violet-200">
-            Example plan
+            {t.badge}
           </span>
         </div>
 
@@ -45,11 +30,11 @@ export function HeroPlanCard() {
           <div className="flex items-end justify-between">
             <div>
               <div className="font-mono text-2xl text-white">LHR</div>
-              <div className="text-xs text-muted-foreground">London</div>
+              <div className="text-xs text-muted-foreground">{t.origin}</div>
             </div>
             <div className="text-right">
               <div className="font-mono text-2xl text-white">LIS</div>
-              <div className="text-xs text-muted-foreground">Lisbon</div>
+              <div className="text-xs text-muted-foreground">{t.city}</div>
             </div>
           </div>
           <svg viewBox="0 0 400 90" className="-mt-2 block h-[90px] w-full">
@@ -82,7 +67,7 @@ export function HeroPlanCard() {
             </g>
           </svg>
           <div className="flex flex-wrap gap-2 font-mono text-xs text-muted-foreground">
-            {["Nonstop", "Morning departure", "Economy"].map((tag) => (
+            {t.tags.map((tag) => (
               <span key={tag} className="rounded-lg bg-white/[0.06] px-2 py-1">
                 {tag}
               </span>
@@ -91,13 +76,13 @@ export function HeroPlanCard() {
         </div>
 
         <div className="mt-4 flex flex-col gap-2.5">
-          {DAYS.map((day) => (
+          {t.days.map((day, index) => (
             <div
               key={day.label}
               className="flex items-start gap-3.5 rounded-2xl border border-white/[0.06] bg-white/[0.035] px-3.5 py-3"
             >
               <span
-                className={`${day.chip} w-12 flex-none rounded-lg py-1.5 text-center font-mono text-xs text-primary-foreground`}
+                className={`${CHIPS[index]} min-w-12 flex-none rounded-lg px-1.5 py-1.5 text-center font-mono text-xs text-primary-foreground`}
               >
                 {day.label}
               </span>
@@ -126,7 +111,7 @@ export function HeroPlanCard() {
           </svg>
           <div className="min-w-0 flex-1">
             <div className="text-[13px] font-semibold text-accent-foreground">
-              Refining your budget…
+              {t.refining}
             </div>
             <div className="skeleton-shimmer mt-2 h-1.5 rounded-full" />
           </div>
@@ -148,10 +133,8 @@ export function HeroPlanCard() {
           </svg>
         </span>
         <div>
-          <div className="text-sm font-bold">Plan ready</div>
-          <div className="text-xs text-muted-foreground">
-            Day-by-day · flights · budget
-          </div>
+          <div className="text-sm font-bold">{t.ready}</div>
+          <div className="text-xs text-muted-foreground">{t.readyDetail}</div>
         </div>
       </div>
     </div>

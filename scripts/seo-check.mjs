@@ -135,8 +135,8 @@ ok(
 // --- OG images ------------------------------------------------------------------
 for (const path of [
   "/opengraph-image",
-  "/destinations/japan/opengraph-image",
-  "/blog/how-to-plan-a-trip/opengraph-image",
+  "/og/destinations/japan",
+  "/og/blog/how-to-plan-a-trip",
   "/logo.png",
 ]) {
   const res = await get(path);

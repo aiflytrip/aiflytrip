@@ -38,19 +38,27 @@ export const BASE_DAYS: Record<StopType, number> = {
   town: 2,
   countryside: 3,
 };
-export const STOP_LABELS: Record<StopType, string> = {
-  "big-city": "Big city",
-  town: "Smaller city or town",
-  countryside: "Countryside or beach base",
-};
 /** Two nights is the minimum for a stop to feel worthwhile. */
 export const MIN_DAYS_PER_STOP = 2;
 
+/** Adjustments and warnings are codes; the UI words them per language. */
+export type StopNote =
+  | { kind: "dayTrips"; count: number }
+  | { kind: "relaxed" }
+  | { kind: "fast" }
+  | { kind: "slowerGroup" };
+export type DaysWarning =
+  | { kind: "rushed" }
+  | { kind: "longHaulFocus" }
+  | { kind: "needMore"; days: number; dropStop?: number };
+
 export type StopPlan = {
+  /** Position in the trip, for "Stop 2" when no name was entered. */
+  index: number;
   name: string;
   type: StopType;
   days: number;
-  notes: string[];
+  notes: StopNote[];
 };
 export type DaysResult = {
   stops: StopPlan[];
@@ -59,39 +67,32 @@ export type DaysResult = {
   totalDays: number;
   nights: number;
   fit?: { status: "fits" | "packed" | "spare"; difference: number };
-  warnings: string[];
+  warnings: DaysWarning[];
 };
 
 export function planDays(raw: DaysInput): DaysResult {
   const input = sanitiseDays(raw);
   const stops: StopPlan[] = input.stops.map((stop, index) => {
-    const notes: string[] = [];
+    const notes: StopNote[] = [];
     let days = BASE_DAYS[stop.type];
     if (stop.dayTrips > 0) {
       days += stop.dayTrips;
-      notes.push(
-        `+${stop.dayTrips} for day trip${stop.dayTrips === 1 ? "" : "s"}`,
-      );
+      notes.push({ kind: "dayTrips", count: stop.dayTrips });
     }
     if (input.pace === "relaxed") {
       days += 1;
-      notes.push("+1 for a relaxed pace");
+      notes.push({ kind: "relaxed" });
     }
     if (input.pace === "fast" && days > MIN_DAYS_PER_STOP) {
       days -= 1;
-      notes.push("-1 for a fast pace");
+      notes.push({ kind: "fast" });
     }
     if (input.slowerGroup) {
       days += 1;
-      notes.push("+1 for children or older relatives");
+      notes.push({ kind: "slowerGroup" });
     }
     days = Math.max(MIN_DAYS_PER_STOP, days);
-    return {
-      name: stop.name || `Stop ${index + 1}`,
-      type: stop.type,
-      days,
-      notes,
-    };
+    return { index, name: stop.name, type: stop.type, days, notes };
   });
 
   const groundDays = stops.reduce((sum, s) => sum + s.days, 0);
@@ -102,15 +103,11 @@ export function planDays(raw: DaysInput): DaysResult {
   const travelDays = moveDays + endDays;
   const totalDays = Math.ceil(groundDays + travelDays);
 
-  const warnings: string[] = [];
+  const warnings: DaysWarning[] = [];
   if (stops.length > 1 && totalDays / stops.length < 3)
-    warnings.push(
-      "That's more than one base per three days, which can feel rushed. Consider dropping a stop or turning it into a day trip.",
-    );
+    warnings.push({ kind: "rushed" });
   if (input.longHaul && stops.length > 2 && totalDays < 10)
-    warnings.push(
-      "For a long-haul trip under ten days, focusing on one or two bases usually works better.",
-    );
+    warnings.push({ kind: "longHaulFocus" });
 
   let fit: DaysResult["fit"];
   if (input.available > 0) {
@@ -121,11 +118,11 @@ export function planDays(raw: DaysInput): DaysResult {
     };
     if (difference < 0) {
       const shortest = [...stops].sort((a, b) => a.days - b.days)[0];
-      warnings.push(
-        stops.length > 1 && shortest
-          ? `You'd need ${-difference} more day${difference === -1 ? "" : "s"}. Removing ${shortest.name} or making it a day trip would help.`
-          : `You'd need ${-difference} more day${difference === -1 ? "" : "s"}. Try fewer day trips or a faster pace.`,
-      );
+      warnings.push({
+        kind: "needMore",
+        days: -difference,
+        dropStop: stops.length > 1 ? shortest?.index : undefined,
+      });
     }
   }
 

@@ -50,7 +50,31 @@ export const ASSUMPTIONS = {
   separateTicketsBuffer: 90,
 } as const;
 
-export type Step = { label: string; minutes: number };
+export type StepKey =
+  | "deplaneLarge"
+  | "deplaneSmall"
+  | "terminalChange"
+  | "passportControl"
+  | "securityAgain"
+  | "recheckBags"
+  | "children"
+  | "busySeason"
+  | "longHaulFirst"
+  | "firstVisit"
+  | "boardingCloses"
+  | "separateTickets";
+export type AdviceKey =
+  | "separateTickets"
+  | "singleTicket"
+  | "risky"
+  | "tight"
+  | "workable"
+  | "comfortable"
+  | "passportUnsure"
+  | "bagsUnsure";
+
+/** Steps and advice are codes; the UI shows them in the page's language. */
+export type Step = { key: StepKey; minutes: number };
 export type Verdict = "comfortable" | "workable" | "tight" | "risky";
 
 export type LayoverResult = {
@@ -59,7 +83,7 @@ export type LayoverResult = {
   neededMinutes: number;
   spareMinutes: number;
   verdict: Verdict;
-  advice: string[];
+  advice: AdviceKey[];
 };
 
 /** "Not sure" counts as yes, to stay on the safe side. */
@@ -70,42 +94,27 @@ export function checkLayover(input: LayoverInput): LayoverResult {
   const a = ASSUMPTIONS;
   const steps: Step[] = [
     i.largeAirport
-      ? {
-          label: "Leave the plane and walk (large airport)",
-          minutes: a.deplaneLarge,
-        }
-      : {
-          label: "Leave the plane and walk (smaller airport)",
-          minutes: a.deplaneSmall,
-        },
+      ? { key: "deplaneLarge", minutes: a.deplaneLarge }
+      : { key: "deplaneSmall", minutes: a.deplaneSmall },
   ];
   if (counts(i.terminalChange))
-    steps.push({ label: "Change terminals", minutes: a.terminalChange });
+    steps.push({ key: "terminalChange", minutes: a.terminalChange });
   if (counts(i.passportControl))
-    steps.push({
-      label: "Passport or immigration control",
-      minutes: a.passportControl,
-    });
+    steps.push({ key: "passportControl", minutes: a.passportControl });
   if (counts(i.securityAgain))
-    steps.push({ label: "Security screening again", minutes: a.securityAgain });
+    steps.push({ key: "securityAgain", minutes: a.securityAgain });
   if (counts(i.recheckBags))
-    steps.push({ label: "Collect and re-check bags", minutes: a.recheckBags });
-  const extras = [
-    i.children && "Travelling with children or reduced mobility",
-    i.busySeason && "Busy travel period",
-    i.longHaulFirst && "Long-haul first flight (less predictable arrival)",
-    i.firstVisit && "First time at this airport",
-  ].filter((x): x is string => Boolean(x));
-  for (const label of extras) steps.push({ label, minutes: a.perExtraFactor });
-  steps.push({
-    label: "Boarding usually closes before departure",
-    minutes: a.boardingCloses,
-  });
+    steps.push({ key: "recheckBags", minutes: a.recheckBags });
+  for (const key of [
+    "children",
+    "busySeason",
+    "longHaulFirst",
+    "firstVisit",
+  ] as const)
+    if (i[key]) steps.push({ key, minutes: a.perExtraFactor });
+  steps.push({ key: "boardingCloses", minutes: a.boardingCloses });
   if (i.separateTickets)
-    steps.push({
-      label: "Separate tickets: buffer for a late first flight",
-      minutes: a.separateTicketsBuffer,
-    });
+    steps.push({ key: "separateTickets", minutes: a.separateTicketsBuffer });
 
   const neededMinutes = steps.reduce((sum, s) => sum + s.minutes, 0);
   const layoverMinutes = i.hours * 60 + i.minutes;
@@ -119,40 +128,12 @@ export function checkLayover(input: LayoverInput): LayoverResult {
           ? "tight"
           : "risky";
 
-  const advice: string[] = [];
-  if (i.separateTickets) {
-    advice.push(
-      "On separate tickets, the second airline usually won't rebook you if you miss the flight. Leave a generous gap, or book a single ticket.",
-    );
-  } else {
-    advice.push(
-      "On a single ticket, the airline should only sell connections that meet its minimum connection time, and will normally rebook you if a delay on the first flight makes you miss the second.",
-    );
-  }
-  if (verdict === "risky")
-    advice.push(
-      "This connection is shorter than the steps it involves. Consider a later onward flight, or confirm with the airline that the connection is protected.",
-    );
-  if (verdict === "tight")
-    advice.push(
-      "It could work if everything runs on time. Sit near the front, travel with cabin bags only and check your departure gate as soon as you land.",
-    );
-  if (verdict === "workable")
-    advice.push(
-      "A reasonable margin. Head straight to your next gate and avoid long stops on the way.",
-    );
-  if (verdict === "comfortable")
-    advice.push(
-      "Plenty of time. You should have room for a meal or a rest before boarding.",
-    );
-  if (i.passportControl === "unsure")
-    advice.push(
-      "Not sure about passport control? Check whether you enter a new country or area, such as the Schengen area, at the connecting airport.",
-    );
-  if (i.recheckBags === "unsure")
-    advice.push(
-      "Not sure about bags? Ask at check-in whether they're checked through to your final destination.",
-    );
+  const advice: AdviceKey[] = [
+    i.separateTickets ? "separateTickets" : "singleTicket",
+    verdict,
+  ];
+  if (i.passportControl === "unsure") advice.push("passportUnsure");
+  if (i.recheckBags === "unsure") advice.push("bagsUnsure");
 
   return {
     layoverMinutes,

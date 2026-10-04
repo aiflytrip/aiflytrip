@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 
+import { type Locale } from "@/i18n/config";
+import { toolsMessages } from "@/i18n/messages/tools";
 import { cn } from "@/lib/utils";
 
 export type ToolSlide = { id: string; label: string; content: ReactNode };
@@ -15,7 +17,14 @@ export type ToolSlide = { id: string; label: string; content: ReactNode };
 const slideLeft = (track: HTMLElement, el: HTMLElement) =>
   el.offsetLeft - (track.clientWidth - el.clientWidth) / 2;
 
-export function ToolsSlider({ slides }: { slides: ToolSlide[] }) {
+export function ToolsSlider({
+  slides,
+  locale = "en",
+}: {
+  slides: ToolSlide[];
+  locale?: Locale;
+}) {
+  const t = toolsMessages(locale).slider;
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
 
@@ -74,14 +83,14 @@ export function ToolsSlider({ slides }: { slides: ToolSlide[] }) {
     <div
       className="flex flex-col gap-5"
       role="region"
-      aria-roledescription="carousel"
-      aria-label="Free travel tools"
+      aria-roledescription={t.carousel}
+      aria-label={t.regionLabel}
     >
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div
           className="flex flex-wrap gap-2"
           role="group"
-          aria-label="Choose a tool"
+          aria-label={t.chooseTool}
         >
           {slides.map((s, i) => (
             <button
@@ -107,7 +116,7 @@ export function ToolsSlider({ slides }: { slides: ToolSlide[] }) {
             className={arrow}
             onClick={() => go(active - 1)}
             disabled={active === 0}
-            aria-label="Previous tool"
+            aria-label={t.previous}
           >
             <svg
               aria-hidden="true"
@@ -127,7 +136,7 @@ export function ToolsSlider({ slides }: { slides: ToolSlide[] }) {
             className={arrow}
             onClick={() => go(active + 1)}
             disabled={active === slides.length - 1}
-            aria-label="Next tool"
+            aria-label={t.next}
           >
             <svg
               aria-hidden="true"
@@ -155,8 +164,8 @@ export function ToolsSlider({ slides }: { slides: ToolSlide[] }) {
             id={`tool-slide-${s.id}`}
             data-index={i}
             role="group"
-            aria-roledescription="slide"
-            aria-label={`${i + 1} of ${slides.length}: ${s.label}`}
+            aria-roledescription={t.slide}
+            aria-label={t.slideLabel(i + 1, slides.length, s.label)}
             className="w-[92%] flex-none snap-center sm:w-full"
           >
             {s.content}

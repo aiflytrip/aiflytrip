@@ -21,44 +21,60 @@ import {
   MAX_STOPS,
   planDays,
   sanitiseDays,
-  STOP_LABELS,
   type DaysInput,
+  type DaysWarning,
   type Pace,
+  type StopNote,
+  type StopPlan,
   type StopType,
 } from "@/features/tools/days/days";
+import { stopDisplayName } from "@/features/tools/format";
+import { type Locale } from "@/i18n/config";
+import { toolsMessages, type ToolsMessages } from "@/i18n/messages/tools";
 import { cn } from "@/lib/utils";
 
-export type DestinationHint = { name: string; path: string; summary: string };
+/** A destination guide to suggest; `aliases` are its names in other languages. */
+export type DestinationHint = {
+  name: string;
+  path: string;
+  summary: string;
+  aliases?: string[];
+};
 
-const FIT = {
-  fits: {
-    label: "Fits your time",
-    tone: "border-emerald-400/40 bg-emerald-400/10 text-emerald-200",
-  },
-  spare: {
-    label: "Room to spare",
-    tone: "border-sky-400/40 bg-sky-400/10 text-sky-200",
-  },
-  packed: {
-    label: "Too packed",
-    tone: "border-amber-400/40 bg-amber-400/10 text-amber-200",
-  },
+const FIT_TONES = {
+  fits: "border-emerald-400/40 bg-emerald-400/10 text-emerald-200",
+  spare: "border-sky-400/40 bg-sky-400/10 text-sky-200",
+  packed: "border-amber-400/40 bg-amber-400/10 text-amber-200",
 } as const;
 
-/** Short labels that fit the narrow Type dropdown. */
-const TYPE_OPTIONS: Record<StopType, string> = {
-  "big-city": "Big city",
-  town: "Town",
-  countryside: "Countryside",
-};
+const STOP_TYPES: StopType[] = ["big-city", "town", "countryside"];
+const PACE_OPTIONS: Pace[] = ["relaxed", "moderate", "fast"];
+
+type DaysText = ToolsMessages["days"];
+
+function noteText(note: StopNote, t: DaysText): string {
+  return note.kind === "dayTrips"
+    ? t.notes.dayTrips(note.count)
+    : t.notes[note.kind];
+}
+
+function warningText(w: DaysWarning, stops: StopPlan[], t: DaysText): string {
+  if (w.kind !== "needMore") return t.warnings[w.kind];
+  const drop = w.dropStop === undefined ? undefined : stops[w.dropStop];
+  return drop
+    ? t.warnings.needMoreDrop(w.days, stopDisplayName(drop, t))
+    : t.warnings.needMore(w.days);
+}
 
 const noopSubscribe = () => () => {};
 
 /** Reads a shared plan from the URL after hydration (see BudgetCalculator). */
 export function DaysPlanner({
   destinations,
+  locale = "en",
 }: {
   destinations: DestinationHint[];
+  locale?: Locale;
 }) {
   const query = useSyncExternalStore(
     noopSubscribe,
@@ -70,6 +86,7 @@ export function DaysPlanner({
       key={query}
       initial={query ? daysFromQuery(query) : DEFAULT_DAYS_INPUT}
       destinations={destinations}
+      m={toolsMessages(locale)}
     />
   );
 }
@@ -77,11 +94,14 @@ export function DaysPlanner({
 function PlannerForm({
   initial,
   destinations,
+  m,
 }: {
   initial: DaysInput;
   destinations: DestinationHint[];
+  m: ToolsMessages;
 }) {
   const id = useId();
+  const t = m.days;
   const [input, setInput] = useState<DaysInput>(initial);
   const [copied, setCopied] = useState(false);
   const result = useMemo(() => planDays(input), [input]);
@@ -106,11 +126,12 @@ function PlannerForm({
     });
 
   const hints = input.stops
-    .map((s) =>
-      destinations.find(
-        (d) => d.name.toLowerCase() === s.name.trim().toLowerCase(),
-      ),
-    )
+    .map((s) => {
+      const typed = s.name.trim().toLowerCase();
+      return destinations.find((d) =>
+        [d.name, ...(d.aliases ?? [])].some((n) => n.toLowerCase() === typed),
+      );
+    })
     .filter(
       (d, i, all): d is DestinationHint => Boolean(d) && all.indexOf(d) === i,
     );
@@ -122,17 +143,23 @@ function PlannerForm({
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      window.prompt("Copy this link to share your plan:", url);
+      window.prompt(t.sharePrompt, url);
     }
     track("days_planner_shared");
   }
+
+  const aboutTrip = [
+    ["longHaul", t.longHaul],
+    ["longJourneys", t.longJourneys],
+    ["slowerGroup", t.slowerGroup],
+  ] as const;
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
       <form
         className="glass flex flex-col gap-6 rounded-3xl p-5 sm:p-6"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Trip stops and style"
+        aria-label={t.formLabel}
       >
         <datalist id={`${id}-places`}>
           {destinations.map((d) => (
@@ -142,7 +169,7 @@ function PlannerForm({
 
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-1 text-sm font-semibold text-white">
-            Your stops
+            {t.yourStops}
           </legend>
           {input.stops.map((stop, index) => (
             <div
@@ -150,18 +177,20 @@ function PlannerForm({
               className="grid gap-3 rounded-2xl border border-white/[0.07] bg-white/[0.03] p-3 sm:grid-cols-[minmax(0,1fr)_minmax(9.5rem,1fr)_5rem_auto] sm:items-end"
             >
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={`${id}-name-${index}`}>Place {index + 1}</Label>
+                <Label htmlFor={`${id}-name-${index}`}>
+                  {t.place(index + 1)}
+                </Label>
                 <Input
                   id={`${id}-name-${index}`}
                   list={`${id}-places`}
-                  placeholder="e.g. Lisbon"
+                  placeholder={t.placePlaceholder}
                   value={stop.name}
                   maxLength={40}
                   onChange={(e) => updateStop(index, { name: e.target.value })}
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={`${id}-type-${index}`}>Type</Label>
+                <Label htmlFor={`${id}-type-${index}`}>{t.type}</Label>
                 <Select
                   id={`${id}-type-${index}`}
                   value={stop.type}
@@ -169,15 +198,15 @@ function PlannerForm({
                     updateStop(index, { type: e.target.value as StopType })
                   }
                 >
-                  {(Object.keys(STOP_LABELS) as StopType[]).map((t) => (
-                    <option key={t} value={t}>
-                      {TYPE_OPTIONS[t]}
+                  {STOP_TYPES.map((type) => (
+                    <option key={type} value={type}>
+                      {t.typeOptions[type]}
                     </option>
                   ))}
                 </Select>
               </div>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={`${id}-trips-${index}`}>Day trips</Label>
+                <Label htmlFor={`${id}-trips-${index}`}>{t.dayTrips}</Label>
                 <Select
                   id={`${id}-trips-${index}`}
                   value={stop.dayTrips}
@@ -200,9 +229,9 @@ function PlannerForm({
                 onClick={() =>
                   update({ stops: input.stops.filter((_, i) => i !== index) })
                 }
-                aria-label={`Remove place ${index + 1}`}
+                aria-label={t.removeLabel(index + 1)}
               >
-                Remove
+                {t.remove}
               </Button>
             </div>
           ))}
@@ -220,20 +249,20 @@ function PlannerForm({
               })
             }
           >
-            + Add a stop
+            {t.addStop}
           </Button>
         </fieldset>
 
         <fieldset className="flex flex-col gap-2">
           <legend className="mb-1 text-sm font-medium text-foreground">
-            Your pace
+            {t.pace}
           </legend>
           <div className="flex flex-wrap gap-2">
-            {(["relaxed", "moderate", "fast"] as Pace[]).map((p) => (
+            {PACE_OPTIONS.map((p) => (
               <label
                 key={p}
                 className={cn(
-                  "cursor-pointer rounded-full border px-3.5 py-2 text-sm capitalize transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-ring",
+                  "cursor-pointer rounded-full border px-3.5 py-2 text-sm transition-colors has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-ring",
                   input.pace === p
                     ? "border-primary/60 bg-primary/15 text-white"
                     : "border-white/10 bg-white/[0.04] text-muted-foreground hover:border-white/25",
@@ -247,7 +276,7 @@ function PlannerForm({
                   onChange={() => update({ pace: p })}
                   className="sr-only"
                 />
-                {p}
+                {t.paces[p]}
               </label>
             ))}
           </div>
@@ -255,18 +284,9 @@ function PlannerForm({
 
         <fieldset className="flex flex-col gap-2">
           <legend className="mb-1 text-sm font-medium text-foreground">
-            About the trip
+            {t.aboutTrip}
           </legend>
-          {(
-            [
-              ["longHaul", "Long-haul flight (crossing several time zones)"],
-              [
-                "longJourneys",
-                "Long journeys between stops (more than a few hours)",
-              ],
-              ["slowerGroup", "Travelling with children or older relatives"],
-            ] as const
-          ).map(([key, label]) => (
+          {aboutTrip.map(([key, label]) => (
             <label
               key={key}
               className="flex cursor-pointer items-center gap-3 text-sm text-foreground/90"
@@ -283,14 +303,14 @@ function PlannerForm({
         </fieldset>
 
         <div className="flex flex-col gap-1.5 sm:max-w-xs">
-          <Label htmlFor={`${id}-available`}>Days you have (optional)</Label>
+          <Label htmlFor={`${id}-available`}>{t.available}</Label>
           <Input
             id={`${id}-available`}
             type="number"
             inputMode="numeric"
             min={0}
             max={120}
-            placeholder="e.g. 10"
+            placeholder={t.availablePlaceholder}
             value={input.available || ""}
             onChange={(e) =>
               update({
@@ -298,9 +318,7 @@ function PlannerForm({
               })
             }
           />
-          <p className="text-xs text-muted-foreground">
-            Total days including travel days.
-          </p>
+          <p className="text-xs text-muted-foreground">{t.availableHint}</p>
         </div>
 
         <Button
@@ -309,7 +327,7 @@ function PlannerForm({
           className="self-start"
           onClick={() => setInput(DEFAULT_DAYS_INPUT)}
         >
-          Reset
+          {m.common.reset}
         </Button>
       </form>
 
@@ -319,41 +337,46 @@ function PlannerForm({
       >
         <div className="glass rounded-3xl p-6">
           <h2 id={`${id}-result`} className="eyebrow">
-            Recommended trip length
+            {t.recommended}
           </h2>
           <div aria-live="polite">
             <p className="mt-2 font-display text-5xl font-bold text-white">
-              {result.totalDays} days
+              {t.totalDays(result.totalDays)}
             </p>
             <p className="text-sm text-muted-foreground">
-              {result.nights} nights · {result.groundDays} days exploring +{" "}
-              {result.travelDays} travel
+              {t.summary(result.nights, result.groundDays, result.travelDays)}
             </p>
             {result.fit ? (
               <p
                 className={cn(
                   "mt-3 inline-flex rounded-full border px-3.5 py-1.5 text-sm font-semibold",
-                  FIT[result.fit.status].tone,
+                  FIT_TONES[result.fit.status],
                 )}
               >
-                {FIT[result.fit.status].label}
+                {t.fit[result.fit.status]}
                 {result.fit.status === "spare"
-                  ? ` · ${result.fit.difference} extra days`
+                  ? t.extraDays(result.fit.difference)
                   : ""}
               </p>
             ) : null}
           </div>
 
           <ul className="mt-5 flex flex-col gap-3 text-sm">
-            {result.stops.map((s, i) => (
-              <li key={i} className="rounded-2xl bg-white/[0.04] p-3">
+            {result.stops.map((s) => (
+              <li key={s.index} className="rounded-2xl bg-white/[0.04] p-3">
                 <div className="flex items-baseline justify-between gap-3">
-                  <span className="font-semibold text-white">{s.name}</span>
-                  <span className="font-mono text-primary">{s.days} days</span>
+                  <span className="font-semibold text-white">
+                    {stopDisplayName(s, t)}
+                  </span>
+                  <span className="font-mono text-primary">
+                    {t.stopDays(s.days)}
+                  </span>
                 </div>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  {STOP_LABELS[s.type]}
-                  {s.notes.length ? ` · ${s.notes.join(", ")}` : ""}
+                  {t.typeLabels[s.type]}
+                  {s.notes.length
+                    ? ` · ${s.notes.map((n) => noteText(n, t)).join(", ")}`
+                    : ""}
                 </p>
               </li>
             ))}
@@ -363,10 +386,10 @@ function PlannerForm({
             <ul className="mt-4 flex flex-col gap-2 text-sm">
               {result.warnings.map((w) => (
                 <li
-                  key={w}
+                  key={w.kind}
                   className="rounded-xl border border-amber-400/30 bg-amber-400/[0.07] px-3 py-2 text-amber-100"
                 >
-                  {w}
+                  {warningText(w, result.stops, t)}
                 </li>
               ))}
             </ul>
@@ -374,18 +397,17 @@ function PlannerForm({
 
           {hints.length ? (
             <div className="mt-5 flex flex-col gap-2 border-t border-white/[0.07] pt-4 text-sm">
-              <p className="font-semibold text-white">
-                From our destination guides
-              </p>
+              <p className="font-semibold text-white">{t.fromGuides}</p>
               {hints.map((h) => (
                 <p key={h.path} className="text-muted-foreground">
                   <Link
                     href={h.path}
+                    hrefLang="en"
                     className="font-semibold text-primary hover:underline"
                   >
                     {h.name}
                   </Link>
-                  : {h.summary}
+                  : <span lang="en">{h.summary}</span>
                 </p>
               ))}
             </div>
@@ -393,13 +415,10 @@ function PlannerForm({
 
           <div className="mt-5 flex flex-wrap gap-2 print:hidden">
             <Button type="button" onClick={share}>
-              {copied ? "Link copied" : "Copy share link"}
+              {copied ? m.common.copied : m.common.copyLink}
             </Button>
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            Based on the rules of thumb in our guide to how many days you need
-            for a trip. Adjust to your own interests.
-          </p>
+          <p className="mt-3 text-xs text-muted-foreground">{t.footnote}</p>
         </div>
       </section>
     </div>

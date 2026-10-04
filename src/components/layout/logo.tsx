@@ -4,11 +4,19 @@ import { LogoMark } from "@/components/layout/logo-mark";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 
-export function Logo({ className }: { className?: string }) {
+export function Logo({
+  className,
+  href = "/",
+  label = `${siteConfig.name} home`,
+}: {
+  className?: string;
+  href?: string;
+  label?: string;
+}) {
   return (
     <Link
-      href="/"
-      aria-label={`${siteConfig.name} home`}
+      href={href}
+      aria-label={label}
       className={cn(
         "flex items-center gap-2.5 font-display text-xl font-bold tracking-tight",
         className,

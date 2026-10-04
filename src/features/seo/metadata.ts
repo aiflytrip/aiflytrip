@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { siteConfig } from "@/config/site";
+import { OG_LOCALES, type Locale } from "@/i18n/config";
 
 /**
  * One way to build page metadata, so every public page gets a unique title,
@@ -21,6 +22,10 @@ export function pageMetadata(input: {
   absoluteTitle?: boolean;
   /** Social image path; defaults to the site-wide card. */
   image?: string;
+  /** Page language (Open Graph locale); defaults to English. */
+  locale?: Locale;
+  /** hreflang alternates for pages that exist in several languages. */
+  languages?: Record<string, string>;
 }): Metadata {
   const image = input.image ?? "/opengraph-image";
   if (
@@ -37,14 +42,16 @@ export function pageMetadata(input: {
   return {
     title: input.absoluteTitle ? { absolute: input.title } : input.title,
     description: input.description,
-    alternates: { canonical: input.path },
+    alternates: input.languages
+      ? { canonical: input.path, languages: input.languages }
+      : { canonical: input.path },
     robots: input.noindex
       ? { index: false, follow: true }
       : { index: true, follow: true },
     openGraph: {
       type: input.type ?? "website",
       siteName: siteConfig.name,
-      locale: "en_GB",
+      locale: OG_LOCALES[input.locale ?? "en"],
       title: fullTitle,
       description: input.description,
       url: input.path,

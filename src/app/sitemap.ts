@@ -10,6 +10,13 @@ import {
 } from "@/content/registry";
 import { type Destination, type Guide, type Itinerary } from "@/content/schema";
 import { absoluteUrl } from "@/features/seo/metadata";
+import { LOCALES } from "@/i18n/config";
+import {
+  languageAlternates,
+  ROUTE_KEYS,
+  ROUTES,
+  routeKeyForPath,
+} from "@/i18n/routes";
 
 /**
  * Indexable pages only. Content pages come from the registry and are
@@ -34,6 +41,24 @@ export const STATIC_PUBLIC_PATHS = [
   "/editorial-policy",
 ] as const;
 
+/** Spanish and French versions of the translated pages. */
+export const TRANSLATED_PATHS = ROUTE_KEYS.flatMap((key) =>
+  LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
+);
+
+/** hreflang alternates (absolute URLs) for a page that has translations. */
+function alternatesFor(path: string) {
+  const key = routeKeyForPath(path);
+  if (!key) return {};
+  const languages = Object.fromEntries(
+    Object.entries(languageAlternates(key)).map(([lang, href]) => [
+      lang,
+      absoluteUrl(href),
+    ]),
+  );
+  return { alternates: { languages } };
+}
+
 /** The page's main photo, listed so it can appear in image search. */
 function pageImage(
   entry: Entry<Destination> | Entry<Itinerary> | Entry<Guide>,
@@ -51,9 +76,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const content = allContent().filter(isIndexable);
   const hubDate = latestReview(content);
   return [
-    ...STATIC_PUBLIC_PATHS.map((path) => ({
+    ...[...STATIC_PUBLIC_PATHS, ...TRANSLATED_PATHS].map((path) => ({
       url: absoluteUrl(path),
       lastModified: hubDate,
+      ...alternatesFor(path),
     })),
     ...content.map((entry) => ({
       url: absoluteUrl(entry.path),

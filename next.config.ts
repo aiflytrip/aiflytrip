@@ -37,6 +37,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Each language has its own root layout (for <html lang>), so URLs that
+  // match no route use app/global-not-found.tsx.
+  experimental: { globalNotFound: true },
   images: {
     formats: ["image/avif", "image/webp"],
     // Only our own photos may be optimized (no open image proxy).

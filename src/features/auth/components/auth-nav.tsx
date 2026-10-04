@@ -6,10 +6,44 @@ import { useEffect, useState } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { signOut } from "@/features/auth/actions";
+import { type Locale } from "@/i18n/config";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { cn } from "@/lib/utils";
 
 type Status = "unknown" | "signed-in" | "guest" | "signed-out";
+
+const LABELS: Record<
+  Locale,
+  {
+    account: string;
+    signOut: string;
+    myPlans: string;
+    createAccount: string;
+    signIn: string;
+  }
+> = {
+  en: {
+    account: "Account",
+    signOut: "Sign out",
+    myPlans: "My plans",
+    createAccount: "Create account",
+    signIn: "Sign in",
+  },
+  es: {
+    account: "Cuenta",
+    signOut: "Cerrar sesión",
+    myPlans: "Mis planes",
+    createAccount: "Crear cuenta",
+    signIn: "Iniciar sesión",
+  },
+  fr: {
+    account: "Compte",
+    signOut: "Se déconnecter",
+    myPlans: "Mes plans",
+    createAccount: "Créer un compte",
+    signIn: "Se connecter",
+  },
+};
 
 const linkClass =
   "rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground";
@@ -19,7 +53,8 @@ const linkClass =
  * read cookies, which keeps public pages statically renderable. Space is
  * reserved while loading to avoid layout shift.
  */
-export function AuthNav() {
+export function AuthNav({ locale = "en" }: { locale?: Locale }) {
+  const t = LABELS[locale];
   const [status, setStatus] = useState<Status>("unknown");
   const pathname = usePathname();
 
@@ -46,11 +81,11 @@ export function AuthNav() {
     return (
       <div className="flex items-center gap-1">
         <Link href="/account" className={linkClass}>
-          Account
+          {t.account}
         </Link>
         <form action={signOut}>
           <button type="submit" className={linkClass}>
-            Sign out
+            {t.signOut}
           </button>
         </form>
       </div>
@@ -61,13 +96,13 @@ export function AuthNav() {
     return (
       <div className="flex items-center gap-1">
         <Link href="/plans" className={linkClass}>
-          My plans
+          {t.myPlans}
         </Link>
         <Link
           href="/signup?next=%2Fplans"
           className={buttonVariants({ variant: "secondary", size: "sm" })}
         >
-          Create account
+          {t.createAccount}
         </Link>
       </div>
     );
@@ -83,7 +118,7 @@ export function AuthNav() {
         status === "unknown" && "invisible",
       )}
     >
-      Sign in
+      {t.signIn}
     </Link>
   );
 }

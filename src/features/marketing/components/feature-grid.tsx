@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/container";
-import { features } from "@/features/marketing/content";
 import { SectionHeading } from "@/features/marketing/components/section-heading";
+import { type Locale } from "@/i18n/config";
+import { HOME_COPY } from "@/i18n/pages/home";
 
 const FEATURE_ICONS = [
   "M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z",
@@ -8,7 +9,8 @@ const FEATURE_ICONS = [
   "M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
 ];
 
-export function FeatureGrid() {
+export function FeatureGrid({ locale = "en" }: { locale?: Locale }) {
+  const t = HOME_COPY[locale].features;
   return (
     <section
       id="features"
@@ -18,12 +20,12 @@ export function FeatureGrid() {
       <Container>
         <SectionHeading
           id="features-heading"
-          eyebrow="Features"
-          title="Travel planning without the tab overload"
-          description="Built around how people actually plan trips."
+          eyebrow={t.eyebrow}
+          title={t.title}
+          description={t.description}
         />
         <ul className="mt-12 grid gap-5 md:grid-cols-3">
-          {features.map((feature, index) => (
+          {t.items.map((feature, index) => (
             <li
               key={feature.title}
               className="glass lift reveal rounded-3xl p-7"
