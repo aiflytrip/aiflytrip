@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Container } from "@/components/ui/container";
 import { FormMessage } from "@/features/auth";
 import { PLAN_LIMITS, PlanForm } from "@/features/trip-planner";
+import { isPlanLanguage } from "@/features/trip-planner/lib/request";
 import { isAnthropicConfigured } from "@/server/anthropic/client";
 import { AIRPORTS } from "@/features/flights/data/airports";
 
@@ -18,12 +19,14 @@ export const metadata: Metadata = {
 };
 
 export default async function PlanPage({ searchParams }: PageProps<"/plan">) {
-  const { to } = await searchParams;
+  const { to, lang } = await searchParams;
   // Only known airport codes are accepted, so the prefill can't inject text.
   const initialDestination =
     typeof to === "string" && AIRPORTS.some((airport) => airport.code === to)
       ? to
       : undefined;
+
+  const initialLanguage = isPlanLanguage(lang) ? lang : undefined;
 
   return (
     <Container className="flex max-w-3xl flex-col gap-6 py-10">
@@ -38,7 +41,10 @@ export default async function PlanPage({ searchParams }: PageProps<"/plan">) {
       </div>
       {isAnthropicConfigured() ? (
         <Card className="p-5 sm:p-6">
-          <PlanForm initialDestination={initialDestination} />
+          <PlanForm
+            initialDestination={initialDestination}
+            initialLanguage={initialLanguage}
+          />
         </Card>
       ) : (
         <FormMessage>

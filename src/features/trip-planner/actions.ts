@@ -14,6 +14,7 @@ import {
 } from "@/features/trip-planner/lib/limits";
 import { PROMPT_VERSION } from "@/features/trip-planner/lib/prompt";
 import {
+  isPlanLanguage,
   parsePlanForm,
   type PlanFieldErrors,
   type PlanFormValues,
@@ -203,6 +204,7 @@ export async function createPlan(
     interests: preferences.interests,
     pace: preferences.pace,
     notes: preferences.notes || null,
+    language: preferences.language,
   });
   if (prefs.error)
     console.error("[planner] could not save preferences", {
@@ -285,6 +287,7 @@ export async function retryPlan(formData: FormData): Promise<void> {
       pace: (p?.pace ?? "balanced") as Pace,
       interests: (p?.interests ?? []) as Interest[],
       notes: p?.notes ?? "",
+      language: isPlanLanguage(p?.language) ? p.language : "en",
     },
     tripDays:
       Math.round(

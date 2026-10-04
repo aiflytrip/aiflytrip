@@ -25,6 +25,9 @@ import {
   MAX_TRIP_DAYS,
   PACE_LABELS,
   PACES,
+  PLAN_LANGUAGE_LABELS,
+  PLAN_LANGUAGES,
+  type PlanLanguage,
 } from "@/features/trip-planner/lib/request";
 import { cn } from "@/lib/utils";
 
@@ -33,10 +36,14 @@ const INITIAL: PlanFormState = { status: "idle" };
 const label = (interest: string) =>
   interest.charAt(0).toUpperCase() + interest.slice(1);
 
-/** `initialDestination` prefills "To" (e.g. from a destination guide CTA). */
+/**
+ * `initialDestination` prefills "To" (e.g. from a destination guide CTA);
+ * `initialLanguage` preselects the plan language (e.g. from /es pages).
+ */
 export function PlanForm({
   initialDestination,
-}: { initialDestination?: string } = {}) {
+  initialLanguage = "en",
+}: { initialDestination?: string; initialLanguage?: PlanLanguage } = {}) {
   const id = useId();
   const today = useToday();
   const [state, formAction, pending] = useActionState(createPlan, INITIAL);
@@ -227,6 +234,27 @@ export function PlanForm({
           <p className="mt-1.5 text-xs text-danger">{errors.interests}</p>
         ) : null}
       </fieldset>
+
+      <Field
+        id={`${id}-language`}
+        label="Plan language"
+        error={errors.language}
+      >
+        {(props) => (
+          <Select
+            {...props}
+            name="language"
+            defaultValue={values?.language ?? initialLanguage}
+            className="sm:max-w-xs"
+          >
+            {PLAN_LANGUAGES.map((language) => (
+              <option key={language} value={language} lang={language}>
+                {PLAN_LANGUAGE_LABELS[language]}
+              </option>
+            ))}
+          </Select>
+        )}
+      </Field>
 
       <Field
         id={`${id}-notes`}

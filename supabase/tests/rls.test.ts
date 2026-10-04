@@ -67,7 +67,22 @@ describe("migrations", () => {
       "20261002050200_travelers.sql",
       "20261002050300_billing.sql",
       "20261002060000_premium_payments.sql",
+      "20261004090000_plan_language.sql",
     ]);
+  });
+
+  it("store plan language as en, es or fr, defaulting to English", async () => {
+    const { rows } = await db.query<{ column_default: string }>(
+      `select column_default from information_schema.columns
+       where table_name = 'trip_preferences' and column_name = 'language'`,
+    );
+    expect(rows[0]!.column_default).toContain("'en'");
+    const check = await db.query<{ def: string }>(
+      `select pg_get_constraintdef(oid) as def from pg_constraint
+       where conrelid = 'public.trip_preferences'::regclass and contype = 'c'
+         and pg_get_constraintdef(oid) like '%language%'`,
+    );
+    expect(check.rows[0]!.def).toMatch(/'en'.*'es'.*'fr'/);
   });
 
   it("enable RLS on every public table", async () => {

@@ -4,10 +4,13 @@ import {
   promptSnapshot,
   type FlightOptionSnapshot,
 } from "@/features/trip-planner/lib/flight-options";
-import { type PlanRequest } from "@/features/trip-planner/lib/request";
+import {
+  PLAN_LANGUAGE_NAMES,
+  type PlanRequest,
+} from "@/features/trip-planner/lib/request";
 
 /** Bump when the prompt or output schema changes; stored with each plan. */
-export const PROMPT_VERSION = "trip-plan-v1";
+export const PROMPT_VERSION = "trip-plan-v2";
 
 /**
  * Stable system prompt (no per-request data), so it can be cached and so
@@ -27,6 +30,9 @@ Flights:
 Budget:
 - Estimate costs per category for all travellers, in the traveller's budget currency, as whole numbers. Use the recommended flight's price for the flights line when it is in that currency; otherwise give a rough estimate and say so in the note.
 - These are estimates only. Say how the total compares with the stated budget, or note that no budget was given.
+
+Language:
+- Write every text field of the plan in the language given in the trip details. Keep place names in their usual local form, and keep flight ids, airport codes and currency codes exactly as provided.
 
 Safety and accuracy:
 - Do not give definitive visa, health, legal or entry-requirement rules. Put anything the traveller must check with official sources in caveats.
@@ -60,6 +66,7 @@ export function buildUserMessage(
         ? "not specified"
         : `${preferences.budgetAmount} ${preferences.budgetCurrency} total for all travellers`,
     budget_currency: preferences.budgetCurrency,
+    language: PLAN_LANGUAGE_NAMES[preferences.language],
     pace: preferences.pace,
     interests:
       preferences.interests.length > 0

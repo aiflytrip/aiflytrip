@@ -20,6 +20,23 @@ export const PACE_LABELS: Record<Pace, string> = {
   packed: "Packed",
 };
 
+/** Languages a plan can be written in. */
+export const PLAN_LANGUAGES = ["en", "es", "fr"] as const;
+export type PlanLanguage = (typeof PLAN_LANGUAGES)[number];
+export const PLAN_LANGUAGE_LABELS: Record<PlanLanguage, string> = {
+  en: "English",
+  es: "Español",
+  fr: "Français",
+};
+/** English names, used in the AI prompt. */
+export const PLAN_LANGUAGE_NAMES: Record<PlanLanguage, string> = {
+  en: "English",
+  es: "Spanish",
+  fr: "French",
+};
+export const isPlanLanguage = (value: unknown): value is PlanLanguage =>
+  PLAN_LANGUAGES.includes(value as PlanLanguage);
+
 export const INTERESTS = [
   "food",
   "culture",
@@ -53,6 +70,7 @@ export type PlanPreferences = {
   pace: Pace;
   interests: Interest[];
   notes: string;
+  language: PlanLanguage;
 };
 
 export type PlanRequest = {
@@ -67,12 +85,18 @@ export type PlanFormValues = SearchFormValues & {
   pace: string;
   interests: string[];
   notes: string;
+  language: string;
 };
 
 export type PlanFieldErrors = SearchFieldErrors &
   Partial<
     Record<
-      "budgetAmount" | "budgetCurrency" | "pace" | "interests" | "notes",
+      | "budgetAmount"
+      | "budgetCurrency"
+      | "pace"
+      | "interests"
+      | "notes"
+      | "language",
       string
     >
   >;
@@ -98,6 +122,7 @@ const preferencesSchema = z.object({
     .string()
     .trim()
     .max(MAX_NOTES_LENGTH, `Keep notes under ${MAX_NOTES_LENGTH} characters`),
+  language: z.enum(PLAN_LANGUAGES, "Choose a language"),
 });
 
 function text(formData: FormData, key: string): string {
@@ -128,6 +153,7 @@ export function parsePlanForm(
       .getAll("interests")
       .filter((v): v is string => typeof v === "string"),
     notes: text(formData, "notes"),
+    language: text(formData, "language") || "en",
   };
   const values: PlanFormValues = { ...flight.values, ...prefsInput };
 

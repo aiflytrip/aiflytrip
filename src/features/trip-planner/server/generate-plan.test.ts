@@ -27,6 +27,7 @@ const request: PlanRequest = {
     pace: "balanced",
     interests: ["food"],
     notes: "Vegetarian",
+    language: "en",
   },
   tripDays: 3,
 };

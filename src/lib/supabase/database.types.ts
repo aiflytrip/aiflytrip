@@ -74,6 +74,7 @@ type TripPreferencesRow = Timestamps & {
   interests: string[];
   pace: "relaxed" | "balanced" | "packed" | null;
   notes: string | null;
+  language: "en" | "es" | "fr";
 };
 
 type TravelPlanRow = Timestamps & {
