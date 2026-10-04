@@ -26,6 +26,7 @@ export const STATIC_PUBLIC_PATHS = [
   "/tools",
   "/tools/trip-budget-calculator",
   "/tools/layover-time-checker",
+  "/tools/how-many-days",
   "/destinations",
   "/itineraries",
   "/blog",

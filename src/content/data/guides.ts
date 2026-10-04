@@ -150,7 +150,7 @@ export const guides: GuideInput[] = [
         heading: "Start with your available time, not the destination",
         paragraphs: [
           "Begin with the total number of days you can travel, including weekends and public holidays. Then subtract travel days: long-haul flights, airport transfers and adjusting to time zones often take most of a day at each end of a trip.",
-          "What remains is your real time on the ground. Planning around that number, rather than your departure and return dates, gives you a much more realistic picture of what is possible.",
+          "What remains is your real time on the ground. Planning around that number, rather than your departure and return dates, gives you a much more realistic picture of what is possible. Our free [trip length planner](/tools/how-many-days) does this sum for you, stop by stop.",
         ],
       },
       {

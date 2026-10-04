@@ -198,6 +198,7 @@ describe("inline links in content", () => {
       "/tools",
       "/tools/trip-budget-calculator",
       "/tools/layover-time-checker",
+      "/tools/how-many-days",
     ]);
     for (const entry of all) {
       const from =

@@ -70,6 +70,12 @@ export default function HomePage() {
             >
               Check your layover time with our free layover checker →
             </Link>
+            <Link
+              href="/tools/how-many-days"
+              className="text-sm font-semibold text-primary hover:text-primary-hover"
+            >
+              Work out how many days you need for your trip →
+            </Link>
           </div>
           <div className="reveal">
             <QuickBudget />

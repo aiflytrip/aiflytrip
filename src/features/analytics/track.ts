@@ -9,7 +9,8 @@ export type AnalyticsEvent =
   | "premium_checkout_started"
   | "flight_search"
   | "budget_calculator_shared"
-  | "layover_checker_shared";
+  | "layover_checker_shared"
+  | "days_planner_shared";
 
 type Props = Record<string, string | number | boolean>;
 

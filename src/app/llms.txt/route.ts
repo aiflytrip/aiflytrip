@@ -31,6 +31,7 @@ export function GET() {
     `- [AI trip planner](${absoluteUrl("/travel-planner")}): what the planner creates, how it works and its limits.`,
     `- [Trip budget calculator](${absoluteUrl("/tools/trip-budget-calculator")}): free tool to total flights, accommodation and daily costs per person and per day.`,
     `- [Layover time checker](${absoluteUrl("/tools/layover-time-checker")}): free tool to judge whether a flight connection is comfortable, tight or risky.`,
+    `- [How many days do I need?](${absoluteUrl("/tools/how-many-days")}): free tool that suggests a trip length, days per stop and travel days.`,
     `- [About AIFlyTrip](${absoluteUrl("/about")})`,
     `- [Editorial policy](${absoluteUrl("/editorial-policy")}): how guides are written, sourced and reviewed.`,
     "",

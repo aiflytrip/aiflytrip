@@ -20,6 +20,7 @@ export function SiteFooter() {
           label: "Trip budget calculator",
         },
         { href: "/tools/layover-time-checker", label: "Layover time checker" },
+        { href: "/tools/how-many-days", label: "How many days do I need?" },
         { href: "/plan", label: "Create a trip plan" },
         { href: "/flights", label: "Compare flights" },
       ],

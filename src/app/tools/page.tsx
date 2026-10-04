@@ -8,7 +8,7 @@ import { pageMetadata } from "@/features/seo/metadata";
 export const metadata = pageMetadata({
   title: "Free travel planning tools",
   description:
-    "Free travel tools from AIFlyTrip: a trip budget calculator, a layover time checker and an AI trip planner. No sign-up needed.",
+    "Free travel tools from AIFlyTrip: a trip budget calculator, layover time checker, trip length planner and AI trip planner. No sign-up needed.",
   path: "/tools",
 });
 
@@ -22,6 +22,11 @@ const TOOLS = [
     href: "/tools/layover-time-checker",
     title: "Layover time checker",
     body: "Find out whether your connection is comfortable, tight or risky, based on terminals, passport control, bags and whether you're on one ticket.",
+  },
+  {
+    href: "/tools/how-many-days",
+    title: "How many days do I need?",
+    body: "Add your stops, pace and day trips to see how many days and nights your trip needs, with days per place and a check against your time off.",
   },
   {
     href: "/travel-planner",
@@ -44,12 +49,12 @@ export default function ToolsPage() {
           Free travel planning tools
         </h1>
         <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
-          Simple, free tools for the questions every trip raises: how much it
-          will cost, whether a connection is long enough, and what to do each
-          day. No sign-up needed.
+          Simple, free tools for the questions every trip raises: how long to go
+          for, how much it will cost, whether a connection is long enough, and
+          what to do each day. No sign-up needed.
         </p>
       </div>
-      <ul className="grid gap-5 md:grid-cols-3">
+      <ul className="grid gap-5 sm:grid-cols-2">
         {TOOLS.map((tool) => (
           <li key={tool.href}>
             <Link
