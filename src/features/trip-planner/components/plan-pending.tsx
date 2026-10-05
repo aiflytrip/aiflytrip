@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { type Locale } from "@/i18n/config";
+import { plannerMessages } from "@/i18n/messages/planner";
 import { cn } from "@/lib/utils";
 
 const POLL_MS = 4000;
@@ -15,42 +17,7 @@ const ROUTE = "M16 112 Q480 -48 944 112";
  * They describe what the planner does in order; they are an estimate, not
  * a live progress feed, and the copy says so.
  */
-const STEPS = [
-  {
-    after: 0,
-    title: "Searching flights",
-    detail: "Looking up options for your dates",
-  },
-  {
-    after: 8,
-    title: "Comparing options",
-    detail: "Shortlisting the cheapest and fastest",
-  },
-  {
-    after: 20,
-    title: "Drafting your days",
-    detail: "Morning, afternoon and evening for each date",
-  },
-  {
-    after: 60,
-    title: "Estimating your budget",
-    detail: "Costs by category in your currency",
-  },
-  {
-    after: 85,
-    title: "Final touches",
-    detail: "Packing list, tips and things to check",
-  },
-] as const;
-
-/** General planning advice, true for any trip. */
-const TIPS = [
-  "Group each day around one or two neighbourhoods to cut travel time.",
-  "Keep the first and last days light: flights and jet lag take more energy than you expect.",
-  "Book timed-entry attractions early; popular slots sell out first.",
-  "Check entry requirements for your passport with official sources before you book.",
-  "Leave a little unplanned time each day for the places you discover on the way.",
-];
+const STEP_STARTS = [0, 8, 20, 60, 85] as const;
 
 /** Eases towards 95% and never claims completion before the plan is ready. */
 const progressFor = (seconds: number) =>
@@ -63,7 +30,9 @@ export function PlanPending({
   destination,
   originCity,
   destinationCity,
+  locale = "en",
 }: {
+  locale?: Locale;
   startedAt: string;
   origin?: string;
   destination?: string;
@@ -71,6 +40,12 @@ export function PlanPending({
   destinationCity?: string;
 }) {
   const router = useRouter();
+  const t = plannerMessages(locale).pending;
+  const STEPS = t.steps.map((step, i) => ({
+    ...step,
+    after: STEP_STARTS[i] ?? 0,
+  }));
+  const TIPS = t.tips;
   const [elapsed, setElapsed] = useState(0);
 
   useEffect(() => {
@@ -105,12 +80,14 @@ export function PlanPending({
         <div className="relative flex flex-col gap-2">
           <p className="inline-flex items-center gap-2.5 self-start rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-xs font-semibold text-accent-foreground">
             <span className="animate-live size-2 rounded-full bg-emerald-400" />
-            AI planner at work
+            {t.badge}
           </p>
           <h1 className="text-3xl font-bold text-balance text-white sm:text-4xl">
-            Creating your plan
+            {t.title}
             {destinationCity ? (
-              <span className="text-gradient"> for {destinationCity}</span>
+              <span className="text-gradient">
+                {t.titleFor(destinationCity)}
+              </span>
             ) : null}
           </h1>
         </div>
@@ -196,13 +173,13 @@ export function PlanPending({
               {active.title}…
             </p>
             <p className="text-xs text-muted-foreground tabular-nums">
-              {elapsed}s · usually 1–2 minutes
+              {t.elapsed(elapsed)}
             </p>
           </div>
           <div
             className="h-2 overflow-hidden rounded-full bg-white/[0.07]"
             role="progressbar"
-            aria-label="Estimated progress"
+            aria-label={t.progressLabel}
             aria-valuemin={0}
             aria-valuemax={100}
             aria-valuenow={progress}
@@ -220,7 +197,7 @@ export function PlanPending({
       <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
         <ol
           className="glass flex flex-col gap-1 rounded-3xl p-5"
-          aria-label="What the planner is doing"
+          aria-label={t.stepsLabel}
         >
           {STEPS.map((step, index) => {
             const state =
@@ -276,9 +253,9 @@ export function PlanPending({
                     {step.title}
                     <span className="sr-only">
                       {state === "done"
-                        ? " (done)"
+                        ? t.done
                         : state === "active"
-                          ? " (in progress)"
+                          ? t.inProgress
                           : ""}
                     </span>
                   </p>
@@ -291,7 +268,7 @@ export function PlanPending({
 
         <div className="flex flex-col gap-4">
           <div className="glass rounded-3xl p-5">
-            <p className="eyebrow text-[11px]">While you wait</p>
+            <p className="eyebrow text-[11px]">{t.whileYouWait}</p>
             <p
               key={tip}
               className="animate-rise mt-2 text-sm leading-relaxed text-foreground/90"
@@ -317,11 +294,7 @@ export function PlanPending({
         </div>
       </div>
 
-      <p className="text-sm text-muted-foreground">
-        {slow
-          ? "This one is taking longer than usual. It's still working; detailed or long trips can take a few minutes."
-          : "You can leave this page. Your plan keeps generating and will appear under My plans."}
-      </p>
+      <p className="text-sm text-muted-foreground">{slow ? t.slow : t.leave}</p>
     </div>
   );
 }

@@ -6,26 +6,24 @@ import { photoForAirport } from "@/content/data/photos";
 import { PhotoCredit } from "@/features/content/components/photo-credit";
 import { getAirport } from "@/features/flights/data/airports";
 import { formatDate } from "@/features/flights/lib/format";
-import { CABIN_LABELS, type CabinClass } from "@/features/flights/types";
-import { ITINERARY_NOTICE } from "@/features/premium/lib/itinerary-notice";
+import { type CabinClass } from "@/features/flights/types";
 import {
   type FlightOptionSnapshot,
   type LegSnapshot,
 } from "@/features/trip-planner/lib/flight-options";
 import { type BUDGET_CATEGORIES } from "@/features/trip-planner/lib/plan-schema";
 import { type StoredItinerary } from "@/features/trip-planner/lib/stored-plan";
+import { INTL_LOCALES, type Locale } from "@/i18n/config";
+import {
+  PLANNER_MESSAGES,
+  plannerMessages,
+  type PlannerMessages,
+} from "@/i18n/messages/planner";
 import { cn } from "@/lib/utils";
 
-type Category = (typeof BUDGET_CATEGORIES)[number];
+type ViewText = PlannerMessages["view"];
 
-const CATEGORY_LABELS: Record<Category, string> = {
-  flights: "Flights",
-  lodging: "Accommodation",
-  food: "Food and drink",
-  activities: "Activities",
-  local_transport: "Local transport",
-  other: "Other",
-};
+type Category = (typeof BUDGET_CATEGORIES)[number];
 
 /** Bar colours; also differ in lightness so they're distinguishable without hue. */
 const CATEGORY_COLORS: Record<Category, string> = {
@@ -79,20 +77,32 @@ function Icon({
   );
 }
 
-function money(amount: number, currency: string) {
+function money(amount: number, currency: string, locale: Locale = "en") {
+  // English plans keep the original US formatting.
+  const tag = locale === "en" ? "en-US" : INTL_LOCALES[locale];
   try {
-    return new Intl.NumberFormat("en-US", {
+    return new Intl.NumberFormat(tag, {
       style: "currency",
       currency,
       maximumFractionDigits: 0,
     }).format(amount);
   } catch {
-    return `${amount.toLocaleString("en-US")} ${currency}`;
+    return `${amount.toLocaleString(tag)} ${currency}`;
   }
 }
 
 /** "2026-11-16 7:05 AM local" -> time part only. */
-const timeOf = (value: string) => value.replace(/^\d{4}-\d{2}-\d{2}\s+/, "");
+const timeOf = (value: string, t: ViewText) =>
+  localised(value, t).replace(/^\d{4}-\d{2}-\d{2}\s+/, "");
+
+/** Stored flight times end in " local"; say it in the plan's language. */
+const localised = (value: string, t: ViewText) =>
+  t === PLANNER_MESSAGES.en.view
+    ? value
+    : value.replace(/ local$/, ` (${t.local})`);
+
+const stopsText = (leg: LegSnapshot, t: ViewText) =>
+  leg.stops === 0 ? t.nonstop : t.stops(leg.stops, leg.via.join(", "));
 
 function SectionTitle({
   id,
@@ -117,7 +127,15 @@ function SectionTitle({
 }
 
 /** One leg as a route graphic: codes, dashed arc, times and stops. */
-function RouteLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
+function RouteLeg({
+  label,
+  leg,
+  t,
+}: {
+  label: string;
+  leg: LegSnapshot;
+  t: ViewText;
+}) {
   return (
     <div className="flex flex-col gap-3 rounded-2xl border border-white/[0.07] bg-background/50 p-4">
       <p className="eyebrow text-[11px]">{label}</p>
@@ -125,7 +143,7 @@ function RouteLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
         <div>
           <div className="font-mono text-2xl text-white">{leg.from}</div>
           <div className="text-xs text-muted-foreground">
-            {timeOf(leg.departs)}
+            {timeOf(leg.departs, t)}
           </div>
         </div>
         <div className="relative flex flex-col items-center">
@@ -147,16 +165,13 @@ function RouteLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
             />
           </svg>
           <span className="-mt-1 text-[11px] text-muted-foreground">
-            {leg.duration} ·{" "}
-            {leg.stops === 0
-              ? "nonstop"
-              : `${leg.stops} stop${leg.stops === 1 ? "" : "s"} via ${leg.via.join(", ")}`}
+            {leg.duration} · {stopsText(leg, t)}
           </span>
         </div>
         <div className="text-right">
           <div className="font-mono text-2xl text-white">{leg.to}</div>
           <div className="text-xs text-muted-foreground">
-            {timeOf(leg.arrives)}
+            {timeOf(leg.arrives, t)}
           </div>
         </div>
       </div>
@@ -179,9 +194,11 @@ function RouteLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
 function FlightCard({
   option,
   sourceMode,
+  t,
 }: {
   option: FlightOptionSnapshot;
   sourceMode?: string;
+  t: ViewText;
 }) {
   return (
     <div className="glass flex flex-col gap-4 rounded-3xl p-5 sm:p-6">
@@ -190,16 +207,16 @@ function FlightCard({
           {option.airlines.join(" · ")}
         </span>
         {sourceMode && sourceMode !== "live" ? (
-          <Badge>{sourceMode === "test" ? "Test data" : "Sample data"}</Badge>
+          <Badge>{sourceMode === "test" ? t.testData : t.sampleData}</Badge>
         ) : null}
         <span className="ml-auto font-display text-xl font-bold text-white">
           {option.price}
         </span>
       </div>
       <div className="grid gap-3 md:grid-cols-2">
-        <RouteLeg label="Outbound" leg={option.outbound} />
+        <RouteLeg label={t.outbound} leg={option.outbound} t={t} />
         {option.inbound ? (
-          <RouteLeg label="Return" leg={option.inbound} />
+          <RouteLeg label={t.inbound} leg={option.inbound} t={t} />
         ) : null}
       </div>
     </div>
@@ -207,7 +224,15 @@ function FlightCard({
 }
 
 /** A flight marker on the timeline (outbound at the top, return at the bottom). */
-function FlightMarker({ label, leg }: { label: string; leg: LegSnapshot }) {
+function FlightMarker({
+  label,
+  leg,
+  t,
+}: {
+  label: string;
+  leg: LegSnapshot;
+  t: ViewText;
+}) {
   return (
     <li className="relative pl-12">
       <span className="absolute top-1 left-0 grid size-9 place-items-center rounded-full bg-linear-to-br from-primary to-violet text-primary-foreground shadow-[0_0_0_6px_var(--background)]">
@@ -217,7 +242,7 @@ function FlightMarker({ label, leg }: { label: string; leg: LegSnapshot }) {
         {label}: {leg.from} → {leg.to}
       </p>
       <p className="text-xs text-muted-foreground">
-        Departs {leg.departs} · arrives {leg.arrives}
+        {t.departsArrives(localised(leg.departs, t), localised(leg.arrives, t))}
       </p>
     </li>
   );
@@ -229,7 +254,15 @@ const airportName = (code: string) => {
 };
 
 /** Per-flight list for one leg; falls back to the leg summary for older plans. */
-function ItineraryLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
+function ItineraryLeg({
+  label,
+  leg,
+  t,
+}: {
+  label: string;
+  leg: LegSnapshot;
+  t: ViewText;
+}) {
   const segments = leg.segments ?? [];
   return (
     <div className="flex flex-col gap-3">
@@ -238,15 +271,15 @@ function ItineraryLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
           {label}: {leg.from} → {leg.to}
         </h3>
         <p className="text-xs text-muted-foreground">
-          Total {leg.duration} ·{" "}
-          {leg.stops === 0
-            ? "nonstop"
-            : `${leg.stops} stop${leg.stops === 1 ? "" : "s"} via ${leg.via.join(", ")}`}
+          {t.total(leg.duration)} · {stopsText(leg, t)}
         </p>
       </div>
       {segments.length === 0 ? (
         <p className="text-sm text-muted-foreground">
-          Departs {leg.departs} · arrives {leg.arrives}
+          {t.departsArrives(
+            localised(leg.departs, t),
+            localised(leg.arrives, t),
+          )}
         </p>
       ) : (
         <ol className="flex flex-col gap-2">
@@ -265,7 +298,7 @@ function ItineraryLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
                   </span>
                   {segment.operatedBy ? (
                     <span className="text-muted-foreground">
-                      operated by {segment.operatedBy}
+                      {t.operatedBy(segment.operatedBy)}
                     </span>
                   ) : null}
                   <span className="ml-auto text-xs text-muted-foreground">
@@ -274,15 +307,23 @@ function ItineraryLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
                 </p>
                 <dl className="mt-3 grid gap-2 text-sm sm:grid-cols-2">
                   <div>
-                    <dt className="text-xs text-muted-foreground">Depart</dt>
-                    <dd className="text-white">{segment.departs}</dd>
+                    <dt className="text-xs text-muted-foreground">
+                      {t.depart}
+                    </dt>
+                    <dd className="text-white">
+                      {localised(segment.departs, t)}
+                    </dd>
                     <dd className="text-muted-foreground">
                       {segment.from} · {airportName(segment.from)}
                     </dd>
                   </div>
                   <div>
-                    <dt className="text-xs text-muted-foreground">Arrive</dt>
-                    <dd className="text-white">{segment.arrives}</dd>
+                    <dt className="text-xs text-muted-foreground">
+                      {t.arrive}
+                    </dt>
+                    <dd className="text-white">
+                      {localised(segment.arrives, t)}
+                    </dd>
                     <dd className="text-muted-foreground">
                       {segment.to} · {airportName(segment.to)}
                     </dd>
@@ -291,7 +332,7 @@ function ItineraryLeg({ label, leg }: { label: string; leg: LegSnapshot }) {
               </div>
               {index < segments.length - 1 ? (
                 <p className="pl-4 text-xs text-muted-foreground">
-                  Connection in {segment.to}
+                  {t.connectionIn(segment.to)}
                 </p>
               ) : null}
             </li>
@@ -306,17 +347,19 @@ function ProposedItinerary({
   option,
   trip,
   actions,
+  t,
+  cabins,
 }: {
   option: FlightOptionSnapshot;
   trip?: { cabin?: CabinClass | null; travellers?: number | null };
   actions?: ReactNode;
+  t: ViewText;
+  cabins: Record<CabinClass, string>;
 }) {
   const details = [
     option.airlines.join(", "),
-    trip?.cabin ? CABIN_LABELS[trip.cabin] : null,
-    trip?.travellers
-      ? `${trip.travellers} traveller${trip.travellers === 1 ? "" : "s"}`
-      : null,
+    trip?.cabin ? cabins[trip.cabin] : null,
+    trip?.travellers ? t.travellerCount(trip.travellers) : null,
   ].filter(Boolean);
   return (
     <div
@@ -324,20 +367,17 @@ function ProposedItinerary({
       className="glass flex scroll-mt-24 flex-col gap-5 rounded-3xl p-5 sm:p-6"
     >
       <div className="flex flex-col gap-1">
-        <p className="eyebrow text-[11px]">Proposed flight itinerary</p>
+        <p className="eyebrow text-[11px]">{t.proposedItinerary}</p>
         <p className="font-semibold text-white">{details.join(" · ")}</p>
       </div>
       <p className="rounded-2xl border border-amber-400/40 bg-amber-400/10 p-4 text-sm font-semibold text-amber-200">
-        {ITINERARY_NOTICE}
+        {t.notice}
       </p>
-      <ItineraryLeg label="Outbound" leg={option.outbound} />
+      <ItineraryLeg label={t.outbound} leg={option.outbound} t={t} />
       {option.inbound ? (
-        <ItineraryLeg label="Return" leg={option.inbound} />
+        <ItineraryLeg label={t.inbound} leg={option.inbound} t={t} />
       ) : null}
-      <p className="text-xs text-muted-foreground">
-        Times are local to each airport. Flight details can change and offers
-        expire; check with the airline before booking.
-      </p>
+      <p className="text-xs text-muted-foreground">{t.timesLocal}</p>
       {actions ? (
         <div className="border-t border-white/[0.07] pt-5">{actions}</div>
       ) : null}
@@ -346,31 +386,26 @@ function ProposedItinerary({
 }
 
 const SLOTS = [
-  { key: "morning", label: "Morning", icon: "morning", tint: "text-amber-300" },
-  {
-    key: "afternoon",
-    label: "Afternoon",
-    icon: "afternoon",
-    tint: "text-sky-300",
-  },
-  {
-    key: "evening",
-    label: "Evening",
-    icon: "evening",
-    tint: "text-violet-300",
-  },
+  { key: "morning", icon: "morning", tint: "text-amber-300" },
+  { key: "afternoon", icon: "afternoon", tint: "text-sky-300" },
+  { key: "evening", icon: "evening", tint: "text-violet-300" },
 ] as const;
 
 export function PlanView({
   itinerary,
   actions,
   trip,
+  locale = "en",
 }: {
   itinerary: StoredItinerary;
+  /** Interface language: the language the plan was written in. */
+  locale?: Locale;
   /** Download / create buttons, rendered under the header and the itinerary. */
   actions?: ReactNode;
   trip?: { cabin?: CabinClass | null; travellers?: number | null };
 }) {
+  const messages = plannerMessages(locale);
+  const t = messages.view;
   const { plan, flightOptions, flightSource } = itinerary;
   const recommended = flightOptions.find(
     (option) => option.id === plan.flight.recommended_offer_id,
@@ -382,20 +417,20 @@ export function PlanView({
   const stats: { icon: keyof typeof ICONS; label: string; value: string }[] = [
     {
       icon: "calendar",
-      label: "Trip length",
-      value: `${plan.days.length} day${plan.days.length === 1 ? "" : "s"}`,
+      label: t.tripLength,
+      value: t.days(plan.days.length),
     },
     {
       icon: "wallet",
-      label: "Estimated budget",
-      value: money(total, plan.budget.currency),
+      label: t.estimatedBudget,
+      value: money(total, plan.budget.currency, locale),
     },
     ...(recommended
       ? [
           {
             icon: "clock" as const,
-            label: "Outbound flight",
-            value: `${recommended.outbound.duration}, ${recommended.outbound.stops === 0 ? "nonstop" : `${recommended.outbound.stops} stop`}`,
+            label: t.outboundFlight,
+            value: `${recommended.outbound.duration}, ${recommended.outbound.stops === 0 ? t.nonstop : t.stopsShort(recommended.outbound.stops)}`,
           },
         ]
       : []),
@@ -422,9 +457,9 @@ export function PlanView({
             className="absolute inset-0 bg-linear-to-t from-background via-background/70 to-background/10"
           />
           <div className="relative flex flex-wrap gap-2">
-            <Badge variant="accent">AI-generated plan</Badge>
+            <Badge variant="accent">{t.aiBadge}</Badge>
             {flightSource && flightSource.mode !== "live" ? (
-              <Badge>Flights: {flightSource.name}</Badge>
+              <Badge>{t.flightsBadge(flightSource.name)}</Badge>
             ) : null}
           </div>
           <h1 className="relative text-3xl font-bold text-balance text-white sm:text-4xl">
@@ -461,17 +496,17 @@ export function PlanView({
           <p className="text-sm text-muted-foreground">
             {recommended ? (
               <>
-                Includes a{" "}
+                {t.includesStart}{" "}
                 <a
                   href="#itinerary"
                   className="font-semibold text-primary hover:text-primary-hover"
                 >
-                  proposed flight itinerary
+                  {t.includesLink}
                 </a>{" "}
-                and the full day-by-day plan.
+                {t.includesEnd}
               </>
             ) : (
-              "Includes the full day-by-day plan and budget."
+              t.includesPlan
             )}
           </p>
           {actions}
@@ -480,38 +515,43 @@ export function PlanView({
 
       <section aria-labelledby="flight-heading" className="flex flex-col gap-4">
         <SectionTitle id="flight-heading" icon="plane">
-          Suggested flight
+          {t.suggestedFlight}
         </SectionTitle>
         {recommended ? (
-          <FlightCard option={recommended} sourceMode={flightSource?.mode} />
+          <FlightCard
+            option={recommended}
+            sourceMode={flightSource?.mode}
+            t={t}
+          />
         ) : (
-          <p className="text-sm text-muted-foreground">
-            No flight was recommended.
-          </p>
+          <p className="text-sm text-muted-foreground">{t.noFlight}</p>
         )}
         <p className="text-sm leading-relaxed text-foreground/90">
           {plan.flight.rationale}
         </p>
-        <p className="text-xs text-muted-foreground">
-          Flight options are from a test environment: schedules and prices
-          aren&apos;t real and can&apos;t be booked.
-        </p>
+        <p className="text-xs text-muted-foreground">{t.testEnvironment}</p>
         {recommended ? (
           <ProposedItinerary
             option={recommended}
             trip={trip}
             actions={actions}
+            t={t}
+            cabins={messages.form.cabins}
           />
         ) : null}
       </section>
 
       <section aria-labelledby="days-heading" className="flex flex-col gap-5">
         <SectionTitle id="days-heading" icon="calendar">
-          Day by day
+          {t.dayByDay}
         </SectionTitle>
         <ol className="relative flex flex-col gap-6 before:absolute before:top-2 before:bottom-2 before:left-[17px] before:w-px before:bg-linear-to-b before:from-primary/60 before:via-violet/40 before:to-primary/10">
           {recommended ? (
-            <FlightMarker label="Outbound flight" leg={recommended.outbound} />
+            <FlightMarker
+              label={t.outboundFlight}
+              leg={recommended.outbound}
+              t={t}
+            />
           ) : null}
           {plan.days.map((day, index) => (
             <li key={day.date} className="reveal relative pl-12">
@@ -520,7 +560,12 @@ export function PlanView({
               </span>
               <div className="glass lift rounded-3xl p-5 sm:p-6">
                 <p className="font-mono text-xs tracking-wide text-muted-foreground uppercase">
-                  Day {index + 1} · {formatDate(day.date)}
+                  {t.dayLabel(
+                    index + 1,
+                    locale === "en"
+                      ? formatDate(day.date)
+                      : formatDate(day.date, INTL_LOCALES[locale]),
+                  )}
                 </p>
                 <h3 className="mt-1.5 text-lg font-semibold text-white">
                   {day.title}
@@ -538,7 +583,7 @@ export function PlanView({
                         )}
                       >
                         <Icon name={slot.icon} className="size-4" />
-                        {slot.label}
+                        {t.slots[slot.key]}
                       </dt>
                       <dd className="mt-2 text-sm leading-relaxed text-muted-foreground">
                         {day[slot.key]}
@@ -556,20 +601,24 @@ export function PlanView({
             </li>
           ))}
           {recommended?.inbound ? (
-            <FlightMarker label="Return flight" leg={recommended.inbound} />
+            <FlightMarker
+              label={t.returnFlight}
+              leg={recommended.inbound}
+              t={t}
+            />
           ) : null}
         </ol>
       </section>
 
       <section aria-labelledby="budget-heading" className="flex flex-col gap-4">
         <SectionTitle id="budget-heading" icon="wallet">
-          Estimated budget
+          {t.estimatedBudget}
         </SectionTitle>
         <div className="glass rounded-3xl p-5 sm:p-6">
           <div className="flex flex-wrap items-end justify-between gap-2">
-            <p className="text-sm text-muted-foreground">Estimated total</p>
+            <p className="text-sm text-muted-foreground">{t.estimatedTotal}</p>
             <p className="font-display text-3xl font-bold text-white tabular-nums">
-              {money(total, plan.budget.currency)}
+              {money(total, plan.budget.currency, locale)}
             </p>
           </div>
           {total > 0 ? (
@@ -598,10 +647,10 @@ export function PlanView({
                         CATEGORY_COLORS[item.category],
                       )}
                     />
-                    {CATEGORY_LABELS[item.category]}
+                    {t.categories[item.category]}
                   </span>
                   <span className="text-sm font-semibold whitespace-nowrap text-white tabular-nums">
-                    {money(item.amount, plan.budget.currency)}
+                    {money(item.amount, plan.budget.currency, locale)}
                   </span>
                 </div>
                 <div
@@ -627,7 +676,7 @@ export function PlanView({
             ))}
           </ul>
           <p className="mt-5 text-xs text-muted-foreground">
-            {plan.budget.notes} All amounts are rough estimates.
+            {plan.budget.notes} {t.roughEstimates}
           </p>
         </div>
       </section>
@@ -635,9 +684,9 @@ export function PlanView({
       <div className="grid gap-5 md:grid-cols-3">
         {(
           [
-            ["Packing list", plan.packing_list, "bag"],
-            ["Tips", plan.tips, "bulb"],
-            ["Check before you go", plan.caveats, "shield"],
+            [t.packing, plan.packing_list, "bag"],
+            [t.tips, plan.tips, "bulb"],
+            [t.checkBefore, plan.caveats, "shield"],
           ] as const
         ).map(([heading, items, icon]) =>
           items.length > 0 ? (
@@ -670,10 +719,7 @@ export function PlanView({
         )}
       </div>
 
-      <p className="text-xs text-muted-foreground">
-        Created with AI. It can make mistakes: check opening hours, prices and
-        entry requirements with official sources before you travel.
-      </p>
+      <p className="text-xs text-muted-foreground">{t.disclaimer}</p>
     </article>
   );
 }

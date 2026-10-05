@@ -6,12 +6,13 @@ import { linkTargets } from "@/features/content/components/rich-text";
 import { LOCALES } from "@/i18n/config";
 import { SITE_MESSAGES } from "@/i18n/messages/site";
 import { HOME_COPY } from "@/i18n/pages/home";
+import { ROUTES } from "@/i18n/routes";
 import { TOOLS_COPY } from "@/i18n/pages/tools";
 
 const known = new Set<string>([
   ...STATIC_PUBLIC_PATHS,
   ...TRANSLATED_PATHS,
-  "/plan",
+  ...Object.values(ROUTES.planner),
   "/flights",
   "/photo-credits",
   ...allContent()

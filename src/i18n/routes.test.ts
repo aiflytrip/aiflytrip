@@ -46,8 +46,9 @@ describe("translated routes", () => {
     }
   });
 
-  it("preselects the plan language", () => {
+  it("links to the planner form in each language", () => {
     expect(plannerHref("en")).toBe("/plan");
-    expect(plannerHref("fr")).toBe("/plan?lang=fr");
+    expect(plannerHref("fr")).toBe("/fr/planifier");
+    expect(switchPath("/plan", "es")).toBe("/es/planificar");
   });
 });

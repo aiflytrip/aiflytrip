@@ -23,6 +23,8 @@ export const ROUTES = {
     es: "/es/herramientas/cuantos-dias",
     fr: "/fr/outils/combien-de-jours",
   },
+  // The planner form is private (noindex), so it isn't in the sitemap.
+  planner: { en: "/plan", es: "/es/planificar", fr: "/fr/planifier" },
 } as const satisfies Record<string, Record<Locale, string>>;
 
 export type RouteKey = keyof typeof ROUTES;
@@ -64,6 +66,8 @@ export function languageAlternates(key: RouteKey): Record<string, string> {
   };
 }
 
-/** Planner link that preselects the plan language. */
-export const plannerHref = (locale: Locale): string =>
-  locale === DEFAULT_LOCALE ? "/plan" : `/plan?lang=${locale}`;
+/** Translated pages that are indexable (listed in the sitemap). */
+export const INDEXABLE_ROUTE_KEYS = ROUTE_KEYS.filter((k) => k !== "planner");
+
+/** The planner form in a language; it preselects that plan language. */
+export const plannerHref = (locale: Locale): string => ROUTES.planner[locale];

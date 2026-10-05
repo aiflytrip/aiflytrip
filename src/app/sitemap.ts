@@ -12,8 +12,8 @@ import { type Destination, type Guide, type Itinerary } from "@/content/schema";
 import { absoluteUrl } from "@/features/seo/metadata";
 import { LOCALES } from "@/i18n/config";
 import {
+  INDEXABLE_ROUTE_KEYS,
   languageAlternates,
-  ROUTE_KEYS,
   ROUTES,
   routeKeyForPath,
 } from "@/i18n/routes";
@@ -42,7 +42,7 @@ export const STATIC_PUBLIC_PATHS = [
 ] as const;
 
 /** Spanish and French versions of the translated pages. */
-export const TRANSLATED_PATHS = ROUTE_KEYS.flatMap((key) =>
+export const TRANSLATED_PATHS = INDEXABLE_ROUTE_KEYS.flatMap((key) =>
   LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
 );
 

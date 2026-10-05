@@ -2,6 +2,9 @@ import { Button, ButtonLink, buttonVariants } from "@/components/ui/button";
 import { startPremiumCheckout } from "@/features/premium/actions";
 import { type PremiumPrice } from "@/features/premium/lib/price";
 import { type PremiumStatus } from "@/features/premium/server/entitlement";
+import { type Locale } from "@/i18n/config";
+import { plannerMessages } from "@/i18n/messages/planner";
+import { plannerHref } from "@/i18n/routes";
 import { cn } from "@/lib/utils";
 
 function DownloadIcon() {
@@ -49,7 +52,9 @@ export function PlanActions({
   price,
   isGuest = false,
   className,
+  locale = "en",
 }: {
+  locale?: Locale;
   planId: string;
   /** Guests create a free account first; their plan carries over. */
   isGuest?: boolean;
@@ -58,6 +63,7 @@ export function PlanActions({
   price?: PremiumPrice;
   className?: string;
 }) {
+  const t = plannerMessages(locale).premium;
   return (
     <div className={cn("flex flex-wrap items-center gap-3", className)}>
       {status === "active" ? (
@@ -67,7 +73,7 @@ export function PlanActions({
           className={buttonVariants({ size: "lg" })}
         >
           <DownloadIcon />
-          Download PDF
+          {t.downloadPdf}
         </a>
       ) : status === "pending" ? (
         <span
@@ -77,7 +83,7 @@ export function PlanActions({
             "cursor-default",
           )}
         >
-          Payment processing…
+          {t.processing}
         </span>
       ) : isGuest && price ? (
         <ButtonLink
@@ -85,26 +91,24 @@ export function PlanActions({
           size="lg"
         >
           <DownloadIcon />
-          Create a free account to get the PDF
+          {t.createAccountForPdf}
         </ButtonLink>
       ) : status && price ? (
         <form action={startPremiumCheckout}>
           <input type="hidden" name="planId" value={planId} />
           <Button type="submit" size="lg">
             <DownloadIcon />
-            Get the PDF · {price.display}
+            {t.getPdf(price.display)}
           </Button>
         </form>
       ) : null}
-      <ButtonLink href="/plan" variant="secondary" size="lg">
+      <ButtonLink href={plannerHref(locale)} variant="secondary" size="lg">
         <PlusIcon />
-        Create another plan
+        {t.createAnother}
       </ButtonLink>
       {status && status !== "active" && price ? (
         <span className="text-xs text-muted-foreground">
-          {isGuest
-            ? `Then unlock it for ${price.display}. Test mode: no real payment is taken.`
-            : "Test mode: no real payment is taken."}
+          {isGuest ? t.thenUnlock(price.display) : t.testMode}
         </span>
       ) : null}
     </div>

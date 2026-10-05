@@ -533,7 +533,7 @@ const es: ToolsCopy = {
         title: "¿Cuántas paradas son demasiadas?",
         paragraphs: [
           "Una buena referencia es una base por cada tres o cuatro días. Una semana funciona bien con una o dos bases; dos semanas pueden incluir cómodamente tres o cuatro. El planificador te avisa cuando tu plan tiene más paradas, porque los traslados frecuentes hacen que el viaje canse.",
-          "Cuando sepas cuántos días vas, nuestro [planificador de viajes con IA](/plan?lang=es) puede preparar el itinerario día a día en español.",
+          "Cuando sepas cuántos días vas, nuestro [planificador de viajes con IA](/es/planificar) puede preparar el itinerario día a día en español.",
         ],
       },
     ],
@@ -799,7 +799,7 @@ const fr: ToolsCopy = {
         title: "Combien d'étapes, c'est trop ?",
         paragraphs: [
           "Un bon repère est une étape pour trois à quatre jours. Une semaine fonctionne bien avec une ou deux étapes ; deux semaines peuvent en inclure trois ou quatre sans difficulté. Le planificateur vous prévient quand votre plan en compte davantage, car des déplacements fréquents rendent le voyage fatigant.",
-          "Une fois la durée fixée, notre [planificateur de voyage IA](/plan?lang=fr) peut préparer l'itinéraire jour par jour en français.",
+          "Une fois la durée fixée, notre [planificateur de voyage IA](/fr/planifier) peut préparer l'itinéraire jour par jour en français.",
         ],
       },
     ],

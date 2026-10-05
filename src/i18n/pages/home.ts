@@ -339,7 +339,7 @@ const es: HomeCopy = {
     {
       question: "¿Puedo recibir mi plan de viaje en español?",
       answer:
-        "Sí. En el formulario del planificador, elige «Español» en «Plan language» y la IA escribirá todo el itinerario en español. Los nombres de lugares se mantienen en su forma local.",
+        "Sí. El planificador en español elige automáticamente «Español» como idioma del plan, y la IA escribe todo el itinerario en español. Los nombres de lugares se mantienen en su forma local.",
     },
     {
       question: "¿AIFlyTrip reserva vuelos u hoteles?",
@@ -524,7 +524,7 @@ const fr: HomeCopy = {
     {
       question: "Puis-je recevoir mon plan de voyage en français ?",
       answer:
-        "Oui. Dans le formulaire du planificateur, choisissez « Français » dans « Plan language » et l'IA rédigera tout l'itinéraire en français. Les noms de lieux restent dans leur forme locale.",
+        "Oui. Le planificateur en français sélectionne automatiquement le français comme langue du plan, et l'IA rédige tout l'itinéraire en français. Les noms de lieux restent dans leur forme locale.",
     },
     {
       question: "AIFlyTrip réserve-t-il des vols ou des hôtels ?",

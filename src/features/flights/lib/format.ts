@@ -22,8 +22,8 @@ export function formatTime(isoInstant: string, timeZone: string): string {
 }
 
 /** "Mon, Nov 2" for a YYYY-MM-DD date. */
-export function formatDate(isoDate: string): string {
-  return new Intl.DateTimeFormat(LOCALE, {
+export function formatDate(isoDate: string, locale: string = LOCALE): string {
+  return new Intl.DateTimeFormat(locale, {
     timeZone: "UTC",
     weekday: "short",
     month: "short",

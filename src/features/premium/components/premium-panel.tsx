@@ -2,7 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { startPremiumCheckout } from "@/features/premium/actions";
-import { PREMIUM_PLAN } from "@/features/premium/config";
+import { type Locale } from "@/i18n/config";
+import { plannerMessages } from "@/i18n/messages/planner";
 import { type PremiumPrice } from "@/features/premium/lib/price";
 import { type PremiumStatus } from "@/features/premium/server/entitlement";
 
@@ -11,29 +12,30 @@ export function PremiumPanel({
   planId,
   status,
   price,
+  locale = "en",
 }: {
+  locale?: Locale;
   planId: string;
   status: PremiumStatus;
   price: PremiumPrice | undefined;
 }) {
+  const t = plannerMessages(locale).premium;
   if (status === "active") {
     return (
       <Card className="flex flex-col gap-3 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div className="flex items-center gap-2">
-            <p className="font-semibold">Premium plan</p>
-            <Badge variant="success">Unlocked</Badge>
+            <p className="font-semibold">{t.premiumPlan}</p>
+            <Badge variant="success">{t.unlocked}</Badge>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Download a printable PDF of this plan any time.
-          </p>
+          <p className="text-sm text-muted-foreground">{t.downloadAnyTime}</p>
         </div>
         {/* A plain link: the browser downloads the PDF from the route handler. */}
         <a
           href={`/plans/${planId}/pdf`}
           className="inline-flex h-10 items-center justify-center rounded-full bg-primary px-4 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-hover"
         >
-          Download PDF
+          {t.downloadPdf}
         </a>
       </Card>
     );
@@ -42,11 +44,8 @@ export function PremiumPanel({
   if (status === "pending") {
     return (
       <Card className="p-5" role="status">
-        <p className="font-semibold">Payment processing</p>
-        <p className="text-sm text-muted-foreground">
-          We&apos;re waiting for your payment to be confirmed. This page will
-          show the download once it clears.
-        </p>
+        <p className="font-semibold">{t.paymentProcessing}</p>
+        <p className="text-sm text-muted-foreground">{t.waiting}</p>
       </Card>
     );
   }
@@ -55,18 +54,16 @@ export function PremiumPanel({
     <Card className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <div className="flex items-center gap-2">
-          <p className="font-semibold">Get the premium PDF</p>
-          <Badge>Test mode</Badge>
+          <p className="font-semibold">{t.getPremiumPdf}</p>
+          <Badge>{t.testModeBadge}</Badge>
         </div>
         <ul className="mt-2 flex list-disc flex-col gap-1 pl-4 text-sm text-muted-foreground">
-          {PREMIUM_PLAN.benefits.map((benefit) => (
+          {t.benefits.map((benefit) => (
             <li key={benefit}>{benefit}</li>
           ))}
         </ul>
         {status === "refunded" ? (
-          <p className="mt-2 text-xs text-muted-foreground">
-            Your earlier purchase of this plan was refunded.
-          </p>
+          <p className="mt-2 text-xs text-muted-foreground">{t.refunded}</p>
         ) : null}
       </div>
       {price ? (
@@ -75,15 +72,11 @@ export function PremiumPanel({
           className="flex flex-col items-start gap-1 sm:items-end"
         >
           <input type="hidden" name="planId" value={planId} />
-          <Button type="submit">Unlock for {price.display}</Button>
-          <p className="text-xs text-muted-foreground">
-            Secure checkout by Stripe. Test cards only.
-          </p>
+          <Button type="submit">{t.unlockFor(price.display)}</Button>
+          <p className="text-xs text-muted-foreground">{t.secureCheckout}</p>
         </form>
       ) : (
-        <p className="text-sm text-muted-foreground">
-          Premium isn&apos;t available right now.
-        </p>
+        <p className="text-sm text-muted-foreground">{t.unavailable}</p>
       )}
     </Card>
   );

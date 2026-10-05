@@ -24,6 +24,8 @@ import { getPremiumStatus } from "@/features/premium/server/entitlement";
 import { requireUser } from "@/server/auth";
 import { isStripeConfigured } from "@/server/stripe/client";
 import { createClient } from "@/server/supabase/server";
+import { isPlanLanguage } from "@/features/trip-planner/lib/request";
+import { plannerMessages } from "@/i18n/messages/planner";
 
 export const metadata: Metadata = {
   title: "Trip plan",
@@ -59,10 +61,37 @@ export default async function PlanDetailPage({
   if (error) console.error("[plans] load failed", { code: error.code });
   if (!plan) notFound();
 
+  // The page speaks the language the plan was written in.
+  const { data: prefs } = await supabase
+    .from("trip_preferences")
+    .select("language")
+    .eq("trip_id", plan.trip_id)
+    .maybeSingle();
+  const locale = isPlanLanguage(prefs?.language) ? prefs.language : "en";
+  const t = plannerMessages(locale).detail;
+  const english = locale === "en";
+
   const status = effectiveStatus(plan.status as PlanStatus, plan.updated_at);
-  const notice = typeof retry === "string" ? RETRY_NOTICES[retry] : undefined;
+  const notice =
+    typeof retry === "string"
+      ? english
+        ? RETRY_NOTICES[retry]
+        : t.retry[retry]
+      : undefined;
   const checkoutNotice =
-    typeof checkout === "string" ? CHECKOUT_NOTICES[checkout] : undefined;
+    typeof checkout === "string" && CHECKOUT_NOTICES[checkout]
+      ? {
+          tone: CHECKOUT_NOTICES[checkout].tone,
+          text: english
+            ? CHECKOUT_NOTICES[checkout].text
+            : (t.checkout[checkout] ?? CHECKOUT_NOTICES[checkout].text),
+        }
+      : undefined;
+  const failureCode =
+    plan.status === "failed" ? plan.error_message : "timed_out";
+  const failureText = english
+    ? failureMessage(failureCode)
+    : (t.failures[failureCode ?? ""] ?? t.failures.internal);
   const isReady = status === "ready" && isStoredItinerary(plan.itinerary);
   const isGenerating = status === "pending" || status === "generating";
   // Trip details for the progress screen and itinerary (RLS: owner only).
@@ -83,12 +112,12 @@ export default async function PlanDetailPage({
       : [undefined, undefined];
 
   return (
-    <Container className="flex max-w-4xl flex-col gap-6 py-10">
+    <Container lang={locale} className="flex max-w-4xl flex-col gap-6 py-10">
       <Link
         href="/plans"
         className="text-sm text-muted-foreground hover:text-foreground"
       >
-        ← My plans
+        {t.back}
       </Link>
       {notice ? <FormMessage>{notice}</FormMessage> : null}
       {checkoutNotice ? (
@@ -99,6 +128,7 @@ export default async function PlanDetailPage({
 
       {isGenerating ? (
         <PlanPending
+          locale={locale}
           startedAt={plan.created_at}
           origin={trip?.origin ?? undefined}
           destination={trip?.destination ?? undefined}
@@ -110,10 +140,12 @@ export default async function PlanDetailPage({
       ) : isReady && isStoredItinerary(plan.itinerary) ? (
         <>
           <PlanView
+            locale={locale}
             itinerary={plan.itinerary}
             trip={{ cabin: trip?.cabin, travellers: trip?.adults }}
             actions={
               <PlanActions
+                locale={locale}
                 planId={plan.id}
                 status={premiumStatus}
                 price={premiumPrice}
@@ -123,6 +155,7 @@ export default async function PlanDetailPage({
           />
           {premiumStatus && !user.isAnonymous ? (
             <PremiumPanel
+              locale={locale}
               planId={plan.id}
               status={premiumStatus}
               price={premiumPrice}
@@ -131,17 +164,11 @@ export default async function PlanDetailPage({
         </>
       ) : (
         <Card role="alert" className="flex flex-col items-start gap-4 p-6">
-          <h1 className="text-xl font-semibold">
-            We couldn&apos;t create this plan
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            {failureMessage(
-              plan.status === "failed" ? plan.error_message : "timed_out",
-            )}
-          </p>
+          <h1 className="text-xl font-semibold">{t.failedTitle}</h1>
+          <p className="text-sm text-muted-foreground">{failureText}</p>
           <form action={retryPlan}>
             <input type="hidden" name="planId" value={plan.id} />
-            <Button type="submit">Try again</Button>
+            <Button type="submit">{t.tryAgain}</Button>
           </form>
         </Card>
       )}
