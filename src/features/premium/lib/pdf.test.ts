@@ -205,7 +205,7 @@ describe("proposed flight itinerary", () => {
         cabin: "economy",
       }),
     );
-    expect(text).toContain("Proposed flight itinerary");
+    expect(text).toContain("Free flight itinerary for planning");
     expect(text).toContain("NOT A TICKET OR RESERVATION.");
     expect(text).toContain("Flight ZZ123");
     expect(text).toContain("Flight ZZ456");
@@ -235,7 +235,7 @@ describe("proposed flight itinerary", () => {
         generatedOn: new Date(),
       }),
     );
-    expect(text).toContain("Proposed flight itinerary");
+    expect(text).toContain("Free flight itinerary for planning");
     expect(text).toContain("NOT A TICKET OR RESERVATION.");
     expect(text).toContain("Departs 2026-11-12 9:00 AM local");
   });

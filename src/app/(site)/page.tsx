@@ -178,8 +178,8 @@ export default function HomePage() {
               </h2>
               <p className="mt-3 leading-relaxed text-white/85">
                 Download a printable PDF of your trip: the day-by-day plan, a
-                proposed flight itinerary and the budget. Currently in test
-                mode, so no real payments are taken.
+                free flight itinerary for planning and the budget. Currently in
+                test mode, so no real payments are taken.
               </p>
             </div>
             <ButtonLink href="/travel-planner" variant="secondary" size="lg">

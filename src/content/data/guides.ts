@@ -276,7 +276,7 @@ export const guides: GuideInput[] = [
       {
         heading: "Visas and travel authorisations",
         paragraphs: [
-          "Depending on your nationality, you may need a visa, an electronic travel authorisation or nothing at all. Some regions are introducing new digital border systems, so rules that applied on a previous trip may have changed.",
+          "Depending on your nationality, you may need a visa, an electronic travel authorisation or nothing at all. Some regions are introducing new digital border systems, so rules that applied on a previous trip may have changed. If a visa application asks for flight bookings, our guide on [dummy tickets for visas](/blog/dummy-ticket-for-visa) explains the safe options.",
           "Always check requirements on official government websites or your destination's embassy, rather than relying on third-party summaries, and apply well in advance if you need permission to enter.",
         ],
       },
@@ -370,6 +370,7 @@ export const guides: GuideInput[] = [
         "/destinations/italy",
       ],
       guides: [
+        "dummy-ticket-for-visa",
         "how-to-plan-a-trip",
         "how-many-days-for-a-trip",
         "budget-airline-fees-explained",

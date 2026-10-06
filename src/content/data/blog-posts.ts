@@ -475,4 +475,113 @@ export const blogPosts: PostInput[] = [
       SOURCES.iataTravelers,
     ],
   },
+  {
+    slug: "dummy-ticket-for-visa",
+    photo: "documents",
+    category: "practical",
+    status: "published",
+    lastReviewed: "2026-10-06",
+    title: "Dummy ticket for visa: what embassies really accept",
+    description:
+      "What a dummy ticket is, what visa applications usually ask for, the safe and legal options, why fake tickets are risky and how to check a booking is real.",
+    headline: "Dummy ticket for visa: what embassies really accept",
+    intro:
+      'If you are applying for a visa, you may be asked to show your travel plans, and many people search for a "dummy ticket" to get past this step without paying for a flight. This guide explains in plain words what a dummy ticket usually means, what visa applications tend to ask for, the safe and legal options, and why a fake or edited ticket can cost you far more than a real one.',
+    sections: [
+      {
+        heading: "What people mean by a dummy ticket",
+        paragraphs: [
+          '"Dummy ticket" is an informal name, and it covers very different things. Sometimes it means a genuine flight reservation that an airline or travel agent holds for a short time without full payment. Sometimes it means a simple flight itinerary that lists the flights you plan to take. And sometimes it means a document made to look like a paid ticket or a confirmed booking when no booking exists.',
+          "The first two can be perfectly legitimate, as long as you describe them honestly. The third is a false document. The difference matters, because visa authorities judge your application on whether your documents are genuine.",
+        ],
+        bullets: [
+          "A held reservation: a real booking in the airline's system, often with a time limit.",
+          "A flight itinerary: a plan of flights you intend to take, with no booking behind it.",
+          "A fake ticket: a document that claims a booking or payment that doesn't exist.",
+        ],
+      },
+      {
+        heading: "What visa applications usually ask for",
+        paragraphs: [
+          "Every country sets its own rules, and so does each consulate. For a Schengen visa, the European Commission says you need supporting documents about the purpose of your stay, your accommodation, your financial means and your intention to return home, and that consulates may ask for additional documents. Many consulates ask for travel bookings or an itinerary as part of this, so always read the checklist of the consulate you apply to.",
+          "Some countries actively advise against paying for travel too early. The UK government, for example, says you should not book your travel until you get a decision on your visa application, and that it won't reimburse travel costs if an application is refused or delayed.",
+          "So before you look for any kind of ticket, find the official document list for your visa and check exactly what it asks for: a paid ticket, a reservation, an itinerary or nothing at all. Our [travel documents checklist](/blog/travel-documents-checklist) explains where to find official entry requirements.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Safe and legal options",
+        paragraphs: [
+          "If you need to show flight plans without risking a lot of money, there are honest ways to do it. Which one suits you depends on what your consulate asks for and how certain your dates are.",
+        ],
+        bullets: [
+          "Book a flexible or refundable fare, and read the change and refund rules before you pay.",
+          "Ask whether the airline offers a fare hold or pay-later option; some airlines let you hold a fare for a few days, sometimes for a small fee.",
+          "Ask a travel agent for a genuine reservation and ask how long it will stay active.",
+          "If an itinerary is enough, prepare a clear plan of your intended flights and present it as an itinerary, not as a booking.",
+        ],
+      },
+      {
+        heading: "Why fake or edited tickets are risky",
+        paragraphs: [
+          "A ticket or booking confirmation with no real booking behind it can often be checked, for example by looking up the reservation code with the airline. If it doesn't match, the application can be refused, and you lose the visa fee and the time you spent.",
+          "The consequences can last well beyond one application. UK Home Office guidance, for instance, says applications can be refused for false documents or false representations, and that where deception is found, future applications can be refused for up to 10 years. Other countries have their own penalties.",
+          "Be careful with websites that sell \"tickets\" with no watermark or no warning label for a fee. If the document claims a booking that doesn't exist, the risk is yours, not the seller's.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "How to check a reservation is real",
+        paragraphs: [
+          "If someone gives you a reservation, check it yourself before you use it. A genuine reservation exists in the airline's own system, so you should be able to find it with the airline, not only on the seller's website.",
+        ],
+        bullets: [
+          'Look up the reservation code on the airline\'s "manage booking" page with your surname.',
+          "Check that your name is spelled exactly as in your passport.",
+          "Check the dates, flight numbers and route match your application.",
+          "Ask how long the reservation stays active, and what happens after that.",
+        ],
+      },
+      {
+        heading: "Our free flight itinerary for planning",
+        paragraphs: [
+          "AIFlyTrip's free [AI trip planner](/plan) creates a day-by-day plan with a suggested flight and a free flight itinerary for planning. It helps you work out dates, routes and a rough budget before you book anything.",
+          "It is clearly marked as not a ticket or reservation: no seat is booked or held and there is no booking reference. Use it to plan your trip, and use one of the legitimate options above if your visa application asks for a booking. If you are comparing fares, our guide on [how to find cheap flights](/blog/how-to-find-cheap-flights) explains how to compare flexible fares, and the [layover time checker](/tools/layover-time-checker) helps you judge connections.",
+        ],
+        bullets: [],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is a dummy ticket legal?",
+        answer:
+          "It depends on what it is. A genuine reservation held by an airline or travel agent is legitimate. A document that claims a booking or payment that doesn't exist is a false document, and using it in a visa application can lead to refusal and longer bans.",
+      },
+      {
+        question: "Can I use AIFlyTrip's free flight itinerary for my visa?",
+        answer:
+          "It is a planning document, clearly marked as not a ticket or reservation, with no booking reference. If your consulate accepts an itinerary, you can describe it honestly as your intended flights. If it asks for a booking, use a genuine reservation or a flexible fare instead.",
+      },
+      {
+        question: "Do I need to buy a flight before I get my visa?",
+        answer:
+          "Not always. Requirements differ by country and consulate, and some governments, such as the UK, advise you not to book travel until you have a visa decision. Check the official document list for your application.",
+      },
+    ],
+    related: {
+      destinations: ["/destinations/france", "/destinations/italy"],
+      itineraries: [],
+      guides: [
+        "travel-documents-checklist",
+        "how-to-find-cheap-flights",
+        "how-to-plan-a-trip",
+      ],
+    },
+    sources: [
+      SOURCES.euSchengenVisa,
+      SOURCES.govUkVisaProcessing,
+      SOURCES.govUkFalseDocuments,
+      SOURCES.euEntry,
+    ],
+  },
 ];

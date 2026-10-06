@@ -87,6 +87,22 @@ export const SOURCES = {
     publisher: "Turismo de Lisboa",
     url: "https://www.visitlisboa.com/en",
   },
+  euSchengenVisa: {
+    label: "Applying for a Schengen visa",
+    publisher: "European Commission (Migration and Home Affairs)",
+    url: "https://home-affairs.ec.europa.eu/policies/schengen-borders-and-visa/visa-policy/applying-schengen-visa_en",
+  },
+  govUkVisaProcessing: {
+    label: "Visa processing times: applications outside the UK",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/guidance/visa-processing-times-applications-outside-the-uk",
+  },
+  govUkFalseDocuments: {
+    label:
+      "Suitability: deception, false representations, false documents and non-disclosure of relevant facts",
+    publisher: "GOV.UK (Home Office guidance)",
+    url: "https://www.gov.uk/government/publications/suitability-false-representations-immigration-staff-guidance/part-suitability-deception-false-representations-false-documents-and-non-disclosure-of-relevant-facts-accessible",
+  },
   euAirRights: {
     label: "Air passenger rights in the EU",
     publisher: "European Union (Your Europe)",

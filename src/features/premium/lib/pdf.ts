@@ -332,7 +332,7 @@ function writeItinerary(
   option: FlightOptionSnapshot,
   meta: { travellers?: number; cabin?: CabinClass | null },
 ) {
-  w.heading("Proposed flight itinerary");
+  w.heading("Free flight itinerary for planning");
   w.notice(ITINERARY_NOTICE);
   const details = [
     option.airlines.join(", "),
