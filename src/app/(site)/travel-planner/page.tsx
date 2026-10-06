@@ -18,9 +18,9 @@ import { faqLd, graph, webApplicationLd } from "@/features/seo/json-ld";
 import { pageMetadata } from "@/features/seo/metadata";
 
 export const metadata = pageMetadata({
-  title: "Free AI trip planner: personalized day-by-day itineraries",
+  title: "Free AI trip planner and travel itinerary generator",
   description:
-    "Use AIFlyTrip's free AI trip planner to turn your dates, budget, pace and interests into a day-by-day itinerary with flight options. No sign-up needed.",
+    "Plan a trip with a free AI travel planner: get a day-by-day travel itinerary, flight options and a budget estimate in minutes. No sign-up needed.",
   path: "/travel-planner",
 });
 
@@ -46,9 +46,19 @@ const FAQS: Faq[] = [
       "It creates a personalized trip plan with a title and summary, a suggested flight from the options found for your dates, a morning, afternoon and evening plan for each day, an estimated budget by category, a packing list, practical tips and things to check before you go.",
   },
   {
+    question: "How do I make a travel itinerary with AI?",
+    answer:
+      "Enter where you're flying from and to, your dates and the number of travellers, then add an optional budget, your pace and your interests. Click Create my plan, and the AI drafts a day-by-day itinerary with a suggested flight and a budget estimate, usually in a minute or two.",
+  },
+  {
     question: "Is the AI trip planner free, and do I need an account?",
     answer:
       "The planner is free and you don't need an account to create a plan: you can start straight away as a guest, and your plans stay private to you. Create a free account if you want to keep your plans across devices or get the optional PDF.",
+  },
+  {
+    question: "Can I get my itinerary in Spanish or French?",
+    answer:
+      "Yes. Choose Español or Français as the plan language in the planner, or switch the site to Spanish or French with the language menu, and the whole itinerary is written in that language.",
   },
   {
     question: "Can I book flights or hotels through AIFlyTrip?",
@@ -79,13 +89,14 @@ export default function TravelPlannerPage() {
           ]}
         />
         <h1 className="max-w-3xl text-4xl font-semibold tracking-tight text-balance sm:text-5xl">
-          Free AI trip planner for personalized travel itineraries
+          Free AI trip planner and travel itinerary generator
         </h1>
         <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
           Plan a trip in minutes instead of hours, free and with no sign-up.
-          Tell AIFlyTrip where and when you&apos;re going, how you like to
-          travel and what you enjoy, and get a day-by-day itinerary with a
-          flight suggestion and a budget estimate you can refine.
+          Tell our AI travel planner where and when you&apos;re going, how you
+          like to travel and what you enjoy, and get a day-by-day travel
+          itinerary with a flight suggestion and a budget estimate you can
+          refine.
         </p>
         <div className="flex flex-col gap-3 sm:flex-row">
           <PlannerCtaLink
@@ -138,6 +149,15 @@ export default function TravelPlannerPage() {
           paragraphs={[
             "Planning a trip usually means juggling dozens of tabs: guides, maps, flight searches and spreadsheets. An AI trip planner pulls those steps together and gives you a structured first draft built around your own priorities, so you spend your time refining a plan rather than starting from a blank page.",
             "Because the plan is shaped by your pace and interests, it can look very different for a relaxed food-focused weekend than for a packed sightseeing trip, even for the same city. You stay in control: change the details and generate a new version whenever you like.",
+          ]}
+        />
+      </ContentSection>
+
+      <ContentSection id="trip-types" title="Plan any kind of trip">
+        <Prose
+          paragraphs={[
+            "Use the planner for a weekend city break, a week in one country or a two-week route with several stops. Set the pace to relaxed for slow mornings and long lunches, or packed if you want to see as much as possible, and pick interests such as food, history, nature or nightlife.",
+            "Travelling with children or older relatives? Say so in the notes, along with anything else that matters, such as a vegetarian diet or a day trip you don't want to miss. Plans can cover up to 14 days, and you can create a new version whenever your plans change.",
           ]}
         />
       </ContentSection>

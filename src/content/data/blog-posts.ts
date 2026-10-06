@@ -360,13 +360,13 @@ export const blogPosts: PostInput[] = [
     photo: "itinerary",
     category: "itineraries",
     status: "published",
-    lastReviewed: "2026-10-03",
-    title: "How to build a travel itinerary that actually works",
+    lastReviewed: "2026-10-06",
+    title: "How to make a travel itinerary (with a free template)",
     description:
-      "How to build a realistic day-by-day travel itinerary: anchor activities, grouping days by area, honest travel times, buffers, opening days and booking order.",
-    headline: "How to build a travel itinerary that actually works",
+      "How to make a travel itinerary that works: pick a few anchors, group days by area, count travel time honestly, add buffers, plus a simple day-by-day template.",
+    headline: "How to make a travel itinerary that actually works",
     intro:
-      "A good itinerary is less about fitting everything in and more about making each day work: realistic travel times, a sensible order and room to breathe. This guide shows how to turn a list of places into a day-by-day plan you will actually enjoy following.",
+      "A good itinerary is less about fitting everything in and more about making each day work: realistic travel times, a sensible order and room to breathe. This guide shows how to make an itinerary step by step, turning a list of places into a day-by-day plan you will actually enjoy following, with a simple template you can copy.",
     sections: [
       {
         heading: "Start with a few anchors",
@@ -431,6 +431,23 @@ export const blogPosts: PostInput[] = [
         ],
       },
       {
+        heading: "A simple itinerary template",
+        paragraphs: [
+          "You don't need special software to make an itinerary. A notes app, a spreadsheet or a sheet of paper works, as long as every day follows the same simple layout. Copy the outline below once for each day of your trip, then fill it in using the steps above.",
+          "Fill in the fixed things first, such as flights, check-in times and timed tickets, and then add the flexible plans around them. Keep it short: a line or two for each part of the day is enough to follow on the move.",
+        ],
+        bullets: [
+          "Day and date, plus where you are staying that night",
+          "Area of the day: the one or two neighbourhoods you will be in",
+          "Morning: main activity, with opening time and any booking reference",
+          "Afternoon: second activity or a free block",
+          "Evening: dinner area and anything booked",
+          "Getting around: how you will travel between places and roughly how long it takes",
+          "Backup idea for bad weather or a closure",
+          "Notes: tickets to show, opening days, things to check",
+        ],
+      },
+      {
         heading: "A worked example",
         paragraphs: [
           "Imagine three days in Lisbon with two anchors: the castle and a day trip to Sintra. The castle sits above Alfama, so day two becomes an Alfama day: castle in the morning, lanes and viewpoints in the afternoon, and a relaxed evening nearby. Sintra needs most of a day, so it gets day three on its own.",
@@ -449,6 +466,11 @@ export const blogPosts: PostInput[] = [
         question: "Should I book everything in advance?",
         answer:
           "Book the things that sell out or need timed tickets, plus accommodation and key transport. Leaving the rest flexible lets you adjust for weather, energy levels and the places you discover along the way.",
+      },
+      {
+        question: "What should a travel itinerary include?",
+        answer:
+          "At minimum: the dates, where you are staying each night, the main plan for each morning, afternoon and evening, how you will get between places, and any bookings with their times. A backup idea for bad weather and a short list of things to check make it easier to adjust on the day.",
       },
       {
         question: "Can an AI planner build my itinerary?",
