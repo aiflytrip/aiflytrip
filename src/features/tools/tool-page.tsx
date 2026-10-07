@@ -9,6 +9,7 @@ import {
   Prose,
 } from "@/features/content/components/blocks";
 import { RichText } from "@/features/content/components/rich-text";
+import { ScrollFlight } from "@/features/marketing/components/scroll-flight";
 import { Breadcrumbs, JsonLd } from "@/features/seo/components";
 import { faqLd, graph } from "@/features/seo/json-ld";
 import { absoluteUrl, pageMetadata } from "@/features/seo/metadata";
@@ -71,6 +72,7 @@ export function ToolPage({
 
   return (
     <Container className="flex max-w-6xl flex-col gap-12 py-10">
+      <ScrollFlight subtle />
       <JsonLd data={graph(appLd, faqLd(copy.faqs))} />
       <div className="flex flex-col gap-4">
         <Breadcrumbs
@@ -141,6 +143,7 @@ export function ToolsHub({ locale }: { locale: Locale }) {
 
   return (
     <Container className="flex max-w-5xl flex-col gap-10 py-10">
+      <ScrollFlight subtle />
       <div className="flex flex-col gap-4">
         <Breadcrumbs
           crumbs={[

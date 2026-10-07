@@ -58,7 +58,11 @@ function Plane({
   );
 }
 
-export function ScrollFlight() {
+/**
+ * `subtle` (tool pages, with dense forms and results): fainter overall
+ * and fades further while behind the content.
+ */
+export function ScrollFlight({ subtle = false }: { subtle?: boolean }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const routeRef = useRef<SVGPathElement>(null);
   const downTrailRef = useRef<SVGPathElement>(null);
@@ -113,7 +117,10 @@ export function ScrollFlight() {
       const heading = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
       // Fade while crossing the content column, like flying through cloud.
       const fromCentre = Math.abs(a.x / window.innerWidth - 0.5) * 2;
-      const visible = String(0.3 + 0.7 * Math.min(1, fromCentre * 1.5));
+      const edge = Math.min(1, fromCentre * 1.5);
+      const visible = String(
+        subtle ? 0.15 + 0.5 * edge * edge : 0.3 + 0.7 * edge,
+      );
 
       const active = up ? upPlane : downPlane;
       const idle = up ? downPlane : upPlane;
@@ -148,12 +155,12 @@ export function ScrollFlight() {
       window.removeEventListener("resize", onResize);
       still.removeEventListener("change", schedule);
     };
-  }, []);
+  }, [subtle]);
 
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-20 overflow-hidden print:hidden"
+      className={`pointer-events-none fixed inset-0 -z-20 overflow-hidden print:hidden ${subtle ? "opacity-75" : ""}`}
     >
       <svg ref={svgRef} className="absolute inset-0 size-full" fill="none">
         <defs>
