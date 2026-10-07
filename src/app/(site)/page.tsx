@@ -120,7 +120,7 @@ export default function HomePage() {
               id="itineraries-heading"
               className="text-3xl font-bold text-white"
             >
-              Hand-written day plans
+              Day-by-day city plans
             </h2>
             <ul className="flex flex-col gap-3">
               {publishedItineraries().map((it) => (
