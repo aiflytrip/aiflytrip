@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
 import { FaqList } from "@/features/content/components/blocks";
 import { FeatureGrid, Hero, HowItWorks } from "@/features/marketing";
+import { ScrollFlight } from "@/features/marketing/components/scroll-flight";
 import { SectionHeading } from "@/features/marketing/components/section-heading";
 import { JsonLd } from "@/features/seo/components";
 import { faqLd, graph } from "@/features/seo/json-ld";
@@ -51,6 +52,7 @@ export function LocalizedHome({ locale }: { locale: TranslatedLocale }) {
   return (
     <>
       <JsonLd data={graph(pageLd, faqLd(copy.faqs))} />
+      <ScrollFlight />
       <Hero locale={locale} />
 
       <section

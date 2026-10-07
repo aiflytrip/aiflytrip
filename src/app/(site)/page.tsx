@@ -12,6 +12,7 @@ import { FaqList } from "@/features/content/components/blocks";
 import { DestinationCard } from "@/features/content/components/destination-card";
 import { FlightSearchForm } from "@/features/flights";
 import { FeatureGrid, Hero, HowItWorks } from "@/features/marketing";
+import { ScrollFlight } from "@/features/marketing/components/scroll-flight";
 import { homeFaqs } from "@/features/marketing/content";
 import { SectionHeading } from "@/features/marketing/components/section-heading";
 import { ToolsShowcase } from "@/features/tools/tools-showcase";
@@ -42,6 +43,7 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={graph(websiteLd(), organizationLd(), faqLd(homeFaqs))} />
+      <ScrollFlight />
       <Hero />
 
       <section
