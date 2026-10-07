@@ -38,6 +38,14 @@ export type ToolsHubCopy = {
   }[];
   open: string;
   cta: { heading: string; body: string };
+  /** Label on the worked examples shown on each card. */
+  example: string;
+  which: {
+    title: string;
+    items: Record<"budget" | "layover" | "days" | "planner", string>;
+  };
+  steps: { title: string; items: string[] };
+  faqs: Faq[];
 };
 
 type ToolsCopy = {
@@ -50,7 +58,7 @@ type ToolsCopy = {
 const en: ToolsCopy = {
   hub: {
     meta: {
-      title: "Free travel planning tools",
+      title: "Free travel tools: budget calculator, layover checker & more",
       description:
         "Free travel tools from AIFlyTrip: a trip budget calculator, layover time checker, trip length planner and AI trip planner. No sign-up needed.",
     },
@@ -84,6 +92,50 @@ const en: ToolsCopy = {
       heading: "Planning a whole trip?",
       body: "Our free AI trip planner drafts a day-by-day itinerary with flights and a budget, in minutes.",
     },
+    example: "Example",
+    which: {
+      title: "Which tool do I need?",
+      items: {
+        budget:
+          "Wondering what a trip will cost? The trip budget calculator adds up flights, accommodation and daily spending, per person and per day.",
+        layover:
+          "Booking a flight with a stop? The layover time checker shows whether the time between flights is comfortable, tight or risky.",
+        days: "Not sure how long to go for? The trip length planner suggests how many days to spend in each place, including travel days.",
+        planner:
+          "Ready to plan the days? The AI trip planner turns your trip into a day-by-day itinerary with a suggested flight and a budget estimate.",
+      },
+    },
+    steps: {
+      title: "Planning a trip step by step",
+      items: [
+        "Choose your trip length: add the places you want to visit to the trip length planner and see how many days you need.",
+        "Estimate the cost: enter your flights, accommodation and daily spending in the budget calculator, and add a safety buffer.",
+        "Check your connections: if a flight has a stop, use the layover checker before you book, especially on separate tickets.",
+        "Plan the days: create a free day-by-day itinerary with the AI trip planner, then adjust it to suit you.",
+      ],
+    },
+    faqs: [
+      {
+        question: "Are the tools free?",
+        answer:
+          "Yes. The budget calculator, layover checker and trip length planner are free, with no account and no limit on how often you use them. The AI trip planner is free too, with a fair-use limit on plans per hour; the only paid extra is an optional PDF of a plan, currently in test mode.",
+      },
+      {
+        question: "Do I need an account?",
+        answer:
+          "No. The tools work straight away in your browser, and you can create plans with the AI trip planner as a guest. An account is only needed to keep plans across devices or to get the optional PDF.",
+      },
+      {
+        question: "Do the tools use real prices?",
+        answer:
+          "No. The budget calculator uses your own estimates, and the layover checker and trip length planner use transparent rules of thumb that each page explains. Check current prices, timetables and entry rules with official sources before you book.",
+      },
+      {
+        question: "Can I share my results?",
+        answer:
+          "Yes. The budget calculator, layover checker and trip length planner save your inputs in the page link, so you can copy the share link and send it to the people you travel with.",
+      },
+    ],
   },
   budget: {
     meta: {
@@ -313,7 +365,7 @@ const en: ToolsCopy = {
 const es: ToolsCopy = {
   hub: {
     meta: {
-      title: "Herramientas gratis para planificar viajes",
+      title: "Herramientas de viaje gratis: presupuesto, escalas y más",
       description:
         "Herramientas de viaje gratis: calculadora de presupuesto, comprobador de escalas, planificador de la duración del viaje y planificador con IA. Sin registro.",
     },
@@ -347,6 +399,50 @@ const es: ToolsCopy = {
       heading: "¿Planificas un viaje completo?",
       body: "Nuestro planificador de viajes con IA gratuito prepara en minutos un itinerario día a día con vuelos y presupuesto, en español.",
     },
+    example: "Ejemplo",
+    which: {
+      title: "¿Qué herramienta necesito?",
+      items: {
+        budget:
+          "¿Quieres saber cuánto costará el viaje? La calculadora de presupuesto suma vuelos, alojamiento y gasto diario, por persona y por día.",
+        layover:
+          "¿Vas a reservar un vuelo con escala? El comprobador de tiempo de escala te dice si el tiempo entre vuelos es holgado, justo o arriesgado.",
+        days: "¿No sabes cuántos días ir? El planificador de duración sugiere cuántos días pasar en cada lugar, incluidos los días de viaje.",
+        planner:
+          "¿Listo para planificar los días? El planificador con IA convierte tu viaje en un itinerario día a día con un vuelo sugerido y un presupuesto estimado.",
+      },
+    },
+    steps: {
+      title: "Planifica tu viaje paso a paso",
+      items: [
+        "Elige la duración: añade los lugares que quieres visitar al planificador de duración y descubre cuántos días necesitas.",
+        "Calcula el coste: introduce vuelos, alojamiento y gasto diario en la calculadora de presupuesto y añade un margen de seguridad.",
+        "Revisa las conexiones: si un vuelo tiene escala, usa el comprobador de escalas antes de reservar, sobre todo con billetes separados.",
+        "Planifica los días: crea gratis un itinerario día a día con el planificador con IA y ajústalo a tu gusto.",
+      ],
+    },
+    faqs: [
+      {
+        question: "¿Las herramientas son gratis?",
+        answer:
+          "Sí. La calculadora de presupuesto, el comprobador de escalas y el planificador de duración son gratuitos, sin cuenta y sin límite de uso. El planificador con IA también es gratis, con un límite razonable de planes por hora; el único extra de pago es un PDF opcional del plan, ahora en modo de prueba.",
+      },
+      {
+        question: "¿Necesito una cuenta?",
+        answer:
+          "No. Las herramientas funcionan al momento en tu navegador, y puedes crear planes con el planificador con IA como invitado. Solo necesitas una cuenta para guardar tus planes entre dispositivos o para obtener el PDF opcional.",
+      },
+      {
+        question: "¿Las herramientas usan precios reales?",
+        answer:
+          "No. La calculadora usa tus propias estimaciones, y el comprobador de escalas y el planificador de duración usan reglas prácticas transparentes que cada página explica. Comprueba precios, horarios y requisitos de entrada en fuentes oficiales antes de reservar.",
+      },
+      {
+        question: "¿Puedo compartir mis resultados?",
+        answer:
+          "Sí. La calculadora, el comprobador de escalas y el planificador de duración guardan tus datos en el enlace de la página, así que puedes copiar el enlace y enviarlo a quienes viajan contigo.",
+      },
+    ],
   },
   budget: {
     meta: {
@@ -576,7 +672,7 @@ const es: ToolsCopy = {
 const fr: ToolsCopy = {
   hub: {
     meta: {
-      title: "Outils gratuits pour planifier un voyage",
+      title: "Outils de voyage gratuits : budget, correspondances et plus",
       description:
         "Outils de voyage gratuits : calculateur de budget, vérificateur de correspondance, planificateur de durée de voyage et planificateur IA. Sans inscription.",
     },
@@ -610,6 +706,50 @@ const fr: ToolsCopy = {
       heading: "Vous préparez tout un voyage ?",
       body: "Notre planificateur de voyage IA gratuit rédige en quelques minutes un itinéraire jour par jour avec vols et budget, en français.",
     },
+    example: "Exemple",
+    which: {
+      title: "De quel outil ai-je besoin ?",
+      items: {
+        budget:
+          "Vous vous demandez combien coûtera le voyage ? Le calculateur de budget additionne vols, hébergement et dépenses quotidiennes, par personne et par jour.",
+        layover:
+          "Vous réservez un vol avec escale ? Le vérificateur de correspondance indique si le temps entre les vols est confortable, serré ou risqué.",
+        days: "Vous ne savez pas combien de temps partir ? Le planificateur de durée suggère combien de jours passer dans chaque lieu, trajets compris.",
+        planner:
+          "Prêt à organiser vos journées ? Le planificateur IA transforme votre voyage en itinéraire jour par jour avec un vol suggéré et un budget estimé.",
+      },
+    },
+    steps: {
+      title: "Préparer un voyage étape par étape",
+      items: [
+        "Choisissez la durée : ajoutez les lieux à visiter au planificateur de durée et voyez combien de jours il vous faut.",
+        "Estimez le coût : saisissez vols, hébergement et dépenses quotidiennes dans le calculateur de budget, et ajoutez une marge de sécurité.",
+        "Vérifiez vos correspondances : si un vol a une escale, utilisez le vérificateur avant de réserver, surtout avec des billets séparés.",
+        "Organisez vos journées : créez gratuitement un itinéraire jour par jour avec le planificateur IA, puis adaptez-le à vos envies.",
+      ],
+    },
+    faqs: [
+      {
+        question: "Les outils sont-ils gratuits ?",
+        answer:
+          "Oui. Le calculateur de budget, le vérificateur de correspondance et le planificateur de durée sont gratuits, sans compte et sans limite d'utilisation. Le planificateur IA est gratuit lui aussi, avec une limite raisonnable de plans par heure ; le seul extra payant est un PDF facultatif du plan, actuellement en mode test.",
+      },
+      {
+        question: "Ai-je besoin d'un compte ?",
+        answer:
+          "Non. Les outils fonctionnent tout de suite dans votre navigateur, et vous pouvez créer des plans avec le planificateur IA en tant qu'invité. Un compte n'est utile que pour retrouver vos plans sur plusieurs appareils ou obtenir le PDF facultatif.",
+      },
+      {
+        question: "Les outils utilisent-ils de vrais prix ?",
+        answer:
+          "Non. Le calculateur de budget utilise vos propres estimations, et le vérificateur de correspondance et le planificateur de durée appliquent des règles pratiques transparentes, expliquées sur chaque page. Vérifiez les prix, horaires et conditions d'entrée auprès de sources officielles avant de réserver.",
+      },
+      {
+        question: "Puis-je partager mes résultats ?",
+        answer:
+          "Oui. Le calculateur, le vérificateur de correspondance et le planificateur de durée enregistrent vos données dans le lien de la page : copiez le lien de partage et envoyez-le à vos compagnons de voyage.",
+      },
+    ],
   },
   budget: {
     meta: {
