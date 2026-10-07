@@ -3,11 +3,12 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Decorative background flight: an airliner flies along a curved route as
- * the page scrolls, drawing a contrail behind it. Purely visual
- * (aria-hidden, no pointer events), it sits behind the content and only
- * updates on scroll and resize, once per animation frame. With reduced
- * motion the route and plane stay still.
+ * Decorative background flights. Scrolling down, an airliner flies down a
+ * curved route drawing a blue contrail; scrolling up, a second plane takes
+ * over and flies back up nose first with a violet contrail. Purely visual
+ * (aria-hidden, no pointer events), behind the content, updated once per
+ * animation frame on scroll and resize. With reduced motion everything
+ * stays still.
  */
 
 /** Route control points as fractions of the viewport (x, y). */
@@ -29,52 +30,103 @@ function routeFor(w: number, h: number): string {
   return `M${p[0]} C${p[1]} ${p[2]} ${p[3]} S${p[5]} ${p[6]} S${p[8]} ${p[9]}`;
 }
 
+/** Ignore tiny scroll jitters when deciding the direction of travel. */
+const DIRECTION_THRESHOLD = 3;
+
+function Plane({
+  glow,
+  planeRef,
+}: {
+  glow: string;
+  planeRef: React.RefObject<HTMLDivElement | null>;
+}) {
+  return (
+    <div
+      ref={planeRef}
+      className="absolute top-0 left-0 size-12 origin-top-left opacity-0 transition-opacity duration-500 sm:size-[72px]"
+    >
+      <svg viewBox="-22 -22 44 44" className={`size-full ${glow}`}>
+        <g fill="#fff" fillOpacity="0.75">
+          <path d="M-17 -3.2 Q-19.5 0 -17 3.2 L13 3 Q19.5 0 13 -3 Z" />
+          <path d="M-1 -2.6 L-8.5 -19 L-3 -19 L9 -2.6 Z" />
+          <path d="M-1 2.6 L-8.5 19 L-3 19 L9 2.6 Z" />
+          <path d="M-14.5 -2 L-18.5 -9.5 L-15.2 -9.5 L-10.5 -2 Z" />
+          <path d="M-14.5 2 L-18.5 9.5 L-15.2 9.5 L-10.5 2 Z" />
+        </g>
+      </svg>
+    </div>
+  );
+}
+
 export function ScrollFlight() {
   const svgRef = useRef<SVGSVGElement>(null);
   const routeRef = useRef<SVGPathElement>(null);
-  const trailRef = useRef<SVGPathElement>(null);
-  const planeRef = useRef<HTMLDivElement>(null);
+  const downTrailRef = useRef<SVGPathElement>(null);
+  const upTrailRef = useRef<SVGPathElement>(null);
+  const downPlaneRef = useRef<HTMLDivElement>(null);
+  const upPlaneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const svg = svgRef.current;
     const route = routeRef.current;
-    const trail = trailRef.current;
-    const plane = planeRef.current;
-    if (!svg || !route || !trail || !plane) return;
+    const downTrail = downTrailRef.current;
+    const upTrail = upTrailRef.current;
+    const downPlane = downPlaneRef.current;
+    const upPlane = upPlaneRef.current;
+    if (!svg || !route || !downTrail || !upTrail || !downPlane || !upPlane)
+      return;
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)");
     let total = 0;
     let frame = 0;
+    let lastY = window.scrollY;
+    let goingUp = false;
 
     const layout = () => {
       const w = window.innerWidth;
       const h = window.innerHeight;
       const d = routeFor(w, h);
       svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
-      route.setAttribute("d", d);
-      trail.setAttribute("d", d);
+      for (const path of [route, downTrail, upTrail]) path.setAttribute("d", d);
       total = route.getTotalLength();
-      trail.style.strokeDasharray = `${total} ${total}`;
     };
 
     const update = () => {
       frame = 0;
+      const y = window.scrollY;
+      if (Math.abs(y - lastY) >= DIRECTION_THRESHOLD) {
+        goingUp = y < lastY;
+        lastY = y;
+      }
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = still.matches
         ? 0.3
         : max > 0
-          ? Math.min(1, Math.max(0, window.scrollY / max))
+          ? Math.min(1, Math.max(0, y / max))
           : 0;
+      const up = goingUp && !still.matches;
+
       // Start and finish just inside the screen so the plane stays visible.
       const at = total * (0.06 + progress * 0.86);
       const a = route.getPointAtLength(at);
       const b = route.getPointAtLength(Math.min(total, at + 2));
-      const angle = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
-      plane.style.transform = `translate(${a.x}px, ${a.y}px) rotate(${angle}deg) translate(-50%, -50%)`;
-      trail.style.strokeDashoffset = `${total - at}`;
+      const heading = (Math.atan2(b.y - a.y, b.x - a.x) * 180) / Math.PI;
       // Fade while crossing the content column, like flying through cloud.
       const fromCentre = Math.abs(a.x / window.innerWidth - 0.5) * 2;
-      plane.style.opacity = String(0.3 + 0.7 * Math.min(1, fromCentre * 1.5));
+      const visible = String(0.3 + 0.7 * Math.min(1, fromCentre * 1.5));
+
+      const active = up ? upPlane : downPlane;
+      const idle = up ? downPlane : upPlane;
+      active.style.transform = `translate(${a.x}px, ${a.y}px) rotate(${up ? heading + 180 : heading}deg) translate(-50%, -50%)`;
+      active.style.opacity = visible;
+      idle.style.opacity = "0";
+
+      // Each contrail shows the stretch its plane has flown: from the top
+      // for the plane going down, from the bottom for the plane going up.
+      downTrail.style.strokeDasharray = `${at} ${total}`;
+      upTrail.style.strokeDasharray = `0 ${at} ${total - at} ${total}`;
+      downTrail.style.opacity = up ? "0" : "1";
+      upTrail.style.opacity = up ? "1" : "0";
     };
 
     const schedule = () => {
@@ -105,8 +157,12 @@ export function ScrollFlight() {
     >
       <svg ref={svgRef} className="absolute inset-0 size-full" fill="none">
         <defs>
-          <linearGradient id="contrail" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="contrail-down" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0" stopColor="#38BDF8" />
+            <stop offset="1" stopColor="#6366F1" />
+          </linearGradient>
+          <linearGradient id="contrail-up" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0" stopColor="#C084FC" />
             <stop offset="1" stopColor="#8B5CF6" />
           </linearGradient>
         </defs>
@@ -119,34 +175,35 @@ export function ScrollFlight() {
           strokeDasharray="1 14"
           strokeLinecap="round"
         />
-        {/* The contrail drawn so far. */}
         <path
-          ref={trailRef}
+          ref={downTrailRef}
           d={routeFor(1280, 800)}
-          stroke="url(#contrail)"
-          strokeOpacity="0.32"
-          strokeWidth="2.5"
+          stroke="url(#contrail-down)"
+          strokeOpacity="0.34"
+          strokeWidth="3"
           strokeLinecap="round"
+          className="transition-opacity duration-500"
+          style={{ strokeDasharray: "0 99999" }}
+        />
+        <path
+          ref={upTrailRef}
+          d={routeFor(1280, 800)}
+          stroke="url(#contrail-up)"
+          strokeOpacity="0.38"
+          strokeWidth="3"
+          strokeLinecap="round"
+          className="opacity-0 transition-opacity duration-500"
           style={{ strokeDasharray: "0 99999" }}
         />
       </svg>
-      <div
-        ref={planeRef}
-        className="absolute top-0 left-0 size-9 origin-top-left opacity-0 transition-opacity duration-300 sm:size-12"
-      >
-        <svg
-          viewBox="-22 -22 44 44"
-          className="size-full drop-shadow-[0_0_12px_rgb(56_189_248/0.45)]"
-        >
-          <g fill="#fff" fillOpacity="0.7">
-            <path d="M-17 -3.2 Q-19.5 0 -17 3.2 L13 3 Q19.5 0 13 -3 Z" />
-            <path d="M-1 -2.6 L-8.5 -19 L-3 -19 L9 -2.6 Z" />
-            <path d="M-1 2.6 L-8.5 19 L-3 19 L9 2.6 Z" />
-            <path d="M-14.5 -2 L-18.5 -9.5 L-15.2 -9.5 L-10.5 -2 Z" />
-            <path d="M-14.5 2 L-18.5 9.5 L-15.2 9.5 L-10.5 2 Z" />
-          </g>
-        </svg>
-      </div>
+      <Plane
+        planeRef={downPlaneRef}
+        glow="drop-shadow-[0_0_16px_rgb(56_189_248/0.5)]"
+      />
+      <Plane
+        planeRef={upPlaneRef}
+        glow="drop-shadow-[0_0_16px_rgb(192_132_252/0.6)]"
+      />
     </div>
   );
 }
