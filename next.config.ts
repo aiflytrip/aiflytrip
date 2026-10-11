@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+import { ADSENSE_CLIENT } from "./src/config/ads";
 import {
   assertProductionSiteUrl,
   buildContentSecurityPolicy,
@@ -30,7 +31,9 @@ const securityHeaders = [
         },
         {
           key: "Content-Security-Policy",
-          value: buildContentSecurityPolicy(process.env),
+          value: buildContentSecurityPolicy(process.env, {
+            ads: Boolean(ADSENSE_CLIENT),
+          }),
         },
       ]),
 ];

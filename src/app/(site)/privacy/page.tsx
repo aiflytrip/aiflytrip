@@ -143,7 +143,7 @@ export default function PrivacyPage() {
             "Anthropic provides the AI model that writes trip plans. The trip details and notes you enter are sent to it to create your plan; your email address and password are not.",
             "Duffel provides flight search. It receives the airports, dates, number of travellers and cabin you search for.",
             "Stripe hosts the checkout for the premium PDF, which is currently in test mode.",
-            "Google supplies adverts on pages where they are shown.",
+            "Google supplies adverts through AdSense. Its advertising script loads on our public pages, so Google receives your IP address and the address of the page you are viewing. It does not load on your account, your plans, the planner form or the sign-in pages.",
           ]}
         />
         <Prose

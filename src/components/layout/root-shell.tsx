@@ -5,7 +5,9 @@ import type { ReactNode } from "react";
 import { LanguageBanner } from "@/components/layout/language-banner";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { ADSENSE_CLIENT } from "@/config/ads";
 import { siteConfig } from "@/config/site";
+import { AdSenseScript } from "@/features/ads/adsense-script";
 import { Analytics } from "@/features/analytics/analytics";
 import { OG_LOCALES, type Locale } from "@/i18n/config";
 import { siteMessages } from "@/i18n/messages/site";
@@ -65,6 +67,10 @@ export function rootMetadata(locale: Locale): Metadata {
       title: siteConfig.name,
       description,
     },
+    // Second way for AdSense to verify the site, alongside the script.
+    ...(ADSENSE_CLIENT
+      ? { other: { "google-adsense-account": ADSENSE_CLIENT } }
+      : {}),
   };
 }
 
@@ -98,6 +104,7 @@ export function RootShell({
         </main>
         <SiteFooter locale={locale} />
         <Analytics />
+        <AdSenseScript />
       </body>
     </html>
   );

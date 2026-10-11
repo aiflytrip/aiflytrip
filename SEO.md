@@ -262,10 +262,13 @@ done** until a person completes them:
 - [ ] Keep `operator` and `contactEmail` in `src/config/site.ts` current. The
       `/contact`, `/privacy` and `/terms` pages publish them. The address is a
       Namecheap forwarder, so check now and then that test mail still arrives.
-- [ ] Before showing AdSense ads: turn on a Google-certified consent message
-      for EEA, UK and Swiss visitors (the privacy policy promises one), add
-      `public/ads.txt`, and allow Google's ad origins in the Content Security
-      Policy (`src/config/deployment.ts`).
+- [ ] AdSense (publisher id in `src/config/ads.ts` and `public/ads.txt`):
+      in AdSense → Privacy & messaging, publish the European regulations
+      consent message. The privacy policy promises one to EEA, UK and Swiss
+      visitors, and the ad script already loads on public pages.
+- [ ] After AdSense approval, check the browser console on a page with ads
+      for Content Security Policy errors and add any missing Google origin to
+      `GOOGLE_ADS_ORIGINS` in `src/config/deployment.ts`.
 - [ ] Update `/privacy` whenever a provider, cookie or analytics tool is added.
 - [ ] Decide whether to allow or block AI crawlers in robots.txt.
 - [ ] Keep `/flights` noindexed until live, bookable fares are shown.

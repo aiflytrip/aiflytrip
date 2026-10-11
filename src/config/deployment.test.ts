@@ -71,6 +71,17 @@ describe("buildContentSecurityPolicy", () => {
     expect(directive(csp, "connect-src")).toContain("wss://abc.supabase.co");
   });
 
+  it("allows Google's ad origins only when ads are on", () => {
+    const off = buildContentSecurityPolicy({});
+    expect(off).not.toContain("googlesyndication");
+    expect(off).not.toContain("frame-src");
+    const on = buildContentSecurityPolicy({}, { ads: true });
+    for (const name of ["script-src", "frame-src", "img-src", "connect-src"])
+      expect(directive(on, name)).toContain("https://*.googlesyndication.com");
+    expect(directive(on, "script-src")).not.toContain("unsafe-eval");
+    expect(directive(on, "frame-ancestors")).toBe("frame-ancestors 'none'");
+  });
+
   it("adds analytics origins only for the configured provider", () => {
     expect(buildContentSecurityPolicy({})).not.toContain("googletagmanager");
     expect(
