@@ -75,6 +75,9 @@ function localisedChrome(
     about: string;
     editorial: string;
     photos: string;
+    contact: string;
+    privacy: string;
+    terms: string;
     guides: string;
     allDestinations: string;
     itineraries: string;
@@ -121,6 +124,9 @@ function localisedChrome(
             englishOnly: true,
           },
           { href: "/photo-credits", label: text.photos, englishOnly: true },
+          { href: "/contact", label: text.contact, englishOnly: true },
+          { href: "/privacy", label: text.privacy, englishOnly: true },
+          { href: "/terms", label: text.terms, englishOnly: true },
         ],
       },
     ],
@@ -143,6 +149,9 @@ const esChrome = localisedChrome("es", {
   about: "Sobre AIFlyTrip",
   editorial: "Política editorial",
   photos: "Créditos de las fotos",
+  contact: "Contacto",
+  privacy: "Política de privacidad",
+  terms: "Términos de uso",
   guides: "Guías",
   allDestinations: "Guías de destino",
   itineraries: "Itinerarios",
@@ -190,6 +199,9 @@ const frChrome = localisedChrome("fr", {
   about: "À propos d'AIFlyTrip",
   editorial: "Politique éditoriale",
   photos: "Crédits photo",
+  contact: "Contact",
+  privacy: "Politique de confidentialité",
+  terms: "Conditions d'utilisation",
   guides: "Guides",
   allDestinations: "Guides de destination",
   itineraries: "Itinéraires",

@@ -57,6 +57,9 @@ export function SiteFooter({ locale = "en" }: { locale?: Locale }) {
         { href: "/about", label: "About AIFlyTrip" },
         { href: "/editorial-policy", label: "Editorial policy" },
         { href: "/photo-credits", label: "Photo credits" },
+        { href: "/contact", label: "Contact" },
+        { href: "/privacy", label: "Privacy policy" },
+        { href: "/terms", label: "Terms of use" },
       ],
     },
   ];

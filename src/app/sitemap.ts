@@ -39,6 +39,9 @@ export const STATIC_PUBLIC_PATHS = [
   "/blog",
   "/about",
   "/editorial-policy",
+  "/contact",
+  "/privacy",
+  "/terms",
 ] as const;
 
 /** Spanish and French versions of the translated pages. */

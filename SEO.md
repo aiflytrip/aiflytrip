@@ -25,6 +25,7 @@ of **manual actions** that can't be done from the codebase.
 | `/blog`                              | Hub            | Static    | BreadcrumbList                                    |
 | `/blog/{slug}` (3)                   | Planning guide | SSG       | Article, FAQPage, BreadcrumbList                  |
 | `/about`, `/editorial-policy`        | Trust pages    | Static    | Organization (about), BreadcrumbList              |
+| `/contact`, `/privacy`, `/terms`     | Legal pages    | Static    | BreadcrumbList                                    |
 
 25 URLs in total today (the Guides section became the Blog on 2026-10-03; `/guides/*` permanently redirects to `/blog/*`). The content pages are France, Paris, Italy, Rome,
 Japan, Tokyo, Portugal and Lisbon; the Paris (3 days), Tokyo (5 days) and
@@ -258,7 +259,14 @@ done** until a person completes them:
       `iatatravelcentre.com`. Replace any that have actually moved.
 - [ ] Editorial review of every content page by a person before launch, and
       then at least yearly (the gate noindexes pages older than 365 days).
-- [ ] Add a contact or corrections address to `/editorial-policy`.
+- [ ] Keep `operator` and `contactEmail` in `src/config/site.ts` current. The
+      `/contact`, `/privacy` and `/terms` pages publish them. The address is a
+      Namecheap forwarder, so check now and then that test mail still arrives.
+- [ ] Before showing AdSense ads: turn on a Google-certified consent message
+      for EEA, UK and Swiss visitors (the privacy policy promises one), add
+      `public/ads.txt`, and allow Google's ad origins in the Content Security
+      Policy (`src/config/deployment.ts`).
+- [ ] Update `/privacy` whenever a provider, cookie or analytics tool is added.
 - [ ] Decide whether to allow or block AI crawlers in robots.txt.
 - [ ] Keep `/flights` noindexed until live, bookable fares are shown.
 - [ ] Live payments are out of scope: Stripe stays in test mode.

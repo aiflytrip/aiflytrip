@@ -55,7 +55,7 @@ export default function EditorialPolicyPage() {
         <Prose
           paragraphs={[
             "We review every page at least once a year, and sooner when we learn that something important has changed. Pages that haven't been reviewed within a year are removed from search results until they are updated.",
-            "If you spot something that looks wrong or out of date, please let us know so we can check and correct it.",
+            "If you spot something that looks wrong or out of date, please [contact us](/contact) so we can check and correct it.",
           ]}
         />
       </ContentSection>
