@@ -377,6 +377,7 @@ export const guides: GuideInput[] = [
       ],
       guides: [
         "dummy-ticket-for-visa",
+        "proof-of-onward-travel",
         "how-to-plan-a-trip",
         "how-many-days-for-a-trip",
         "budget-airline-fees-explained",

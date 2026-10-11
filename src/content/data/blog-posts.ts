@@ -120,6 +120,7 @@ export const blogPosts: PostInput[] = [
       guides: [
         "cheap-flight-tips",
         "budget-airline-fees-explained",
+        "how-airline-pricing-works",
         "how-much-layover-time-do-you-need",
       ],
     },
@@ -233,6 +234,7 @@ export const blogPosts: PostInput[] = [
       guides: [
         "how-to-find-cheap-flights",
         "budget-airline-fees-explained",
+        "how-airline-pricing-works",
         "how-to-plan-a-trip-on-a-budget",
       ],
     },
@@ -351,6 +353,7 @@ export const blogPosts: PostInput[] = [
       guides: [
         "how-to-find-cheap-flights",
         "cheap-flight-tips",
+        "how-airline-pricing-works",
         "travel-documents-checklist",
         "carry-on-packing-list",
       ],
@@ -504,7 +507,7 @@ export const blogPosts: PostInput[] = [
         question:
           "What is the difference between a travel itinerary and a flight itinerary?",
         answer:
-          "A travel itinerary is your own day-by-day plan for the whole trip. A flight itinerary is the document an airline or travel agent issues for a booking, listing your flights, dates, times and booking reference. Visa applications sometimes ask for the second kind.",
+          "A travel itinerary is your own day-by-day plan for the whole trip. A flight itinerary lists only your flights, with their dates and times. It can be a plan you wrote before booking, or the document an airline sends after you book, which adds a booking reference and ticket number.",
       },
       {
         question: "Can an AI planner build my itinerary?",
@@ -522,6 +525,7 @@ export const blogPosts: PostInput[] = [
       guides: [
         "how-to-plan-a-trip",
         "how-many-days-for-a-trip",
+        "what-is-a-flight-itinerary",
         "airport-to-city-paris-rome-tokyo-lisbon",
       ],
     },
@@ -548,7 +552,7 @@ export const blogPosts: PostInput[] = [
         heading: "What people mean by a dummy ticket",
         paragraphs: [
           '"Dummy ticket" is an informal name, and it covers very different things. Sometimes it means a genuine flight reservation that an airline or travel agent holds for a short time without full payment. Sometimes it means a simple flight itinerary that lists the flights you plan to take. And sometimes it means a document made to look like a paid ticket or a confirmed booking when no booking exists.',
-          "The first two can be perfectly legitimate, as long as you describe them honestly. The third is a false document. The difference matters, because visa authorities judge your application on whether your documents are genuine.",
+          "The first two can be perfectly legitimate, as long as you describe them honestly. The third is a false document. The difference matters, because visa authorities judge your application on whether your documents are genuine. Our guide to [what a flight itinerary is](/blog/what-is-a-flight-itinerary) shows the difference with an example.",
         ],
         bullets: [
           "A held reservation: a real booking in the airline's system, often with a time limit.",
@@ -628,6 +632,8 @@ export const blogPosts: PostInput[] = [
       destinations: ["/destinations/france", "/destinations/italy"],
       itineraries: [],
       guides: [
+        "what-is-a-flight-itinerary",
+        "proof-of-onward-travel",
         "travel-documents-checklist",
         "how-to-find-cheap-flights",
         "how-to-plan-a-trip",
@@ -638,6 +644,374 @@ export const blogPosts: PostInput[] = [
       SOURCES.govUkVisaProcessing,
       SOURCES.govUkFalseDocuments,
       SOURCES.euEntry,
+    ],
+  },
+  {
+    slug: "what-is-a-flight-itinerary",
+    photo: "itinerary",
+    category: "flights",
+    status: "published",
+    lastReviewed: "2026-10-11",
+    title: "Flight itinerary: what it is, with an example",
+    description:
+      "What a flight itinerary is, how it differs from an e-ticket and a boarding pass, how to read one line by line, a sample to compare with and how to get yours.",
+    headline: "What is a flight itinerary? A plain guide with an example",
+    intro:
+      "A flight itinerary is the list of flights that make up your journey: where you fly from and to, on which dates and at what times. The word is used for two different things, a plan you have made and a document an airline sends after you book, and mixing them up causes real problems at check-in desks and in visa applications. This guide explains both, shows an example and walks through each line.",
+    sections: [
+      {
+        heading: "Two meanings: a plan and a booking",
+        paragraphs: [
+          "Before you book, a flight itinerary is simply a plan. It lists the flights you intend to take, perhaps copied from a search result, and nothing is reserved. Anyone can write one, and it has no booking reference because there is no booking behind it.",
+          "After you book, the airline or travel agent sends an itinerary for that booking, often called an itinerary receipt or e-ticket receipt. This one is a record of something real: seats held in your name, a booking reference and usually a ticket number. When a check-in agent or an official asks for your itinerary, this is normally the kind they mean.",
+          "Both are useful. The first helps you compare routes and work out dates. The second proves what you have bought. The important thing is never to present the first as if it were the second.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Itinerary, e-ticket and boarding pass",
+        paragraphs: [
+          "These three documents are easy to confuse because they repeat much of the same information. They do different jobs, and you receive them at different times.",
+        ],
+        bullets: [
+          "Flight itinerary: the list of your flights with dates and times. As a plan, it can exist before you book anything.",
+          "E-ticket or itinerary receipt: sent after you pay. It adds a booking reference and a ticket number, and shows that the fare has been paid.",
+          "Boarding pass: issued when you check in, usually within a day or two of departure. It shows your seat and boarding time and is what lets you through the gate.",
+        ],
+      },
+      {
+        heading: "A sample flight itinerary",
+        paragraphs: [
+          "Here is what the main lines of a booked return itinerary look like. Every detail below is invented for illustration, including the airline code, the flight numbers and the times, so use it only to recognise the layout of your own.",
+        ],
+        bullets: [
+          "Passenger: TRAVELLER / SAMPLE MS",
+          "Booking reference: ABC123. Ticket number: thirteen digits",
+          "Outbound, 14 May: flight XX 101, London Heathrow (LHR) Terminal 2 to Lisbon (LIS) Terminal 1",
+          "Departs 09:40, arrives 12:25, local times. Economy, fare class K, status confirmed",
+          "Return, 18 May: flight XX 102, Lisbon (LIS) Terminal 1 to London Heathrow (LHR) Terminal 2",
+          "Departs 18:10, arrives 20:50, local times. Economy, fare class K, status confirmed",
+          "Baggage: one cabin bag and one checked bag per passenger",
+          "Fare paid, taxes and charges, and the date of issue",
+        ],
+      },
+      {
+        heading: "How to read each line",
+        paragraphs: [
+          "The booking reference is a short code, usually six letters and numbers, that finds your reservation in the airline's system. You may also see it called a reservation code, confirmation number, record locator or PNR. The ticket number is separate and longer, normally thirteen digits, and shows that a ticket has actually been issued. A reservation without a ticket number may not be paid for yet.",
+          "Airports are shown with three-letter codes. Check them carefully, because large cities often have more than one airport, and note the terminal if one is given. Departure and arrival times are local to each airport, so a flight across time zones can look shorter or longer than it really is.",
+          'Look for the words "operated by". If you booked with one airline and another one flies the plane, you usually check in with the airline operating the flight. The fare class letter and fare name tell you the rules that apply to changes, refunds and baggage. Finally, check that your name matches your passport exactly; our [travel documents checklist](/blog/travel-documents-checklist) covers what else to confirm before you go.',
+        ],
+        bullets: [],
+      },
+      {
+        heading: "How to get your flight itinerary",
+        paragraphs: [
+          "If you have already booked, the itinerary was sent to the email address you gave, so search your inbox and spam folder for the airline's or agent's name. You can also open the \"manage booking\" page on the airline's website with your booking reference and surname and download or print it from there. If you booked through a travel agent or a booking site, ask them to send it again.",
+          "If you have not booked yet and only want to plan, write the flights down from a search result, or let a planning tool do it. Our free [AI trip planner](/travel-planner) drafts a day-by-day plan with a suggested flight and a flight itinerary for planning. It is clearly marked as not a ticket or reservation: no seat is held and there is no booking reference.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "When you are asked for one",
+        paragraphs: [
+          "Airlines, border officers and visa offices sometimes ask to see your itinerary to understand when you arrive and when you leave. What each one accepts differs. Some want a paid ticket, some accept a reservation, and some are satisfied with your intended flights. Always read the official instructions for your own case.",
+          "Our guide to the [dummy ticket for visa applications](/blog/dummy-ticket-for-visa) explains the honest options when a consulate asks for flight details, and [proof of onward travel](/blog/proof-of-onward-travel) covers what airlines look for at check-in. Never edit an itinerary to show a booking that does not exist. Reservations can be checked with the airline, and a false document can do lasting damage to an application.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Checks to make as soon as it arrives",
+        paragraphs: [
+          "Mistakes are easiest and cheapest to fix straight after booking, so read the itinerary the day you receive it rather than the night before you fly.",
+        ],
+        bullets: [
+          "Your name is spelled exactly as in your passport",
+          "The dates are right, including the arrival date on overnight flights",
+          "The airports and terminals are the ones you expected",
+          "Connections leave enough time; our [layover time checker](/tools/layover-time-checker) helps you judge",
+          "The baggage allowance matches what you plan to bring",
+          "A ticket number is shown, not only a booking reference",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is a flight itinerary the same as a ticket?",
+        answer:
+          "Not always. An itinerary written before you book is only a plan. The itinerary receipt an airline sends after you pay includes a booking reference and a ticket number, and that version does serve as proof of your ticket.",
+      },
+      {
+        question: "Can I get a flight itinerary without paying for a flight?",
+        answer:
+          "Yes, as a plan. You can list your intended flights yourself or use a planning tool, as long as you describe it honestly as a plan and not a booking. Some airlines and travel agents also offer to hold a genuine reservation for a short time.",
+      },
+      {
+        question: "Where do I find my booking reference?",
+        answer:
+          "It is in the confirmation email and on the itinerary receipt, usually near the top, as a code of about six letters and numbers. It may be labelled booking reference, reservation code, confirmation number or PNR.",
+      },
+      {
+        question: "Do I need to print my flight itinerary?",
+        answer:
+          "Usually a copy on your phone is enough, but saving it offline or carrying a printout is sensible in case you have no signal or battery. Some border officers and check-in agents ask to see it, especially if you are travelling on a one-way ticket.",
+      },
+    ],
+    related: {
+      destinations: ["/destinations/portugal/lisbon"],
+      itineraries: [],
+      guides: [
+        "dummy-ticket-for-visa",
+        "proof-of-onward-travel",
+        "travel-documents-checklist",
+        "how-to-build-a-travel-itinerary",
+      ],
+    },
+    sources: [
+      SOURCES.iataTravelers,
+      SOURCES.usDotAirConsumer,
+      SOURCES.ukCaaHolidayBooking,
+    ],
+  },
+  {
+    slug: "proof-of-onward-travel",
+    photo: "documents",
+    category: "practical",
+    status: "published",
+    lastReviewed: "2026-10-11",
+    title: "Proof of onward travel: what airlines ask for",
+    description:
+      "Why airlines and border officers ask for proof of onward travel, who gets asked, what usually counts, and the honest options if you have a one-way ticket.",
+    headline: "Proof of onward travel: what it is and how to show it",
+    intro:
+      "Proof of onward travel is evidence that you plan to leave the country you are flying to, such as a return flight or a ticket on to somewhere else. Most travellers with a return ticket never think about it. Those on a one-way ticket can be asked for it at the check-in desk, and may be refused boarding without it. This guide explains why it happens and the honest ways to be ready.",
+    sections: [
+      {
+        heading: "Why airlines ask before you board",
+        paragraphs: [
+          "Many countries let visitors in only if they can show they intend to leave again within the time they are allowed to stay. The rule belongs to the destination country, but it is usually the airline that checks it first, at check-in or at the gate.",
+          "Airlines check because they carry the risk. In many countries, an airline that brings in a passenger who is then refused entry has to fly that passenger back, and it can be fined as well. So airline staff look up the entry rules for your passport and destination and apply them before you board. If the rules say onward travel is required and you cannot show it, the airline can refuse to carry you.",
+          "This is why being asked is not a judgement about you. The agent is following a checklist, and the simplest way through is to have the right document ready.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Who is most likely to be asked",
+        paragraphs: [
+          "You are far more likely to be asked in some situations than in others. None of these means you will be refused. They are simply the cases where it is worth preparing in advance.",
+        ],
+        bullets: [
+          "You are flying on a one-way ticket",
+          "You are entering as a visitor without a visa arranged in advance",
+          "Your return flight is later than the stay you would normally be allowed",
+          "You plan to leave by land or sea rather than by air",
+          "You are on a long trip through several countries with no fixed plan",
+        ],
+      },
+      {
+        heading: "What usually counts as proof",
+        paragraphs: [
+          "What is accepted depends on the country, and sometimes on the person checking. The most widely accepted proof is a confirmed flight out of the country, either back home or on to another country that will admit you, dated within your permitted stay.",
+          "Some countries also accept a ticket out by bus, train or ferry, while others expect a flight. A booking that a member of staff can verify, with your name, the date and a booking reference, is much stronger than a screenshot of a search result. A plan of flights you intend to take is not a booking; our guide to [what a flight itinerary is](/blog/what-is-a-flight-itinerary) explains the difference.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "How to check the rule for your trip",
+        paragraphs: [
+          "Start with the official travel advice for your destination. Government travel advice pages usually have an entry requirements section that says whether proof of onward or return travel may be asked for, and the destination's own embassy or immigration website is the final authority.",
+          "Airline staff generally rely on a shared database of entry rules. The IATA Travel Centre, linked below, offers a public way to look up requirements by passport and destination. If anything is unclear, contact the airline before you travel and ask what its staff will want to see. Our [travel documents checklist](/blog/travel-documents-checklist) lists the other documents to confirm at the same time.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Honest options if you have a one-way ticket",
+        paragraphs: [
+          "You do not need to invent anything. There are several genuine ways to hold proof of onward travel, and the right one depends on how fixed your plans are and how much flexibility you are willing to pay for.",
+          "Whichever you choose, read the fare rules before you pay, so you know exactly what you can change or get back. Our guide on [how to find cheap flights](/blog/how-to-find-cheap-flights) explains how to compare flexible fares with basic ones.",
+        ],
+        bullets: [
+          "Book the return or onward flight you actually expect to take, on a fare that allows date changes",
+          "Book a refundable fare and cancel it if your plans change, within the fare's rules",
+          "Ask the airline or a travel agent whether a genuine reservation can be held for a short time",
+          "If the country accepts it, buy a bus, train or ferry ticket out",
+          "Use airline miles for the onward flight if the award ticket can be changed or cancelled",
+        ],
+      },
+      {
+        heading: "What not to do",
+        paragraphs: [
+          "Do not edit a confirmation, reuse an old one or buy a document that claims a booking which does not exist. Reservations can be checked with the airline in seconds, and showing a false document to an airline or a border officer can lead to refused boarding, refused entry and trouble with later visa applications.",
+          "Be cautious with websites that sell onward tickets for a small fee. Some make a real, short-lived reservation, and some sell only a convincing-looking page. If you use one, look the booking up yourself on the airline's own website before you rely on it, and understand when it will be cancelled. Our guide to the [dummy ticket for visa applications](/blog/dummy-ticket-for-visa) explains how to check that a reservation is real.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "At the airport",
+        paragraphs: [
+          "Keep the proof where you can reach it without an internet connection: a saved file on your phone and, ideally, a printout. Have the booking reference ready, since staff may look it up. Arrive with time to spare, because sorting out a missing document at the desk is slow.",
+          "If you are refused boarding for lack of onward travel, the quickest fix is usually to buy a suitable ticket there and then, which is another reason to know the fare rules in advance. Stay calm and ask the agent exactly which requirement applies, so you buy the right thing.",
+        ],
+        bullets: [],
+      },
+    ],
+    faqs: [
+      {
+        question:
+          "Can an airline refuse to let me board without a return ticket?",
+        answer:
+          "Yes. If the destination's entry rules call for proof of onward or return travel and you cannot show it, the airline can refuse to carry you, because it may be responsible for flying you back if you are refused entry.",
+      },
+      {
+        question: "Does a bus or train ticket count as proof of onward travel?",
+        answer:
+          "In some countries it does and in others it does not, and individual staff can be stricter than the written rule. Check the destination's official entry requirements and ask your airline before relying on anything other than a flight.",
+      },
+      {
+        question: "Is a flight itinerary enough as proof of onward travel?",
+        answer:
+          "Only if it is the itinerary for a real booking, with a booking reference that can be verified. A plan of flights you intend to take shows your intentions but is not a booking, and airline staff will usually not accept it.",
+      },
+      {
+        question: "Do I need proof of onward travel if I already have a visa?",
+        answer:
+          "It depends on the country and the type of visa. Some visas are issued on the basis of your travel plans and some long-stay visas remove the need altogether. Check the conditions printed on or sent with your visa, and the destination's official guidance.",
+      },
+    ],
+    related: {
+      destinations: ["/destinations/japan", "/destinations/portugal"],
+      itineraries: [],
+      guides: [
+        "what-is-a-flight-itinerary",
+        "dummy-ticket-for-visa",
+        "travel-documents-checklist",
+        "how-to-find-cheap-flights",
+      ],
+    },
+    sources: [
+      SOURCES.iata,
+      SOURCES.ukAdviceIndex,
+      SOURCES.usTravel,
+      SOURCES.auAdvice,
+    ],
+  },
+  {
+    slug: "how-airline-pricing-works",
+    photo: "cheap-flights",
+    category: "flights",
+    status: "published",
+    lastReviewed: "2026-10-11",
+    title: "How airline pricing works: why flight prices change",
+    description:
+      "How airlines set fares: fare classes, demand, competition, timing, taxes and extras, why a price changes between searches, and what this means when you book.",
+    headline: "How airline pricing works, and why flight prices keep changing",
+    intro:
+      "Two people on the same flight have often paid very different amounts, and a fare you saw this morning can be gone by the afternoon. It can feel random, but it follows a system. This guide explains in plain terms how airlines price seats, why the number moves, and how to use that knowledge when you book.",
+    sections: [
+      {
+        heading: "One cabin, many prices",
+        paragraphs: [
+          "An airline does not set a single price for economy on a flight. It divides the seats into groups, often called fare classes or fare buckets, each with its own price and its own rules. The cheapest group might allow no changes and no checked bag, while a more expensive one in the same cabin can be changed or refunded.",
+          "Each group has a limited number of seats on sale. When the cheapest group sells out, the next one becomes the lowest price available, so the fare steps up even though nothing about the flight has changed. This is the main reason prices jump rather than drift.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Demand decides how many cheap seats exist",
+        paragraphs: [
+          "Airlines forecast how full each flight will be, using how past flights on that route sold and how bookings are going this time. If a flight is filling faster than expected, fewer seats are offered at the lower prices. If it is selling slowly, cheaper seats can be opened up again, which is why fares sometimes fall as well as rise.",
+          "Demand follows patterns you can predict. School holidays, public holidays, big events and popular days of the week all push fares up. Early morning, late night and midweek flights are often less popular, and therefore often cheaper. Our [cheap flight tips](/blog/cheap-flight-tips) list practical ways to use this.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Competition and the route itself",
+        paragraphs: [
+          "The same distance can cost very different amounts on different routes. Where several airlines compete, especially if a low-cost airline is one of them, fares tend to be lower. Where one airline has the route to itself, it has less reason to discount.",
+          "This is also why a journey with a connection is sometimes cheaper than the direct flight, even though it uses two planes. The airline with the connection is competing for your booking against the direct flight, and price is how it wins. Comparing nearby airports works for the same reason, as our guide on [how to find cheap flights](/blog/how-to-find-cheap-flights) explains.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Timing: booking early and booking late",
+        paragraphs: [
+          "As a general pattern, the cheapest groups of seats sell first, and people who book close to departure are more often travelling for work or in an emergency and will pay more. So fares usually climb in the final weeks before a flight.",
+          "Booking very early is not always cheapest either, because airlines may not release their lowest prices until they can see how a flight is selling. There is no single best day or number of weeks that holds for every route, and any figure you read is an average at best. A more reliable habit is to start watching prices early, set a price alert, and book when the fare is good for your dates rather than waiting for a perfect one.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "What the price is made of",
+        paragraphs: [
+          "The amount you pay is the airline's fare plus taxes, airport charges and any surcharges the airline adds. The taxes and airport charges depend on the airports and countries involved, so two fares that look similar can be built very differently.",
+          "Rules in several places are designed to stop the headline price from misleading you. In the European Union, the price shown must include all unavoidable taxes, charges and fees from the start, and optional extras have to be something you choose to add. In the United States, advertised fares must likewise include taxes and mandatory fees. Extras such as bags and seats still sit on top, and our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains how to add them up.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Why a price changes while you are searching",
+        paragraphs: [
+          "A fare that changes between two searches, or between the results page and the payment page, usually has an ordinary explanation.",
+          "Many people believe that airlines raise the price because you searched before. There is little evidence for this, and the reasons below explain most cases. If you want to rule it out, compare in a private browser window, which costs nothing.",
+        ],
+        bullets: [
+          "The last seat in a cheap group was sold to someone else",
+          "A comparison site showed a stored price that was already out of date",
+          "You searched for several passengers: if only one cheap seat is left, everyone is quoted the higher price, so try searching for one traveller to see the difference",
+          "The price was shown in another currency and the exchange rate moved",
+          "A booking site added its own fee at the payment step",
+        ],
+      },
+      {
+        heading: "What this means when you book",
+        paragraphs: [
+          "Because price follows demand and fare rules, the most useful things you can change are your dates, your airports and the fare type you choose. Check a few days either side of your preferred dates, compare the total with the bags you need, and read the change and refund rules before you pay for the cheapest option.",
+          "When you have a fare in mind, put it into our free [trip budget calculator](/tools/trip-budget-calculator) with accommodation and daily spending to see the whole trip, or let the [AI trip planner](/travel-planner) draft a plan with flight options and a budget estimate for your dates.",
+        ],
+        bullets: [
+          "Be flexible on dates and times before anything else",
+          "Compare the full price, including bags and seats",
+          "Check the fare rules, not only the fare",
+          "Set a price alert instead of checking repeatedly",
+          "Book when the price is good for your dates",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why did my flight price go up overnight?",
+        answer:
+          "Most often the cheapest group of seats sold out, so the next, more expensive group became the lowest price on sale. Demand forecasts are also updated regularly, which can reduce the number of seats offered at lower prices.",
+      },
+      {
+        question: "Do flight prices go up the more you search?",
+        answer:
+          "There is little evidence that airlines raise fares because you searched before. Price changes are usually explained by cheap seats selling out or by a comparison site showing an out-of-date price. Comparing in a private window is a simple way to check.",
+      },
+      {
+        question: "Is there a best day to book flights?",
+        answer:
+          "No single day is reliably cheapest for every route. The day you fly matters more than the day you book, with midweek and off-peak flights often costing less. Watching prices with an alert is more dependable than waiting for a particular weekday.",
+      },
+      {
+        question: "Why is a return flight sometimes cheaper than a one-way?",
+        answer:
+          "Some airlines, especially on long-haul routes, price return fares to attract leisure travellers and charge more for one-way tickets, which are more often bought by people with less flexibility. Low-cost airlines usually price each direction separately instead.",
+      },
+    ],
+    related: {
+      destinations: ["/destinations/italy", "/destinations/japan"],
+      itineraries: [],
+      guides: [
+        "how-to-find-cheap-flights",
+        "cheap-flight-tips",
+        "budget-airline-fees-explained",
+      ],
+    },
+    sources: [
+      SOURCES.eu1008,
+      SOURCES.usDotAirConsumer,
+      SOURCES.ukCaaHolidayBooking,
     ],
   },
 ];
