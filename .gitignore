@@ -34,6 +34,10 @@ yarn-error.log*
 .env*
 !.env.example
 
+# Search Console / analytics exports (kept on this computer only)
+/seo - data/
+/seo-data/
+
 # vercel
 .vercel
 

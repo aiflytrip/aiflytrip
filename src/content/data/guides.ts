@@ -10,7 +10,7 @@ export const guides: GuideInput[] = [
     photo: "plan-trip",
     category: "planning",
     status: "published",
-    lastReviewed: "2026-10-02",
+    lastReviewed: "2026-10-11",
     title: "How to plan a trip: a step-by-step travel planning guide",
     description:
       "A practical, step-by-step guide to planning a trip: choosing dates and a destination, setting a budget, building an itinerary and preparing documents.",
@@ -41,7 +41,7 @@ export const guides: GuideInput[] = [
         heading: "3. Set a realistic budget",
         paragraphs: [
           "Break your budget into main categories: transport to and from the destination, accommodation, local transport, food, activities and a contingency for unexpected costs. Accommodation and flights are usually the largest items, so research those first.",
-          "Prices change with season and demand, so treat early estimates as ranges and refine them as you book. Setting aside a contingency, often around ten percent, helps absorb surprises.",
+          "Prices change with season and demand, so treat early estimates as ranges and refine them as you book. Setting aside a contingency, often around ten percent, helps absorb surprises. Our free [trip budget calculator](/tools/trip-budget-calculator) adds the categories up and shows the cost per person and per day.",
         ],
       },
       {
@@ -138,7 +138,7 @@ export const guides: GuideInput[] = [
     photo: "trip-length",
     category: "planning",
     status: "published",
-    lastReviewed: "2026-10-02",
+    lastReviewed: "2026-10-11",
     title: "How many days do you need? Choosing your trip length",
     description:
       "How to decide how long a trip should be: a simple way to count days, how many nights to spend per base and example trip lengths for city and multi-stop trips.",
@@ -177,6 +177,7 @@ export const guides: GuideInput[] = [
         paragraphs: [
           "A long weekend of three or four days suits a single city. A week suits a city plus one contrasting region, for example Paris and Normandy, or Lisbon and the Algarve. Ten days to two weeks suits a multi-city route, such as Rome, Florence and Venice, or Tokyo, Kyoto and Osaka.",
           "If you have only a short time in a far-away destination, consider focusing on one region and saving others for a future trip rather than trying to cover the whole country.",
+          "Length and cost go together, because every extra day adds a night of accommodation and a day of spending. Once you have a number of days in mind, our free [trip budget calculator](/tools/trip-budget-calculator) shows what the trip is likely to cost per person and per day.",
         ],
       },
       {
@@ -218,6 +219,11 @@ export const guides: GuideInput[] = [
       },
     ],
     faqs: [
+      {
+        question: "How many days do I need for a city break?",
+        answer:
+          "Three or four days suits most big cities: enough for the main sights, one or two neighbourhoods at a slower pace and perhaps a half-day trip. Two days works for a smaller city, or for a first taste of a large one if you choose only a few things to see.",
+      },
       {
         question: "Is a week long enough for an international trip?",
         answer:

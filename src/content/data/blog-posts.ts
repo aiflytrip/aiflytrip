@@ -247,7 +247,7 @@ export const blogPosts: PostInput[] = [
     photo: "airline-fees",
     category: "flights",
     status: "published",
-    lastReviewed: "2026-10-03",
+    lastReviewed: "2026-10-11",
     title: "Budget airline fees explained: what to check before you book",
     description:
       "A clear guide to budget airline fees: cabin bags, checked luggage, seats, check-in, payment and change fees, and how to compare the real price of a fare.",
@@ -301,6 +301,7 @@ export const blogPosts: PostInput[] = [
         paragraphs: [
           "To compare fares fairly, build the trip you will actually take on each airline: the same bags, seats if you need them, and any fees for check-in or payment. In the EU, the price shown must include all unavoidable taxes and charges, which helps, but optional extras still need adding to each option.",
           "Then add the cost of getting to and from the airport. Our guide on [how to find cheap flights](/blog/how-to-find-cheap-flights) explains this total-cost approach in more detail, and our list of [cheap flight tips](/blog/cheap-flight-tips) covers ways to avoid many of these fees altogether.",
+          "To see how the full fare fits into the rest of your trip, put it into our free [trip budget calculator](/tools/trip-budget-calculator) with your accommodation and daily spending. It shows the total, the cost per person and the cost per day.",
         ],
         bullets: [
           "Personal item size, and whether a cabin bag is included",
@@ -322,6 +323,12 @@ export const blogPosts: PostInput[] = [
       },
     ],
     faqs: [
+      {
+        question:
+          "What will a cheap flight really cost after bag and seat fees?",
+        answer:
+          "Add the base fare, the bags you will actually take, a seat if you need to choose one, and any check-in or payment fees shown before you pay. Then add the cost of getting to and from the airport. Compare that total, not the headline fare, across airlines.",
+      },
       {
         question: "Is it cheaper to add bags when booking or later?",
         answer:
@@ -360,13 +367,13 @@ export const blogPosts: PostInput[] = [
     photo: "itinerary",
     category: "itineraries",
     status: "published",
-    lastReviewed: "2026-10-06",
-    title: "How to make a travel itinerary (with a free template)",
+    lastReviewed: "2026-10-11",
+    title: "How to make a travel itinerary: free template and example",
     description:
-      "How to make a travel itinerary that works: pick a few anchors, group days by area, count travel time honestly, add buffers, plus a simple day-by-day template.",
+      "How to make a travel itinerary step by step: pick a few anchors, group days by area and count travel time, then copy our free template and filled-in example.",
     headline: "How to make a travel itinerary that actually works",
     intro:
-      "A good itinerary is less about fitting everything in and more about making each day work: realistic travel times, a sensible order and room to breathe. This guide shows how to make an itinerary step by step, turning a list of places into a day-by-day plan you will actually enjoy following, with a simple template you can copy.",
+      "A good itinerary is less about fitting everything in and more about making each day work: realistic travel times, a sensible order and room to breathe. This guide shows how to make an itinerary step by step, turning a list of places into a day-by-day plan you will actually enjoy following, with a simple template you can copy and an example day already filled in.",
     sections: [
       {
         heading: "Start with a few anchors",
@@ -448,7 +455,23 @@ export const blogPosts: PostInput[] = [
         ],
       },
       {
-        heading: "A worked example",
+        heading: "Itinerary example: one day filled in",
+        paragraphs: [
+          "Here is the template filled in for one day of a short trip to Lisbon, so you can see how much detail is enough. It is a sample to copy the shape of, not a schedule to follow: the times are placeholders, and you should check opening days and ticket rules on official websites before fixing yours.",
+        ],
+        bullets: [
+          "Day 2, Saturday: staying in Baixa, same hotel as last night",
+          "Area of the day: the castle hill and Alfama",
+          "Morning: the castle, arriving early before it gets busy; ticket saved on my phone",
+          "Afternoon: Alfama's lanes and viewpoints, with a late lunch nearby; nothing booked",
+          "Evening: dinner in Alfama, table booked for 8pm; walk back downhill",
+          "Getting around: on foot from the hotel, allowing about half an hour for the climb, or a tram or bus up the hill",
+          "Backup idea: swap the viewpoints for an indoor museum if it rains",
+          "Notes: check the castle's opening days; wear shoes for steep, cobbled streets",
+        ],
+      },
+      {
+        heading: "Itinerary example: arranging three days",
         paragraphs: [
           "Imagine three days in Lisbon with two anchors: the castle and a day trip to Sintra. The castle sits above Alfama, so day two becomes an Alfama day: castle in the morning, lanes and viewpoints in the afternoon, and a relaxed evening nearby. Sintra needs most of a day, so it gets day three on its own.",
           "Day one depends on the flight. With a morning arrival, the flat streets of Baixa and Chiado make an easy first afternoon close to most hotels. That leaves Belém, which sits west along the river, for the morning of departure if the flight is late enough. The full version of this plan is in our [Lisbon in 3 days itinerary](/itineraries/lisbon-3-days).",
@@ -471,6 +494,17 @@ export const blogPosts: PostInput[] = [
         question: "What should a travel itinerary include?",
         answer:
           "At minimum: the dates, where you are staying each night, the main plan for each morning, afternoon and evening, how you will get between places, and any bookings with their times. A backup idea for bad weather and a short list of things to check make it easier to adjust on the day.",
+      },
+      {
+        question: "What is the best format for a travel itinerary?",
+        answer:
+          "A day-by-day list is the easiest format to follow. Give each day the same short layout: the area you will be in, a plan for the morning, afternoon and evening, how you will get around, and any bookings with their times. A notes app or a spreadsheet works well.",
+      },
+      {
+        question:
+          "What is the difference between a travel itinerary and a flight itinerary?",
+        answer:
+          "A travel itinerary is your own day-by-day plan for the whole trip. A flight itinerary is the document an airline or travel agent issues for a booking, listing your flights, dates, times and booking reference. Visa applications sometimes ask for the second kind.",
       },
       {
         question: "Can an AI planner build my itinerary?",

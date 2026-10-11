@@ -192,6 +192,20 @@ export default function TravelPlannerPage() {
         >
           our step-by-step guide to planning a trip
         </Link>
+        , see{" "}
+        <Link
+          href="/blog/how-to-build-a-travel-itinerary"
+          className="text-primary hover:underline"
+        >
+          how to make a travel itinerary
+        </Link>{" "}
+        with a template and example, or work out your costs with the free{" "}
+        <Link
+          href="/tools/trip-budget-calculator"
+          className="text-primary hover:underline"
+        >
+          trip budget calculator
+        </Link>
         .
       </p>
     </Container>
