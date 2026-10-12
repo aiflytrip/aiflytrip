@@ -229,6 +229,8 @@ export const octoberPosts: PostInput[] = [
       destinations: ["/destinations/japan", "/destinations/portugal"],
       itineraries: ["tokyo-5-days"],
       guides: [
+        "missed-connecting-flight",
+        "self-transfer-flights",
         "how-to-find-cheap-flights",
         "budget-airline-fees-explained",
         "cheap-flight-tips",
@@ -492,6 +494,263 @@ export const octoberPosts: PostInput[] = [
       SOURCES.govUkTravelInsurance,
       SOURCES.govUkGhic,
       SOURCES.ukAdviceIndex,
+    ],
+  },
+  {
+    slug: "missed-connecting-flight",
+    category: "flights",
+    status: "published",
+    publishAt: "2026-10-15",
+    lastReviewed: "2026-10-11",
+    photo: "layover",
+    title: "Missed your connecting flight? What to do and your rights",
+    description:
+      "What to do if you miss a connecting flight: who to ask first, how rebooking works on one ticket or separate tickets, and your rights to care and compensation.",
+    headline: "Missed your connecting flight: what to do next",
+    intro:
+      "Missing a connection is stressful, but what happens next follows fairly predictable rules. The two things that matter most are whether your flights were booked on one ticket, and why you missed the second one. This guide takes you through the first hour step by step, then explains what you can expect from the airline and what you can claim afterwards.",
+    sections: [
+      {
+        heading: "The first ten minutes",
+        paragraphs: [
+          "Act quickly, because seats on the next flight go to whoever asks first. If you are still on the delayed first flight, tell the cabin crew you have a tight connection; they sometimes know whether the onward flight is being held or which gate it leaves from.",
+          "Once you are off the plane, do several things at once rather than one after another.",
+        ],
+        bullets: [
+          "Check the departures screen: your onward flight may be delayed too",
+          "Open the airline's app, which often offers a new flight before any agent can",
+          "Join the queue at the transfer or customer service desk",
+          "Phone the airline while you queue, as the call centre can rebook you as well",
+          "Keep every boarding pass and take a photo of the departures board",
+        ],
+      },
+      {
+        heading: "One ticket or separate tickets?",
+        paragraphs: [
+          "If both flights are on one booking, with a single booking reference, the airline has sold you a journey to your final destination and is responsible for getting you there. When its own delay causes the missed connection, it will normally put you on the next available flight at no extra charge.",
+          "If you bought two separate tickets, each airline is responsible only for its own flight. The second airline will usually treat you as a passenger who did not turn up, and you may have to buy a new ticket. Our guide to [how much layover time you need](/blog/how-much-layover-time-do-you-need) explains why separate tickets need a much longer gap.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Getting rebooked",
+        paragraphs: [
+          "Before you reach the front of the queue, look up the flights that would work for you, including those on partner airlines and to nearby airports. Agents are busy, and a passenger who can say which flight they would like often gets it.",
+          "Ask what the options are if the next flight is many hours away or the next day. Depending on the airline and the rules that apply, these can include a different route, another airline, or a refund for the unused part of the ticket if the trip no longer makes sense. Ask where your checked bag is too: on a single ticket it should follow you onto the new flight, but it is worth confirming.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Your rights in the EU and the UK",
+        paragraphs: [
+          "European Union rules protect passengers on flights that leave from an EU airport, and on flights into the EU on an EU airline. The United Kingdom has very similar rules of its own. For connecting flights sold as a single booking, what counts is how late you reach your final destination, not the length of the first delay.",
+          "While you wait, the airline must look after you: meals and refreshments in proportion to the wait, a hotel and transport to it if you are kept overnight, and a way to contact people. If you reach your final destination three hours or more late, you may also be owed fixed compensation, unless the cause was something outside the airline's control, such as severe weather. The official pages linked below set out the conditions and the amounts.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Your rights in the United States and elsewhere",
+        paragraphs: [
+          "In the United States there is no general legal right to compensation for a delay or a missed connection. What you receive depends on the commitments each airline has made, which the Department of Transportation publishes, and these usually include rebooking and, for delays the airline caused, meals or a hotel. If your flight is cancelled or significantly changed and you decide not to travel, you are entitled to a refund.",
+          "Other countries have their own rules, and some international journeys are covered by treaties that allow claims for losses caused by delay. If you are unsure, ask the airline for its written policy and check the aviation regulator of the country you are flying from.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "If it was not the airline's fault",
+        paragraphs: [
+          "Sometimes the first flight was on time and the connection was still missed, because of a long passport queue, a slow security check or simply getting lost. On a single ticket, go to the airline anyway. Many will move you to a later flight, sometimes without charge and sometimes for a fee, because the connection they sold you was meant to be workable.",
+          "If you were on separate tickets, check any travel insurance for missed connection cover and read its conditions on the minimum time you had to leave between flights. Some policies exclude connections you arranged yourself.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Claiming afterwards",
+        paragraphs: [
+          "Claims are made to the airline that operated the delayed flight. Use the form on its website and state the facts plainly: booking reference, flight numbers, scheduled and actual arrival times at your final destination, and what you are asking for.",
+          "If the airline refuses or does not reply, you can usually escalate to a dispute resolution service or the national enforcement body, which the official pages below explain. You do not need a claims company to do this for you, and using one means giving up part of anything you receive.",
+        ],
+        bullets: [
+          "Boarding passes and the booking confirmation",
+          "Receipts for meals, transport and accommodation",
+          "Any message from the airline giving the reason for the delay",
+          "A note of your actual arrival time",
+        ],
+      },
+      {
+        heading: "Lowering the risk next time",
+        paragraphs: [
+          "Book connections on one ticket where you can, avoid the last flight of the day for the second leg, and leave more time when you have to pass passport control or change terminals. Our free [layover time checker](/tools/layover-time-checker) helps you judge whether a connection is comfortable, tight or risky before you book it.",
+        ],
+        bullets: [],
+      },
+    ],
+    faqs: [
+      {
+        question:
+          "Will the airline rebook me for free if I miss my connection?",
+        answer:
+          "If both flights were on one ticket and the airline's delay caused you to miss the second, it will normally rebook you at no charge. On separate tickets, the second airline has no duty to help and you may need to buy a new ticket.",
+      },
+      {
+        question: "Do I get compensation for a missed connection?",
+        answer:
+          "Under EU and UK rules you may, if the flights were on one booking, you arrived at your final destination three hours or more late and the cause was within the airline's control. In the United States it depends on each airline's own commitments.",
+      },
+      {
+        question: "What happens to my checked bag if I miss my connection?",
+        answer:
+          "On a single ticket the bag is normally sent on the flight you are rebooked onto, though it may arrive later than you do. Ask the agent to confirm, and report it at the baggage desk before leaving the airport if it does not appear.",
+      },
+      {
+        question: "Does the airline have to pay for a hotel?",
+        answer:
+          "Under EU and UK rules, yes, when you are kept overnight waiting for a rebooked flight, along with transport to the hotel. Elsewhere it depends on the airline's policy and on whether it caused the delay, so ask at the desk.",
+      },
+    ],
+    related: {
+      destinations: ["/destinations/france", "/destinations/japan"],
+      itineraries: [],
+      guides: [
+        "how-much-layover-time-do-you-need",
+        "self-transfer-flights",
+        "travel-insurance-basics",
+        "budget-airline-fees-explained",
+      ],
+    },
+    sources: [
+      SOURCES.euAirRights,
+      SOURCES.eu261,
+      SOURCES.ukCaaDelays,
+      SOURCES.usDotAirConsumer,
+    ],
+  },
+  {
+    slug: "self-transfer-flights",
+    category: "flights",
+    status: "published",
+    publishAt: "2026-10-18",
+    lastReviewed: "2026-10-11",
+    photo: "flight-tips",
+    title: "Self-transfer flights: are separate tickets worth the risk?",
+    description:
+      "What a self-transfer flight is, how it differs from a normal connection, the risks with bags, border checks and delays, and when separate tickets make sense.",
+    headline: "Self-transfer flights: what they are and when they are worth it",
+    intro:
+      "Search for a flight and you will sometimes see an option marked self-transfer that is much cheaper than the rest. It means the journey is built from separate tickets, and that you take on a risk the airline normally carries. Sometimes that is a good trade. This guide explains exactly what changes, what can go wrong and how to decide.",
+    sections: [
+      {
+        heading: "What a self-transfer is",
+        paragraphs: [
+          "On a normal connection, one airline or a group of partner airlines sells you the whole journey on a single ticket. A self-transfer joins two or more tickets that have nothing to do with each other, often on different airlines. You might build it yourself, or a booking site may assemble it for you and sell it as one trip.",
+          "The price can be lower because it combines airlines that do not work together, such as two low-cost carriers. But as far as each airline is concerned, you are simply a passenger on its own flight. Neither knows, or is responsible for, the other.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "What changes compared with a normal connection",
+        paragraphs: [
+          "The difference is not only who pays if things go wrong. Several things an airline quietly handles on a normal connection become your job.",
+        ],
+        bullets: [
+          "Bags: you collect them at the connecting airport and check them in again for the next flight",
+          "Check-in: you check in separately for each flight, and bag drop for the second closes well before departure",
+          "Border control: collecting bags usually means entering the country, so you need to be allowed in",
+          "Security: you go through screening again like any departing passenger",
+          "Delays: if the first flight is late, the second airline will not wait or rebook you",
+        ],
+      },
+      {
+        heading: "The entry rules trap",
+        paragraphs: [
+          "This is the risk people most often miss. On a normal connection you can often stay in the transit area without formally entering the country. On a self-transfer you usually have to pass passport control to reach the baggage hall and the check-in desks, which means meeting that country's entry requirements, even if you will be there for only two hours.",
+          "Check the official entry and transit rules for the connecting country for your passport before you buy. The first airline may also refuse to carry you if you do not meet them. Our guide to [proof of onward travel](/blog/proof-of-onward-travel) explains how airlines check documents at the desk.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "What happens if the first flight is late",
+        paragraphs: [
+          "If you miss the second flight, that ticket is normally lost. You buy a new one at whatever it costs on the day, and any later flights on the same booking may be cancelled as well. Passenger rights rules still apply to the delayed flight itself, but they look at that flight alone and do not cover the separate ticket you missed.",
+          "Our guide on [what to do if you miss a connecting flight](/blog/missed-connecting-flight) covers the steps to take at the airport in either case.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Guarantees and insurance",
+        paragraphs: [
+          "Some booking sites that sell self-transfer trips include a guarantee to rebook or refund you if a delay breaks the connection. This is a promise from the seller, not the airline, so read the conditions: what counts as a covered delay, how you must contact them, and whether you get a new flight or only your money back.",
+          "Travel insurance sometimes includes missed connection cover, but policies often exclude connections you arranged yourself or require a minimum gap between flights. Check the wording, and ask the insurer in writing if it is unclear, before relying on it.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "When a self-transfer makes sense",
+        paragraphs: [
+          "A self-transfer is a reasonable choice when the saving is real and a missed connection would be an inconvenience rather than a disaster.",
+          "It is a poor choice when you must arrive on a particular day, for a wedding, a cruise departure or a tour, or when the onward flight is the only one for a day or more.",
+        ],
+        bullets: [
+          "The saving is large compared with the cost of a replacement ticket",
+          "You have many hours between flights, or you stay overnight",
+          "Both flights use the same airport, ideally the same terminal",
+          "You travel with cabin bags only",
+          "There are several later flights you could take instead",
+          "You are allowed to enter the connecting country without difficulty",
+        ],
+      },
+      {
+        heading: "How to make it safer",
+        paragraphs: [
+          "Leave far more time than you would on a normal connection. There is no single right number, because it depends on the airport, on passport queues and on whether you have bags, but several hours is a sensible starting point, and an overnight stop is the safest option for any trip that matters. Our free [layover time checker](/tools/layover-time-checker) lets you test a connection with separate tickets selected.",
+          "Turning the gap into a stopover is often the best answer: book the second flight for the next day and enjoy an evening in the connecting city. Our guide on [how to find cheap flights](/blog/how-to-find-cheap-flights) explains how to compare the total cost of this against a normal connection, including bags on both airlines.",
+        ],
+        bullets: [
+          "Check in online for both flights before you leave home",
+          "Know the terminal for each flight and how to get between them",
+          "Check the bag rules and fees of both airlines, not just one",
+          "Choose a flexible fare for the second flight if the price difference is small",
+          "Save both booking references where you can reach them offline",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does self-transfer mean on a flight booking?",
+        answer:
+          "It means the journey is made up of separate tickets rather than one connecting ticket. You collect your bags, check in again for the next flight and carry the risk yourself if a delay makes you miss it.",
+      },
+      {
+        question: "Do I have to collect my bags on a self-transfer?",
+        answer:
+          "Yes, almost always. Because the tickets are separate, your bag is checked only as far as the connecting airport. You collect it there, which usually means passing passport control, and check it in again with the next airline.",
+      },
+      {
+        question: "How long should I leave for a self-transfer?",
+        answer:
+          "Much longer than for a normal connection. Allow several hours as a starting point, more if you have checked bags or must pass passport control, and consider an overnight stop for any trip where arriving on time really matters.",
+      },
+      {
+        question: "Am I protected if I miss a self-transfer connection?",
+        answer:
+          "Not by the airlines. The second airline will normally treat you as a no-show. You may be covered by a guarantee from the booking site that sold the trip or by travel insurance, but only within their conditions.",
+      },
+    ],
+    related: {
+      destinations: ["/destinations/portugal", "/destinations/italy"],
+      itineraries: [],
+      guides: [
+        "missed-connecting-flight",
+        "how-much-layover-time-do-you-need",
+        "how-to-find-cheap-flights",
+        "proof-of-onward-travel",
+      ],
+    },
+    sources: [
+      SOURCES.euAirRights,
+      SOURCES.ukCaaDelays,
+      SOURCES.usDotAirConsumer,
+      SOURCES.iata,
     ],
   },
 ];

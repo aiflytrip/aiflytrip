@@ -6,6 +6,8 @@ import { DestinationView } from "@/features/content/components/destination-view"
 import { pageMetadata } from "@/features/seo/metadata";
 import { ogImagePath } from "@/features/seo/og-targets";
 
+// Links to scheduled itineraries and posts appear on their publish date.
+export const revalidate = 3600;
 export const dynamicParams = false;
 
 export function generateStaticParams() {

@@ -10,8 +10,12 @@ import { ItineraryView } from "@/features/content/components/itinerary-view";
 import { pageMetadata } from "@/features/seo/metadata";
 import { ogImagePath } from "@/features/seo/og-targets";
 
-// Itineraries are hand-written; no URL pattern generates them.
-export const dynamicParams = false;
+// Scheduled itineraries go live on their publish date without a redeploy:
+// pages regenerate at most hourly (ISR).
+export const revalidate = 3600;
+// Itineraries are hand-written; no URL pattern generates them. Unknown slugs
+// render on demand and 404 unless the itinerary is live.
+export const dynamicParams = true;
 
 export function generateStaticParams() {
   return publishedItineraries().map((it) => ({ slug: it.slug }));

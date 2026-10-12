@@ -122,6 +122,7 @@ export const blogPosts: PostInput[] = [
         "budget-airline-fees-explained",
         "how-airline-pricing-works",
         "how-much-layover-time-do-you-need",
+        "self-transfer-flights",
       ],
     },
     sources: [

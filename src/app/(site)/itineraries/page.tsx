@@ -14,6 +14,9 @@ import { Breadcrumbs, JsonLd } from "@/features/seo/components";
 import { faqLd, graph } from "@/features/seo/json-ld";
 import { pageMetadata } from "@/features/seo/metadata";
 
+// Scheduled itineraries appear on their publish date without a redeploy.
+export const revalidate = 3600;
+
 export const metadata = pageMetadata({
   title: "Free travel itineraries: day-by-day trip plans",
   description:

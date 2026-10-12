@@ -5,7 +5,6 @@ import {
   allContent,
   destinations,
   getDestinationByPath,
-  getItinerary,
   guides,
   isIndexable,
   itineraries,
@@ -79,6 +78,7 @@ describe("content quality gate", () => {
 
 // Related lists may name scheduled posts; the site hides them until live.
 const anyGuide = (slug: string) => guides.find((g) => g.slug === slug);
+const anyItinerary = (slug: string) => itineraries.find((i) => i.slug === slug);
 
 describe("internal links", () => {
   it("resolves every related reference to a real page (live or scheduled)", () => {
@@ -86,14 +86,14 @@ describe("internal links", () => {
       for (const p of d.related.destinations)
         expect(getDestinationByPath(p), `${d.path} -> ${p}`).toBeDefined();
       for (const s of d.related.itineraries)
-        expect(getItinerary(s), `${d.path} -> ${s}`).toBeDefined();
+        expect(anyItinerary(s), `${d.path} -> ${s}`).toBeDefined();
       for (const s of d.related.guides)
         expect(anyGuide(s), `${d.path} -> ${s}`).toBeDefined();
     }
     for (const it of itineraries) {
       expect(getDestinationByPath(it.destination), it.path).toBeDefined();
       for (const s of it.related.itineraries)
-        expect(getItinerary(s), `${it.path} -> ${s}`).toBeDefined();
+        expect(anyItinerary(s), `${it.path} -> ${s}`).toBeDefined();
       for (const s of it.related.guides)
         expect(anyGuide(s), `${it.path} -> ${s}`).toBeDefined();
     }

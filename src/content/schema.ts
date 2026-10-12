@@ -73,6 +73,8 @@ export const DestinationSchema = SeoSchema.merge(PublishingSchema).extend({
 
 export const ItinerarySchema = SeoSchema.merge(PublishingSchema).extend({
   slug,
+  /** Scheduled publishing, as for blog posts: hidden until this UTC date. */
+  publishAt: isoDate.optional(),
   /** Path of the destination page this itinerary belongs to. */
   destination: z.string().regex(/^\/destinations\/[a-z0-9-]+(\/[a-z0-9-]+)?$/),
   name: text,

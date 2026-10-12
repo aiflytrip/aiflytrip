@@ -349,4 +349,127 @@ export const itineraries: ItineraryInput[] = [
     },
     sources: [SOURCES.lisbon, SOURCES.cp],
   },
+  {
+    slug: "rome-3-days",
+    publishAt: "2026-10-21",
+    destination: "/destinations/italy/rome",
+    name: "Rome in 3 days",
+    status: "published",
+    lastReviewed: "2026-10-11",
+    title: "Rome in 3 days: ancient sites, the Vatican and more",
+    description:
+      "A realistic three-day Rome itinerary for first-time visitors: ancient Rome, the Vatican and the historic centre, grouped by area, with booking and pacing tips.",
+    headline: "Rome in 3 days: an itinerary for first-time visitors",
+    intro:
+      "Rome has more to see than any three days can hold, so this plan gives each day one clear focus: ancient Rome, the Vatican, then the squares and fountains of the historic centre. Each day has one big visit that needs booking and leaves the rest loose, because much of the pleasure of Rome is in walking between things. Check opening days on the official websites before you fix the order.",
+    days: 3,
+    bestFor: ["First visits", "History and art", "Walking-focused trips"],
+    plan: [
+      {
+        title: "Ancient Rome and Monti",
+        morning:
+          "Start with the Colosseum on a timed ticket, then continue into the Roman Forum and up the Palatine Hill, which are next door and usually covered by the same ticket. Allow most of the morning; the Forum is larger than it looks.",
+        afternoon:
+          "Walk up to the Capitoline Hill for the view back over the Forum, and visit the Capitoline Museums if you want more ancient sculpture. Otherwise head into the Monti neighbourhood for a late lunch and its small shops.",
+        evening:
+          "Stay in Monti for dinner, then walk back past the Colosseum once it is lit up and the crowds have thinned.",
+        tip: "There is very little shade in the Forum. In warm months take the earliest entry you can, and carry water and a hat.",
+      },
+      {
+        title: "The Vatican and Trastevere",
+        morning:
+          "Visit the Vatican Museums with a pre-booked entry time. The route ends in the Sistine Chapel, so pace yourself through the earlier galleries rather than arriving tired.",
+        afternoon:
+          "Go on to St Peter's Basilica and its square. Entry involves a security queue, and there is a dress code, so cover shoulders and knees. Afterwards, walk along the river past Castel Sant'Angelo.",
+        evening:
+          "Cross to Trastevere, a short walk or bus ride south, for an evening among its lanes and trattorias. It is at its liveliest after dark.",
+        tip: "Book the Vatican Museums well ahead for busy seasons, and check which days they are open before planning the rest of your trip around this day.",
+      },
+      {
+        title: "The historic centre and Villa Borghese",
+        morning:
+          "See the Trevi Fountain early, before the crowds build, then walk to the Pantheon and on to Piazza Navona. These are close together, and the streets between them are part of the visit.",
+        afternoon:
+          "Continue to the Spanish Steps and up into the Villa Borghese park. If you have reserved a slot, visit the Borghese Gallery; if not, enjoy the gardens and the view over the city from the Pincio terrace.",
+        evening:
+          "Come back down for a last evening stroll through the centre, with dinner around Campo de' Fiori or the old Jewish quarter.",
+        tip: "The Borghese Gallery admits visitors by reservation for a fixed time slot, so book it first and build the day around it.",
+      },
+    ],
+    adjustments: [
+      {
+        title: "With a fourth day",
+        detail:
+          "Take a day trip. Ostia Antica, the remains of Rome's ancient port, is reached by local train and is far quieter than the Forum. Tivoli, with its villas and gardens, is another classic choice.",
+      },
+      {
+        title: "A slower pace",
+        detail:
+          "Drop the Capitoline Museums and the Borghese Gallery and keep one major visit a day. Spend the time on long lunches, churches you pass along the way and an unhurried evening walk.",
+      },
+      {
+        title: "Travelling with children",
+        detail:
+          "Shorten the Vatican Museums visit by choosing a few rooms, add time in the Villa Borghese park, where you can hire bikes and rowing boats, and plan a daily gelato stop as a reward for the walking.",
+      },
+      {
+        title: "In the summer heat",
+        detail:
+          "Do the outdoor sites first thing, retreat indoors to a museum or back to your room in the early afternoon, and go out again in the evening, as Romans do.",
+      },
+    ],
+    practicalNotes: [
+      {
+        title: "Where to stay for this itinerary",
+        detail:
+          "The historic centre around the Pantheon and Piazza Navona puts day three on your doorstep and the other days within a walk or short ride. Monti is close to the ancient sites and has a neighbourhood feel. Trastevere is atmospheric in the evening but a little further from the metro. Prati, next to the Vatican, is calmer and well connected.",
+      },
+      {
+        title: "What to book before you go",
+        detail:
+          "Three visits in this plan work on timed or reserved entry: the Colosseum, the Vatican Museums and the Borghese Gallery. Book them on the official websites as early as your dates are fixed, then arrange each day around its time slot. Check whether the Pantheon needs a ticket for your visit, as arrangements have changed in recent years.",
+      },
+      {
+        title: "Getting between stops",
+        detail:
+          "Much of central Rome is best covered on foot, and each day of this plan stays within one area. Use the metro, buses or trams for the longer hops, such as from the centre to the Vatican, and check current tickets and passes with the city's transport operator. Taxis are a sensible option late in the evening.",
+      },
+      {
+        title: "Pacing the days",
+        detail:
+          "Rome involves a lot of standing and cobbled streets, so wear comfortable shoes and plan a proper sit-down lunch each day. Carry a refillable bottle, since the city has many public drinking fountains. If you run out of energy, drop the afternoon museum rather than the morning visit you booked.",
+      },
+    ],
+    faqs: [
+      {
+        question: "Is three days enough for Rome?",
+        answer:
+          "Three days is enough to see ancient Rome, the Vatican and the main squares and fountains at a steady pace. You will not see everything, so choose the museums you care about most and leave the rest for another visit.",
+      },
+      {
+        question: "Can I see the Colosseum and the Vatican on the same day?",
+        answer:
+          "You can, but it makes for a long and tiring day, because both involve hours on your feet and they are on opposite sides of the centre. Giving each its own morning, as this itinerary does, is far more enjoyable.",
+      },
+      {
+        question: "What should I book in advance for Rome?",
+        answer:
+          "Book the Colosseum, the Vatican Museums and the Borghese Gallery ahead, as each uses timed or reserved entry and popular slots sell out. Most churches, squares and fountains need no booking at all.",
+      },
+      {
+        question: "What is the best area to stay in Rome for three days?",
+        answer:
+          "For a short first visit, the historic centre or Monti keeps walking distances short. Prati suits travellers who want quieter evenings near the Vatican, and Trastevere suits those who want restaurants and nightlife on the doorstep.",
+      },
+    ],
+    related: {
+      itineraries: ["paris-3-days", "lisbon-3-days"],
+      guides: [
+        "how-many-days-for-a-trip",
+        "how-to-build-a-travel-itinerary",
+        "airport-to-city-paris-rome-tokyo-lisbon",
+      ],
+    },
+    sources: [SOURCES.rome, SOURCES.italy, SOURCES.trenitalia],
+  },
 ];
