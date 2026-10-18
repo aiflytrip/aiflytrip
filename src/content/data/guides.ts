@@ -259,7 +259,7 @@ export const guides: GuideInput[] = [
     photo: "documents",
     category: "practical",
     status: "published",
-    lastReviewed: "2026-10-02",
+    lastReviewed: "2026-10-16",
     title: "Travel documents checklist: what to check before you go",
     description:
       "A practical checklist of travel documents and entry requirements to check before an international trip, with links to official sources for the current rules.",
@@ -282,7 +282,7 @@ export const guides: GuideInput[] = [
       {
         heading: "Visas and travel authorisations",
         paragraphs: [
-          "Depending on your nationality, you may need a visa, an electronic travel authorisation or nothing at all. Some regions are introducing new digital border systems, so rules that applied on a previous trip may have changed. If a visa application asks for flight bookings, our guide on [dummy tickets for visas](/blog/dummy-ticket-for-visa) explains the safe options.",
+          "Depending on your nationality, you may need a visa, an electronic travel authorisation or nothing at all. Some regions are introducing new digital border systems, so rules that applied on a previous trip may have changed. If a visa application asks for flight bookings, our guide to the [flight itinerary for your visa application](/blog/dummy-ticket-for-visa) explains what to submit and the safe options.",
           "Always check requirements on official government websites or your destination's embassy, rather than relying on third-party summaries, and apply well in advance if you need permission to enter.",
         ],
       },

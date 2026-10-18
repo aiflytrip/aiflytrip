@@ -541,11 +541,11 @@ export const blogPosts: PostInput[] = [
     photo: "documents",
     category: "practical",
     status: "published",
-    lastReviewed: "2026-10-06",
-    title: "Dummy ticket for visa: what embassies really accept",
+    lastReviewed: "2026-10-16",
+    title: "Dummy ticket or flight itinerary for visa: what's accepted",
     description:
-      "What a dummy ticket is, what visa applications usually ask for, the safe and legal options, why fake tickets are risky and how to check a booking is real.",
-    headline: "Dummy ticket for visa: what embassies really accept",
+      "What a dummy ticket or flight itinerary for a visa really is, what to submit with your application, the safe and legal options and how to check a booking.",
+    headline: "Dummy ticket and flight itinerary for a visa: what is accepted",
     intro:
       'If you are applying for a visa, you may be asked to show your travel plans, and many people search for a "dummy ticket" to get past this step without paying for a flight. This guide explains in plain words what a dummy ticket usually means, what visa applications tend to ask for, the safe and legal options, and why a fake or edited ticket can cost you far more than a real one.',
     sections: [
@@ -569,6 +569,21 @@ export const blogPosts: PostInput[] = [
           "So before you look for any kind of ticket, find the official document list for your visa and check exactly what it asks for: a paid ticket, a reservation, an itinerary or nothing at all. Our [travel documents checklist](/blog/travel-documents-checklist) explains where to find official entry requirements.",
         ],
         bullets: [],
+      },
+      {
+        heading: "Flight itinerary for a visa application: what to submit",
+        paragraphs: [
+          'Consulates use different words for the flight part of an application, and the words tell you what they want. "Travel itinerary" or "itinerary of intended flights" usually means a plan showing how you will arrive and leave. "Flight reservation" or "proof of travel booking" means a real booking that can be checked. "Return ticket" or "paid ticket" means you must have bought it. If the wording is unclear, ask the consulate or its visa centre before you spend money.',
+          "Whichever kind you submit, make it match the rest of your application. The names should be spelled exactly as in each passport, the dates should be the same as those on the application form, your accommodation and your travel insurance, and the route should show how you enter and leave the country or area the visa covers.",
+          "Label it honestly. A plan of intended flights should say that it is a plan and not a booking. Our guide to [what a flight itinerary is](/blog/what-is-a-flight-itinerary) shows what a booked itinerary looks like, so you can see the difference.",
+        ],
+        bullets: [
+          "Every traveller's name, as in their passport",
+          "Outbound and return dates matching the application form",
+          "Airports and flight numbers for each leg",
+          "A booking reference only if a real booking exists",
+          "Dates consistent with your accommodation and insurance",
+        ],
       },
       {
         heading: "Safe and legal options",
@@ -622,6 +637,16 @@ export const blogPosts: PostInput[] = [
         question: "Can I use AIFlyTrip's free flight itinerary for my visa?",
         answer:
           "It is a planning document, clearly marked as not a ticket or reservation, with no booking reference. If your consulate accepts an itinerary, you can describe it honestly as your intended flights. If it asks for a booking, use a genuine reservation or a flexible fare instead.",
+      },
+      {
+        question: "Can I submit a flight itinerary instead of a ticket?",
+        answer:
+          "Often, yes. Many consulates accept an itinerary or a reservation rather than a paid ticket, and some advise against buying before a decision. Check the wording of your consulate's document list, and if it asks for a booking, do not submit a plan as if it were one.",
+      },
+      {
+        question: "What is a flight reservation for a visa?",
+        answer:
+          "It is a genuine booking held in an airline's system, often for a limited time and sometimes without full payment. It has a booking reference that the consulate can check with the airline. It differs from a plan of intended flights, which has no booking behind it.",
       },
       {
         question: "Do I need to buy a flight before I get my visa?",
@@ -714,10 +739,10 @@ export const blogPosts: PostInput[] = [
         bullets: [],
       },
       {
-        heading: "When you are asked for one",
+        heading: "Flight itinerary for a visa application",
         paragraphs: [
           "Airlines, border officers and visa offices sometimes ask to see your itinerary to understand when you arrive and when you leave. What each one accepts differs. Some want a paid ticket, some accept a reservation, and some are satisfied with your intended flights. Always read the official instructions for your own case.",
-          "Our guide to the [dummy ticket for visa applications](/blog/dummy-ticket-for-visa) explains the honest options when a consulate asks for flight details, and [proof of onward travel](/blog/proof-of-onward-travel) covers what airlines look for at check-in. Never edit an itinerary to show a booking that does not exist. Reservations can be checked with the airline, and a false document can do lasting damage to an application.",
+          "Our guide to the [flight itinerary for a visa application](/blog/dummy-ticket-for-visa) explains what to submit and the honest options when a consulate asks for flight details, and [proof of onward travel](/blog/proof-of-onward-travel) covers what airlines look for at check-in. Never edit an itinerary to show a booking that does not exist. Reservations can be checked with the airline, and a false document can do lasting damage to an application.",
         ],
         bullets: [],
       },
@@ -843,7 +868,7 @@ export const blogPosts: PostInput[] = [
         heading: "What not to do",
         paragraphs: [
           "Do not edit a confirmation, reuse an old one or buy a document that claims a booking which does not exist. Reservations can be checked with the airline in seconds, and showing a false document to an airline or a border officer can lead to refused boarding, refused entry and trouble with later visa applications.",
-          "Be cautious with websites that sell onward tickets for a small fee. Some make a real, short-lived reservation, and some sell only a convincing-looking page. If you use one, look the booking up yourself on the airline's own website before you rely on it, and understand when it will be cancelled. Our guide to the [dummy ticket for visa applications](/blog/dummy-ticket-for-visa) explains how to check that a reservation is real.",
+          "Be cautious with websites that sell onward tickets for a small fee. Some make a real, short-lived reservation, and some sell only a convincing-looking page. If you use one, look the booking up yourself on the airline's own website before you rely on it, and understand when it will be cancelled. Our guide to the [dummy ticket or flight itinerary for a visa application](/blog/dummy-ticket-for-visa) explains how to check that a reservation is real.",
         ],
         bullets: [],
       },
