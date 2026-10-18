@@ -29,7 +29,7 @@ export const guides: GuideInput[] = [
         heading: "2. Choose dates and trip length",
         paragraphs: [
           "Your dates affect weather, crowds and prices. Shoulder seasons, the months just before and after peak season, often balance good weather with fewer crowds. Check local holidays and festivals at your destination, which can be wonderful or make travel more expensive and busy.",
-          "Then decide how long to go for. Remember to count travel days: long flights and time-zone changes often use up most of the first day.",
+          "Then decide how long to go for. Remember to count travel days: long flights and time-zone changes often use up most of the first day. Our guide to [how many days you need](/blog/how-many-days-for-a-trip) explains how to choose, and the free [trip length planner](/tools/how-many-days) works it out stop by stop.",
         ],
         bullets: [
           "Count the nights you'll actually spend at your destination, not just the dates.",
@@ -62,7 +62,7 @@ export const guides: GuideInput[] = [
         heading: "6. Prepare documents, money and health",
         paragraphs: [
           "Check passport validity, visa or travel-authorisation requirements and any health recommendations well before departure, using official government sources. Requirements depend on your nationality and destination and can change.",
-          "Consider travel insurance, let your bank know about travel if needed, and plan how you'll pay: cards, cash, or both. Our travel documents checklist covers this stage in more detail.",
+          "Consider travel insurance, let your bank know about travel if needed, and plan how you'll pay: cards, cash, or both. Our [travel documents checklist](/blog/travel-documents-checklist) covers this stage in more detail, and if a visa application asks for flight details, see our guide to the [flight itinerary for a visa application](/blog/dummy-ticket-for-visa).",
         ],
       },
       {

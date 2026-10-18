@@ -383,7 +383,7 @@ export const blogPosts: PostInput[] = [
         heading: "Start with a few anchors",
         paragraphs: [
           "Begin by choosing the handful of things that would make the trip feel worthwhile: a museum you have always wanted to see, a particular neighbourhood, a day trip, a special meal. These are your anchors. Everything else fits around them.",
-          "Keep the list short. Two or three anchors for a short city break, and perhaps one a day on a longer trip, is plenty. If you are still deciding where to go and for how long, our guides on [how to plan a trip](/blog/how-to-plan-a-trip) and [how many days you need](/blog/how-many-days-for-a-trip) cover those decisions first.",
+          "Keep the list short. Two or three anchors for a short city break, and perhaps one a day on a longer trip, is plenty. If you are still deciding where to go and for how long, our guides on [how to plan a trip](/blog/how-to-plan-a-trip) and [how many days you need](/blog/how-many-days-for-a-trip) cover those decisions first, and the free [trip length planner](/tools/how-many-days) suggests how many days to give each stop.",
         ],
         bullets: [],
       },

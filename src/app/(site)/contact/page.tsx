@@ -59,7 +59,11 @@ export default function ContactPage() {
         </LegalParagraph>
       </ContentSection>
       <p className="text-sm text-muted-foreground">
-        See also our{" "}
+        See also{" "}
+        <Link href="/about" className="text-primary hover:underline">
+          about AIFlyTrip
+        </Link>
+        , our{" "}
         <Link href="/privacy" className="text-primary hover:underline">
           privacy policy
         </Link>

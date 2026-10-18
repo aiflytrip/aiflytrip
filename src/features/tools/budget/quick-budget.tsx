@@ -54,7 +54,7 @@ export function QuickBudget({
   const total =
     toNumber(flights) * t + toNumber(stay) * n + toNumber(daily) * days * t;
 
-  const fullHref = `${route("budget", locale)}?${toQuery(
+  const query = toQuery(
     sanitise({
       ...DEFAULT_INPUT,
       travellers: t,
@@ -63,7 +63,9 @@ export function QuickBudget({
       flightsPerPerson: toNumber(flights),
       accommodationPerNight: toNumber(stay),
     }),
-  )}`;
+  );
+  // No bare "?" when every value is the default: keep the link clean.
+  const fullHref = `${route("budget", locale)}${query ? `?${query}` : ""}`;
 
   const field = "flex flex-col gap-1.5";
   return (
