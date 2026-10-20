@@ -263,7 +263,7 @@ export const octoberPosts: PostInput[] = [
         heading: "Check your allowance first",
         paragraphs: [
           "Before packing anything, check exactly what your fare includes. Many airlines distinguish between a small personal item that fits under the seat and a larger cabin bag for the overhead locker, and some basic fares only include the personal item. Each has its own size and, sometimes, weight limit.",
-          "Measure your bag with everything packed, including outside pockets. A bag that fitted when it was empty can end up too big once it's full. Our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains why it pays to get this right before you reach the gate.",
+          "Measure your bag with everything packed, including outside pockets. A bag that fitted when it was empty can end up too big once it's full. Our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains why it pays to get this right before you reach the gate, and our free [bag size checker](/tools/bag-size-checker) tells you whether your bag fits the limit in your booking.",
         ],
         bullets: [],
       },
@@ -310,6 +310,7 @@ export const octoberPosts: PostInput[] = [
         heading: "Packing tips that make it all fit",
         paragraphs: [
           "Lay everything out before you pack and remove a third of it; most people overpack. Fill shoes with socks or chargers, keep a small tote folded flat for day trips or shopping, and leave a little space for things you'll pick up along the way.",
+          "Our [packing list generator](/tools/packing-list-generator) builds a checklist for your trip length and weather, and the [luggage weight calculator](/tools/luggage-weight-calculator) estimates what the packed bag will weigh before you reach the airport.",
           "On busy flights, cabin bags are sometimes moved to the hold at the gate, so keep your essentials in the personal item. If you're travelling for longer than a week, plan a laundry stop; most accommodation and many neighbourhoods have options.",
         ],
         bullets: [],

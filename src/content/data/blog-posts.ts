@@ -270,7 +270,7 @@ export const blogPosts: PostInput[] = [
         heading: "Bags: personal item, cabin bag and checked luggage",
         paragraphs: [
           "Baggage is the most common surprise. Check three things for your fare: what counts as the free personal item, whether a larger cabin bag for the overhead locker is included, and what checked bags cost. Each has its own size and often weight limits.",
-          "Measure and weigh your bags at home. Airlines can charge extra at the gate for bags that are too large, and those charges are usually higher than adding the bag when you book. Adding a bag during booking is generally cheaper than adding it later.",
+          "Measure and weigh your bags at home. Airlines can charge extra at the gate for bags that are too large, and those charges are usually higher than adding the bag when you book. Adding a bag during booking is generally cheaper than adding it later. Our free [bag size checker](/tools/bag-size-checker) and [luggage weight calculator](/tools/luggage-weight-calculator) check a bag against the limits in your booking.",
           "Remember the security rules as well as the airline's. Liquids and certain items have their own restrictions at airport security, which differ by country; the official UK and US guidance is linked below.",
         ],
         bullets: [],
@@ -304,7 +304,7 @@ export const blogPosts: PostInput[] = [
         paragraphs: [
           "To compare fares fairly, build the trip you will actually take on each airline: the same bags, seats if you need them, and any fees for check-in or payment. In the EU, the price shown must include all unavoidable taxes and charges, which helps, but optional extras still need adding to each option.",
           "Then add the cost of getting to and from the airport. Our guide on [how to find cheap flights](/blog/how-to-find-cheap-flights) explains this total-cost approach in more detail, and our list of [cheap flight tips](/blog/cheap-flight-tips) covers ways to avoid many of these fees altogether.",
-          "To see how the full fare fits into the rest of your trip, put it into our free [trip budget calculator](/tools/trip-budget-calculator) with your accommodation and daily spending. It shows the total, the cost per person and the cost per day.",
+          "Our free [baggage fee calculator](/tools/baggage-fee-calculator) does this sum for up to three fares side by side, per person and for the whole trip. To see how the winning fare fits into the rest of your trip, put it into the [trip budget calculator](/tools/trip-budget-calculator) with your accommodation and daily spending.",
         ],
         bullets: [
           "Personal item size, and whether a cabin bag is included",
@@ -970,7 +970,7 @@ export const blogPosts: PostInput[] = [
         heading: "What the price is made of",
         paragraphs: [
           "The amount you pay is the airline's fare plus taxes, airport charges and any surcharges the airline adds. The taxes and airport charges depend on the airports and countries involved, so two fares that look similar can be built very differently.",
-          "Rules in several places are designed to stop the headline price from misleading you. In the European Union, the price shown must include all unavoidable taxes, charges and fees from the start, and optional extras have to be something you choose to add. In the United States, advertised fares must likewise include taxes and mandatory fees. Extras such as bags and seats still sit on top, and our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains how to add them up.",
+          "Rules in several places are designed to stop the headline price from misleading you. In the European Union, the price shown must include all unavoidable taxes, charges and fees from the start, and optional extras have to be something you choose to add. In the United States, advertised fares must likewise include taxes and mandatory fees. Extras such as bags and seats still sit on top: our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains them, and the [baggage fee calculator](/tools/baggage-fee-calculator) adds them up for each fare you compare.",
         ],
         bullets: [],
       },

@@ -7,6 +7,10 @@ import {
   publishedGuides,
   publishedItineraries,
 } from "@/content/registry";
+import {
+  ENGLISH_TOOL_KEYS,
+  ENGLISH_TOOLS,
+} from "@/features/tools/english-tools";
 import { type Locale } from "@/i18n/config";
 import { siteMessages, type ChromeLink } from "@/i18n/messages/site";
 
@@ -24,6 +28,10 @@ export function SiteFooter({ locale = "en" }: { locale?: Locale }) {
         },
         { href: "/tools/layover-time-checker", label: "Layover time checker" },
         { href: "/tools/how-many-days", label: "How many days do I need?" },
+        ...ENGLISH_TOOL_KEYS.map((key) => ({
+          href: ENGLISH_TOOLS[key].path,
+          label: ENGLISH_TOOLS[key].card.title,
+        })),
         { href: "/plan", label: "Create a trip plan" },
         { href: "/flights", label: "Compare flights" },
       ],

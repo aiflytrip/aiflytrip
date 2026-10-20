@@ -10,7 +10,11 @@ export type AnalyticsEvent =
   | "flight_search"
   | "budget_calculator_shared"
   | "layover_checker_shared"
-  | "days_planner_shared";
+  | "days_planner_shared"
+  | "packing_list_shared"
+  | "bag_size_checker_shared"
+  | "luggage_weight_shared"
+  | "baggage_fees_shared";
 
 type Props = Record<string, string | number | boolean>;
 

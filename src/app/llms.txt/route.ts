@@ -1,6 +1,10 @@
 import { siteConfig } from "@/config/site";
 import { allContent, isIndexable } from "@/content/registry";
 import { absoluteUrl } from "@/features/seo/metadata";
+import {
+  ENGLISH_TOOL_KEYS,
+  ENGLISH_TOOLS,
+} from "@/features/tools/english-tools";
 
 export const revalidate = 3600;
 
@@ -32,6 +36,10 @@ export function GET() {
     `- [Trip budget calculator](${absoluteUrl("/tools/trip-budget-calculator")}): free tool to total flights, accommodation and daily costs per person and per day.`,
     `- [Layover time checker](${absoluteUrl("/tools/layover-time-checker")}): free tool to judge whether a flight connection is comfortable, tight or risky.`,
     `- [How many days do I need?](${absoluteUrl("/tools/how-many-days")}): free tool that suggests a trip length, days per stop and travel days.`,
+    ...ENGLISH_TOOL_KEYS.map(
+      (key) =>
+        `- [${ENGLISH_TOOLS[key].card.title}](${absoluteUrl(ENGLISH_TOOLS[key].path)}): ${ENGLISH_TOOLS[key].card.body}`,
+    ),
     `- [About AIFlyTrip](${absoluteUrl("/about")})`,
     `- [Editorial policy](${absoluteUrl("/editorial-policy")}): how guides are written, sourced and reviewed.`,
     "",

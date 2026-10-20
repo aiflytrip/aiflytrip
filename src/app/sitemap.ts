@@ -10,6 +10,7 @@ import {
 } from "@/content/registry";
 import { type Destination, type Guide, type Itinerary } from "@/content/schema";
 import { absoluteUrl } from "@/features/seo/metadata";
+import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
 import { LOCALES } from "@/i18n/config";
 import {
   INDEXABLE_ROUTE_KEYS,
@@ -34,6 +35,7 @@ export const STATIC_PUBLIC_PATHS = [
   "/tools/trip-budget-calculator",
   "/tools/layover-time-checker",
   "/tools/how-many-days",
+  ...ENGLISH_TOOL_PATHS,
   "/destinations",
   "/itineraries",
   "/blog",

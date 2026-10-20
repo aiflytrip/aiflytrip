@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { LIMITS } from "@/content/quality";
+import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
 import {
   allContent,
   destinations,
@@ -199,6 +200,7 @@ describe("inline links in content", () => {
       "/tools/trip-budget-calculator",
       "/tools/layover-time-checker",
       "/tools/how-many-days",
+      ...ENGLISH_TOOL_PATHS,
     ]);
     for (const entry of all) {
       const from =

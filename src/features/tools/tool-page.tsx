@@ -16,6 +16,10 @@ import { absoluteUrl, pageMetadata } from "@/features/seo/metadata";
 import { calculateBudget, DEFAULT_INPUT } from "@/features/tools/budget/budget";
 import { DEFAULT_DAYS_INPUT, planDays } from "@/features/tools/days/days";
 import {
+  ENGLISH_TOOL_KEYS,
+  ENGLISH_TOOLS,
+} from "@/features/tools/english-tools";
+import {
   formatMinutes,
   formatMoney,
   VERDICT_STYLES,
@@ -28,7 +32,7 @@ import { type Locale } from "@/i18n/config";
 import { toolsMessages } from "@/i18n/messages/tools";
 import { HOME_COPY } from "@/i18n/pages/home";
 import { siteMessages } from "@/i18n/messages/site";
-import { TOOLS_COPY } from "@/i18n/pages/tools";
+import { TOOLS_COPY, type ToolPageCopy } from "@/i18n/pages/tools";
 import {
   languageAlternates,
   plannerHref,
@@ -69,9 +73,40 @@ export function ToolPage({
   locale: Locale;
   children: ReactNode;
 }) {
-  const copy = TOOLS_COPY[locale][tool];
+  return (
+    <ToolPageShell
+      copy={TOOLS_COPY[locale][tool]}
+      path={route(tool, locale)}
+      locale={locale}
+      placement={PLACEMENTS[tool]}
+    >
+      {children}
+    </ToolPageShell>
+  );
+}
+
+/**
+ * The layout shared by every tool page. Tools that exist only in English
+ * (see english-tools.ts) use it directly with their own copy and path.
+ * `afterTool` is server-rendered content shown straight after the tool,
+ * such as a worked example.
+ */
+export function ToolPageShell({
+  copy,
+  path,
+  locale,
+  placement,
+  afterTool,
+  children,
+}: {
+  copy: ToolPageCopy;
+  path: string;
+  locale: Locale;
+  placement: string;
+  afterTool?: ReactNode;
+  children: ReactNode;
+}) {
   const site = siteMessages(locale);
-  const path = route(tool, locale);
   const appLd = {
     "@type": "WebApplication",
     name: copy.ld.name,
@@ -106,6 +141,8 @@ export function ToolPage({
 
       {children}
 
+      {afterTool}
+
       {copy.sections.map((section) => (
         <ContentSection key={section.id} id={section.id} title={section.title}>
           {section.cards ? (
@@ -130,7 +167,7 @@ export function ToolPage({
         heading={copy.cta.heading}
         body={copy.cta.body}
         href={plannerHref(locale)}
-        placement={PLACEMENTS[tool]}
+        placement={placement}
         buttonLabel={site.plannerButton}
       />
 
@@ -291,6 +328,34 @@ export function ToolsHub({ locale }: { locale: Locale }) {
           </li>
         ))}
       </ul>
+
+      {locale === "en" ? (
+        <ContentSection id="packing-and-bags" title="Packing and baggage tools">
+          <ul className="grid gap-5 sm:grid-cols-2">
+            {ENGLISH_TOOL_KEYS.map((key) => {
+              const tool = ENGLISH_TOOLS[key];
+              return (
+                <li key={key}>
+                  <Link
+                    href={tool.path}
+                    className="glass lift flex h-full flex-col gap-3 rounded-3xl p-6"
+                  >
+                    <h3 className="text-xl font-semibold text-white">
+                      {tool.card.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {tool.card.body}
+                    </p>
+                    <span className="mt-auto pt-1 text-sm font-semibold text-primary">
+                      {copy.open}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </ContentSection>
+      ) : null}
 
       <ContentSection id="which-tool" title={copy.which.title}>
         <ul className="grid gap-4 sm:grid-cols-2">
