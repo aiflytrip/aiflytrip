@@ -52,7 +52,7 @@ export const blogPosts: PostInput[] = [
       {
         heading: "4. Understand what the fare includes",
         paragraphs: [
-          "Two fares with the same headline price can be very different products. Before comparing, check what each includes: cabin baggage, checked baggage, seat selection, changes and refunds. Basic fares are cheap partly because they leave these out.",
+          "Two fares with the same headline price can be very different products. Before comparing, check what each includes: cabin baggage, checked baggage, seat selection, changes and refunds. Basic fares are cheap partly because they leave these out. Our explainer on [airline fare structure](/blog/how-airline-pricing-works) shows how these fare classes fit together.",
           "Read the fare conditions for changes and cancellations. If your plans might change, a slightly more expensive fare that allows changes can be cheaper overall than a basic fare you have to abandon. Our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains the common extras in detail.",
         ],
         bullets: [],
@@ -148,7 +148,7 @@ export const blogPosts: PostInput[] = [
       {
         heading: "Timing tips",
         paragraphs: [
-          "When you travel shapes the price more than almost anything else. Demand rises and falls with seasons, school holidays and events, and fares follow it.",
+          "When you travel shapes the price more than almost anything else. Demand rises and falls with seasons, school holidays and events, and fares follow it. Our guide on [how airlines price tickets](/blog/how-airline-pricing-works) explains why.",
         ],
         bullets: [
           "1. Travel in shoulder season. The weeks just before and after a destination's peak season often bring lower fares, fewer crowds and still-pleasant weather. Our destination guides cover the best time to visit places such as [Japan](/destinations/japan) and [Italy](/destinations/italy).",
@@ -926,26 +926,35 @@ export const blogPosts: PostInput[] = [
     photo: "cheap-flights",
     category: "flights",
     status: "published",
-    lastReviewed: "2026-10-11",
-    title: "How airline pricing works: why flight prices change",
+    lastReviewed: "2026-10-20",
+    title: "How airlines price tickets: airline fare structure explained",
     description:
-      "How airlines set fares: fare classes, demand, competition, timing, taxes and extras, why a price changes between searches, and what this means when you book.",
-    headline: "How airline pricing works, and why flight prices keep changing",
+      "How do airlines set prices? Fare classes, demand, competition and timing explained in plain English, and why the same seat costs different amounts.",
+    headline:
+      "How airline ticket pricing works: fare classes, demand and why prices change",
     intro:
-      "Two people on the same flight have often paid very different amounts, and a fare you saw this morning can be gone by the afternoon. It can feel random, but it follows a system. This guide explains in plain terms how airlines price seats, why the number moves, and how to use that knowledge when you book.",
+      "Airlines price tickets by splitting each cabin into fare classes, each with its own price, its own rules and a limited number of seats. Pricing systems then open and close those classes based on demand, competition, the time left before departure and how many seats remain. That is why two people on the same flight often pay very different amounts, and why a fare you saw this morning can be gone by the afternoon. This guide explains the airline pricing structure in plain terms, why the number moves, and how to use that knowledge when you book.",
     sections: [
       {
-        heading: "One cabin, many prices",
+        heading: "Airline fare structure: one cabin, many prices",
         paragraphs: [
           "An airline does not set a single price for economy on a flight. It divides the seats into groups, often called fare classes or fare buckets, each with its own price and its own rules. The cheapest group might allow no changes and no checked bag, while a more expensive one in the same cabin can be changed or refunded.",
           "Each group has a limited number of seats on sale. When the cheapest group sells out, the next one becomes the lowest price available, so the fare steps up even though nothing about the flight has changed. This is the main reason prices jump rather than drift.",
+          "Each fare class has a one-letter booking code that you can often see on your booking or e-ticket. The letters are not standard across the industry, so the same letter can mean different things at two airlines, but many follow a similar pattern:",
         ],
-        bullets: [],
+        bullets: [
+          "First class: often F or A",
+          "Business class: often J, C, D or I, with full-fare, flexible tickets at the top",
+          "Premium economy: often W or P",
+          "Full-fare economy: usually Y, the most flexible and most expensive economy ticket",
+          "Discounted economy: letters such as B, M, H, K, L, Q, V and T, with fewer rights to change or refund the cheaper you go",
+          "Basic or lightest economy: the cheapest seats, often without a checked bag, seat choice or changes",
+        ],
       },
       {
-        heading: "Demand decides how many cheap seats exist",
+        heading: "How airlines set prices: demand and revenue management",
         paragraphs: [
-          "Airlines forecast how full each flight will be, using how past flights on that route sold and how bookings are going this time. If a flight is filling faster than expected, fewer seats are offered at the lower prices. If it is selling slowly, cheaper seats can be opened up again, which is why fares sometimes fall as well as rise.",
+          "Airlines forecast how full each flight will be, using how past flights on that route sold and how bookings are going this time. This process is called revenue management, and software updates it constantly. If a flight is filling faster than expected, fewer seats are offered at the lower prices. If it is selling slowly, cheaper seats can be opened up again, which is why fares sometimes fall as well as rise.",
           "Demand follows patterns you can predict. School holidays, public holidays, big events and popular days of the week all push fares up. Early morning, late night and midweek flights are often less popular, and therefore often cheaper. Our [cheap flight tips](/blog/cheap-flight-tips) list practical ways to use this.",
         ],
         bullets: [],
@@ -1004,6 +1013,16 @@ export const blogPosts: PostInput[] = [
       },
     ],
     faqs: [
+      {
+        question: "How do airlines set ticket prices?",
+        answer:
+          "Airlines split each cabin into fare classes with different prices and rules, then use revenue management software to decide how many seats to sell in each one. Demand, competition on the route, days left before departure and seats remaining all move the price you see.",
+      },
+      {
+        question: "What is the airline fare structure?",
+        answer:
+          "It is the set of fare classes an airline sells on a flight, each identified by a booking code letter. Higher classes cost more and allow changes or refunds, while the cheapest classes have the strictest rules and the fewest seats.",
+      },
       {
         question: "Why did my flight price go up overnight?",
         answer:
