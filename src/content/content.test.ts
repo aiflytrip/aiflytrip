@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
+import { TRANSLATED_PATHS } from "@/app/sitemap";
 import { LIMITS } from "@/content/quality";
+import { BLOG_TRANSLATIONS, ROUTES } from "@/i18n/routes";
 import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
 import {
   allContent,
@@ -78,7 +80,8 @@ describe("content quality gate", () => {
 });
 
 // Related lists may name scheduled posts; the site hides them until live.
-const anyGuide = (slug: string) => guides.find((g) => g.slug === slug);
+const anyGuide = (slug: string, locale = "en") =>
+  guides.find((g) => g.slug === slug && g.locale === locale);
 const anyItinerary = (slug: string) => itineraries.find((i) => i.slug === slug);
 
 describe("internal links", () => {
@@ -101,8 +104,24 @@ describe("internal links", () => {
     for (const g of guides) {
       for (const p of g.related.destinations)
         expect(getDestinationByPath(p), `${g.path} -> ${p}`).toBeDefined();
+      // Related posts are always in the page's own language.
       for (const s of g.related.guides)
-        expect(anyGuide(s), `${g.path} -> ${s}`).toBeDefined();
+        expect(anyGuide(s, g.locale), `${g.path} -> ${s}`).toBeDefined();
+    }
+  });
+
+  it("pairs every Spanish post with a live English post, both ways", () => {
+    const spanish = guides.filter((g) => g.locale === "es");
+    expect(spanish.length).toBeGreaterThan(0);
+    for (const es of spanish) {
+      expect(es.path.startsWith("/es/blog/"), es.path).toBe(true);
+      expect(es.translationOf, es.path).toBeDefined();
+      expect(anyGuide(es.translationOf!), es.path).toBeDefined();
+      expect(BLOG_TRANSLATIONS[es.translationOf!], es.path).toBe(es.slug);
+    }
+    for (const [en, es] of Object.entries(BLOG_TRANSLATIONS)) {
+      expect(anyGuide(en), en).toBeDefined();
+      expect(anyGuide(es, "es")?.translationOf, es).toBe(en);
     }
   });
 
@@ -126,7 +145,9 @@ describe("internal links", () => {
     }
     for (const g of guides) {
       g.related.destinations.forEach((p) => inbound.add(p));
-      g.related.guides.forEach((s) => inbound.add(`/blog/${s}`));
+      g.related.guides.forEach((s) =>
+        inbound.add(anyGuide(s, g.locale)?.path ?? `/blog/${s}`),
+      );
     }
     for (const entry of allContent())
       expect(inbound.has(entry.path), entry.path).toBe(true);
@@ -201,6 +222,8 @@ describe("inline links in content", () => {
       "/tools/layover-time-checker",
       "/tools/how-many-days",
       ...ENGLISH_TOOL_PATHS,
+      ...TRANSLATED_PATHS,
+      ...Object.values(ROUTES.planner),
     ]);
     for (const entry of all) {
       const from =

@@ -103,6 +103,10 @@ export const ItinerarySchema = SeoSchema.merge(PublishingSchema).extend({
 
 export const GuideSchema = SeoSchema.merge(PublishingSchema).extend({
   slug,
+  /** Spanish posts live under /es/blog and list only Spanish related posts. */
+  locale: z.enum(["en", "es"]).default("en"),
+  /** For a Spanish post, the slug of the English post it translates. */
+  translationOf: slug.optional(),
   headline: text,
   intro: text,
   /** Key into BLOG_PHOTOS for the article banner and blog cards. */

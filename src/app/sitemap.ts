@@ -13,10 +13,10 @@ import { absoluteUrl } from "@/features/seo/metadata";
 import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
 import { LOCALES } from "@/i18n/config";
 import {
+  alternatesForPath,
+  BLOG_HUB,
   INDEXABLE_ROUTE_KEYS,
-  languageAlternates,
   ROUTES,
-  routeKeyForPath,
 } from "@/i18n/routes";
 
 /**
@@ -46,20 +46,20 @@ export const STATIC_PUBLIC_PATHS = [
   "/terms",
 ] as const;
 
-/** Spanish and French versions of the translated pages. */
-export const TRANSLATED_PATHS = INDEXABLE_ROUTE_KEYS.flatMap((key) =>
-  LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
-);
+/** Spanish and French versions of the translated pages, plus the Spanish blog. */
+export const TRANSLATED_PATHS = [
+  ...INDEXABLE_ROUTE_KEYS.flatMap((key) =>
+    LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
+  ),
+  BLOG_HUB.es,
+];
 
 /** hreflang alternates (absolute URLs) for a page that has translations. */
 function alternatesFor(path: string) {
-  const key = routeKeyForPath(path);
-  if (!key) return {};
+  const alternates = alternatesForPath(path);
+  if (!alternates) return {};
   const languages = Object.fromEntries(
-    Object.entries(languageAlternates(key)).map(([lang, href]) => [
-      lang,
-      absoluteUrl(href),
-    ]),
+    Object.entries(alternates).map(([lang, href]) => [lang, absoluteUrl(href)]),
   );
   return { alternates: { languages } };
 }
@@ -90,6 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: absoluteUrl(entry.path),
       lastModified: entry.lastReviewed,
       images: pageImage(entry),
+      ...alternatesFor(entry.path),
     })),
   ];
 }

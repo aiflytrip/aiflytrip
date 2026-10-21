@@ -103,6 +103,27 @@ export const SOURCES = {
     publisher: "GOV.UK (Home Office guidance)",
     url: "https://www.gov.uk/government/publications/suitability-false-representations-immigration-staff-guidance/part-suitability-deception-false-representations-false-documents-and-non-disclosure-of-relevant-facts-accessible",
   },
+  euAirRightsEs: {
+    label: "Derechos de los pasajeros aéreos en la UE",
+    publisher: "Unión Europea (Tu Europa)",
+    url: "https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_es.htm",
+  },
+  eu1008Es: {
+    label:
+      "Reglamento (CE) n.º 1008/2008, incluida la transparencia de las tarifas aéreas",
+    publisher: "EUR-Lex (Diario Oficial de la UE)",
+    url: "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32008R1008",
+  },
+  aesaPassengers: {
+    label: "Información para pasajeros",
+    publisher: "Agencia Estatal de Seguridad Aérea (AESA)",
+    url: "https://www.seguridadaerea.gob.es/es/ambitos/pasajeros",
+  },
+  esTravelAdvice: {
+    label: "Recomendaciones de viaje",
+    publisher: "Ministerio de Asuntos Exteriores de España",
+    url: "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Recomendaciones-de-viaje.aspx",
+  },
   euAirRights: {
     label: "Air passenger rights in the EU",
     publisher: "European Union (Your Europe)",

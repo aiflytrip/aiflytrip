@@ -22,24 +22,30 @@ import {
 } from "@/features/content/links";
 import { Breadcrumbs, JsonLd } from "@/features/seo/components";
 import { faqLd, graph, guideLd, type Crumb } from "@/features/seo/json-ld";
+import { BLOG_COPY } from "@/i18n/pages/blog";
 
 export function guideCrumbs(page: Entry<Guide>): Crumb[] {
+  const t = BLOG_COPY[page.locale];
   return [
-    { name: "Home", path: "/" },
-    { name: "Blog", path: "/blog" },
+    t.home,
+    { name: t.hub.crumb, path: t.hub.path },
     { name: page.headline, path: page.path },
   ];
 }
 
+// Accents are dropped so Spanish headings keep readable anchors.
 const anchor = (heading: string) =>
   heading
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
 
 export function GuideView({ page }: { page: Entry<Guide> }) {
+  const t = BLOG_COPY[page.locale];
   // Same-category posts not already linked, for extra internal links.
-  const moreInCategory = publishedGuides()
+  const moreInCategory = publishedGuides(page.locale)
     .filter(
       (g) =>
         g.category === page.category &&
@@ -49,7 +55,7 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
     .map((g) => g.slug);
   const minutes = Math.max(1, Math.round(page.quality.words / 220));
   const photo = blogPhoto(page.photo);
-  const reviewed = new Intl.DateTimeFormat("en-GB", {
+  const reviewed = new Intl.DateTimeFormat(t.intl, {
     dateStyle: "medium",
     timeZone: "UTC",
   }).format(new Date(`${page.lastReviewed}T00:00:00Z`));
@@ -63,12 +69,15 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
         <Breadcrumbs crumbs={guideCrumbs(page)} />
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted-foreground">
           <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 font-semibold text-accent-foreground">
-            {categoryLabel(page.category)}
+            {categoryLabel(page.category, page.locale)}
           </span>
-          <span>{minutes} min read</span>
+          <span>
+            {minutes} {t.article.minRead}
+          </span>
           <span aria-hidden="true">·</span>
           <span>
-            Reviewed <time dateTime={page.lastReviewed}>{reviewed}</time>
+            {t.article.reviewed}{" "}
+            <time dateTime={page.lastReviewed}>{reviewed}</time>
           </span>
         </p>
         <h1 className="text-4xl font-bold text-balance text-white sm:text-5xl">
@@ -95,8 +104,11 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
         </figure>
       ) : null}
 
-      <nav aria-label="On this page" className="glass rounded-2xl p-5 text-sm">
-        <p className="font-semibold">On this page</p>
+      <nav
+        aria-label={t.article.onThisPage}
+        className="glass rounded-2xl p-5 text-sm"
+      >
+        <p className="font-semibold">{t.article.onThisPage}</p>
         <ol className="mt-2 flex list-decimal flex-col gap-1 pl-5 text-muted-foreground">
           {page.sections.map((section) => (
             <li key={section.heading}>
@@ -125,25 +137,34 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
       ))}
 
       <PlannerCta
-        heading="Draft your itinerary in minutes"
-        body="Our AI trip planner turns your dates, budget and interests into a day-by-day plan you can refine. Check practical details with official sources before you travel."
+        heading={t.article.cta.heading}
+        body={t.article.cta.body}
+        href={t.planner.href}
+        buttonLabel={t.planner.button}
         placement="guide"
       />
 
-      <FaqList faqs={page.faqs} />
+      <FaqList faqs={page.faqs} title={t.article.faqTitle} />
       <RelatedLinks
-        title="Related articles"
-        links={guideLinks([...page.related.guides, ...moreInCategory])}
+        title={t.article.related}
+        links={guideLinks(
+          [...page.related.guides, ...moreInCategory],
+          page.locale,
+        )}
       />
       <RelatedLinks
-        title="Ready-made itineraries"
+        title={t.article.itineraries}
         links={itineraryLinks(page.related.itineraries)}
       />
       <RelatedLinks
-        title="Destination guides"
+        title={t.article.destinations}
         links={destinationLinks(page.related.destinations)}
       />
-      <SourcesList sources={page.sources} lastReviewed={page.lastReviewed} />
+      <SourcesList
+        sources={page.sources}
+        lastReviewed={page.lastReviewed}
+        locale={page.locale}
+      />
     </Container>
   );
 }

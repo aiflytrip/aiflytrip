@@ -46,6 +46,7 @@ export function GET() {
     ...section("Destination guides", "/destinations/"),
     ...section("Itineraries", "/itineraries/"),
     ...section("Blog: flight savings and trip planning", "/blog/"),
+    ...section("Blog en español", "/es/blog/"),
   ].join("\n");
   return new Response(body, {
     headers: { "Content-Type": "text/plain; charset=utf-8" },

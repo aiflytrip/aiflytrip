@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { type Faq, type Source } from "@/content/schema";
 import { PlannerCtaLink } from "@/features/analytics/planner-cta-link";
 import { RichText } from "@/features/content/components/rich-text";
+import { BLOG_COPY } from "@/i18n/pages/blog";
 import { cn } from "@/lib/utils";
 
 export function ContentSection({
@@ -93,11 +94,15 @@ export function FaqList({
 export function SourcesList({
   sources,
   lastReviewed,
+  locale = "en",
 }: {
   sources: Source[];
   lastReviewed: string;
+  locale?: keyof typeof BLOG_COPY;
 }) {
-  const reviewed = new Intl.DateTimeFormat("en-GB", {
+  const copy = BLOG_COPY[locale];
+  const t = copy.sources;
+  const reviewed = new Intl.DateTimeFormat(copy.intl, {
     dateStyle: "long",
     timeZone: "UTC",
   }).format(new Date(`${lastReviewed}T00:00:00Z`));
@@ -107,19 +112,18 @@ export function SourcesList({
       className="flex flex-col gap-3 rounded-2xl bg-muted p-5 text-sm"
     >
       <h2 id="sources-heading" className="font-semibold">
-        Official sources and further reading
+        {t.heading}
       </h2>
       <p className="text-muted-foreground">
-        Practical details such as entry requirements, prices, timetables and
-        opening days change. Always confirm them with the official sources below
-        before you travel. Last reviewed by the{" "}
+        {t.notice} {t.reviewedBy}{" "}
         <Link
           href="/editorial-policy"
+          hrefLang={locale === "en" ? undefined : "en"}
           className="underline hover:text-foreground"
         >
-          AIFlyTrip editorial team
+          {t.team}
         </Link>{" "}
-        on <time dateTime={lastReviewed}>{reviewed}</time>.
+        {t.on} <time dateTime={lastReviewed}>{reviewed}</time>.
       </p>
       <ul className="flex flex-col gap-1.5">
         {sources.map((source) => (

@@ -1,5 +1,5 @@
 import { type Locale } from "@/i18n/config";
-import { plannerHref, route } from "@/i18n/routes";
+import { BLOG_HUB, plannerHref, route } from "@/i18n/routes";
 
 /**
  * Site chrome (header, footer, language switcher, suggestion banner) per
@@ -83,12 +83,17 @@ function localisedChrome(
     itineraries: string;
   },
 ): Pick<SiteMessages, "nav"> & { columns: SiteMessages["footer"]["columns"] } {
+  // The blog has a Spanish edition; French readers get the English one.
+  const blog: ChromeLink =
+    locale === "es"
+      ? { href: BLOG_HUB.es, label: text.blog }
+      : { href: BLOG_HUB.en, label: text.blog, englishOnly: true };
   return {
     nav: [
       { href: plannerHref(locale), label: text.planner },
       { href: route("tools", locale), label: text.tools },
       { href: "/destinations", label: text.destinations, englishOnly: true },
-      { href: "/blog", label: text.blog, englishOnly: true },
+      blog,
       { href: "/flights", label: text.flights, englishOnly: true },
     ],
     columns: [
@@ -111,7 +116,7 @@ function localisedChrome(
             englishOnly: true,
           },
           { href: "/itineraries", label: text.itineraries, englishOnly: true },
-          { href: "/blog", label: text.blog, englishOnly: true },
+          blog,
         ],
       },
       {
