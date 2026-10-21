@@ -90,7 +90,7 @@ export default function ItinerariesPage() {
           paragraphs={[
             "Each itinerary plans every day as morning, afternoon and evening, and keeps each day in one or two areas so you spend more time exploring and less time travelling. You can follow a plan exactly, or treat it as a starting point and change it to fit your interests.",
             "For a shorter trip, keep the days you care about most and drop the rest. For a longer one, add a free day or a day trip; each itinerary page suggests options. If you would like a plan built from scratch for your own dates and budget, the free [AI trip planner](/travel-planner) creates one in a couple of minutes.",
-            "Before you go, check opening days and book timed tickets for popular sights. Our guide on [how to make a travel itinerary](/blog/how-to-build-a-travel-itinerary) explains the method behind these plans, with a simple template you can copy.",
+            "Before you go, check opening days and book timed tickets for popular sights. Our [travel itinerary example and template](/blog/how-to-build-a-travel-itinerary) explains the method behind these plans, with a simple template you can copy.",
           ]}
         />
       </ContentSection>

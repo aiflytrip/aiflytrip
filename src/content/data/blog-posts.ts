@@ -371,14 +371,66 @@ export const blogPosts: PostInput[] = [
     photo: "itinerary",
     category: "itineraries",
     status: "published",
-    lastReviewed: "2026-10-11",
-    title: "How to make a travel itinerary: free template and example",
+    lastReviewed: "2026-10-21",
+    title: "Travel itinerary example and free template: how to make one",
     description:
-      "How to make a travel itinerary step by step: pick a few anchors, group days by area and count travel time, then copy our free template and filled-in example.",
-    headline: "How to make a travel itinerary that actually works",
+      "See a complete 3-day travel itinerary example, copy our free day-by-day template, then learn how to make your own itinerary step by step.",
+    headline: "Travel itinerary example and template: how to make an itinerary",
     intro:
-      "A good itinerary is less about fitting everything in and more about making each day work: realistic travel times, a sensible order and room to breathe. This guide shows how to make an itinerary step by step, turning a list of places into a day-by-day plan you will actually enjoy following, with a simple template you can copy and an example day already filled in.",
+      "Below is a complete sample travel itinerary for three days, followed by a free template you can copy and the steps we used to build it. A good itinerary is less about fitting everything in and more about making each day work: realistic travel times, a sensible order and room to breathe.",
     sections: [
+      {
+        heading: "Travel itinerary example: 3 days in Lisbon",
+        paragraphs: [
+          "This sample itinerary is for a three-day city break with a morning arrival and an evening departure. It has two anchors, the castle and a day trip to Sintra, and every day stays in one or two areas. Copy its shape, not its exact times, and check opening days and ticket rules on official websites before fixing your own.",
+        ],
+        bullets: [
+          "Day 1, arrival: land in the morning and drop bags at a hotel in Baixa. Afternoon: an easy walk through Baixa's flat streets to the riverside square, then up to Chiado. Evening: dinner in Chiado or Bairro Alto. Getting around: on foot",
+          "Day 2, castle and Alfama: morning at the castle, arriving at opening time with a ticket bought in advance. Afternoon: Alfama's lanes and viewpoints, with a late lunch nearby. Evening: dinner in Alfama, table booked. Getting around: tram or bus up the hill, walk back down. Backup: an indoor museum if it rains",
+          "Day 3, day trip to Sintra: morning train from Rossio station, then one palace with a timed ticket. Afternoon: a second palace or the gardens, and the train back. Evening: a relaxed dinner near the hotel. Backup: keep Sintra for a dry day and swap it with day two",
+          "Departure: if the flight is late enough, spend the morning in Belém, west along the river, then collect bags and leave plenty of time for the airport",
+        ],
+      },
+      {
+        heading: "Free travel itinerary template",
+        paragraphs: [
+          "You don't need special software to make an itinerary. A notes app, a spreadsheet or a sheet of paper works, as long as every day follows the same simple layout. Copy the outline below once for each day of your trip, then fill it in using the steps further down.",
+          "Fill in the fixed things first, such as flights, check-in times and timed tickets, and then add the flexible plans around them. Keep it short: a line or two for each part of the day is enough to follow on the move.",
+        ],
+        bullets: [
+          "Day and date, plus where you are staying that night",
+          "Area of the day: the one or two neighbourhoods you will be in",
+          "Morning: main activity, with opening time and any booking reference",
+          "Afternoon: second activity or a free block",
+          "Evening: dinner area and anything booked",
+          "Getting around: how you will travel between places and roughly how long it takes",
+          "Backup idea for bad weather or a closure",
+          "Notes: tickets to show, opening days, things to check",
+        ],
+      },
+      {
+        heading: "Itinerary sample: one day filled in",
+        paragraphs: [
+          "Here is the template filled in for day two of the Lisbon example, so you can see how much detail is enough. The times are placeholders, not a schedule to follow.",
+        ],
+        bullets: [
+          "Day 2, Saturday: staying in Baixa, same hotel as last night",
+          "Area of the day: the castle hill and Alfama",
+          "Morning: the castle, arriving early before it gets busy; ticket saved on my phone",
+          "Afternoon: Alfama's lanes and viewpoints, with a late lunch nearby; nothing booked",
+          "Evening: dinner in Alfama, table booked for 8pm; walk back downhill",
+          "Getting around: on foot from the hotel, allowing about half an hour for the climb, or a tram or bus up the hill",
+          "Backup idea: swap the viewpoints for an indoor museum if it rains",
+          "Notes: check the castle's opening days; wear shoes for steep, cobbled streets",
+        ],
+      },
+      {
+        heading: "How to make a travel itinerary step by step",
+        paragraphs: [
+          "The example above came from a simple method you can reuse for any trip. The castle sits above Alfama, so day two became an Alfama day. Sintra needs most of a day, so it got day three on its own. The flat streets of Baixa and Chiado suit a tired arrival afternoon, and Belém fits a final morning. Our [Lisbon in 3 days itinerary](/itineraries/lisbon-3-days) shows another way to arrange the same city, with a full day in Belém. Here are the steps.",
+        ],
+        bullets: [],
+      },
       {
         heading: "Start with a few anchors",
         paragraphs: [
@@ -441,49 +493,13 @@ export const blogPosts: PostInput[] = [
           "Bookings made first, flexible plans around them",
         ],
       },
-      {
-        heading: "A simple itinerary template",
-        paragraphs: [
-          "You don't need special software to make an itinerary. A notes app, a spreadsheet or a sheet of paper works, as long as every day follows the same simple layout. Copy the outline below once for each day of your trip, then fill it in using the steps above.",
-          "Fill in the fixed things first, such as flights, check-in times and timed tickets, and then add the flexible plans around them. Keep it short: a line or two for each part of the day is enough to follow on the move.",
-        ],
-        bullets: [
-          "Day and date, plus where you are staying that night",
-          "Area of the day: the one or two neighbourhoods you will be in",
-          "Morning: main activity, with opening time and any booking reference",
-          "Afternoon: second activity or a free block",
-          "Evening: dinner area and anything booked",
-          "Getting around: how you will travel between places and roughly how long it takes",
-          "Backup idea for bad weather or a closure",
-          "Notes: tickets to show, opening days, things to check",
-        ],
-      },
-      {
-        heading: "Itinerary example: one day filled in",
-        paragraphs: [
-          "Here is the template filled in for one day of a short trip to Lisbon, so you can see how much detail is enough. It is a sample to copy the shape of, not a schedule to follow: the times are placeholders, and you should check opening days and ticket rules on official websites before fixing yours.",
-        ],
-        bullets: [
-          "Day 2, Saturday: staying in Baixa, same hotel as last night",
-          "Area of the day: the castle hill and Alfama",
-          "Morning: the castle, arriving early before it gets busy; ticket saved on my phone",
-          "Afternoon: Alfama's lanes and viewpoints, with a late lunch nearby; nothing booked",
-          "Evening: dinner in Alfama, table booked for 8pm; walk back downhill",
-          "Getting around: on foot from the hotel, allowing about half an hour for the climb, or a tram or bus up the hill",
-          "Backup idea: swap the viewpoints for an indoor museum if it rains",
-          "Notes: check the castle's opening days; wear shoes for steep, cobbled streets",
-        ],
-      },
-      {
-        heading: "Itinerary example: arranging three days",
-        paragraphs: [
-          "Imagine three days in Lisbon with two anchors: the castle and a day trip to Sintra. The castle sits above Alfama, so day two becomes an Alfama day: castle in the morning, lanes and viewpoints in the afternoon, and a relaxed evening nearby. Sintra needs most of a day, so it gets day three on its own.",
-          "Day one depends on the flight. With a morning arrival, the flat streets of Baixa and Chiado make an easy first afternoon close to most hotels. That leaves Belém, which sits west along the river, for the morning of departure if the flight is late enough. The full version of this plan is in our [Lisbon in 3 days itinerary](/itineraries/lisbon-3-days).",
-        ],
-        bullets: [],
-      },
     ],
     faqs: [
+      {
+        question: "What does a good travel itinerary example look like?",
+        answer:
+          "A good example gives each day a theme or area, a plan for the morning, afternoon and evening, how you will get around, and a backup idea. It keeps one or two main activities per day and leaves room for travel time, like the three-day Lisbon sample at the top of this guide.",
+      },
       {
         question: "How many things should I plan per day?",
         answer:
@@ -553,7 +569,7 @@ export const blogPosts: PostInput[] = [
         heading: "What people mean by a dummy ticket",
         paragraphs: [
           '"Dummy ticket" is an informal name, and it covers very different things. Sometimes it means a genuine flight reservation that an airline or travel agent holds for a short time without full payment. Sometimes it means a simple flight itinerary that lists the flights you plan to take. And sometimes it means a document made to look like a paid ticket or a confirmed booking when no booking exists.',
-          "The first two can be perfectly legitimate, as long as you describe them honestly. The third is a false document. The difference matters, because visa authorities judge your application on whether your documents are genuine. Our guide to [what a flight itinerary is](/blog/what-is-a-flight-itinerary) shows the difference with an example.",
+          "The first two can be perfectly legitimate, as long as you describe them honestly. The third is a false document. The difference matters, because visa authorities judge your application on whether your documents are genuine. Our [flight itinerary example](/blog/what-is-a-flight-itinerary) shows the difference line by line.",
         ],
         bullets: [
           "A held reservation: a real booking in the airline's system, often with a time limit.",
@@ -677,14 +693,45 @@ export const blogPosts: PostInput[] = [
     photo: "itinerary",
     category: "flights",
     status: "published",
-    lastReviewed: "2026-10-11",
-    title: "Flight itinerary: what it is, with an example",
+    lastReviewed: "2026-10-21",
+    title: "Flight itinerary example: sample, meaning and how to read it",
     description:
-      "What a flight itinerary is, how it differs from an e-ticket and a boarding pass, how to read one line by line, a sample to compare with and how to get yours.",
-    headline: "What is a flight itinerary? A plain guide with an example",
+      "See a sample flight itinerary for a return trip and one with a connection, learn what each line means, and how it differs from an e-ticket and boarding pass.",
+    headline: "Flight itinerary example: what it is and how to read one",
     intro:
-      "A flight itinerary is the list of flights that make up your journey: where you fly from and to, on which dates and at what times. The word is used for two different things, a plan you have made and a document an airline sends after you book, and mixing them up causes real problems at check-in desks and in visa applications. This guide explains both, shows an example and walks through each line.",
+      "A flight itinerary is the list of flights that make up your journey: where you fly from and to, on which dates and at what times. Below are two sample flight itineraries, a simple return trip and a journey with a connection, followed by what each line means. The word itinerary is also used for two different things, a plan you have made and a document an airline sends after you book, and mixing them up causes real problems at check-in desks and in visa applications.",
     sections: [
+      {
+        heading: "Flight itinerary example: a return trip",
+        paragraphs: [
+          "Here is what the main lines of a booked return itinerary look like. Every detail below is invented for illustration, including the airline code, the flight numbers and the times, so use it only to recognise the layout of your own.",
+        ],
+        bullets: [
+          "Passenger: TRAVELLER / SAMPLE MS",
+          "Booking reference: ABC123. Ticket number: thirteen digits",
+          "Outbound, 14 May: flight XX 101, London Heathrow (LHR) Terminal 2 to Lisbon (LIS) Terminal 1",
+          "Departs 09:40, arrives 12:25, local times. Economy, fare class K, status confirmed",
+          "Return, 18 May: flight XX 102, Lisbon (LIS) Terminal 1 to London Heathrow (LHR) Terminal 2",
+          "Departs 18:10, arrives 20:50, local times. Economy, fare class K, status confirmed",
+          "Baggage: one cabin bag and one checked bag per passenger",
+          "Fare paid, taxes and charges, and the date of issue",
+        ],
+      },
+      {
+        heading: "Sample flight itinerary with a connection",
+        paragraphs: [
+          "A journey with a stop shows each flight on its own line, and the connection time is the gap between them. This sample is also invented. Note the overnight arrival, the different airline operating the second flight and the bags checked through to the final airport.",
+        ],
+        bullets: [
+          "Passenger: TRAVELLER / SAMPLE MR",
+          "Booking reference: XYZ789. Ticket number: thirteen digits",
+          "Flight 1, 3 June: flight XX 210, London Heathrow (LHR) to Dubai (DXB). Departs 21:15, arrives 07:30 on 4 June, local times",
+          "Connection in Dubai: 2 hours 10 minutes, on one ticket",
+          "Flight 2, 4 June: flight XX 5432, operated by YY Airways, Dubai (DXB) to Bangkok (BKK). Departs 09:40, arrives 19:05, local times",
+          "Cabin and fare class: Economy, fare class Q, status confirmed on both flights",
+          "Baggage: one checked bag, checked through to Bangkok",
+        ],
+      },
       {
         heading: "Two meanings: a plan and a booking",
         paragraphs: [
@@ -703,22 +750,6 @@ export const blogPosts: PostInput[] = [
           "Flight itinerary: the list of your flights with dates and times. As a plan, it can exist before you book anything.",
           "E-ticket or itinerary receipt: sent after you pay. It adds a booking reference and a ticket number, and shows that the fare has been paid.",
           "Boarding pass: issued when you check in, usually within a day or two of departure. It shows your seat and boarding time and is what lets you through the gate.",
-        ],
-      },
-      {
-        heading: "A sample flight itinerary",
-        paragraphs: [
-          "Here is what the main lines of a booked return itinerary look like. Every detail below is invented for illustration, including the airline code, the flight numbers and the times, so use it only to recognise the layout of your own.",
-        ],
-        bullets: [
-          "Passenger: TRAVELLER / SAMPLE MS",
-          "Booking reference: ABC123. Ticket number: thirteen digits",
-          "Outbound, 14 May: flight XX 101, London Heathrow (LHR) Terminal 2 to Lisbon (LIS) Terminal 1",
-          "Departs 09:40, arrives 12:25, local times. Economy, fare class K, status confirmed",
-          "Return, 18 May: flight XX 102, Lisbon (LIS) Terminal 1 to London Heathrow (LHR) Terminal 2",
-          "Departs 18:10, arrives 20:50, local times. Economy, fare class K, status confirmed",
-          "Baggage: one cabin bag and one checked bag per passenger",
-          "Fare paid, taxes and charges, and the date of issue",
         ],
       },
       {
