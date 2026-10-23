@@ -33,12 +33,49 @@ export const ROUTE_KEYS = Object.keys(ROUTES) as RouteKey[];
 export const route = (key: RouteKey, locale: Locale): string =>
   ROUTES[key][locale];
 
+const cleanPath = (path: string) =>
+  path.length > 1 ? path.replace(/\/+$/, "") : path;
+
 /** The translated page a path belongs to, if any. */
 export function routeKeyForPath(path: string): RouteKey | undefined {
-  const clean = path.length > 1 ? path.replace(/\/+$/, "") : path;
+  const clean = cleanPath(path);
   return ROUTE_KEYS.find((key) =>
     LOCALES.some((locale) => ROUTES[key][locale] === clean),
   );
+}
+
+/**
+ * The blog exists in English and Spanish only. English post slug -> Spanish
+ * post slug, for posts that have a Spanish version; the content tests check
+ * it against each Spanish post's translationOf. Plain data so the language
+ * switcher can use it in the browser.
+ */
+export const BLOG_TRANSLATIONS: Record<string, string> = {
+  "how-airline-pricing-works":
+    "como-fijan-las-aerolineas-el-precio-de-los-vuelos",
+  "how-to-build-a-travel-itinerary": "ejemplo-de-itinerario-de-viaje",
+  "what-is-a-flight-itinerary": "ejemplo-de-itinerario-de-vuelo",
+};
+
+export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;
+
+export type BlogPair = { en: string; es: string };
+
+/** The English and Spanish URLs of a blog page that exists in both. */
+export function blogPair(path: string): BlogPair | undefined {
+  const clean = cleanPath(path);
+  if (clean === BLOG_HUB.en || clean === BLOG_HUB.es) return { ...BLOG_HUB };
+  for (const [en, es] of Object.entries(BLOG_TRANSLATIONS)) {
+    const pair = { en: `${BLOG_HUB.en}/${en}`, es: `${BLOG_HUB.es}/${es}` };
+    if (clean === pair.en || clean === pair.es) return pair;
+  }
+  return undefined;
+}
+
+/** Whether a path has a version in the target language. */
+export function hasTranslation(path: string, target: Locale): boolean {
+  if (routeKeyForPath(path)) return true;
+  return blogPair(path) !== undefined && target !== "fr";
 }
 
 /** Language of a path, from its /es or /fr prefix. */
@@ -53,7 +90,10 @@ export function localeForPath(path: string): Locale {
  */
 export function switchPath(path: string, target: Locale): string {
   const key = routeKeyForPath(path);
-  return key ? ROUTES[key][target] : ROUTES.home[target];
+  if (key) return ROUTES[key][target];
+  const pair = blogPair(path);
+  if (pair && target !== "fr") return pair[target];
+  return ROUTES.home[target];
 }
 
 /** hreflang alternates for metadata, with English as x-default. */
@@ -64,6 +104,16 @@ export function languageAlternates(key: RouteKey): Record<string, string> {
     fr: ROUTES[key].fr,
     "x-default": ROUTES[key][DEFAULT_LOCALE],
   };
+}
+
+/** hreflang alternates for any path with translations, or undefined. */
+export function alternatesForPath(
+  path: string,
+): Record<string, string> | undefined {
+  const key = routeKeyForPath(path);
+  if (key) return languageAlternates(key);
+  const pair = blogPair(path);
+  return pair ? { en: pair.en, es: pair.es, "x-default": pair.en } : undefined;
 }
 
 /** Translated pages that are indexable (listed in the sitemap). */

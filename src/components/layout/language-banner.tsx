@@ -5,7 +5,7 @@ import { useState, useSyncExternalStore } from "react";
 
 import { LOCALES, type Locale } from "@/i18n/config";
 import { SITE_MESSAGES } from "@/i18n/messages/site";
-import { localeForPath, routeKeyForPath, switchPath } from "@/i18n/routes";
+import { hasTranslation, localeForPath, switchPath } from "@/i18n/routes";
 
 const STORAGE_KEY = "aiflytrip-language-banner-dismissed";
 const noopSubscribe = () => () => {};
@@ -39,9 +39,11 @@ export function LanguageBanner() {
   const suggestion = useSyncExternalStore(
     noopSubscribe,
     () => {
-      if (wasDismissed() || !routeKeyForPath(pathname)) return null;
+      if (wasDismissed()) return null;
       const preferred = preferredLocale();
-      return preferred && preferred !== localeForPath(pathname)
+      return preferred &&
+        preferred !== localeForPath(pathname) &&
+        hasTranslation(pathname, preferred)
         ? preferred
         : null;
     },

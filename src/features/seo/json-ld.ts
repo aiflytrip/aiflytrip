@@ -96,6 +96,7 @@ function articleBase(page: {
   description: string;
   lastReviewed: string;
   path: string;
+  locale?: string;
 }): Thing {
   return {
     headline: page.title,
@@ -105,7 +106,7 @@ function articleBase(page: {
     // First published with the content system; lastReviewed tracks updates.
     datePublished: "2026-10-02",
     dateModified: page.lastReviewed,
-    inLanguage: "en",
+    inLanguage: page.locale ?? "en",
     author: {
       "@type": "Organization",
       name: `${siteConfig.name} editorial team`,

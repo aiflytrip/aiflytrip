@@ -3,6 +3,7 @@ import { italy, rome } from "@/content/data/destinations/italy";
 import { japan, tokyo } from "@/content/data/destinations/japan";
 import { lisbon, portugal } from "@/content/data/destinations/portugal";
 import { blogPosts } from "@/content/data/blog-posts";
+import { spanishPosts } from "@/content/data/blog-posts-es";
 import { decemberPosts } from "@/content/data/blog-posts-dec-2026";
 import { novemberPosts } from "@/content/data/blog-posts-nov-2026";
 import { octoberPosts } from "@/content/data/blog-posts-oct-2026";
@@ -72,11 +73,17 @@ const guideInputs = [
   ...octoberPosts,
   ...blogPosts,
   ...planningGuides,
+  ...spanishPosts,
 ];
+
+export type GuideLocale = Guide["locale"];
+
+const guidePath = (g: Guide) =>
+  g.locale === "es" ? `/es/blog/${g.slug}` : `/blog/${g.slug}`;
 
 export const guides: Entry<Guide>[] = guideInputs
   .map((input) => GuideSchema.parse(input))
-  .map((g) => ({ ...g, path: `/blog/${g.slug}`, quality: assessGuide(g) }));
+  .map((g) => ({ ...g, path: guidePath(g), quality: assessGuide(g) }));
 
 /** Today's date (UTC), evaluated per call so scheduled posts appear on time. */
 const today = () => new Date().toISOString().slice(0, 10);
@@ -102,10 +109,11 @@ export const getCity = (country: string, slug: string) =>
   citiesOf(country).find((d) => d.slug === slug);
 export const getItinerary = (slug: string) =>
   published(itineraries).find((i) => i.slug === slug);
-export const getGuide = (slug: string) =>
-  published(guides).find((g) => g.slug === slug);
+export const getGuide = (slug: string, locale: GuideLocale = "en") =>
+  published(guides).find((g) => g.slug === slug && g.locale === locale);
 export const publishedItineraries = () => published(itineraries);
-export const publishedGuides = () => published(guides);
+export const publishedGuides = (locale: GuideLocale = "en") =>
+  published(guides).filter((g) => g.locale === locale);
 
 export const getDestinationByPath = (path: string) =>
   published(destinations).find((d) => d.path === path);

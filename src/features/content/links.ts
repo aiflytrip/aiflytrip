@@ -4,7 +4,7 @@ import {
   getItinerary,
   type Entry,
 } from "@/content/registry";
-import { type Destination } from "@/content/schema";
+import { type Destination, type Guide } from "@/content/schema";
 import { type RelatedLink } from "@/features/content/components/blocks";
 
 /**
@@ -36,9 +36,12 @@ export function itineraryLinks(slugs: string[]): RelatedLink[] {
   });
 }
 
-export function guideLinks(slugs: string[]): RelatedLink[] {
+export function guideLinks(
+  slugs: string[],
+  locale: Guide["locale"] = "en",
+): RelatedLink[] {
   return slugs.flatMap((slug) => {
-    const g = getGuide(slug);
+    const g = getGuide(slug, locale);
     return g
       ? [{ href: g.path, title: g.headline, description: g.description }]
       : [];

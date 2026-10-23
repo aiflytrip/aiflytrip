@@ -349,16 +349,16 @@ const es: HomeCopy = {
     {
       question: "¿Las guías de destino y el blog están en español?",
       answer:
-        "Por ahora, nuestras guías de destino, itinerarios y artículos del blog están en inglés. Traducimos el contenido poco a poco y solo publicamos traducciones revisadas.",
+        "El blog ya tiene una edición en español con nuestros artículos más leídos, y vamos añadiendo más. Las guías de destino y los itinerarios están por ahora en inglés. Solo publicamos traducciones revisadas.",
     },
   ],
   englishGuides: {
-    title: "Guías de destino y blog (en inglés)",
-    body: "Nuestras guías sobre cuándo ir, cuánto tiempo quedarse y qué ver, con fuentes oficiales, están por ahora en inglés.",
+    title: "Blog en español y guías de destino",
+    body: "Lee nuestro blog de viajes en español. Las guías sobre cuándo ir, cuánto tiempo quedarse y qué ver, con fuentes oficiales, están por ahora en inglés.",
     links: [
-      { href: "/destinations", label: "Guías de destino" },
-      { href: "/itineraries", label: "Itinerarios" },
-      { href: "/blog", label: "Blog de viajes" },
+      { href: "/es/blog", label: "Blog de viajes" },
+      { href: "/destinations", label: "Guías de destino (en inglés)" },
+      { href: "/itineraries", label: "Itinerarios (en inglés)" },
     ],
   },
   cta: {

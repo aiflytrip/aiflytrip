@@ -5,6 +5,7 @@ import { getGuide, isIndexable, publishedGuides } from "@/content/registry";
 import { GuideView } from "@/features/content/components/guide-view";
 import { pageMetadata } from "@/features/seo/metadata";
 import { ogImagePath } from "@/features/seo/og-targets";
+import { alternatesForPath } from "@/i18n/routes";
 
 // Scheduled posts go live on their publish date without a redeploy:
 // pages regenerate at most hourly (ISR).
@@ -30,6 +31,7 @@ export async function generateMetadata({
     modifiedTime: page.lastReviewed,
     noindex: !isIndexable(page),
     image: ogImagePath(page.path),
+    languages: alternatesForPath(page.path),
   });
 }
 
