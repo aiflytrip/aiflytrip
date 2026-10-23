@@ -255,4 +255,35 @@ export const SOURCES = {
     publisher: "World Health Organization",
     url: "https://www.who.int/health-topics/travel-and-health",
   },
+  // AI trip planners, cited from each tool's own site.
+  googleGeminiTrips: {
+    label: "How Gemini plans detailed vacation itineraries",
+    publisher: "Google",
+    url: "https://blog.google/products-and-platforms/products/gemini/how-gemini-plans-trips/",
+  },
+  mindtrip: {
+    label: "Mindtrip: AI travel planning and booking",
+    publisher: "Mindtrip",
+    url: "https://mindtrip.ai/",
+  },
+  laylaFaq: {
+    label: "Layla frequently asked questions",
+    publisher: "Layla",
+    url: "https://layla.ai/faq",
+  },
+  wanderlog: {
+    label: "Wanderlog trip planner",
+    publisher: "Wanderlog",
+    url: "https://wanderlog.com/",
+  },
+  wonderplan: {
+    label: "Wonderplan AI trip planner",
+    publisher: "Wonderplan",
+    url: "https://wonderplan.ai/",
+  },
+  tripGenie: {
+    label: "Introducing TripGenie, Trip.com's AI travel assistant",
+    publisher: "Trip.com Group",
+    url: "https://www.trip.com/newsroom/introducing-tripgenie-groundbreaking-ai-travel-assistant",
+  },
 } as const;
