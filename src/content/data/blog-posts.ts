@@ -483,7 +483,7 @@ export const blogPosts: PostInput[] = [
         heading: "Turn it into a plan you can follow",
         paragraphs: [
           "Write each day as morning, afternoon and evening, with the area you will be in and one or two options for meals nearby. Keep a short list of backup ideas for bad weather or closures. This structure is easy to follow on the move and easy to adjust.",
-          "If you would rather start from a draft, our [AI trip planner](/travel-planner) builds a day-by-day itinerary in this format from your dates, budget, pace and interests, which you can then refine. Always double-check opening days, prices and entry requirements with official sources before you travel.",
+          "If you would rather start from a draft, our [AI trip planner](/travel-planner) builds a day-by-day itinerary in this format from your dates, budget, pace and interests, which you can then refine; our comparison of the [best AI trip planners](/blog/best-ai-trip-planners) shows how it differs from other tools. Always double-check opening days, prices and entry requirements with official sources before you travel.",
         ],
         bullets: [
           "Two or three anchors, not a long list",
@@ -543,6 +543,7 @@ export const blogPosts: PostInput[] = [
         "how-to-plan-a-trip",
         "how-many-days-for-a-trip",
         "what-is-a-flight-itinerary",
+        "best-ai-trip-planners",
         "airport-to-city-paris-rome-tokyo-lisbon",
       ],
     },
@@ -1088,6 +1089,183 @@ export const blogPosts: PostInput[] = [
       SOURCES.eu1008,
       SOURCES.usDotAirConsumer,
       SOURCES.ukCaaHolidayBooking,
+    ],
+  },
+  {
+    slug: "best-ai-trip-planners",
+    photo: "plan-trip",
+    category: "planning",
+    status: "published",
+    lastReviewed: "2026-10-22",
+    title: "Best free AI trip planners: 8 tools compared",
+    description:
+      "We compared 8 free AI trip planners, from Google Gemini and ChatGPT to Mindtrip, Wanderlog and Layla: what each does well, what's free and who it suits.",
+    headline:
+      "Best AI trip planners compared: free options and what each does best",
+    intro:
+      "The best AI trip planner depends on what you need. For a quick first draft, a general assistant such as ChatGPT or Google Gemini works well. For planning on a map with friends, Wanderlog stands out. For planning and booking in one place, look at Mindtrip or Layla. For a free day-by-day plan with a budget estimate and no sign-up, there's AIFlyTrip. Below is a quick answer for each need, then what every tool does, what's free and what to watch for.",
+    sections: [
+      {
+        heading: "Quick answer: the best AI trip planner for each need",
+        paragraphs: [
+          "All eight tools can draft an itinerary for free. They differ in what happens next: whether you can see it on a map, edit it with friends, book from it or keep it without an account.",
+        ],
+        bullets: [
+          "Best for a quick first draft: ChatGPT",
+          "Best if you already plan in Google Maps: Google Gemini and AI Mode in Search",
+          "Best for planning and booking in one place: Mindtrip",
+          "Best for chat-based planning with optional human help: Layla",
+          "Best for map-based planning with friends: Wanderlog",
+          "Best for a simple itinerary saved as a PDF: Wonderplan",
+          "Best if you already book with Trip.com: TripGenie",
+          "Best for a free plan with no sign-up and a budget estimate: AIFlyTrip",
+        ],
+      },
+      {
+        heading: "How we compared them",
+        paragraphs: [
+          "We looked at each tool's own website and help pages in October 2026 and asked the same questions of each: what does it create, what can you do for free, do you need an account, can you edit the plan, does it show a map, and can you book through it. We have not given scores, because features and free allowances change often. Check a tool's current plans on its own site before you rely on a feature.",
+          "A note on bias: AIFlyTrip publishes this guide, and our planner is one of the tools listed. We describe it the same way as the others, including what it does not do.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "ChatGPT: best for a quick first draft",
+        paragraphs: [
+          "A general AI assistant is often the fastest way to get a rough plan. Describe your trip in a sentence or two and you get a day-by-day draft you can reshape by replying. It handles unusual requests well, such as a slow trip with a toddler or a route built around train journeys.",
+          "The trade-off is that it is a conversation, not a planner. There is no built-in map of your days and no booking, and details such as opening days or journey times may be out of date unless the tool checks the web. Use it to shape ideas, then check the specifics.",
+        ],
+        bullets: [],
+      },
+      {
+        heading:
+          "Google Gemini and AI Mode: best if you already use Google Maps",
+        paragraphs: [
+          "Google says Gemini draws on Google Maps, Flights and Hotels to build itineraries and takes travel time between places into account, and AI Mode in Search can build a trip plan in a side panel from a short description. If you allow it, Gemini can also read flight and hotel confirmations in Gmail and plan around them.",
+          "Plans can be exported to Google Docs or Gmail, or saved as a list in Google Maps, which is handy if you navigate with Maps on the trip. Features vary by country and language, and you need a Google account.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Mindtrip: best for planning and booking in one place",
+        paragraphs: [
+          "Mindtrip combines an AI chat with a trip page that keeps your itinerary, saved ideas and bookings together. You can start from a question, a photo or a link to an article or video, and it suggests places, restaurants and activities that you can add to your days.",
+          "It lets you find and book flights, stays and restaurants from the same place, and you can plan with friends or family. Planning is free; you set up a profile so it can learn your travel style.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Layla: best for chat-based planning with optional human help",
+        paragraphs: [
+          "Layla turns a chat about your ideas and preferences into a trip plan. According to its FAQ, planning is free, with no subscription or planning fee, and you pay only for the travel arrangements you choose to book.",
+          "You can book hotels, flights, transfers and activities yourself, or ask one of its human travel advisers to handle the arrangements. That makes it a good fit if you want AI speed but would like a person to step in for a complicated trip.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Wanderlog: best for map-based planning with friends",
+        paragraphs: [
+          "Wanderlog shows your itinerary and a map side by side, which makes it easy to see whether a day zig-zags across a city. Several people can edit a trip in real time, and it can import flight and hotel reservations, track expenses and split costs.",
+          "The free version covers the core planner. Some extras, such as route optimisation and more AI assistance, are part of its paid Pro plan, so check which features you need before you commit.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Wonderplan: best for a simple itinerary saved as a PDF",
+        paragraphs: [
+          "Wonderplan generates a custom itinerary from your destination, dates, interests and budget, lets you reorder the plan and download it as a PDF to keep offline. It describes itself as free, at least for now.",
+          "You need to log in to use all of its features. It suits travellers who want a tidy plan to print or save rather than a full booking app.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Trip.com TripGenie: best if you already book with Trip.com",
+        paragraphs: [
+          "TripGenie is the AI assistant inside Trip.com's app and website. It answers by text or voice, suggests sights and places to shop with maps, images and booking links, and saves a structured itinerary to your trips.",
+          "It is designed around booking through Trip.com, so it fits best if you already use that site for flights and hotels.",
+        ],
+        bullets: [],
+      },
+      {
+        heading:
+          "AIFlyTrip: best for a free plan with no sign-up and a budget estimate",
+        paragraphs: [
+          "AIFlyTrip turns your destination, dates, budget, pace and interests into a day-by-day itinerary grouped by area, with a suggested flight and an estimate of the trip's total cost. You can create a plan without an account; you only need one to keep plans across devices or to buy the optional printable PDF, which is the only paid extra.",
+          "What it does not do: AIFlyTrip doesn't book flights or hotels, and its flight options currently come from a test environment, so they are examples for planning rather than live fares. It is a planning tool, so pair it with an airline or booking site when you are ready to buy. You can try the [AI trip planner](/travel-planner) for your own dates.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "How to get a better itinerary from any AI trip planner",
+        paragraphs: [
+          "Every tool gives better results when you give it more to work with. A vague request gets a generic plan; a specific one gets a plan you can actually use.",
+        ],
+        bullets: [
+          "Give your dates, arrival and departure times, and where you are staying",
+          "Say your pace: one or two main things a day, or as much as possible",
+          "Name your anchors, the few things that would make the trip worthwhile",
+          "Mention constraints such as mobility, children, diet or a budget per day",
+          "Ask it to group each day by area and to include travel time between places",
+          "Ask for a backup idea for each day in case of rain or a closure",
+        ],
+      },
+      {
+        heading: "What to check before you rely on an AI itinerary",
+        paragraphs: [
+          "AI planners are good at structure and ideas but can be wrong about details. Treat any itinerary, ours included, as a draft and confirm the things that would spoil a day if they were wrong. Our guide to [making a travel itinerary](/blog/how-to-build-a-travel-itinerary) shows what a realistic plan looks like, with a full example.",
+        ],
+        bullets: [
+          "Opening days and hours, on each attraction's official website",
+          "Whether a sight needs a timed ticket booked in advance",
+          "Real journey times, especially for day trips and moves between cities",
+          "Current prices, which AI tools often estimate from older data",
+          "Entry requirements for your nationality, from official government sources",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What is the best free AI trip planner?",
+        answer:
+          "It depends on how you plan. ChatGPT and Google Gemini are best for a quick draft, Wanderlog for map-based planning with friends, Mindtrip and Layla for planning and booking together, and AIFlyTrip for a free day-by-day plan with a budget estimate and no sign-up.",
+      },
+      {
+        question: "Is there an AI trip planner that is completely free?",
+        answer:
+          "Several let you plan for free. Layla says planning carries no subscription or fee, Mindtrip is free to use, and AIFlyTrip lets you create plans without an account. Others, such as Wanderlog, have a free version with some features in a paid plan.",
+      },
+      {
+        question: "Can an AI trip planner book my flights and hotels?",
+        answer:
+          "Some can. Mindtrip, Layla and Trip.com's TripGenie connect planning with booking. Others, including ChatGPT, Wonderplan and AIFlyTrip, help you plan, and you book with an airline or booking site yourself.",
+      },
+      {
+        question: "Can AI plan a road trip?",
+        answer:
+          "Yes, general assistants such as ChatGPT and Gemini can draft a road trip with stops and driving days, and map-based planners help you see the route. Always check real driving times and opening hours in a maps app before you set off.",
+      },
+      {
+        question: "Are AI trip planners accurate?",
+        answer:
+          "They are good at structure and suggestions but can get details wrong, such as opening days, prices or journey times. Use the plan as a draft and confirm anything time-sensitive with official sources before you travel.",
+      },
+    ],
+    related: {
+      destinations: [],
+      itineraries: [],
+      guides: [
+        "how-to-build-a-travel-itinerary",
+        "how-to-plan-a-trip",
+        "how-many-days-for-a-trip",
+      ],
+    },
+    sources: [
+      SOURCES.googleGeminiTrips,
+      SOURCES.mindtrip,
+      SOURCES.laylaFaq,
+      SOURCES.wanderlog,
+      SOURCES.wonderplan,
+      SOURCES.tripGenie,
     ],
   },
 ];
