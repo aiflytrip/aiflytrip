@@ -2,39 +2,45 @@ import type { ReactNode } from "react";
 
 import { pageMetadata } from "@/features/seo/metadata";
 import {
-  SPANISH_TOOLS,
-  type SpanishToolKey,
-} from "@/features/tools/spanish-tools";
+  LOCALIZED_TOOLS,
+  type LocalizedToolKey,
+  type ToolLocale,
+} from "@/features/tools/localized-tools";
 import { ToolPageShell } from "@/features/tools/tool-page";
-import { alternatesForPath } from "@/i18n/routes";
+import { languageAlternates } from "@/i18n/routes";
 
-export function spanishToolMetadata(key: SpanishToolKey) {
-  const tool = SPANISH_TOOLS[key];
+export function localizedToolMetadata(
+  key: LocalizedToolKey,
+  locale: ToolLocale,
+) {
+  const tool = LOCALIZED_TOOLS[locale][key];
   return pageMetadata({
     title: tool.copy.meta.title,
     description: tool.copy.meta.description,
     path: tool.path,
-    locale: "es",
-    languages: alternatesForPath(tool.path),
+    locale,
+    languages: languageAlternates(key),
   });
 }
 
-/** The Spanish page of a tool that exists in English and Spanish only. */
-export function SpanishToolPage({
+/** The Spanish or French page of a packing or baggage tool. */
+export function LocalizedToolPage({
   tool,
+  locale,
   afterTool,
   children,
 }: {
-  tool: SpanishToolKey;
+  tool: LocalizedToolKey;
+  locale: ToolLocale;
   afterTool?: ReactNode;
   children: ReactNode;
 }) {
-  const t = SPANISH_TOOLS[tool];
+  const t = LOCALIZED_TOOLS[locale][tool];
   return (
     <ToolPageShell
       copy={t.copy}
       path={t.path}
-      locale="es"
+      locale={locale}
       placement={t.placement}
       afterTool={afterTool}
     >

@@ -1,5 +1,13 @@
 import { type Locale } from "@/i18n/config";
-import { BLOG_HUB, EN_ES_PAGES, plannerHref, route } from "@/i18n/routes";
+import { BLOG_HUB, plannerHref, route } from "@/i18n/routes";
+
+/** The packing and baggage tools, linked from the Spanish and French footers. */
+const BAG_TOOL_KEYS = [
+  "packing",
+  "bagSize",
+  "luggageWeight",
+  "baggageFees",
+] as const;
 
 /**
  * Site chrome (header, footer, language switcher, suggestion banner) per
@@ -70,6 +78,7 @@ function localisedChrome(
     budget: string;
     layover: string;
     days: string;
+    bagTools: Record<(typeof BAG_TOOL_KEYS)[number], string>;
     createPlan: string;
     compareFlights: string;
     about: string;
@@ -104,27 +113,10 @@ function localisedChrome(
           { href: route("budget", locale), label: text.budget },
           { href: route("layover", locale), label: text.layover },
           { href: route("days", locale), label: text.days },
-          // The packing and bag tools have Spanish pages but no French ones yet.
-          ...(locale === "es"
-            ? [
-                {
-                  href: EN_ES_PAGES.packing.es,
-                  label: "Lista de equipaje",
-                },
-                {
-                  href: EN_ES_PAGES.bagSize.es,
-                  label: "Medidas del equipaje de mano",
-                },
-                {
-                  href: EN_ES_PAGES.luggageWeight.es,
-                  label: "Peso de la maleta",
-                },
-                {
-                  href: EN_ES_PAGES.baggageFees.es,
-                  label: "Coste del equipaje",
-                },
-              ]
-            : []),
+          ...BAG_TOOL_KEYS.map((key) => ({
+            href: route(key, locale),
+            label: text.bagTools[key],
+          })),
           { href: "/flights", label: text.compareFlights, englishOnly: true },
         ],
       },
@@ -170,6 +162,12 @@ const esChrome = localisedChrome("es", {
   budget: "Calculadora de presupuesto de viaje",
   layover: "Comprobador de tiempo de escala",
   days: "¿Cuántos días necesito?",
+  bagTools: {
+    packing: "Lista de equipaje",
+    bagSize: "Medidas del equipaje de mano",
+    luggageWeight: "Peso de la maleta",
+    baggageFees: "Coste del equipaje",
+  },
   createPlan: "Crear un plan de viaje",
   compareFlights: "Comparar vuelos",
   about: "Sobre AIFlyTrip",
@@ -220,6 +218,12 @@ const frChrome = localisedChrome("fr", {
   budget: "Calculateur de budget de voyage",
   layover: "Vérificateur de temps de correspondance",
   days: "Combien de jours faut-il ?",
+  bagTools: {
+    packing: "Liste de valise",
+    bagSize: "Taille de bagage cabine",
+    luggageWeight: "Poids de la valise",
+    baggageFees: "Frais de bagages",
+  },
   createPlan: "Créer un plan de voyage",
   compareFlights: "Comparer les vols",
   about: "À propos d'AIFlyTrip",

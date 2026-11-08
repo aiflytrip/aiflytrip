@@ -7,7 +7,7 @@
  */
 
 import {
-  PACKING_ES,
+  PACKING_TRANSLATIONS,
   PACKING_TIPS,
   type PackingLocale,
 } from "@/features/tools/packing/packing-text";
@@ -351,15 +351,21 @@ export function generatePackingList(
 
   return {
     outfitDays: n,
-    categories: locale === "en" ? categories : translate(categories),
+    categories:
+      locale === "en"
+        ? categories
+        : translate(categories, PACKING_TRANSLATIONS[locale]),
     tips,
     itemCount: categories.reduce((sum, c) => sum + c.items.length, 0),
   };
 }
 
-/** Spanish titles, labels and notes; English is kept if one is missing. */
-function translate(categories: PackingCategory[]): PackingCategory[] {
-  const tr = (text: string) => PACKING_ES[text] ?? text;
+/** Translated titles, labels and notes; English is kept if one is missing. */
+function translate(
+  categories: PackingCategory[],
+  table: Record<string, string>,
+): PackingCategory[] {
+  const tr = (text: string) => table[text] ?? text;
   return categories.map((c) => ({
     ...c,
     title: tr(c.title),

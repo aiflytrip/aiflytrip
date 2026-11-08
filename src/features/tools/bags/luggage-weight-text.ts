@@ -4,7 +4,11 @@ import {
   type WeightVerdict,
 } from "@/features/tools/bags/luggage-weight";
 
-export type WeightLocale = "en" | "es";
+export type WeightLocale = "en" | "es" | "fr";
+
+/** French "de", elided before a vowel or mute h: "d'ordinateurs". */
+const de = (word: string) =>
+  /^[aeiouyhàâéèêîôû]/i.test(word) ? `d'${word}` : `de ${word}`;
 
 /** Interface text for the luggage weight calculator, in English and Spanish. */
 export type WeightText = {
@@ -166,6 +170,84 @@ export const WEIGHT_TEXT: Record<WeightLocale, WeightText> = {
       copy: "Copiar enlace para compartir",
       copied: "Enlace copiado",
       prompt: "Copia este enlace para compartir tu resultado:",
+    },
+  },
+  fr: {
+    verdicts: {
+      under: "Dans votre limite",
+      close: "Proche de votre limite",
+      over: "Au-dessus de votre limite",
+      incomplete: "Ajoutez vos affaires",
+    },
+    items: {
+      tshirt: "T-shirts ou hauts",
+      shirt: "Chemises ou chemisiers",
+      jumper: "Pulls ou polaires",
+      jeans: "Jeans",
+      trousers: "Pantalons légers ou jupes",
+      shorts: "Shorts",
+      dress: "Robes",
+      underwear: "Sous-vêtements",
+      socks: "Paires de chaussettes",
+      sleepwear: "Pyjamas",
+      swimwear: "Maillots de bain",
+      jacket: "Vestes légères",
+      coat: "Manteaux d'hiver",
+      trainers: "Paires de baskets",
+      shoes: "Paires de chaussures de ville",
+      sandals: "Paires de sandales",
+      toiletries: "Trousses de toilette",
+      laptop: "Ordinateurs portables",
+      tablet: "Tablettes ou liseuses",
+      camera: "Appareils photo",
+      chargers: "Lots de chargeurs et câbles",
+      books: "Livres",
+      hairdryer: "Sèche-cheveux ou lisseurs",
+      towel: "Serviettes",
+    },
+    wear: {
+      jumper: "un pull",
+      jacket: "votre veste",
+      coat: "votre manteau",
+      trainers: "vos baskets",
+      shoes: "vos chaussures de ville",
+    },
+    and: "et",
+    formLabel: "Poids du bagage",
+    units: "Unités",
+    howToCheck: "Comment voulez-vous vérifier ?",
+    modeEstimate: "Estimer ce que j'emporte",
+    modeWeighed: "J'ai pesé ma valise",
+    limitTitle: "Votre poids maximum, selon votre réservation",
+    limit: (unit) => `Limite (${unit})`,
+    presetsNote:
+      "Les boutons sont des limites courantes, pas la règle d'une compagnie. Utilisez la limite de votre tarif.",
+    packedBag: (unit) => `Votre valise remplie (${unit})`,
+    emptyBag: (unit) => `Valise vide (${unit})`,
+    emptyBagNote:
+      "Les valises à roulettes pèsent souvent quelques kilos avant même d'y mettre quoi que ce soit.",
+    packingTitle: "Ce que vous emportez",
+    fewer: (item) => `Moins ${de(item)}`,
+    more: (item) => `Plus ${de(item)}`,
+    reset: "Réinitialiser",
+    resultTitle: "Votre valise",
+    about: "Environ ",
+    under: (margin, limit) => `${margin} sous votre limite de ${limit}`,
+    over: (margin, limit) => `${margin} au-dessus de votre limite de ${limit}`,
+    emptyBagLine: "Valise vide",
+    lighterGroups: (n) => `et ${n} groupes plus légers`,
+    wearAdvice: (items, saving) =>
+      `Porter ${items} dans l'avion retirerait environ ${saving} de la valise.`,
+    overAdvice:
+      "Déplacez les affaires lourdes dans un bagage inclus dans votre billet, ou ajoutez de la franchise à la réservation : c'est généralement moins cher que de payer à l'aéroport.",
+    estimateNote:
+      "Les poids des articles sont des moyennes habituelles, donc le poids réel peut varier. Pesez la valise remplie avant de partir.",
+    weighedNote:
+      "Pesez la valise complètement faite, avec tout ce que vous y accrocherez, et gardez un peu de marge pour vos achats en voyage.",
+    share: {
+      copy: "Copier le lien de partage",
+      copied: "Lien copié",
+      prompt: "Copiez ce lien pour partager votre résultat :",
     },
   },
 };

@@ -1,15 +1,15 @@
 import { LuggageWeightCalculator } from "@/features/tools/bags/luggage-weight-calculator";
 import {
-  SpanishToolPage,
-  spanishToolMetadata,
-} from "@/features/tools/spanish-tool-page";
+  LocalizedToolPage,
+  localizedToolMetadata,
+} from "@/features/tools/localized-tool-page";
 
-export const metadata = spanishToolMetadata("luggageWeight");
+export const metadata = localizedToolMetadata("luggageWeight", "es");
 
 export default function PesoDeLaMaletaPage() {
   return (
-    <SpanishToolPage tool="luggageWeight">
+    <LocalizedToolPage tool="luggageWeight" locale="es">
       <LuggageWeightCalculator locale="es" />
-    </SpanishToolPage>
+    </LocalizedToolPage>
   );
 }

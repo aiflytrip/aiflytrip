@@ -1,27 +1,16 @@
-import { type ToolPageCopy } from "@/i18n/pages/tools";
-import { EN_ES_PAGES } from "@/i18n/routes";
+import {
+  type LocalizedTool,
+  type LocalizedToolKey,
+} from "@/features/tools/localized-tools";
+import { route } from "@/i18n/routes";
 
 /**
- * Free tools that exist in English and Spanish only (no French yet). Their
- * URL pairs live in EN_ES_PAGES so hreflang, the sitemap and the language
- * switcher pick them up. Inline links use [label](/path) and are checked by
- * tests; links to English-only pages say so in the text.
+ * Spanish pages of the packing and baggage tools. Inline links use
+ * [label](/path) and are checked by tests.
  */
-
-export type SpanishToolKey = keyof typeof EN_ES_PAGES;
-
-export type SpanishTool = {
-  path: string;
-  /** Analytics placement for the planner call to action. */
-  placement: string;
-  /** Card on the Spanish tools hub. */
-  card: { title: string; body: string };
-  copy: ToolPageCopy;
-};
-
-export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
+export const SPANISH_TOOLS: Record<LocalizedToolKey, LocalizedTool> = {
   packing: {
-    path: EN_ES_PAGES.packing.es,
+    path: route("packing", "es"),
     placement: "packing_list_generator",
     card: {
       title: "Generador de lista de equipaje",
@@ -113,7 +102,7 @@ export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
     },
   },
   bagSize: {
-    path: EN_ES_PAGES.bagSize.es,
+    path: route("bagSize", "es"),
     placement: "bag_size_checker",
     card: {
       title: "Comprobador de medidas del equipaje de mano",
@@ -200,7 +189,7 @@ export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
     },
   },
   luggageWeight: {
-    path: EN_ES_PAGES.luggageWeight.es,
+    path: route("luggageWeight", "es"),
     placement: "luggage_weight_calculator",
     card: {
       title: "Calculadora de peso de la maleta",
@@ -275,7 +264,7 @@ export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
     },
   },
   baggageFees: {
-    path: EN_ES_PAGES.baggageFees.es,
+    path: route("baggageFees", "es"),
     placement: "baggage_fee_calculator",
     card: {
       title: "Calculadora del coste del equipaje",
@@ -352,8 +341,3 @@ export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
     },
   },
 };
-
-export const SPANISH_TOOL_KEYS = Object.keys(SPANISH_TOOLS) as SpanishToolKey[];
-export const SPANISH_TOOL_PATHS = SPANISH_TOOL_KEYS.map(
-  (key) => SPANISH_TOOLS[key].path,
-);

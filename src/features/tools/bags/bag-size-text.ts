@@ -1,7 +1,7 @@
 import { type ShareLabels } from "@/features/tools/controls";
 import { type SizeVerdict } from "@/features/tools/bags/bag-size";
 
-export type BagSizeLocale = "en" | "es";
+export type BagSizeLocale = "en" | "es" | "fr";
 
 /** Interface text for the bag size checker, in English and Spanish. */
 export type BagSizeText = {
@@ -176,6 +176,74 @@ export const BAG_SIZE_TEXT: Record<BagSizeLocale, BagSizeText> = {
       copy: "Copiar enlace para compartir",
       copied: "Enlace copiado",
       prompt: "Copia este enlace para compartir tu resultado:",
+    },
+  },
+  fr: {
+    verdicts: {
+      fits: "Il passe",
+      tight: "Il passe, mais tout juste",
+      "too-big": "Trop grand",
+      incomplete: "Saisissez les dimensions",
+    },
+    sides: {
+      longest: "Côté le plus long",
+      middle: "Côté intermédiaire",
+      shortest: "Côté le plus court",
+    },
+    presets: {
+      "Small under-seat bag": "Petit sac sous le siège",
+      "Larger personal item": "Grand article personnel",
+      "Cabin bag": "Bagage cabine",
+      "Larger cabin bag": "Grand bagage cabine",
+    },
+    formLabel: "Dimensions du bagage",
+    units: "Unités",
+    unitMetric: "cm et kg",
+    unitImperial: "pouces et lb",
+    yourBag: (unit) => `Votre bagage, rempli (${unit})`,
+    length: "Longueur",
+    width: "Largeur",
+    depth: "Profondeur",
+    includeExtras:
+      "Comptez les roulettes, les poignées et les poches extérieures.",
+    allowance: "Votre franchise, selon votre réservation",
+    limitGivenAs: "La limite est indiquée en",
+    modeDimensions: "Longueur × largeur × profondeur",
+    modeTotal: "Somme des trois côtés",
+    presetsNote:
+      "Les boutons sont des tailles courantes, pas la règle d'une compagnie. Saisissez la taille de votre réservation.",
+    totalLimit: (unit) => `Limite totale (${unit})`,
+    weightTitle: "Poids (facultatif)",
+    bagWeight: (unit) => `Poids du bagage (${unit})`,
+    weightLimit: (unit) => `Poids maximum (${unit})`,
+    reset: "Réinitialiser",
+    resultTitle: "Votre bagage",
+    total: (size) => `Total ${size}`,
+    under: (amount) => `${amount} sous la limite`,
+    over: (amount) => `${amount} au-dessus de la limite`,
+    sideOf: (bag, limit, unit) => `${bag} sur ${limit} ${unit}`,
+    tooBig: (amount) => `dépasse de ${amount}`,
+    spare: (amount) => `${amount} de marge`,
+    weight: "Poids",
+    advice: {
+      turn: "Il passe si vous le tournez : placez le côté le plus long du bagage dans le sens du côté le plus long de la limite.",
+      tooBig:
+        "S'il ne passe pas, la compagnie peut vous faire payer à la porte d'embarquement ou le mettre en soute. Un sac plus petit ou plus souple, ou déplacer des affaires dans un bagage inclus, l'évite.",
+      tight:
+        "Il reste très peu de marge. Mesurez à nouveau le bagage rempli, roulettes, poignées et poches extérieures comprises.",
+      overWeight:
+        "Le bagage dépasse le poids maximum. Retirez les affaires les plus lourdes ou déplacez-les dans un bagage inclus dans votre billet.",
+      exactFare:
+        "Utilisez la limite de votre tarif exact, telle qu'indiquée dans votre réservation : les franchises varient selon les compagnies, les tarifs et les lignes, et elles changent.",
+    },
+    enterSizes:
+      "Saisissez les trois côtés de votre bagage et votre franchise pour le vérifier.",
+    disclaimer:
+      "À titre indicatif. Le gabarit de la compagnie à l'aéroport a le dernier mot.",
+    share: {
+      copy: "Copier le lien de partage",
+      copied: "Lien copié",
+      prompt: "Copiez ce lien pour partager votre résultat :",
     },
   },
 };

@@ -20,9 +20,10 @@ import {
   ENGLISH_TOOLS,
 } from "@/features/tools/english-tools";
 import {
-  SPANISH_TOOL_KEYS,
-  SPANISH_TOOLS,
-} from "@/features/tools/spanish-tools";
+  BAG_TOOLS_HEADING,
+  LOCALIZED_TOOL_KEYS,
+  LOCALIZED_TOOLS,
+} from "@/features/tools/localized-tools";
 import {
   formatMinutes,
   formatMoney,
@@ -361,11 +362,11 @@ export function ToolsHub({ locale }: { locale: Locale }) {
         </ContentSection>
       ) : null}
 
-      {locale === "es" ? (
-        <ContentSection id="equipaje" title="Herramientas de equipaje">
+      {locale !== "en" ? (
+        <ContentSection id="bagages" title={BAG_TOOLS_HEADING[locale]}>
           <ul className="grid gap-5 sm:grid-cols-2">
-            {SPANISH_TOOL_KEYS.map((key) => {
-              const tool = SPANISH_TOOLS[key];
+            {LOCALIZED_TOOL_KEYS.map((key) => {
+              const tool = LOCALIZED_TOOLS[locale][key];
               return (
                 <li key={key}>
                   <Link

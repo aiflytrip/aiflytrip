@@ -1,15 +1,15 @@
 import { BagSizeChecker } from "@/features/tools/bags/bag-size-checker";
 import {
-  SpanishToolPage,
-  spanishToolMetadata,
-} from "@/features/tools/spanish-tool-page";
+  LocalizedToolPage,
+  localizedToolMetadata,
+} from "@/features/tools/localized-tool-page";
 
-export const metadata = spanishToolMetadata("bagSize");
+export const metadata = localizedToolMetadata("bagSize", "es");
 
 export default function MedidasEquipajeDeManoPage() {
   return (
-    <SpanishToolPage tool="bagSize">
+    <LocalizedToolPage tool="bagSize" locale="es">
       <BagSizeChecker locale="es" />
-    </SpanishToolPage>
+    </LocalizedToolPage>
   );
 }

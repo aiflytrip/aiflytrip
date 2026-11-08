@@ -6,11 +6,11 @@ import {
 import { PackingListGenerator } from "@/features/tools/packing/packing-list-generator";
 import { PackingListView } from "@/features/tools/packing/packing-list-view";
 import {
-  SpanishToolPage,
-  spanishToolMetadata,
-} from "@/features/tools/spanish-tool-page";
+  LocalizedToolPage,
+  localizedToolMetadata,
+} from "@/features/tools/localized-tool-page";
 
-export const metadata = spanishToolMetadata("packing");
+export const metadata = localizedToolMetadata("packing", "es");
 
 /** The generator's own 7-day list, rendered on the server as an example. */
 function SevenDayExample() {
@@ -34,8 +34,12 @@ function SevenDayExample() {
 
 export default function ListaDeEquipajePage() {
   return (
-    <SpanishToolPage tool="packing" afterTool={<SevenDayExample />}>
+    <LocalizedToolPage
+      tool="packing"
+      locale="es"
+      afterTool={<SevenDayExample />}
+    >
       <PackingListGenerator locale="es" />
-    </SpanishToolPage>
+    </LocalizedToolPage>
   );
 }

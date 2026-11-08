@@ -14,7 +14,7 @@ export function englishToolMetadata(key: EnglishToolKey) {
     title: tool.copy.meta.title,
     description: tool.copy.meta.description,
     path: tool.path,
-    // Tools with a Spanish version (EN_ES_PAGES) carry hreflang alternates.
+    // Tools translated in ROUTES carry hreflang alternates.
     languages: alternatesForPath(tool.path),
   });
 }

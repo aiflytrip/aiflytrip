@@ -4,7 +4,7 @@ import {
   type FeeLineKey,
 } from "@/features/tools/bags/baggage-fees";
 
-export type FeesLocale = "en" | "es";
+export type FeesLocale = "en" | "es" | "fr";
 
 type FieldKey = Exclude<keyof FareOption, "name">;
 
@@ -149,6 +149,65 @@ export const FEES_TEXT: Record<FeesLocale, FeesText> = {
       copy: "Copiar enlace para compartir",
       copied: "Enlace copiado",
       prompt: "Copia este enlace para compartir tu resultado:",
+    },
+  },
+  fr: {
+    lines: {
+      fares: "Billets",
+      bags: "Bagages",
+      seats: "Sièges",
+      other: "Autres frais",
+      transport: "Trajets vers et depuis l'aéroport",
+    },
+    fields: {
+      fare: { label: "Prix du billet", hint: "Par personne, voyage complet" },
+      cabinBag: { label: "Bagage cabine", hint: "Par personne et par vol" },
+      checkedBags: {
+        label: "Bagages en soute",
+        hint: "Nombre par personne",
+      },
+      checkedBagFee: {
+        label: "Prix par bagage en soute",
+        hint: "Par bagage et par vol",
+      },
+      seat: { label: "Choix du siège", hint: "Par personne et par vol" },
+      other: {
+        label: "Autres frais",
+        hint: "Par personne : enregistrement, embarquement prioritaire, paiement",
+      },
+      transport: {
+        label: "Transport vers l'aéroport",
+        hint: "Tout le groupe, aller et retour",
+      },
+    },
+    optionNames: ["Tarif A", "Tarif B", "Tarif C"],
+    formLabel: "Billets à comparer",
+    currency: "Devise",
+    travellers: "Voyageurs",
+    trip: "Voyage",
+    returnTrip: "Aller-retour",
+    oneWay: "Aller simple",
+    name: "Nom",
+    remove: "Retirer",
+    addFare: "Ajouter un autre billet",
+    reset: "Réinitialiser",
+    resultTitle: "Coût réel de chaque billet",
+    enterFare:
+      "Saisissez le prix d'au moins un billet pour voir son coût réel.",
+    misleading: (lowest, cheapest, saving) =>
+      `${lowest} a le billet le moins cher, mais ${cheapest} revient moins cher avec les suppléments, de ${saving}.`,
+    cheapest: (name, spread) =>
+      `${name} est l'option la moins chère au total${spread ? `, ${spread} de moins que la plus chère` : ""}.`,
+    tableHeading: (travellers, returnTrip) =>
+      `${travellers} ${travellers === 1 ? "voyageur" : "voyageurs"}, ${returnTrip ? "aller-retour" : "aller simple"}`,
+    total: "Total",
+    perPerson: "Par personne",
+    disclaimer:
+      "Utilise les prix que vous saisissez. Les frais varient selon la compagnie, le tarif, la ligne et la date, et sont souvent moins chers ajoutés à la réservation qu'à l'aéroport.",
+    share: {
+      copy: "Copier le lien de partage",
+      copied: "Lien copié",
+      prompt: "Copiez ce lien pour partager votre résultat :",
     },
   },
 };

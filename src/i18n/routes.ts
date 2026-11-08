@@ -23,6 +23,26 @@ export const ROUTES = {
     es: "/es/herramientas/cuantos-dias",
     fr: "/fr/outils/combien-de-jours",
   },
+  packing: {
+    en: "/tools/packing-list-generator",
+    es: "/es/herramientas/lista-de-equipaje",
+    fr: "/fr/outils/liste-valise",
+  },
+  bagSize: {
+    en: "/tools/bag-size-checker",
+    es: "/es/herramientas/medidas-equipaje-de-mano",
+    fr: "/fr/outils/taille-bagage-cabine",
+  },
+  luggageWeight: {
+    en: "/tools/luggage-weight-calculator",
+    es: "/es/herramientas/peso-de-la-maleta",
+    fr: "/fr/outils/poids-valise",
+  },
+  baggageFees: {
+    en: "/tools/baggage-fee-calculator",
+    es: "/es/herramientas/coste-del-equipaje",
+    fr: "/fr/outils/frais-de-bagages",
+  },
   // The planner form is private (noindex), so it isn't in the sitemap.
   planner: { en: "/plan", es: "/es/planificar", fr: "/fr/planifier" },
 } as const satisfies Record<string, Record<Locale, string>>;
@@ -89,30 +109,7 @@ export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;
 
 export type BlogPair = { en: string; es: string };
 
-/**
- * Other pages that exist in English and Spanish only, such as tools not yet
- * translated into French. They pair the same way blog posts do.
- */
-export const EN_ES_PAGES = {
-  packing: {
-    en: "/tools/packing-list-generator",
-    es: "/es/herramientas/lista-de-equipaje",
-  },
-  bagSize: {
-    en: "/tools/bag-size-checker",
-    es: "/es/herramientas/medidas-equipaje-de-mano",
-  },
-  luggageWeight: {
-    en: "/tools/luggage-weight-calculator",
-    es: "/es/herramientas/peso-de-la-maleta",
-  },
-  baggageFees: {
-    en: "/tools/baggage-fee-calculator",
-    es: "/es/herramientas/coste-del-equipaje",
-  },
-} as const satisfies Record<string, BlogPair>;
-
-/** The English and Spanish URLs of a page that exists in both, but not French. */
+/** The English and Spanish URLs of a blog page that exists in both. */
 export function blogPair(path: string): BlogPair | undefined {
   const clean = cleanPath(path);
   if (clean === BLOG_HUB.en || clean === BLOG_HUB.es) return { ...BLOG_HUB };
@@ -120,9 +117,7 @@ export function blogPair(path: string): BlogPair | undefined {
     const pair = { en: `${BLOG_HUB.en}/${en}`, es: `${BLOG_HUB.es}/${es}` };
     if (clean === pair.en || clean === pair.es) return pair;
   }
-  return Object.values(EN_ES_PAGES).find(
-    (pair) => clean === pair.en || clean === pair.es,
-  );
+  return undefined;
 }
 
 /** Whether a path has a version in the target language. */
