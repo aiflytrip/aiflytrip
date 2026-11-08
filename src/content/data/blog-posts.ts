@@ -357,6 +357,7 @@ export const blogPosts: PostInput[] = [
         "how-airline-pricing-works",
         "travel-documents-checklist",
         "carry-on-packing-list",
+        "what-fits-under-the-seat",
       ],
     },
     sources: [

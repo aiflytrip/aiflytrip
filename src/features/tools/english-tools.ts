@@ -151,7 +151,7 @@ export const ENGLISH_TOOLS: Record<EnglishToolKey, EnglishTool> = {
           id: "personal-item-or-cabin-bag",
           title: "Personal item or cabin bag?",
           paragraphs: [
-            "A personal item is a small bag, such as a backpack or handbag, that fits under the seat in front of you. A cabin bag is a larger bag for the overhead locker. Many fares include a personal item, while a cabin bag is often included only on some fares or for a fee, so check what your ticket includes.",
+            "A personal item is a small bag, such as a backpack or handbag, that fits under the seat in front of you. A cabin bag is a larger bag for the overhead locker. Many fares include a personal item, while a cabin bag is often included only on some fares or for a fee, so check what your ticket includes. Our guide to [what fits under the seat](/blog/what-fits-under-the-seat) covers which bags fit best and why the space varies between seats.",
             "Some airlines give the limit as length, width and depth; others as a total of all three sides added together, which is common for checked bags. Choose the type that matches your booking. Our guide to [budget airline fees](/blog/budget-airline-fees-explained) explains how bag rules affect the real price of a fare.",
           ],
         },

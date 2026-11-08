@@ -364,6 +364,7 @@ export const octoberPosts: PostInput[] = [
         "travel-documents-checklist",
         "cheap-flight-tips",
         "flying-with-kids",
+        "what-fits-under-the-seat",
       ],
     },
     sources: [
