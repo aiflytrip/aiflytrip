@@ -58,6 +58,31 @@ export const BLOG_TRANSLATIONS: Record<string, string> = {
   "what-fits-under-the-seat": "que-cabe-debajo-del-asiento-del-avion",
   "personal-item-vs-carry-on": "articulo-personal-o-equipaje-de-mano",
   "carry-on-too-big-at-the-gate": "equipaje-de-mano-demasiado-grande",
+  "how-to-find-cheap-flights": "como-encontrar-vuelos-baratos",
+  "cheap-flight-tips": "trucos-para-encontrar-vuelos-baratos",
+  "budget-airline-fees-explained": "cargos-de-las-aerolineas-de-bajo-coste",
+  "dummy-ticket-for-visa": "reserva-de-vuelo-para-visado",
+  "proof-of-onward-travel": "billete-de-salida-del-pais",
+  "best-ai-trip-planners": "mejores-planificadores-de-viajes-con-ia",
+  "how-much-layover-time-do-you-need": "cuanto-tiempo-de-escala-necesito",
+  "missed-connecting-flight": "perder-un-vuelo-de-conexion",
+  "self-transfer-flights": "vuelos-con-billetes-separados",
+  "how-to-plan-a-trip": "como-planificar-un-viaje",
+  "how-many-days-for-a-trip": "cuantos-dias-de-viaje",
+  "travel-documents-checklist": "documentos-para-viajar",
+  "travel-insurance-basics": "seguro-de-viaje-que-cubre",
+  "carry-on-packing-list": "que-llevar-en-el-equipaje-de-mano",
+  "how-to-beat-jet-lag": "como-combatir-el-jet-lag",
+  "flying-with-kids": "viajar-en-avion-con-ninos",
+  "how-to-plan-a-trip-on-a-budget": "como-planificar-un-viaje-barato",
+  "solo-travel-tips": "consejos-para-viajar-solo",
+  "airport-to-city-paris-rome-tokyo-lisbon":
+    "del-aeropuerto-al-centro-paris-roma-tokio-lisboa",
+  "japan-rail-pass-is-it-worth-it": "japan-rail-pass-merece-la-pena",
+  "winter-city-breaks-paris-rome-lisbon":
+    "escapadas-de-invierno-paris-roma-lisboa",
+  "where-to-stay-in-a-new-city": "donde-alojarse-en-una-ciudad-nueva",
+  "christmas-new-year-travel-tips": "consejos-para-viajar-en-navidad",
 };
 
 export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;

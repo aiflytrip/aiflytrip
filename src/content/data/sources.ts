@@ -124,6 +124,27 @@ export const SOURCES = {
     publisher: "Ministerio de Asuntos Exteriores de España",
     url: "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Recomendaciones-de-viaje.aspx",
   },
+  eu261Es: {
+    label:
+      "Reglamento (CE) n.º 261/2004 sobre compensación y asistencia a los pasajeros aéreos",
+    publisher: "EUR-Lex (Diario Oficial de la UE)",
+    url: "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32004R0261",
+  },
+  esTravellerRegistry: {
+    label: "Registro de viajeros",
+    publisher: "Ministerio de Asuntos Exteriores de España",
+    url: "https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Registro-de-Viajeros.aspx",
+  },
+  esTravelHealth: {
+    label: "La salud también viaja: centros de vacunación internacional",
+    publisher: "Ministerio de Sanidad de España",
+    url: "https://www.sanidad.gob.es/areas/sanidadExterior/laSaludTambienViaja/home.htm",
+  },
+  esEuropeanHealthCard: {
+    label: "Desplazamientos por Europa: Tarjeta Sanitaria Europea",
+    publisher: "Seguridad Social de España",
+    url: "https://www.seg-social.es/wps/portal/wss/internet/Trabajadores/PrestacionesPensionesTrabajadores/10938/11566",
+  },
   euAirRights: {
     label: "Air passenger rights in the EU",
     publisher: "European Union (Your Europe)",

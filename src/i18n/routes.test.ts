@@ -61,7 +61,9 @@ describe("translated routes", () => {
     expect(switchPath("/blog/how-airline-pricing-works", "fr")).toBe("/fr");
     expect(hasTranslation("/blog/how-airline-pricing-works", "fr")).toBe(false);
     expect(hasTranslation("/blog/how-airline-pricing-works", "es")).toBe(true);
-    expect(hasTranslation("/blog/cheap-flight-tips", "es")).toBe(false);
+    expect(hasTranslation("/blog/a-post-with-no-spanish-version", "es")).toBe(
+      false,
+    );
     expect(localeForPath("/es/blog/ejemplo-de-itinerario-de-vuelo")).toBe("es");
   });
 
@@ -76,7 +78,9 @@ describe("translated routes", () => {
         "x-default": `/blog/${en}`,
       });
     }
-    expect(alternatesForPath("/blog/cheap-flight-tips")).toBeUndefined();
+    expect(
+      alternatesForPath("/blog/a-post-with-no-spanish-version"),
+    ).toBeUndefined();
   });
 
   it("links to the planner form in each language", () => {
