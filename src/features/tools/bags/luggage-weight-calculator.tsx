@@ -21,6 +21,11 @@ import {
   type WeightVerdict,
 } from "@/features/tools/bags/luggage-weight";
 import {
+  WEIGHT_TEXT,
+  type WeightLocale,
+  type WeightText,
+} from "@/features/tools/bags/luggage-weight-text";
+import {
   Choice,
   ShareButton,
   useQueryString,
@@ -29,29 +34,36 @@ import {
 import { VERDICT_STYLES } from "@/features/tools/format";
 import { cn } from "@/lib/utils";
 
-const VERDICTS: Record<
-  WeightVerdict,
-  { label: string; style: keyof typeof VERDICT_STYLES }
-> = {
-  under: { label: "Within your limit", style: "comfortable" },
-  close: { label: "Close to your limit", style: "tight" },
-  over: { label: "Over your limit", style: "risky" },
-  incomplete: { label: "Add your items", style: "workable" },
+const VERDICT_STYLE: Record<WeightVerdict, keyof typeof VERDICT_STYLES> = {
+  under: "comfortable",
+  close: "tight",
+  over: "risky",
+  incomplete: "workable",
 };
 
 /** "your coat, a jumper and your trainers" */
-const listJoin = (items: string[]) =>
+const listJoin = (items: string[], and: string) =>
   items.length > 1
-    ? `${items.slice(0, -1).join(", ")} and ${items.at(-1)}`
+    ? `${items.slice(0, -1).join(", ")} ${and} ${items.at(-1)}`
     : (items[0] ?? "");
 
-/** English only for now. Reads a shared check from the URL after hydration. */
-export function LuggageWeightCalculator() {
+/** In English or Spanish. Reads a shared check from the URL after hydration. */
+export function LuggageWeightCalculator({
+  locale = "en",
+}: {
+  locale?: WeightLocale;
+}) {
   const query = useQueryString();
-  return <WeightForm key={query} initial={weightFromQuery(query)} />;
+  return (
+    <WeightForm
+      key={query}
+      initial={weightFromQuery(query)}
+      t={WEIGHT_TEXT[locale]}
+    />
+  );
 }
 
-function WeightForm({ initial }: { initial: WeightInput }) {
+function WeightForm({ initial, t }: { initial: WeightInput; t: WeightText }) {
   const id = useId();
   const [input, setInput] = useState<WeightInput>(initial);
   const result = useMemo(() => checkWeight(input), [input]);
@@ -67,20 +79,24 @@ function WeightForm({ initial }: { initial: WeightInput }) {
       }),
     );
   const u = input.unit;
-  const verdict = VERDICTS[result.verdict];
-  const style = VERDICT_STYLES[verdict.style];
+  const style = VERDICT_STYLES[VERDICT_STYLE[result.verdict]];
+  const itemLabel = (itemId: ItemId) =>
+    t.items[itemId] ?? ITEMS.find((item) => item.id === itemId)!.label;
+  const wearItems = result.wearIds.map(
+    (itemId, k) => t.wear[itemId] ?? result.wearItems[k]!,
+  );
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
       <form
         className="glass flex flex-col gap-6 rounded-3xl p-5 sm:p-6"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Luggage weight inputs"
+        aria-label={t.formLabel}
       >
         <div className="grid gap-6 sm:grid-cols-2">
           <Choice<WeightUnit>
             name={`${id}-unit`}
-            label="Units"
+            label={t.units}
             value={u}
             onChange={(unit) => setInput((prev) => convertWeight(prev, unit))}
             options={[
@@ -90,19 +106,19 @@ function WeightForm({ initial }: { initial: WeightInput }) {
           />
           <Choice<WeightMode>
             name={`${id}-mode`}
-            label="How do you want to check?"
+            label={t.howToCheck}
             value={input.mode}
             onChange={(mode) => set({ mode })}
             options={[
-              { value: "estimate", label: "Estimate what I pack" },
-              { value: "weighed", label: "I've weighed my bag" },
+              { value: "estimate", label: t.modeEstimate },
+              { value: "weighed", label: t.modeWeighed },
             ]}
           />
         </div>
 
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-1 text-sm font-semibold text-white">
-            Your weight limit, from your booking
+            {t.limitTitle}
           </legend>
           <div className="flex flex-wrap gap-2">
             {LIMIT_PRESETS[u].map((n) => (
@@ -122,7 +138,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
             ))}
           </div>
           <div className="flex flex-col gap-1.5 sm:max-w-[12rem]">
-            <Label htmlFor={`${id}-limit`}>Limit ({u})</Label>
+            <Label htmlFor={`${id}-limit`}>{t.limit(u)}</Label>
             <Input
               id={`${id}-limit`}
               type="number"
@@ -134,15 +150,12 @@ function WeightForm({ initial }: { initial: WeightInput }) {
               onChange={(e) => set({ limit: e.target.value })}
             />
           </div>
-          <p className="text-xs text-muted-foreground">
-            The buttons are common limits, not any airline&apos;s rule. Use the
-            limit for your fare.
-          </p>
+          <p className="text-xs text-muted-foreground">{t.presetsNote}</p>
         </fieldset>
 
         {input.mode === "weighed" ? (
           <div className="flex flex-col gap-1.5 sm:max-w-[12rem]">
-            <Label htmlFor={`${id}-weighed`}>Your packed bag ({u})</Label>
+            <Label htmlFor={`${id}-weighed`}>{t.packedBag(u)}</Label>
             <Input
               id={`${id}-weighed`}
               type="number"
@@ -157,7 +170,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
         ) : (
           <>
             <div className="flex flex-col gap-1.5 sm:max-w-[12rem]">
-              <Label htmlFor={`${id}-empty`}>Empty bag ({u})</Label>
+              <Label htmlFor={`${id}-empty`}>{t.emptyBag(u)}</Label>
               <Input
                 id={`${id}-empty`}
                 type="number"
@@ -167,29 +180,28 @@ function WeightForm({ initial }: { initial: WeightInput }) {
                 value={input.emptyBag}
                 onChange={(e) => set({ emptyBag: e.target.value })}
               />
-              <p className="text-xs text-muted-foreground">
-                Wheeled bags often weigh a few kilos before you pack anything.
-              </p>
+              <p className="text-xs text-muted-foreground">{t.emptyBagNote}</p>
             </div>
             <fieldset className="flex flex-col gap-2">
               <legend className="mb-1 text-sm font-semibold text-white">
-                What you&apos;re packing
+                {t.packingTitle}
               </legend>
               <ul className="grid gap-2 sm:grid-cols-2">
                 {ITEMS.map((item) => {
                   const n = input.counts[item.id] ?? 0;
+                  const label = itemLabel(item.id);
                   return (
                     <li
                       key={item.id}
                       className="flex items-center justify-between gap-2 rounded-xl bg-white/[0.04] px-3 py-1.5 text-sm"
                     >
                       <span className={n ? "text-white" : "text-foreground/80"}>
-                        {item.label}
+                        {label}
                       </span>
                       <span className="flex items-center gap-1.5">
                         <button
                           type="button"
-                          aria-label={`Fewer ${item.label.toLowerCase()}`}
+                          aria-label={t.fewer(label.toLowerCase())}
                           onClick={() => setCount(item.id, n - 1)}
                           disabled={n === 0}
                           className="grid size-7 place-items-center rounded-full border border-white/10 text-muted-foreground hover:border-white/25 disabled:opacity-40"
@@ -204,7 +216,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
                         </span>
                         <button
                           type="button"
-                          aria-label={`More ${item.label.toLowerCase()}`}
+                          aria-label={t.more(label.toLowerCase())}
                           onClick={() => setCount(item.id, n + 1)}
                           className="grid size-7 place-items-center rounded-full border border-white/10 text-muted-foreground hover:border-white/25"
                         >
@@ -225,7 +237,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
           className="self-start"
           onClick={() => setInput(DEFAULT_WEIGHT)}
         >
-          Reset
+          {t.reset}
         </Button>
       </form>
 
@@ -235,7 +247,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
       >
         <div className="glass rounded-3xl p-6">
           <h2 id={`${id}-result`} className="eyebrow">
-            Your bag
+            {t.resultTitle}
           </h2>
           <div aria-live="polite">
             <p
@@ -248,17 +260,20 @@ function WeightForm({ initial }: { initial: WeightInput }) {
                 aria-hidden="true"
                 className={cn("size-2.5 rounded-full", style.dot)}
               />
-              {verdict.label}
+              {t.verdicts[result.verdict]}
             </p>
             <p className="mt-3 font-display text-3xl font-bold text-white">
-              {input.mode === "estimate" ? "About " : ""}
+              {input.mode === "estimate" ? t.about : ""}
               {result.total} {u}
             </p>
             {result.margin !== null ? (
               <p className="text-sm text-muted-foreground">
                 {result.margin >= 0
-                  ? `${result.margin} ${u} under your ${input.limit} ${u} limit`
-                  : `${Math.abs(result.margin)} ${u} over your ${input.limit} ${u} limit`}
+                  ? t.under(`${result.margin} ${u}`, `${input.limit} ${u}`)
+                  : t.over(
+                      `${Math.abs(result.margin)} ${u}`,
+                      `${input.limit} ${u}`,
+                    )}
               </p>
             ) : null}
           </div>
@@ -266,7 +281,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
           {input.mode === "estimate" && result.lines.length > 0 ? (
             <ul className="mt-5 flex flex-col gap-1.5 text-sm">
               <li className="flex justify-between gap-3 text-muted-foreground">
-                <span>Empty bag</span>
+                <span>{t.emptyBagLine}</span>
                 <span className="font-mono">
                   {input.emptyBag} {u}
                 </span>
@@ -274,7 +289,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
               {result.lines.slice(0, 6).map((line) => (
                 <li key={line.id} className="flex justify-between gap-3">
                   <span className="text-foreground/90">
-                    {input.counts[line.id]} × {line.label.toLowerCase()}
+                    {input.counts[line.id]} × {itemLabel(line.id).toLowerCase()}
                   </span>
                   <span className="font-mono text-muted-foreground">
                     {line.weight} {u}
@@ -283,7 +298,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
               ))}
               {result.lines.length > 6 ? (
                 <li className="text-xs text-muted-foreground">
-                  and {result.lines.length - 6} lighter groups
+                  {t.lighterGroups(result.lines.length - 6)}
                 </li>
               ) : null}
             </ul>
@@ -297,8 +312,10 @@ function WeightForm({ initial }: { initial: WeightInput }) {
                   aria-hidden="true"
                   className="mt-1.5 size-1.5 flex-none rounded-full bg-primary"
                 />
-                Wearing {listJoin(result.wearItems)} on the plane would take
-                about {result.wearSaving} {u} out of the bag.
+                {t.wearAdvice(
+                  listJoin(wearItems, t.and),
+                  `${result.wearSaving} ${u}`,
+                )}
               </li>
             ) : null}
             {result.verdict === "over" ? (
@@ -307,9 +324,7 @@ function WeightForm({ initial }: { initial: WeightInput }) {
                   aria-hidden="true"
                   className="mt-1.5 size-1.5 flex-none rounded-full bg-primary"
                 />
-                Move heavy items to a bag that is included in your fare, or add
-                more allowance when you book: it is usually cheaper than paying
-                at the airport.
+                {t.overAdvice}
               </li>
             ) : null}
             <li className="flex items-start gap-2.5 text-foreground/90">
@@ -317,14 +332,12 @@ function WeightForm({ initial }: { initial: WeightInput }) {
                 aria-hidden="true"
                 className="mt-1.5 size-1.5 flex-none rounded-full bg-primary"
               />
-              {input.mode === "estimate"
-                ? "Item weights are typical averages, so the real weight can differ. Weigh the packed bag before you leave."
-                : "Weigh the bag fully packed, with anything you will clip to it, and leave a little room for things you buy on the trip."}
+              {input.mode === "estimate" ? t.estimateNote : t.weighedNote}
             </li>
           </ul>
 
           <div className="mt-5 flex flex-wrap gap-2">
-            <ShareButton event="luggage_weight_shared" />
+            <ShareButton event="luggage_weight_shared" labels={t.share} />
           </div>
         </div>
       </section>

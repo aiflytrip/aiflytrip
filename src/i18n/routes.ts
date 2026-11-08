@@ -73,6 +73,14 @@ export const EN_ES_PAGES = {
     en: "/tools/bag-size-checker",
     es: "/es/herramientas/medidas-equipaje-de-mano",
   },
+  luggageWeight: {
+    en: "/tools/luggage-weight-calculator",
+    es: "/es/herramientas/peso-de-la-maleta",
+  },
+  baggageFees: {
+    en: "/tools/baggage-fee-calculator",
+    es: "/es/herramientas/coste-del-equipaje",
+  },
 } as const satisfies Record<string, BlogPair>;
 
 /** The English and Spanish URLs of a page that exists in both, but not French. */

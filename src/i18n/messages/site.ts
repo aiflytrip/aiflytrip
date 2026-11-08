@@ -104,12 +104,20 @@ function localisedChrome(
           { href: route("budget", locale), label: text.budget },
           { href: route("layover", locale), label: text.layover },
           { href: route("days", locale), label: text.days },
-          // The bag size checker has a Spanish page but no French one yet.
+          // The bag tools have Spanish pages but no French ones yet.
           ...(locale === "es"
             ? [
                 {
                   href: EN_ES_PAGES.bagSize.es,
                   label: "Medidas del equipaje de mano",
+                },
+                {
+                  href: EN_ES_PAGES.luggageWeight.es,
+                  label: "Peso de la maleta",
+                },
+                {
+                  href: EN_ES_PAGES.baggageFees.es,
+                  label: "Coste del equipaje",
                 },
               ]
             : []),

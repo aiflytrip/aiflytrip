@@ -6,6 +6,9 @@ import { linkTargets } from "@/features/content/components/rich-text";
 import { absoluteUrl } from "@/features/seo/metadata";
 import { BAG_SIZE_TEXT } from "@/features/tools/bags/bag-size-text";
 import { SIZE_PRESETS } from "@/features/tools/bags/bag-size";
+import { FEES_TEXT } from "@/features/tools/bags/baggage-fees-text";
+import { ITEMS } from "@/features/tools/bags/luggage-weight";
+import { WEIGHT_TEXT } from "@/features/tools/bags/luggage-weight-text";
 import {
   SPANISH_TOOL_KEYS,
   SPANISH_TOOLS,
@@ -36,14 +39,20 @@ describe("English and Spanish tools", () => {
     }
   });
 
-  it("switch language between the pair, and fall back to the French homepage", () => {
-    const { en, es } = EN_ES_PAGES.bagSize;
-    expect(switchPath(en, "es")).toBe(es);
-    expect(switchPath(es, "en")).toBe(en);
-    expect(switchPath(en, "fr")).toBe("/fr");
-    expect(hasTranslation(en, "es")).toBe(true);
-    expect(hasTranslation(en, "fr")).toBe(false);
-    expect(alternatesForPath(es)?.fr).toBeUndefined();
+  it("switch language between each pair, and fall back to the French homepage", () => {
+    for (const { en, es } of Object.values(EN_ES_PAGES)) {
+      expect(switchPath(en, "es")).toBe(es);
+      expect(switchPath(es, "en")).toBe(en);
+      expect(switchPath(en, "fr")).toBe("/fr");
+      expect(hasTranslation(en, "es")).toBe(true);
+      expect(hasTranslation(en, "fr")).toBe(false);
+      expect(alternatesForPath(es)?.fr).toBeUndefined();
+    }
+  });
+
+  it("keep Spanish titles unique", () => {
+    const titles = tools.map((t) => t.copy.meta.title);
+    expect(new Set(titles).size).toBe(titles.length);
   });
 
   it("keep titles and descriptions within snippet limits", () => {
@@ -83,5 +92,21 @@ describe("English and Spanish tools", () => {
       .map((p) => p.label);
     for (const label of labels)
       expect(BAG_SIZE_TEXT.es.presets[label], label).toBeDefined();
+  });
+
+  it("translate every item, and every item worth wearing, in the Spanish weight calculator", () => {
+    for (const item of ITEMS) {
+      expect(WEIGHT_TEXT.es.items[item.id], item.id).toBeDefined();
+      if ("wearable" in item)
+        expect(WEIGHT_TEXT.es.wear[item.id], item.id).toBeDefined();
+    }
+  });
+
+  it("never state prices as facts", () => {
+    for (const { copy, path } of tools)
+      expect(JSON.stringify(copy), path).not.toMatch(/[$€£¥]\s?\d/);
+    expect(Object.keys(FEES_TEXT.es.fields)).toEqual(
+      Object.keys(FEES_TEXT.en.fields),
+    );
   });
 });

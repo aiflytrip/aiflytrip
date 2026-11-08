@@ -19,7 +19,12 @@ import {
   type FeeInput,
   type FeeLineKey,
 } from "@/features/tools/bags/baggage-fees";
-import { CURRENCIES } from "@/features/tools/budget/budget";
+import {
+  FEES_TEXT,
+  type FeesLocale,
+  type FeesText,
+} from "@/features/tools/bags/baggage-fees-text";
+import { CURRENCIES, type Currency } from "@/features/tools/budget/budget";
 import {
   Choice,
   ShareButton,
@@ -29,47 +34,57 @@ import {
 import { formatMoney } from "@/features/tools/format";
 import { cn } from "@/lib/utils";
 
-const LINE_LABELS: Record<FeeLineKey, string> = {
-  fares: "Tickets",
-  bags: "Bags",
-  seats: "Seats",
-  other: "Other fees",
-  transport: "To and from the airport",
-};
-
-const FIELDS: {
-  key: Exclude<keyof FareOption, "name">;
-  label: string;
-  hint: string;
-}[] = [
-  { key: "fare", label: "Ticket price", hint: "Per person, whole trip" },
-  { key: "cabinBag", label: "Cabin bag", hint: "Per person, per flight" },
-  { key: "checkedBags", label: "Checked bags", hint: "Number per person" },
-  {
-    key: "checkedBagFee",
-    label: "Checked bag fee",
-    hint: "Per bag, per flight",
-  },
-  { key: "seat", label: "Seat selection", hint: "Per person, per flight" },
-  {
-    key: "other",
-    label: "Other fees",
-    hint: "Per person: check-in, priority, payment",
-  },
-  {
-    key: "transport",
-    label: "Airport transport",
-    hint: "Whole group, there and back",
-  },
+const LINE_KEYS: FeeLineKey[] = [
+  "fares",
+  "bags",
+  "seats",
+  "other",
+  "transport",
 ];
 
-/** English only for now. Reads a shared comparison from the URL after hydration. */
-export function BaggageFeeCalculator() {
+const FIELD_KEYS: Exclude<keyof FareOption, "name">[] = [
+  "fare",
+  "cabinBag",
+  "checkedBags",
+  "checkedBagFee",
+  "seat",
+  "other",
+  "transport",
+];
+
+/** In English or Spanish. Reads a shared comparison from the URL after hydration. */
+export function BaggageFeeCalculator({
+  locale = "en",
+  defaultCurrency = DEFAULT_FEES.currency,
+}: {
+  locale?: FeesLocale;
+  /** Used when the link doesn't set a currency (EUR on /es). */
+  defaultCurrency?: Currency;
+}) {
   const query = useQueryString();
-  return <FeeForm key={query} initial={feesFromQuery(query)} />;
+  const shared = feesFromQuery(query);
+  const initial = new URLSearchParams(query).has("currency")
+    ? shared
+    : { ...shared, currency: defaultCurrency };
+  return (
+    <FeeForm
+      key={query}
+      initial={initial}
+      locale={locale}
+      t={FEES_TEXT[locale]}
+    />
+  );
 }
 
-function FeeForm({ initial }: { initial: FeeInput }) {
+function FeeForm({
+  initial,
+  locale,
+  t,
+}: {
+  initial: FeeInput;
+  locale: FeesLocale;
+  t: FeesText;
+}) {
   const id = useId();
   const [input, setInput] = useState<FeeInput>(initial);
   const result = useMemo(() => compareFares(input), [input]);
@@ -87,7 +102,11 @@ function FeeForm({ initial }: { initial: FeeInput }) {
         options: prev.options.map((o, j) => (j === k ? { ...o, ...patch } : o)),
       }),
     );
-  const money = (n: number) => formatMoney(n, input.currency);
+  const money = (n: number) => formatMoney(n, input.currency, locale);
+  // Default names are stored in English ("Fare A") and shown translated.
+  const optionName = (name: string, k: number) =>
+    name === OPTION_NAMES[k] ? t.optionNames[k]! : name;
+  const resultName = (k: number) => optionName(result.options[k]!.name, k);
   const cheapest = result.cheapest;
   const lowest = result.lowestFare;
 
@@ -96,11 +115,11 @@ function FeeForm({ initial }: { initial: FeeInput }) {
       <form
         className="glass flex flex-col gap-6 rounded-3xl p-5 sm:p-6"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Fares to compare"
+        aria-label={t.formLabel}
       >
         <div className="grid gap-5 sm:grid-cols-3">
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-currency`}>Currency</Label>
+            <Label htmlFor={`${id}-currency`}>{t.currency}</Label>
             <Select
               id={`${id}-currency`}
               value={input.currency}
@@ -114,7 +133,7 @@ function FeeForm({ initial }: { initial: FeeInput }) {
             </Select>
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`${id}-travellers`}>Travellers</Label>
+            <Label htmlFor={`${id}-travellers`}>{t.travellers}</Label>
             <Input
               id={`${id}-travellers`}
               type="number"
@@ -127,12 +146,12 @@ function FeeForm({ initial }: { initial: FeeInput }) {
           </div>
           <Choice<"return" | "one-way">
             name={`${id}-trip`}
-            label="Trip"
+            label={t.trip}
             value={input.returnTrip ? "return" : "one-way"}
             onChange={(v) => set({ returnTrip: v === "return" })}
             options={[
-              { value: "return", label: "Return" },
-              { value: "one-way", label: "One way" },
+              { value: "return", label: t.returnTrip },
+              { value: "one-way", label: t.oneWay },
             ]}
           />
         </div>
@@ -153,18 +172,18 @@ function FeeForm({ initial }: { initial: FeeInput }) {
                   : "border-white/[0.08] bg-black/20",
               )}
             >
-              <legend className="sr-only">{result.options[k]!.name}</legend>
+              <legend className="sr-only">{resultName(k)}</legend>
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor={`${id}-${k}-name`}>Name</Label>
+                <Label htmlFor={`${id}-${k}-name`}>{t.name}</Label>
                 <Input
                   id={`${id}-${k}-name`}
-                  value={o.name}
+                  value={optionName(o.name, k)}
                   maxLength={30}
-                  placeholder={OPTION_NAMES[k]}
+                  placeholder={t.optionNames[k]}
                   onChange={(e) => setOption(k, { name: e.target.value })}
                 />
               </div>
-              {FIELDS.map((f) => (
+              {FIELD_KEYS.map((key) => ({ key, ...t.fields[key] })).map((f) => (
                 <div key={f.key} className="flex flex-col gap-1">
                   <Label htmlFor={`${id}-${k}-${f.key}`}>{f.label}</Label>
                   <Input
@@ -192,7 +211,7 @@ function FeeForm({ initial }: { initial: FeeInput }) {
                     set({ options: input.options.filter((_, j) => j !== k) })
                   }
                 >
-                  Remove
+                  {t.remove}
                 </Button>
               ) : null}
             </fieldset>
@@ -213,7 +232,7 @@ function FeeForm({ initial }: { initial: FeeInput }) {
                 })
               }
             >
-              Add another fare
+              {t.addFare}
             </Button>
           ) : null}
           <Button
@@ -221,7 +240,7 @@ function FeeForm({ initial }: { initial: FeeInput }) {
             variant="ghost"
             onClick={() => setInput(DEFAULT_FEES)}
           >
-            Reset
+            {t.reset}
           </Button>
         </div>
       </form>
@@ -231,27 +250,33 @@ function FeeForm({ initial }: { initial: FeeInput }) {
         className="glass flex flex-col gap-5 rounded-3xl p-5 sm:p-6"
       >
         <h2 id={`${id}-result`} className="eyebrow">
-          Real cost of each fare
+          {t.resultTitle}
         </h2>
         {cheapest === null ? (
-          <p className="text-sm text-muted-foreground">
-            Enter a ticket price for at least one fare to see its real cost.
-          </p>
+          <p className="text-sm text-muted-foreground">{t.enterFare}</p>
         ) : (
           <>
             <p className="text-lg text-white" aria-live="polite">
               {result.headlineMisleading && lowest !== null
-                ? `${result.options[lowest]!.name} has the lowest ticket price, but ${result.options[cheapest]!.name} is cheaper once extras are added, by ${money(result.options[lowest]!.total - result.options[cheapest]!.total)}.`
-                : `${result.options[cheapest]!.name} is the cheapest overall${result.spread > 0 ? `, by ${money(result.spread)} against the dearest option` : ""}.`}
+                ? t.misleading(
+                    resultName(lowest),
+                    resultName(cheapest),
+                    money(
+                      result.options[lowest]!.total -
+                        result.options[cheapest]!.total,
+                    ),
+                  )
+                : t.cheapest(
+                    resultName(cheapest),
+                    result.spread > 0 ? money(result.spread) : null,
+                  )}
             </p>
             <div className="overflow-x-auto">
               <table className="w-full min-w-[28rem] text-sm">
                 <thead>
                   <tr className="text-left text-muted-foreground">
                     <th scope="col" className="py-2 pr-3 font-medium">
-                      {input.travellers}{" "}
-                      {input.travellers === 1 ? "traveller" : "travellers"},{" "}
-                      {result.flights === 2 ? "return" : "one way"}
+                      {t.tableHeading(input.travellers, result.flights === 2)}
                     </th>
                     {result.options.map((o, k) => (
                       <th
@@ -262,38 +287,36 @@ function FeeForm({ initial }: { initial: FeeInput }) {
                           cheapest === k ? "text-emerald-200" : "text-white",
                         )}
                       >
-                        {o.name}
+                        {resultName(k)}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {(Object.keys(LINE_LABELS) as FeeLineKey[]).map(
-                    (key, row) => (
-                      <tr key={key} className="border-t border-white/[0.06]">
-                        <th
-                          scope="row"
-                          className="py-2 pr-3 text-left font-normal text-foreground/90"
+                  {LINE_KEYS.map((key, row) => (
+                    <tr key={key} className="border-t border-white/[0.06]">
+                      <th
+                        scope="row"
+                        className="py-2 pr-3 text-left font-normal text-foreground/90"
+                      >
+                        {t.lines[key]}
+                      </th>
+                      {result.options.map((o, k) => (
+                        <td
+                          key={k}
+                          className="py-2 pl-3 text-right font-mono text-muted-foreground"
                         >
-                          {LINE_LABELS[key]}
-                        </th>
-                        {result.options.map((o, k) => (
-                          <td
-                            key={k}
-                            className="py-2 pl-3 text-right font-mono text-muted-foreground"
-                          >
-                            {o.complete ? money(o.lines[row]!.amount) : "–"}
-                          </td>
-                        ))}
-                      </tr>
-                    ),
-                  )}
+                          {o.complete ? money(o.lines[row]!.amount) : "–"}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
                   <tr className="border-t border-white/[0.12]">
                     <th
                       scope="row"
                       className="py-2 pr-3 text-left font-semibold text-white"
                     >
-                      Total
+                      {t.total}
                     </th>
                     {result.options.map((o, k) => (
                       <td
@@ -312,7 +335,7 @@ function FeeForm({ initial }: { initial: FeeInput }) {
                       scope="row"
                       className="py-1 pr-3 text-left font-normal text-muted-foreground"
                     >
-                      Per person
+                      {t.perPerson}
                     </th>
                     {result.options.map((o, k) => (
                       <td
@@ -329,12 +352,9 @@ function FeeForm({ initial }: { initial: FeeInput }) {
           </>
         )}
         <div className="flex flex-wrap gap-2">
-          <ShareButton event="baggage_fees_shared" />
+          <ShareButton event="baggage_fees_shared" labels={t.share} />
         </div>
-        <p className="text-xs text-muted-foreground">
-          Uses the prices you enter. Fees differ by airline, fare, route and
-          date, and are often cheaper when added at booking than at the airport.
-        </p>
+        <p className="text-xs text-muted-foreground">{t.disclaimer}</p>
       </section>
     </div>
   );

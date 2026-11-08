@@ -94,6 +94,8 @@ export type WeightResult = {
   /** Weight saved by wearing one of each wearable item instead (estimate mode). */
   wearSaving: number;
   wearItems: string[];
+  /** The same items by id, for other languages. */
+  wearIds: ItemId[];
 };
 
 const round1 = (n: number) => Math.round(n * 10) / 10;
@@ -156,6 +158,7 @@ export function checkWeight(raw: WeightInput): WeightResult {
       lines,
       wearSaving,
       wearItems: worn.map((w) => w.wearable),
+      wearIds: worn.map((w) => w.id),
     };
 
   const margin = round1(i.limit - total);
@@ -167,6 +170,7 @@ export function checkWeight(raw: WeightInput): WeightResult {
     lines,
     wearSaving,
     wearItems: worn.map((w) => w.wearable),
+    wearIds: worn.map((w) => w.id),
   };
 }
 

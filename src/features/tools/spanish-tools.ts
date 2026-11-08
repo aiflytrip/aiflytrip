@@ -99,11 +99,163 @@ export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
         },
       ],
       related:
-        "Calcula el tiempo que necesitas para un enlace con el [comprobador de tiempo de escala](/es/herramientas/tiempo-de-escala) y el coste total del viaje con la [calculadora de presupuesto de viaje](/es/herramientas/calculadora-presupuesto-viaje). Si quieres pesar la maleta, la [calculadora de peso del equipaje](/tools/luggage-weight-calculator) está en inglés.",
+        "Pesa tu maleta con la [calculadora de peso de la maleta](/es/herramientas/peso-de-la-maleta), compara el coste real de cada tarifa con la [calculadora del coste del equipaje](/es/herramientas/coste-del-equipaje) y calcula el tiempo que necesitas para un enlace con el [comprobador de tiempo de escala](/es/herramientas/tiempo-de-escala).",
       ld: {
         name: "Comprobador de medidas del equipaje de mano de AIFlyTrip",
         description:
           "Comprobador gratuito que calcula si un bulto cabe en el límite del artículo personal o del equipaje de mano, girándolo si hace falta y con el peso.",
+      },
+    },
+  },
+  luggageWeight: {
+    path: EN_ES_PAGES.luggageWeight.es,
+    placement: "luggage_weight_calculator",
+    card: {
+      title: "Calculadora de peso de la maleta",
+      body: "Calcula cuánto pesará tu maleta según lo que metas, o compara una maleta ya pesada con tu límite, y mira qué conviene sacar.",
+    },
+    copy: {
+      meta: {
+        title: "Calculadora de peso de la maleta: ¿pesa demasiado?",
+        description:
+          "Calcula gratis cuánto pesa tu maleta de cabina o facturada según lo que llevas, compárala con tu límite y descubre qué sacar si te pasas.",
+      },
+      crumb: "Peso de la maleta",
+      h1: "Calculadora de peso de la maleta",
+      intro:
+        "El peso máximo del equipaje de mano suele ser de pocos kilos, y es fácil pasarse sin darse cuenta. Suma lo que piensas llevar para calcular el peso antes de hacer la maleta, o introduce el peso de tu maleta ya hecha, y comprueba cómo queda frente a tu límite y qué sacar si pesa demasiado.",
+      sections: [
+        {
+          id: "como-funciona-el-calculo",
+          title: "Cómo funciona el cálculo",
+          cards: [
+            {
+              title: "Pesos habituales de cada prenda",
+              body: "Cada objeto usa un peso habitual de ropa de adulto y material de viaje, como unos 150 g por camiseta o 650 g por unos vaqueros. Tus cosas pueden pesar más o menos, así que toma el resultado como una orientación.",
+            },
+            {
+              title: "La maleta también cuenta",
+              body: "Una maleta de cabina con ruedas puede gastar buena parte de una franquicia pequeña antes de meter nada. Pésala vacía en la báscula del baño e introdúcelo para afinar el cálculo.",
+            },
+            {
+              title: "Ponte lo que más pesa",
+              body: "Los abrigos, los jerséis y el calzado están entre lo más pesado. Cuando tu maleta se pasa del límite o se queda cerca, la calculadora te dice cuánto ahorrarías si te lo pones para volar.",
+            },
+          ],
+        },
+        {
+          id: "como-pesar-la-maleta-en-casa",
+          title: "Cómo pesar la maleta en casa",
+          paragraphs: [
+            "Lo más fácil es una báscula de equipaje: engánchala al asa y levanta. Si no tienes, súbete a la báscula del baño con la maleta, después sin ella, y resta. Pesa la maleta completamente hecha y deja algo de margen para lo que compres en el viaje.",
+            "El peso máximo depende de la tarifa y puede ser más bajo de lo que muchos viajeros esperan en el equipaje de mano, y algunas aerolíneas también limitan el peso total de todo lo que subes a cabina. Revisa tu reserva, y si tu maleta va justa de tamaño, el [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) te dice si cabe.",
+          ],
+        },
+      ],
+      cta: {
+        heading: "¿Decidiendo qué llevar?",
+        body: "Nuestro planificador de viajes con IA gratuito prepara un itinerario día a día con lista de equipaje y una estimación de presupuesto para tu viaje.",
+      },
+      faqs: [
+        {
+          question: "¿Cuánto pesa una maleta de cabina hecha?",
+          answer:
+            "Depende de la maleta y de lo que lleves. Una maleta de cabina con ruedas vacía puede pesar unos kilos por sí sola, y la ropa de una semana, el calzado, el neceser y un portátil suman fácilmente varios más. Calcula la tuya y pésala antes de salir.",
+        },
+        {
+          question: "¿Las aerolíneas pesan el equipaje de mano?",
+          answer:
+            "Algunas sí, sobre todo si el vuelo va lleno o la maleta parece pesada, y otras casi nunca. Si tu tarifa tiene un peso máximo para el equipaje de mano, lo más seguro es no pasarse, porque una maleta demasiado pesada puede tener que ir a bodega pagando.",
+        },
+        {
+          question: "¿Cómo puedo aligerar la maleta?",
+          answer:
+            "Ponte para volar el calzado, la chaqueta y el jersey que más pesen, lleva ropa para una semana y planea un lavado, elige productos de aseo en tamaño de viaje y deja el secador si tu alojamiento tiene uno. Una maleta más ligera, como una bolsa blanda, también ayuda.",
+        },
+      ],
+      related:
+        "Comprueba las medidas con el [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano), compara el coste real de cada tarifa con la [calculadora del coste del equipaje](/es/herramientas/coste-del-equipaje) y suma todo el viaje con la [calculadora de presupuesto de viaje](/es/herramientas/calculadora-presupuesto-viaje).",
+      ld: {
+        name: "Calculadora de peso de la maleta de AIFlyTrip",
+        description:
+          "Calculadora gratuita que estima el peso de una maleta según lo que llevas y lo compara con tu límite.",
+      },
+    },
+  },
+  baggageFees: {
+    path: EN_ES_PAGES.baggageFees.es,
+    placement: "baggage_fee_calculator",
+    card: {
+      title: "Calculadora del coste del equipaje",
+      body: "Suma el equipaje, el asiento y otros cargos a cada tarifa que comparas para ver el precio real por persona y del viaje.",
+    },
+    copy: {
+      meta: {
+        title: "Coste del equipaje: el precio real de un vuelo barato",
+        description:
+          "Suma gratis el equipaje, el asiento y otros cargos a las tarifas que comparas y descubre qué vuelo es de verdad el más barato, por persona y en total.",
+      },
+      crumb: "Coste del equipaje",
+      h1: "Calculadora del coste del equipaje",
+      intro:
+        "Un billete barato puede convertirse en un viaje caro cuando añades una maleta de cabina, una maleta facturada y un asiento. Introduce hasta tres tarifas con los extras que cobra cada una y mira lo que cuesta de verdad cada viaje, en total y por persona, y cuál es realmente el más barato.",
+      sections: [
+        {
+          id: "como-usar-la-calculadora",
+          title: "Cómo usar la calculadora",
+          cards: [
+            {
+              title: "Monta el viaje que vas a hacer",
+              body: "En cada tarifa, añade solo los extras que necesitas: las maletas que de verdad vas a llevar y el asiento si tenéis que ir juntos. Encontrarás los precios en la página de reserva de cada aerolínea.",
+            },
+            {
+              title: "Por persona y por vuelo",
+              body: "El equipaje y los asientos suelen cobrarse por pasajero y por vuelo, así que un viaje de ida y vuelta para dos los paga cuatro veces. La calculadora hace esas cuentas por ti.",
+            },
+            {
+              title: "No olvides el aeropuerto",
+              body: "Un vuelo más barato desde un aeropuerto más lejano puede salir más caro al sumar el tren, el autobús o el aparcamiento. Introduce el transporte de todo el grupo para comparar con justicia.",
+            },
+          ],
+        },
+        {
+          id: "por-que-importan-los-cargos",
+          title:
+            "Por qué la tarifa más barata no siempre es el viaje más barato",
+          paragraphs: [
+            "Las tarifas de bajo coste a menudo solo incluyen un artículo personal pequeño, y venden la maleta de cabina, la facturada y los asientos como extras. Una tarifa de una aerolínea tradicional puede costar más de entrada pero incluir parte de eso. Comparar el total es la única forma justa de elegir, como explica nuestra guía sobre [cómo fijan las aerolíneas el precio de los vuelos](/es/blog/como-fijan-las-aerolineas-el-precio-de-los-vuelos).",
+            "Los cargos suelen ser más bajos si los añades al reservar que después, y mucho más que en la puerta de embarque, así que decide qué necesitas antes de pagar. El [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) te ayuda a evitar un recargo por una maleta demasiado grande.",
+          ],
+        },
+      ],
+      cta: {
+        heading: "¿Comparando vuelos para un viaje?",
+        body: "Nuestro planificador de viajes con IA gratuito prepara un itinerario día a día con opciones de vuelo y una estimación de presupuesto para tus fechas.",
+      },
+      faqs: [
+        {
+          question: "¿Cuánto cuesta facturar una maleta?",
+          answer:
+            "Varía mucho entre aerolíneas, tarifas, rutas y fechas, y el precio suele depender de cuándo añades la maleta. Consulta el precio en la página de reserva de cada aerolínea para tu vuelo exacto y luego introdúcelo en la calculadora para comparar tarifas con justicia.",
+        },
+        {
+          question: "¿El equipaje se paga por vuelo o por viaje?",
+          answer:
+            "Normalmente por pasajero y por vuelo, así que en un viaje de ida y vuelta cada viajero paga la maleta dos veces. Algunas tarifas y paquetes incluyen equipaje, así que comprueba qué incluye la tuya antes de añadir extras.",
+        },
+        {
+          question:
+            "¿Es más barato pagar el equipaje al reservar o en el aeropuerto?",
+          answer:
+            "Añadir el equipaje al reservar, o con tiempo antes de volar, suele ser más barato que hacerlo cerca de la salida y mucho más barato que pagar en el mostrador o en la puerta de embarque. Consulta los precios de tu aerolínea en cada momento.",
+        },
+      ],
+      related:
+        "Comprueba tu maleta con el [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) y la [calculadora de peso de la maleta](/es/herramientas/peso-de-la-maleta), y suma todo el viaje con la [calculadora de presupuesto de viaje](/es/herramientas/calculadora-presupuesto-viaje).",
+      ld: {
+        name: "Calculadora del coste del equipaje de AIFlyTrip",
+        description:
+          "Calculadora gratuita que compara el coste real de varias tarifas al sumar equipaje, asientos y otros cargos.",
       },
     },
   },
