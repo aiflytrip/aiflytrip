@@ -20,6 +20,98 @@ export type SpanishTool = {
 };
 
 export const SPANISH_TOOLS: Record<SpanishToolKey, SpanishTool> = {
+  packing: {
+    path: EN_ES_PAGES.packing.es,
+    placement: "packing_list_generator",
+    card: {
+      title: "Generador de lista de equipaje",
+      body: "Una lista para la duración, el tiempo, el equipaje y las actividades de tu viaje, con la ropa calculada por ti. Márcala, imprímela o compártela.",
+    },
+    copy: {
+      meta: {
+        title: "Lista de equipaje para viajar: generador gratis",
+        description:
+          "Crea gratis tu lista de equipaje según la duración, el tiempo, el equipaje y las actividades del viaje, con un ejemplo para 7 días que puedes imprimir.",
+      },
+      crumb: "Lista de equipaje",
+      h1: "Generador de lista de equipaje",
+      intro:
+        "Dinos cuánto dura tu viaje, qué tiempo hará y qué piensas hacer, y obtén una lista de equipaje que puedes marcar, imprimir o compartir. La ropa se calcula por ti, así que un viaje de dos semanas no significa llevar ropa para dos semanas.",
+      sections: [
+        {
+          id: "como-se-prepara-la-lista",
+          title: "Cómo se prepara la lista",
+          cards: [
+            {
+              title: "Ropa para los días que necesitas",
+              body: "Tienes ropa para cada día hasta un límite razonable. Con solo equipaje de mano, ese límite es una semana, o cuatro días si puedes lavar; con maleta facturada son dos semanas. En los viajes más largos te recordamos que planees un lavado.",
+            },
+            {
+              title: "El tiempo",
+              body: "En los viajes con calor, los vaqueros dejan paso a los pantalones cortos y se añaden gorra y protector solar. Con frío se añaden capas, un abrigo y gorro, guantes y bufanda. Con tiempo templado, un jersey y una chaqueta ligera para los días cambiantes.",
+            },
+            {
+              title: "Equipaje de mano o facturado",
+              body: "Las listas de solo equipaje de mano mantienen el aseo en tamaño de viaje y te recuerdan revisar las normas de líquidos de tu aeropuerto. Combínala con el [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) para asegurarte de que tu maleta cabe.",
+            },
+            {
+              title: "Actividades y quién viaja",
+              body: "La playa, el senderismo, el trabajo y las salidas nocturnas añaden cada uno su propio apartado, y viajar con un niño pequeño añade lo que hace el trayecto más fácil.",
+            },
+            {
+              title: "Primero, los documentos",
+              body: "Todas las listas empiezan por los documentos y el dinero, porque es lo que no puedes reponer en tu destino. Comprueba con tiempo la validez del pasaporte y si tu destino exige visado.",
+            },
+            {
+              title: "Lo imprescindible en cabina",
+              body: "Los medicamentos, las baterías externas y los objetos de valor aparecen marcados para ir en el equipaje de mano. Las baterías externas y de repuesto no suelen admitirse en la maleta facturada.",
+            },
+          ],
+        },
+        {
+          id: "como-viajar-mas-ligero",
+          title: "Cómo viajar más ligero",
+          paragraphs: [
+            "Elige ropa en dos o tres colores que combinen entre sí, para que cada camiseta vaya con cada pantalón. Lleva ropa para una semana y lava, en lugar de llevar para cada día de un viaje largo, y ponte para volar el calzado y la chaqueta que más abulten.",
+            "Pesa tu maleta hecha antes de salir. Nuestra [calculadora de peso de la maleta](/es/herramientas/peso-de-la-maleta) estima el peso de lo que piensas llevar y te dice qué pasar al equipaje de mano o dejar en casa.",
+          ],
+        },
+      ],
+      cta: {
+        heading: "¿Planificando todo el viaje?",
+        body: "Nuestro planificador de viajes con IA gratuito prepara un itinerario día a día con lista de equipaje, un vuelo sugerido y una estimación de presupuesto para tus fechas.",
+      },
+      faqs: [
+        {
+          question: "¿Qué llevar en la maleta para 7 días?",
+          answer:
+            "Para una semana, lleva unas siete camisetas, ocho mudas de ropa interior y calcetines, dos o tres pantalones o faldas, un jersey, una chaqueta ligera, pijama y calzado cómodo, además de documentos, aseo, medicamentos y cargadores. La lista de ejemplo de esta página muestra una lista completa para 7 días.",
+        },
+        {
+          question: "¿Se puede viajar una semana solo con equipaje de mano?",
+          answer:
+            "Sí, si eliges ropa que combine, llevas el aseo en tamaño de viaje y te pones para volar el calzado y la chaqueta más pesados. Revisa antes las medidas y el peso máximo del equipaje de mano de tu tarifa.",
+        },
+        {
+          question: "¿Cuánta ropa necesito para un viaje de dos semanas?",
+          answer:
+            "Normalmente, para una semana. Planea un lavado a mitad de viaje, en el alojamiento, en una lavandería o con detergente de viaje en el lavabo, y podrás viajar con la mitad de ropa y una maleta mucho más ligera.",
+        },
+        {
+          question: "¿Puedo meter una batería externa en la maleta facturada?",
+          answer:
+            "Normalmente no. La mayoría de las aerolíneas exigen que las baterías externas y las baterías de litio de repuesto viajen en el equipaje de mano, y algunas limitan su tamaño o piden no usarlas a bordo. Revisa las normas de tu aerolínea antes de volar.",
+        },
+      ],
+      related:
+        "Comprueba que tu maleta cabe con el [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano), pésala con la [calculadora de peso de la maleta](/es/herramientas/peso-de-la-maleta) y suma lo que cuesta el equipaje con la [calculadora del coste del equipaje](/es/herramientas/coste-del-equipaje).",
+      ld: {
+        name: "Generador de lista de equipaje de AIFlyTrip",
+        description:
+          "Generador gratuito que crea una lista de equipaje según la duración, el tiempo, el equipaje y las actividades del viaje.",
+      },
+    },
+  },
   bagSize: {
     path: EN_ES_PAGES.bagSize.es,
     placement: "bag_size_checker",

@@ -69,6 +69,10 @@ export type BlogPair = { en: string; es: string };
  * translated into French. They pair the same way blog posts do.
  */
 export const EN_ES_PAGES = {
+  packing: {
+    en: "/tools/packing-list-generator",
+    es: "/es/herramientas/lista-de-equipaje",
+  },
   bagSize: {
     en: "/tools/bag-size-checker",
     es: "/es/herramientas/medidas-equipaje-de-mano",

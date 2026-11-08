@@ -10,6 +10,12 @@ import { FEES_TEXT } from "@/features/tools/bags/baggage-fees-text";
 import { ITEMS } from "@/features/tools/bags/luggage-weight";
 import { WEIGHT_TEXT } from "@/features/tools/bags/luggage-weight-text";
 import {
+  DEFAULT_PACKING,
+  generatePackingList,
+  type PackingInput,
+} from "@/features/tools/packing/packing";
+import { PACKING_ES } from "@/features/tools/packing/packing-text";
+import {
   SPANISH_TOOL_KEYS,
   SPANISH_TOOLS,
 } from "@/features/tools/spanish-tools";
@@ -108,5 +114,46 @@ describe("English and Spanish tools", () => {
     expect(Object.keys(FEES_TEXT.es.fields)).toEqual(
       Object.keys(FEES_TEXT.en.fields),
     );
+  });
+
+  it("translate every packing list title, item and note for every combination of options", () => {
+    const flags = [
+      "laundry",
+      "international",
+      "beach",
+      "hiking",
+      "business",
+      "smart",
+      "child",
+    ] as const;
+    const missing = new Set<string>();
+    for (const climate of ["warm", "mild", "cold"] as const)
+      for (const luggage of ["carry-on", "checked"] as const)
+        for (const days of [1, 7, 30])
+          for (let mask = 0; mask < 1 << flags.length; mask++) {
+            const input: PackingInput = {
+              ...DEFAULT_PACKING,
+              climate,
+              luggage,
+              days,
+            };
+            flags.forEach((f, k) => (input[f] = Boolean(mask & (1 << k))));
+            for (const c of generatePackingList(input).categories) {
+              if (!PACKING_ES[c.title]) missing.add(c.title);
+              for (const it of c.items) {
+                if (!PACKING_ES[it.label]) missing.add(it.label);
+                if (it.note && !PACKING_ES[it.note]) missing.add(it.note);
+              }
+            }
+          }
+    expect([...missing]).toEqual([]);
+  });
+
+  it("builds the Spanish list with the same items as the English one", () => {
+    const en = generatePackingList({ ...DEFAULT_PACKING, days: 20 });
+    const es = generatePackingList({ ...DEFAULT_PACKING, days: 20 }, "es");
+    expect(es.itemCount).toBe(en.itemCount);
+    expect(es.tips).toHaveLength(en.tips.length);
+    expect(es.tips[0]).toContain("20 días");
   });
 });

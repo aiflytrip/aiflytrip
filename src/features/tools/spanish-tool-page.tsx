@@ -22,9 +22,11 @@ export function spanishToolMetadata(key: SpanishToolKey) {
 /** The Spanish page of a tool that exists in English and Spanish only. */
 export function SpanishToolPage({
   tool,
+  afterTool,
   children,
 }: {
   tool: SpanishToolKey;
+  afterTool?: ReactNode;
   children: ReactNode;
 }) {
   const t = SPANISH_TOOLS[tool];
@@ -34,6 +36,7 @@ export function SpanishToolPage({
       path={t.path}
       locale="es"
       placement={t.placement}
+      afterTool={afterTool}
     >
       {children}
     </ToolPageShell>

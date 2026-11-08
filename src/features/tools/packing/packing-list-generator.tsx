@@ -23,28 +23,55 @@ import {
   type PackingInput,
 } from "@/features/tools/packing/packing";
 import { PackingListView } from "@/features/tools/packing/packing-list-view";
+import {
+  PACKING_TEXT,
+  type PackingLocale,
+  type PackingText,
+} from "@/features/tools/packing/packing-text";
 
-const OPTIONS = [
-  ["international", "International trip"],
-  ["laundry", "I can do laundry while away"],
-  ["beach", "Beach or pool"],
-  ["hiking", "Hiking or outdoor activities"],
-  ["business", "Business or work"],
-  ["smart", "Smart evenings out"],
-  ["child", "Travelling with a baby or young child"],
+const OPTION_KEYS = [
+  "international",
+  "laundry",
+  "beach",
+  "hiking",
+  "business",
+  "smart",
+  "child",
 ] as const;
 
-/** English only for now. Reads a shared list from the URL after hydration. */
-export function PackingListGenerator() {
+/** In English or Spanish. Reads a shared list from the URL after hydration. */
+export function PackingListGenerator({
+  locale = "en",
+}: {
+  locale?: PackingLocale;
+}) {
   const query = useQueryString();
-  return <GeneratorForm key={query} initial={packingFromQuery(query)} />;
+  return (
+    <GeneratorForm
+      key={query}
+      initial={packingFromQuery(query)}
+      locale={locale}
+      t={PACKING_TEXT[locale]}
+    />
+  );
 }
 
-function GeneratorForm({ initial }: { initial: PackingInput }) {
+function GeneratorForm({
+  initial,
+  locale,
+  t,
+}: {
+  initial: PackingInput;
+  locale: PackingLocale;
+  t: PackingText;
+}) {
   const id = useId();
   const [input, setInput] = useState<PackingInput>(initial);
   const [packed, setPacked] = useState<Set<string>>(new Set());
-  const list = useMemo(() => generatePackingList(input), [input]);
+  const list = useMemo(
+    () => generatePackingList(input, locale),
+    [input, locale],
+  );
   useSyncQuery(packingToQuery(input), input !== initial);
 
   const set = (patch: Partial<Record<keyof PackingInput, unknown>>) =>
@@ -64,10 +91,10 @@ function GeneratorForm({ initial }: { initial: PackingInput }) {
       <form
         className="glass flex flex-col gap-6 rounded-3xl p-5 sm:p-6 print:hidden"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Packing list options"
+        aria-label={t.formLabel}
       >
         <div className="flex flex-col gap-1.5 sm:max-w-[12rem]">
-          <Label htmlFor={`${id}-days`}>Trip length (days)</Label>
+          <Label htmlFor={`${id}-days`}>{t.days}</Label>
           <Input
             id={`${id}-days`}
             type="number"
@@ -80,36 +107,36 @@ function GeneratorForm({ initial }: { initial: PackingInput }) {
         </div>
         <Choice<Climate>
           name={`${id}-climate`}
-          label="Weather at your destination"
+          label={t.weather}
           value={input.climate}
           onChange={(climate) => set({ climate })}
           options={[
-            { value: "warm", label: "Warm or hot" },
-            { value: "mild", label: "Mild" },
-            { value: "cold", label: "Cold" },
+            { value: "warm", label: t.warm },
+            { value: "mild", label: t.mild },
+            { value: "cold", label: t.cold },
           ]}
         />
         <Choice<Luggage>
           name={`${id}-luggage`}
-          label="Luggage"
+          label={t.luggage}
           value={input.luggage}
           onChange={(luggage) => set({ luggage })}
           options={[
-            { value: "carry-on", label: "Carry-on only" },
-            { value: "checked", label: "Checked bag" },
+            { value: "carry-on", label: t.carryOn },
+            { value: "checked", label: t.checked },
           ]}
         />
         <fieldset className="flex flex-col gap-2.5">
           <legend className="mb-1 text-sm font-medium text-foreground">
-            Your trip
+            {t.yourTrip}
           </legend>
-          {OPTIONS.map(([key, label]) => (
+          {OPTION_KEYS.map((key) => (
             <CheckboxRow
               key={key}
               checked={input[key]}
               onChange={(checked) => set({ [key]: checked })}
             >
-              {label}
+              {t.options[key]}
             </CheckboxRow>
           ))}
         </fieldset>
@@ -119,7 +146,7 @@ function GeneratorForm({ initial }: { initial: PackingInput }) {
           className="self-start"
           onClick={() => setInput(DEFAULT_PACKING)}
         >
-          Reset
+          {t.reset}
         </Button>
       </form>
 
@@ -129,27 +156,26 @@ function GeneratorForm({ initial }: { initial: PackingInput }) {
       >
         <div>
           <h2 id={`${id}-result`} className="eyebrow">
-            Your packing list
+            {t.resultTitle}
           </h2>
           <p className="mt-2 font-display text-3xl font-bold text-white">
-            {list.itemCount} items
+            {t.items(list.itemCount)}
           </p>
           <p className="text-sm text-muted-foreground" aria-live="polite">
-            {input.days} {input.days === 1 ? "day" : "days"}, clothes for{" "}
-            {list.outfitDays} · {packedCount} of {ids.length} packed
+            {t.summary(input.days, list.outfitDays, packedCount, ids.length)}
           </p>
         </div>
 
         <PackingListView list={list} packed={packed} onToggle={toggle} />
 
         <div className="flex flex-wrap gap-2 print:hidden">
-          <ShareButton event="packing_list_shared" />
+          <ShareButton event="packing_list_shared" labels={t.share} />
           <Button
             type="button"
             variant="secondary"
             onClick={() => window.print()}
           >
-            Print list
+            {t.print}
           </Button>
           {packedCount > 0 ? (
             <Button
@@ -157,14 +183,11 @@ function GeneratorForm({ initial }: { initial: PackingInput }) {
               variant="ghost"
               onClick={() => setPacked(new Set())}
             >
-              Untick all
+              {t.untick}
             </Button>
           ) : null}
         </div>
-        <p className="text-xs text-muted-foreground">
-          A starting point, not a rule book. Ticks are kept on this page only;
-          the share link saves your trip settings, not your ticks.
-        </p>
+        <p className="text-xs text-muted-foreground">{t.disclaimer}</p>
       </section>
     </div>
   );

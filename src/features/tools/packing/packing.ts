@@ -2,8 +2,15 @@
  * Packing list generator. Pure functions: the list and the clothing
  * quantities come from simple, visible rules (trip length, weather, luggage,
  * laundry and activities). Nothing here states an airline or security rule
- * as fact; items that depend on those rules say "check".
+ * as fact; items that depend on those rules say "check". The list is built
+ * in English and translated at the end for other languages.
  */
+
+import {
+  PACKING_ES,
+  PACKING_TIPS,
+  type PackingLocale,
+} from "@/features/tools/packing/packing-text";
 
 export type Climate = "warm" | "mild" | "cold";
 export type Luggage = "carry-on" | "checked";
@@ -99,8 +106,12 @@ const item = (
   ...(note ? { note } : {}),
 });
 
-export function generatePackingList(raw: PackingInput): PackingList {
+export function generatePackingList(
+  raw: PackingInput,
+  locale: PackingLocale = "en",
+): PackingList {
   const i = sanitisePacking(raw);
+  const tip = PACKING_TIPS[locale];
   const cap = OUTFIT_CAP[i.luggage][i.laundry ? "laundry" : "noLaundry"];
   const n = Math.min(i.days, cap);
   const warm = i.climate === "warm";
@@ -333,28 +344,31 @@ export function generatePackingList(raw: PackingInput): PackingList {
     });
 
   const tips: string[] = [];
-  if (longTrip)
-    tips.push(
-      `Pack ${n} days of clothes and plan a wash${i.laundry ? "" : " about once a week"}: a trip of ${i.days} days doesn't need ${i.days} outfits.`,
-    );
-  if (i.luggage === "carry-on")
-    tips.push(
-      "Carry-on only: liquids usually need to fit the security rules at your departure airport, so check them before you pack toiletries.",
-    );
-  tips.push(
-    "Wear your bulkiest shoes and jacket on the plane, and roll clothes to save space.",
-  );
-  if (cold)
-    tips.push(
-      "Layers beat one heavy jumper: they pack smaller and adapt to heated rooms.",
-    );
+  if (longTrip) tips.push(tip.wash(n, i.days, i.laundry));
+  if (i.luggage === "carry-on") tips.push(tip.carryOn);
+  tips.push(tip.wear);
+  if (cold) tips.push(tip.layers);
 
   return {
     outfitDays: n,
-    categories,
+    categories: locale === "en" ? categories : translate(categories),
     tips,
     itemCount: categories.reduce((sum, c) => sum + c.items.length, 0),
   };
+}
+
+/** Spanish titles, labels and notes; English is kept if one is missing. */
+function translate(categories: PackingCategory[]): PackingCategory[] {
+  const tr = (text: string) => PACKING_ES[text] ?? text;
+  return categories.map((c) => ({
+    ...c,
+    title: tr(c.title),
+    items: c.items.map((it) => ({
+      ...it,
+      label: tr(it.label),
+      ...(it.note ? { note: tr(it.note) } : {}),
+    })),
+  }));
 }
 
 const CLIMATES: Climate[] = ["warm", "mild", "cold"];
