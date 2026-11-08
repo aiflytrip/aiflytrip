@@ -414,4 +414,337 @@ export const spanishPosts: PostInput[] = [
       SOURCES.iataTravelers,
     ],
   },
+  {
+    slug: "que-cabe-debajo-del-asiento-del-avion",
+    locale: "es",
+    translationOf: "what-fits-under-the-seat",
+    photo: "flying-with-kids",
+    category: "practical",
+    status: "published",
+    publishAt: "2026-11-08",
+    lastReviewed: "2026-11-08",
+    title: "¿Qué cabe debajo del asiento del avión? Guía práctica",
+    description:
+      "¿Cabe tu bolso o mochila debajo del asiento? Cómo funcionan los límites del artículo personal, qué bultos encajan mejor y cómo medir el tuyo.",
+    headline: "¿Cabe mi bolso debajo del asiento? Guía del artículo personal",
+    intro:
+      "Cada vez más tarifas incluyen solo un bulto pequeño que va debajo del asiento de delante, así que saber si tu bolso o tu mochila cabe ahí importa más que antes. La respuesta depende de dos cosas: el límite de tu reserva y el propio bulto, medido como lo mide la aerolínea. Esta guía explica ambas y qué hacer cuando va justo.",
+    sections: [
+      {
+        heading: "Empieza por el límite de tu reserva",
+        paragraphs: [
+          "No existe una medida única para el artículo personal que usen todas las aerolíneas. Cada una publica su propio límite, y algunas fijan límites distintos según la tarifa o la ruta. La única cifra que cuenta es la de tu reserva, que encontrarás en el apartado de equipaje de la confirmación, en la web de la aerolínea o en su aplicación.",
+          "Estos límites suelen darse como tres medidas: largo, ancho y fondo. Medidas habituales son unos 40 × 30 × 20 cm o 45 × 36 × 20 cm, pero tómalas como ejemplos, no como normas: copia siempre las cifras de tu aerolínea. Algunas aerolíneas también fijan un peso máximo para el artículo personal, así que comprueba si lo hay.",
+          "Con las cifras delante, nuestro [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) responde directamente a la pregunta de si tu bolso cabe. Introduce el límite y las medidas de tu bulto, y verás si cabe, qué lado se pasa y por cuánto.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Cómo medir bien tu bolso o mochila",
+        paragraphs: [
+          "La mayoría de los bultos que se rechazan en la puerta de embarque se midieron vacíos o con la medida de la etiqueta. Una bolsa blanda crece bastante cuando está llena, así que prepárala tal y como vas a viajar y mídela después.",
+          "Mide el punto más ancho de cada lado, incluido todo lo que sobresale: ruedas, patas, asas, cremalleras y bolsillos exteriores. Si un bolsillo exterior va lleno, cuenta.",
+        ],
+        bullets: [
+          "Primero haz el equipaje, después mídelo",
+          "Mide cada lado por su punto más ancho, no por el centro",
+          "Incluye ruedas, asas, patas y bolsillos exteriores llenos",
+          "Apunta las tres medidas para compararlas con el límite",
+        ],
+      },
+      {
+        heading: "Girar el bulto puede hacer que quepa",
+        paragraphs: [
+          "A las aerolíneas les suele importar que el bulto quepa en el hueco, no hacia qué lado va. Una mochila demasiado alta de pie puede caber tumbada. La prueba es sencilla: ordena los lados de tu bulto del más largo al más corto y haz lo mismo con el límite. Si cada lado del bulto no supera el lado correspondiente del límite, se puede girar para que quepa.",
+          "El comprobador hace esa ordenación por ti y te avisa cuando un bulto solo cabe girado, para que sepas cómo meterlo en el medidor.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Qué bultos caben mejor debajo del asiento",
+        paragraphs: [
+          "Las bolsas blandas caben mejor porque ceden un poco al meterlas en el hueco. Una mochila, un bolso tipo shopper o una bolsa de viaje sin armazón rígido se desliza bajo el asiento con más facilidad que una maleta rígida pequeña, aunque las medidas sean las mismas.",
+          "Busca un bulto pensado para la medida que necesitas en lugar de uno grande que pienses llevar medio vacío: un bulto a medio llenar sigue teniendo armazón, asas y bolsillos que ocupan sitio.",
+        ],
+        bullets: [
+          "Mochilas blandas con correas de compresión",
+          "Bolsos y bandoleras sin base rígida",
+          "Bolsas de viaje pequeñas que se puedan apretar",
+          "Fundas de portátil, si solo necesitas el portátil y lo básico",
+        ],
+      },
+      {
+        heading: "El hueco bajo el asiento no siempre es igual",
+        paragraphs: [
+          "Aunque tu bulto cumpla el límite de la aerolínea, el espacio bajo cada asiento cambia según el avión. En algunos aviones, las cajas de equipos de los asientos ocupan parte del hueco bajo ciertos asientos, así que el espacio depende de dónde te sientes.",
+          "Algunas filas no tienen espacio bajo el asiento durante el despegue y el aterrizaje. Las filas de mampara no tienen asiento delante, y en las filas de salida de emergencia el suelo debe quedar despejado, así que los bultos de esas filas suelen ir en el compartimento superior. Si quieres tener tu bolso a los pies todo el vuelo, evita esas filas al elegir asiento.",
+          "El bulto también debe dejarte sitio para los pies y no invadir el pasillo, así que uno que técnicamente cabe pero te obliga a sacar las piernas al pasillo puede acabar arriba por indicación de la tripulación.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Qué llevar en el bulto que va a tus pies",
+        paragraphs: [
+          "El artículo personal es el bulto que se queda contigo pase lo que pase. Si una maleta de cabina más grande tiene que ir a bodega en la puerta de embarque, el bolso de debajo del asiento sigue contigo, así que guarda en él lo imprescindible.",
+          "Lleva en el artículo personal el pasaporte o el DNI y los documentos de viaje, el móvil, la cartera, las llaves, los medicamentos y los objetos de valor. Las baterías externas y las baterías de litio de repuesto suelen tener que viajar en cabina, así que guárdalas también en el bulto de debajo del asiento.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Si tu bulto va justo de medidas",
+        paragraphs: [
+          "Si el comprobador dice que tu bulto cabe muy justo o se pasa un poco, tienes varias opciones. Puedes cambiar a una bolsa más blanda o más pequeña, ponerte una prenda voluminosa, como la chaqueta, o sacar algunas cosas para que el bulto se comprima. Si aun así no cabe, añadir una maleta de cabina o facturada al reservar suele salir más barato que pagar en la puerta de embarque.",
+          "Nuestra guía sobre [cómo fijan las aerolíneas el precio de los vuelos](/es/blog/como-fijan-las-aerolineas-el-precio-de-los-vuelos) explica por qué la tarifa más barata no siempre es la que menos cuesta al final, y si viajas con escala, el [comprobador de tiempo de escala](/es/herramientas/tiempo-de-escala) te ayuda a saber si el enlace es suficiente. Si prefieres partir de un plan completo, el [planificador de viajes con IA](/es/planificar) prepara gratis un itinerario día a día con lista de equipaje.",
+        ],
+        bullets: [],
+      },
+    ],
+    faqs: [
+      {
+        question: "¿Cabe una mochila debajo del asiento del avión?",
+        answer:
+          "Muchas mochilas pequeñas sí, siempre que una vez llenas estén dentro del límite del artículo personal de tu reserva. Las mochilas blandas sin armazón rígido son las que mejor caben. Mídela llena y compárala con el límite en nuestro comprobador.",
+      },
+      {
+        question: "¿Las ruedas y las asas cuentan en las medidas del bulto?",
+        answer:
+          "Normalmente sí. Las aerolíneas suelen medir el bulto completo, con ruedas, asas, patas y bolsillos exteriores. Mide hasta el punto más exterior de cada lado para que las cifras coincidan con lo que marcará el medidor de la puerta de embarque.",
+      },
+      {
+        question: "¿El hueco bajo todos los asientos es igual de grande?",
+        answer:
+          "No. Depende del avión y del asiento. Algunos equipos ocupan parte del espacio bajo ciertos asientos, y las filas de mampara y de salida de emergencia no suelen tener espacio bajo el asiento durante el despegue y el aterrizaje.",
+      },
+      {
+        question: "¿Qué pasa si mi artículo personal es demasiado grande?",
+        answer:
+          "Depende de la aerolínea, pero un artículo personal demasiado grande puede tener que pagarse como maleta de cabina o facturarse en bodega, a menudo con un recargo mayor en la puerta de embarque que al reservar. Compruébalo antes de viajar.",
+      },
+    ],
+    related: {
+      destinations: [],
+      itineraries: [],
+      guides: [
+        "articulo-personal-o-equipaje-de-mano",
+        "equipaje-de-mano-demasiado-grande",
+        "como-fijan-las-aerolineas-el-precio-de-los-vuelos",
+      ],
+    },
+    sources: [
+      SOURCES.aesaPassengers,
+      SOURCES.euAirRightsEs,
+      SOURCES.iataTravelers,
+    ],
+  },
+  {
+    slug: "articulo-personal-o-equipaje-de-mano",
+    locale: "es",
+    translationOf: "personal-item-vs-carry-on",
+    photo: "airline-fees",
+    category: "practical",
+    status: "published",
+    publishAt: "2026-11-12",
+    lastReviewed: "2026-11-08",
+    title: "Artículo personal o equipaje de mano: diferencias",
+    description:
+      "¿Artículo personal o maleta de cabina? Qué es cada uno, dónde va en el avión, qué incluye tu tarifa y cómo elegir el bulto adecuado para tu viaje.",
+    headline: "Artículo personal y equipaje de mano: en qué se diferencian",
+    intro:
+      "Las normas de equipaje de las aerolíneas suelen hablar de dos tipos de bulto en cabina: el artículo personal y el equipaje de mano, también llamado maleta de cabina. Suenan parecido, pero son franquicias distintas, con medidas distintas, y muchas tarifas solo incluyen una de ellas. Saber cuál es cuál te ayuda a elegir bien la tarifa y a evitar un recargo en la puerta de embarque.",
+    sections: [
+      {
+        heading: "El artículo personal: el bulto de debajo del asiento",
+        paragraphs: [
+          "El artículo personal es un bulto pequeño que cabe debajo del asiento de delante. Ejemplos típicos son un bolso, una funda de portátil o una mochila pequeña. Como va debajo del asiento, su límite es menor que el de la maleta de cabina, y la medida exacta cambia según la aerolínea y a veces según la tarifa.",
+          "La mayoría de las tarifas incluyen un artículo personal, también muchas tarifas básicas de las aerolíneas de bajo coste. Es el bulto que se queda contigo todo el vuelo, así que es el sitio para los documentos, los medicamentos, los objetos de valor y los aparatos electrónicos. Nuestra guía sobre [qué cabe debajo del asiento del avión](/es/blog/que-cabe-debajo-del-asiento-del-avion) explica cómo comprobar si tu bolso cumple.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "El equipaje de mano: la maleta del compartimento superior",
+        paragraphs: [
+          "El equipaje de mano, o maleta de cabina, es el bulto más grande que va en el compartimento superior. Suele ser una maleta pequeña con ruedas o una mochila grande. Una medida habitual ronda los 55 × 40 × 20 cm, pero los límites cambian, así que toma las cifras de tu propia reserva.",
+          "Que la maleta de cabina esté incluida depende de la aerolínea y de la tarifa. Algunas tarifas incluyen el artículo personal y la maleta de cabina, mientras que otras solo incluyen el artículo personal y cobran la maleta de cabina como extra. Algunas aerolíneas también fijan un peso máximo para la maleta de cabina.",
+          "El espacio de los compartimentos superiores es limitado y compartido. En los vuelos llenos, los últimos pasajeros en embarcar pueden encontrarlos ocupados, y sus maletas de cabina pueden acabar en bodega en la puerta de embarque. Es un motivo más para llevar lo imprescindible en el artículo personal.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Las diferencias clave de un vistazo",
+        paragraphs: [
+          "Las dos franquicias se diferencian en tamaño, en dónde va el bulto y en la frecuencia con que se incluyen. Estos son los patrones generales; los detalles están en tu reserva.",
+        ],
+        bullets: [
+          "Tamaño: el límite del artículo personal es menor que el de la maleta de cabina",
+          "Ubicación: el artículo personal va bajo el asiento y la maleta de cabina en el compartimento superior",
+          "Inclusión: la mayoría de las tarifas incluyen artículo personal; la maleta de cabina no siempre",
+          "En vuelos llenos, la maleta de cabina puede ir a bodega en la puerta; el artículo personal se queda contigo",
+          "Peso: algunas aerolíneas fijan un peso máximo para cualquiera de los dos, así que compruébalo",
+        ],
+      },
+      {
+        heading: "Cómo saber qué incluye tu tarifa",
+        paragraphs: [
+          "Mira el apartado de equipaje de la confirmación de tu reserva, o los detalles de la tarifa en la web de la aerolínea antes de pagar. Las tarifas suelen presentarse por niveles, y la diferencia entre la más barata y la siguiente muchas veces es precisamente la maleta de cabina.",
+          "La terminología cambia, así que lee con atención: «equipaje de mano», «equipaje de cabina», «bulto de mano» y «artículo personal» pueden significar cosas distintas en cada aerolínea. Si la tarifa dice «un bulto pequeño», comprueba sus medidas; a menudo es solo el artículo personal. Nuestra guía sobre [cómo fijan las aerolíneas el precio de los vuelos](/es/blog/como-fijan-las-aerolineas-el-precio-de-los-vuelos) explica cómo se estructuran estas tarifas.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Cómo elegir entre uno y otro",
+        paragraphs: [
+          "Viajar solo con artículo personal funciona bien en viajes cortos, destinos cálidos y para quien viaja ligero. Con un armario pequeño de prendas combinables y productos de aseo sólidos, un fin de semana o incluso unos días caben en un bolso de debajo del asiento.",
+          "La maleta de cabina tiene sentido en viajes largos, con frío, en viajes de trabajo con cambio de ropa o si quieres sitio para lo que compres por el camino. Las familias con niños suelen necesitarla.",
+          "Antes de decidir, haz cuentas. Una tarifa que incluye maleta de cabina puede salir mejor que una más barata a la que añades la maleta después. Nuestra [calculadora de presupuesto de viaje](/es/herramientas/calculadora-presupuesto-viaje) suma el coste total del viaje para que compares con datos.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Cómo apañarte con un solo bulto",
+        paragraphs: [
+          "Si quieres viajar solo con artículo personal, elige una bolsa blanda que aproveche toda la medida permitida, prepárala tal y como vas a viajar y mídela. Nuestro [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) te dice si cabe y si girarla ayudaría.",
+          "Ponte la ropa y el calzado más voluminosos para volar, limita los líquidos a lo que permitan las normas de seguridad de tu aeropuerto y deja espacio para lo que tengas que sacar en el control. Si prefieres partir de un plan, el [planificador de viajes con IA](/es/planificar) prepara gratis un itinerario con lista de equipaje.",
+        ],
+        bullets: [],
+      },
+    ],
+    faqs: [
+      {
+        question: "¿Una mochila es artículo personal o equipaje de mano?",
+        answer:
+          "Puede ser cualquiera de los dos. Una mochila pequeña que cumple el límite del artículo personal cuenta como tal y va debajo del asiento. Una mochila más grande que solo cumple el límite de la maleta de cabina cuenta como equipaje de mano y va arriba.",
+      },
+      {
+        question:
+          "¿Puedo llevar artículo personal y maleta de cabina a la vez?",
+        answer:
+          "Solo si tu tarifa incluye ambos. Algunas tarifas incluyen artículo personal y maleta de cabina, mientras que las tarifas básicas de muchas aerolíneas solo incluyen el artículo personal. Revisa el apartado de equipaje de tu reserva antes de viajar.",
+      },
+      {
+        question:
+          "¿El abrigo o una bolsa del duty free cuentan como artículo personal?",
+        answer:
+          "Depende de la aerolínea. Algunas permiten un abrigo, una bolsa pequeña del duty free o ciertas ayudas técnicas además de tu franquicia, mientras que otras cuentan todos los bultos. Revisa las normas de tu aerolínea antes de dar por hecho que un bulto extra está permitido.",
+      },
+    ],
+    related: {
+      destinations: [],
+      itineraries: [],
+      guides: [
+        "que-cabe-debajo-del-asiento-del-avion",
+        "equipaje-de-mano-demasiado-grande",
+        "como-fijan-las-aerolineas-el-precio-de-los-vuelos",
+      ],
+    },
+    sources: [
+      SOURCES.aesaPassengers,
+      SOURCES.euAirRightsEs,
+      SOURCES.iataTravelers,
+    ],
+  },
+  {
+    slug: "equipaje-de-mano-demasiado-grande",
+    locale: "es",
+    translationOf: "carry-on-too-big-at-the-gate",
+    photo: "carry-on",
+    category: "practical",
+    status: "published",
+    publishAt: "2026-11-19",
+    lastReviewed: "2026-11-08",
+    title: "Equipaje de mano demasiado grande: qué pasa en la puerta",
+    description:
+      "Qué pasa si tu maleta de cabina o tu bolso no cabe en el medidor, qué sacar si va a bodega y cómo evitar el recargo en la puerta de embarque.",
+    headline: "¿Tu equipaje de mano es demasiado grande? Qué pasa y qué hacer",
+    intro:
+      "Los controles de equipaje en la puerta de embarque pillan a muchos viajeros, sobre todo con las aerolíneas de bajo coste. Si tu bulto no entra en el medidor, normalmente tendrás que pagarlo o mandarlo a bodega, y los recargos en la puerta suelen ser más altos que si añades la maleta al reservar. Aquí tienes lo que suele pasar, qué hacer en ese momento y cómo evitar que se repita.",
+    sections: [
+      {
+        heading: "Cómo funcionan los controles en la puerta de embarque",
+        paragraphs: [
+          "Muchas aerolíneas comprueban el equipaje de mano en la facturación, en la puerta o durante el embarque, con un cajón metálico llamado medidor que reproduce su límite. Si el bulto entra sin forzarlo, se acepta. Si no, el personal decide qué hacer según las normas de la aerolínea.",
+          "Los controles suelen ser más estrictos con el artículo personal en tarifas que solo incluyen un bulto pequeño bajo el asiento, y en vuelos llenos con poco espacio en los compartimentos superiores. Que te dejaran pasar en un viaje no significa que el mismo bulto pase la próxima vez.",
+          "Algunas aerolíneas también pesan el equipaje de mano, en la facturación o en la puerta. Un bulto que cumple las medidas puede rechazarse si supera el peso máximo, así que si tu aerolínea lo fija, pesa la maleta ya hecha antes de salir de casa.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Qué suele pasar si tu bulto es demasiado grande",
+        paragraphs: [
+          "Cada aerolínea tiene su política, pero lo habitual es que pagues para subir el bulto como maleta de cabina o que pagues para mandarlo a bodega. Un artículo personal demasiado grande puede cobrarse como maleta de cabina; una maleta de cabina demasiado grande o pesada puede tener que facturarse.",
+          "Los recargos en la puerta suelen ser más altos que añadir la misma maleta al reservar o por internet antes del vuelo, porque buscan desincentivar los bultos grandes de última hora. Nuestra guía sobre [cómo fijan las aerolíneas el precio de los vuelos](/es/blog/como-fijan-las-aerolineas-el-precio-de-los-vuelos) explica cómo se reparten esos extras en las tarifas.",
+          "Aparte, en vuelos llenos, las aerolíneas a veces piden llevar maletas de cabina a bodega aunque cumplan el límite. Es una cuestión de espacio, no de tamaño, y suele ser gratis, pero igualmente tienes que sacar lo que deba ir en cabina.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Qué hacer en ese momento",
+        paragraphs: [
+          "Primero, prueba a meter el bulto en el medidor en otra posición: uno que es demasiado alto de pie puede caber de lado. Si un bolsillo va demasiado lleno, pasa cosas a los bolsillos del abrigo o ponte una prenda, y comprime las bolsas blandas con sus correas. Sé rápido y amable: el personal está embarcando un vuelo entero.",
+          "Si aun así no cabe, pregunta exactamente qué opciones hay y cuánto cuestan antes de pagar. En algunos casos se permite pasar algo voluminoso a la bolsa de un acompañante que tenga sitio; en otros, cada bulto se revisa por separado.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Qué sacar antes de que tu maleta vaya a bodega",
+        paragraphs: [
+          "Si tu bulto va a bodega, saca todo lo que necesites durante el vuelo o no puedas arriesgarte a perder. Las baterías externas y las baterías de litio de repuesto suelen tener que viajar en cabina y no en bodega, así que sácalas antes de entregar la maleta. Llevar una bolsa plegable dentro del equipaje viene muy bien en esta situación.",
+        ],
+        bullets: [
+          "Pasaporte o DNI, visados y documentos de viaje",
+          "Medicamentos y lo que necesites durante el vuelo",
+          "Baterías externas, baterías de repuesto y cigarrillos electrónicos",
+          "Portátil, tableta, cámaras y otros objetos de valor",
+          "Llaves, tarjetas y dinero",
+        ],
+      },
+      {
+        heading: "Si tu escala va justa",
+        paragraphs: [
+          "Una maleta enviada a bodega en la puerta de embarque se devuelve normalmente en la puerta del avión o en la cinta de recogida, según la aerolínea y el aeropuerto. Pregunta cuál de las dos será. Si va a la cinta en una conexión con billetes separados, necesitarás tiempo para recogerla y volver a facturarla, lo que puede dejar el enlace muy justo. Nuestro [comprobador de tiempo de escala](/es/herramientas/tiempo-de-escala) te ayuda a valorar si la conexión sigue siendo viable.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Cómo evitarlo la próxima vez",
+        paragraphs: [
+          "La solución es sencilla: mide tu bulto ya hecho, con el límite de tu reserva, antes de salir de casa. Nuestro [comprobador de medidas del equipaje de mano](/es/herramientas/medidas-equipaje-de-mano) te dice si cabe, por cuánto y si girarlo ayuda. Nuestra guía sobre [qué cabe debajo del asiento del avión](/es/blog/que-cabe-debajo-del-asiento-del-avion) explica cómo medir bien, con ruedas y bolsillos incluidos.",
+          "Asegúrate de saber qué franquicia tienes. Si tu tarifa solo incluye un bulto bajo el asiento, una maleta pequeña con ruedas no cumplirá por muy poco que lleves. Nuestra guía sobre [artículo personal y equipaje de mano](/es/blog/articulo-personal-o-equipaje-de-mano) explica la diferencia.",
+          "Si necesitas más espacio, añade una maleta al reservar. Nuestra [calculadora de presupuesto de viaje](/es/herramientas/calculadora-presupuesto-viaje) te ayuda a ver el coste total del viaje con el equipaje incluido.",
+        ],
+        bullets: [],
+      },
+    ],
+    faqs: [
+      {
+        question: "¿Las aerolíneas miden de verdad el equipaje de mano?",
+        answer:
+          "Muchas sí, sobre todo las de bajo coste y en tarifas que solo incluyen un artículo personal. Los controles pueden hacerse en la facturación, en la puerta o durante el embarque, así que lo más seguro es suponer que lo medirán y comprobarlo en casa.",
+      },
+      {
+        question: "¿Es más barato pagar la maleta al reservar o en la puerta?",
+        answer:
+          "Añadir la maleta al reservar o por internet antes del vuelo suele ser más barato que pagarla en la puerta de embarque. Las políticas y los precios cambian entre aerolíneas, así que compara en la web de la tuya al reservar en lugar de esperar.",
+      },
+      {
+        question:
+          "¿Puedo sacar la batería externa si mi maleta va a bodega en la puerta?",
+        answer:
+          "Sí, y normalmente debes hacerlo. Las baterías externas y las baterías de litio de repuesto suelen tener que viajar en cabina y no en bodega, así que sácalas de cualquier bulto que vaya a facturarse y llévalas contigo.",
+      },
+    ],
+    related: {
+      destinations: [],
+      itineraries: [],
+      guides: [
+        "que-cabe-debajo-del-asiento-del-avion",
+        "articulo-personal-o-equipaje-de-mano",
+        "como-fijan-las-aerolineas-el-precio-de-los-vuelos",
+      ],
+    },
+    sources: [
+      SOURCES.aesaPassengers,
+      SOURCES.euAirRightsEs,
+      SOURCES.iataTravelers,
+    ],
+  },
 ];

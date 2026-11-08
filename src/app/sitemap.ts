@@ -11,6 +11,7 @@ import {
 import { type Destination, type Guide, type Itinerary } from "@/content/schema";
 import { absoluteUrl } from "@/features/seo/metadata";
 import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
+import { SPANISH_TOOL_PATHS } from "@/features/tools/spanish-tools";
 import { LOCALES } from "@/i18n/config";
 import {
   alternatesForPath,
@@ -46,12 +47,16 @@ export const STATIC_PUBLIC_PATHS = [
   "/terms",
 ] as const;
 
-/** Spanish and French versions of the translated pages, plus the Spanish blog. */
+/**
+ * Spanish and French versions of the translated pages, the Spanish blog and
+ * the tools that exist in English and Spanish only.
+ */
 export const TRANSLATED_PATHS = [
   ...INDEXABLE_ROUTE_KEYS.flatMap((key) =>
     LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
   ),
   BLOG_HUB.es,
+  ...SPANISH_TOOL_PATHS,
 ];
 
 /** hreflang alternates (absolute URLs) for a page that has translations. */

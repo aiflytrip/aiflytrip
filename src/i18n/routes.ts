@@ -55,13 +55,27 @@ export const BLOG_TRANSLATIONS: Record<string, string> = {
     "como-fijan-las-aerolineas-el-precio-de-los-vuelos",
   "how-to-build-a-travel-itinerary": "ejemplo-de-itinerario-de-viaje",
   "what-is-a-flight-itinerary": "ejemplo-de-itinerario-de-vuelo",
+  "what-fits-under-the-seat": "que-cabe-debajo-del-asiento-del-avion",
+  "personal-item-vs-carry-on": "articulo-personal-o-equipaje-de-mano",
+  "carry-on-too-big-at-the-gate": "equipaje-de-mano-demasiado-grande",
 };
 
 export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;
 
 export type BlogPair = { en: string; es: string };
 
-/** The English and Spanish URLs of a blog page that exists in both. */
+/**
+ * Other pages that exist in English and Spanish only, such as tools not yet
+ * translated into French. They pair the same way blog posts do.
+ */
+export const EN_ES_PAGES = {
+  bagSize: {
+    en: "/tools/bag-size-checker",
+    es: "/es/herramientas/medidas-equipaje-de-mano",
+  },
+} as const satisfies Record<string, BlogPair>;
+
+/** The English and Spanish URLs of a page that exists in both, but not French. */
 export function blogPair(path: string): BlogPair | undefined {
   const clean = cleanPath(path);
   if (clean === BLOG_HUB.en || clean === BLOG_HUB.es) return { ...BLOG_HUB };
@@ -69,7 +83,9 @@ export function blogPair(path: string): BlogPair | undefined {
     const pair = { en: `${BLOG_HUB.en}/${en}`, es: `${BLOG_HUB.es}/${es}` };
     if (clean === pair.en || clean === pair.es) return pair;
   }
-  return undefined;
+  return Object.values(EN_ES_PAGES).find(
+    (pair) => clean === pair.en || clean === pair.es,
+  );
 }
 
 /** Whether a path has a version in the target language. */

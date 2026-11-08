@@ -20,6 +20,10 @@ import {
   ENGLISH_TOOLS,
 } from "@/features/tools/english-tools";
 import {
+  SPANISH_TOOL_KEYS,
+  SPANISH_TOOLS,
+} from "@/features/tools/spanish-tools";
+import {
   formatMinutes,
   formatMoney,
   VERDICT_STYLES,
@@ -334,6 +338,34 @@ export function ToolsHub({ locale }: { locale: Locale }) {
           <ul className="grid gap-5 sm:grid-cols-2">
             {ENGLISH_TOOL_KEYS.map((key) => {
               const tool = ENGLISH_TOOLS[key];
+              return (
+                <li key={key}>
+                  <Link
+                    href={tool.path}
+                    className="glass lift flex h-full flex-col gap-3 rounded-3xl p-6"
+                  >
+                    <h3 className="text-xl font-semibold text-white">
+                      {tool.card.title}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-muted-foreground">
+                      {tool.card.body}
+                    </p>
+                    <span className="mt-auto pt-1 text-sm font-semibold text-primary">
+                      {copy.open}
+                    </span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </ContentSection>
+      ) : null}
+
+      {locale === "es" ? (
+        <ContentSection id="equipaje" title="Herramientas de equipaje">
+          <ul className="grid gap-5 sm:grid-cols-2">
+            {SPANISH_TOOL_KEYS.map((key) => {
+              const tool = SPANISH_TOOLS[key];
               return (
                 <li key={key}>
                   <Link

@@ -101,7 +101,21 @@ export function useSyncQuery(query: string, changed: boolean) {
   }, [query, changed]);
 }
 
-export function ShareButton({ event }: { event: AnalyticsEvent }) {
+export type ShareLabels = { copy: string; copied: string; prompt: string };
+
+const ENGLISH_SHARE_LABELS: ShareLabels = {
+  copy: "Copy share link",
+  copied: "Link copied",
+  prompt: "Copy this link to share your result:",
+};
+
+export function ShareButton({
+  event,
+  labels = ENGLISH_SHARE_LABELS,
+}: {
+  event: AnalyticsEvent;
+  labels?: ShareLabels;
+}) {
   const [copied, setCopied] = useState(false);
   async function share() {
     const url = window.location.href;
@@ -110,13 +124,13 @@ export function ShareButton({ event }: { event: AnalyticsEvent }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2500);
     } catch {
-      window.prompt("Copy this link to share your result:", url);
+      window.prompt(labels.prompt, url);
     }
     track(event);
   }
   return (
     <Button type="button" onClick={share}>
-      {copied ? "Link copied" : "Copy share link"}
+      {copied ? labels.copied : labels.copy}
     </Button>
   );
 }

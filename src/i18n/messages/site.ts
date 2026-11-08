@@ -1,5 +1,5 @@
 import { type Locale } from "@/i18n/config";
-import { BLOG_HUB, plannerHref, route } from "@/i18n/routes";
+import { BLOG_HUB, EN_ES_PAGES, plannerHref, route } from "@/i18n/routes";
 
 /**
  * Site chrome (header, footer, language switcher, suggestion banner) per
@@ -104,6 +104,15 @@ function localisedChrome(
           { href: route("budget", locale), label: text.budget },
           { href: route("layover", locale), label: text.layover },
           { href: route("days", locale), label: text.days },
+          // The bag size checker has a Spanish page but no French one yet.
+          ...(locale === "es"
+            ? [
+                {
+                  href: EN_ES_PAGES.bagSize.es,
+                  label: "Medidas del equipaje de mano",
+                },
+              ]
+            : []),
           { href: "/flights", label: text.compareFlights, englishOnly: true },
         ],
       },

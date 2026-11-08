@@ -6,6 +6,7 @@ import {
   type EnglishToolKey,
 } from "@/features/tools/english-tools";
 import { ToolPageShell } from "@/features/tools/tool-page";
+import { alternatesForPath } from "@/i18n/routes";
 
 export function englishToolMetadata(key: EnglishToolKey) {
   const tool = ENGLISH_TOOLS[key];
@@ -13,10 +14,12 @@ export function englishToolMetadata(key: EnglishToolKey) {
     title: tool.copy.meta.title,
     description: tool.copy.meta.description,
     path: tool.path,
+    // Tools with a Spanish version (EN_ES_PAGES) carry hreflang alternates.
+    languages: alternatesForPath(tool.path),
   });
 }
 
-/** A tool page for a tool that exists only in English (no hreflang). */
+/** A tool page for a tool that has no French version. */
 export function EnglishToolPage({
   tool,
   afterTool,

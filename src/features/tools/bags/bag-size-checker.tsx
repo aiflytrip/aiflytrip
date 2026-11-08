@@ -19,6 +19,11 @@ import {
   type UnitSystem,
 } from "@/features/tools/bags/bag-size";
 import {
+  BAG_SIZE_TEXT,
+  type BagSizeLocale,
+  type BagSizeText,
+} from "@/features/tools/bags/bag-size-text";
+import {
   Choice,
   ShareButton,
   useQueryString,
@@ -27,26 +32,23 @@ import {
 import { VERDICT_STYLES } from "@/features/tools/format";
 import { cn } from "@/lib/utils";
 
-const VERDICTS: Record<
-  SizeVerdict,
-  { label: string; style: keyof typeof VERDICT_STYLES }
-> = {
-  fits: { label: "Fits", style: "comfortable" },
-  tight: { label: "Fits, but only just", style: "tight" },
-  "too-big": { label: "Too big", style: "risky" },
-  incomplete: { label: "Enter your sizes", style: "workable" },
+const VERDICT_STYLE: Record<SizeVerdict, keyof typeof VERDICT_STYLES> = {
+  fits: "comfortable",
+  tight: "tight",
+  "too-big": "risky",
+  incomplete: "workable",
 };
 
-const SIDE_LABEL = {
-  longest: "Longest side",
-  middle: "Middle side",
-  shortest: "Shortest side",
-} as const;
-
-/** English only for now. Reads a shared check from the URL after hydration. */
-export function BagSizeChecker() {
+/** In English or Spanish. Reads a shared check from the URL after hydration. */
+export function BagSizeChecker({ locale = "en" }: { locale?: BagSizeLocale }) {
   const query = useQueryString();
-  return <CheckerForm key={query} initial={bagSizeFromQuery(query)} />;
+  return (
+    <CheckerForm
+      key={query}
+      initial={bagSizeFromQuery(query)}
+      t={BAG_SIZE_TEXT[locale]}
+    />
+  );
 }
 
 function NumberField({
@@ -77,7 +79,13 @@ function NumberField({
   );
 }
 
-function CheckerForm({ initial }: { initial: BagSizeInput }) {
+function CheckerForm({
+  initial,
+  t,
+}: {
+  initial: BagSizeInput;
+  t: BagSizeText;
+}) {
   const id = useId();
   const [input, setInput] = useState<BagSizeInput>(initial);
   const result = useMemo(() => checkBagSize(input), [input]);
@@ -88,89 +96,72 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
   const len = input.unit === "metric" ? "cm" : "in";
   const wt = input.unit === "metric" ? "kg" : "lb";
   const fmt = (n: number, unit: string) => `${Math.abs(n)} ${unit}`;
-  const verdict = VERDICTS[result.verdict];
-  const style = VERDICT_STYLES[verdict.style];
+  const style = VERDICT_STYLES[VERDICT_STYLE[result.verdict]];
 
   const advice: string[] = [];
-  if (result.needsTurning)
-    advice.push(
-      "It fits if you turn it: put the longest side of the bag along the longest side of the limit.",
-    );
-  if (result.verdict === "too-big")
-    advice.push(
-      "If it doesn't fit, the airline may ask you to pay at the gate or check the bag in. A smaller or softer bag, or moving items to a bag that is included, avoids that.",
-    );
-  if (result.verdict === "tight")
-    advice.push(
-      "There is very little room. Measure again with the bag packed, including wheels, handles and outside pockets.",
-    );
-  if (result.weightVerdict === "over")
-    advice.push(
-      "The bag is over the weight limit. Our luggage weight calculator shows which items make the biggest difference.",
-    );
-  advice.push(
-    "Use the limit for your exact fare, as shown in your booking: allowances differ between airlines, fares and routes, and they change.",
-  );
+  if (result.needsTurning) advice.push(t.advice.turn);
+  if (result.verdict === "too-big") advice.push(t.advice.tooBig);
+  if (result.verdict === "tight") advice.push(t.advice.tight);
+  if (result.weightVerdict === "over") advice.push(t.advice.overWeight);
+  advice.push(t.advice.exactFare);
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
       <form
         className="glass flex flex-col gap-6 rounded-3xl p-5 sm:p-6"
         onSubmit={(e) => e.preventDefault()}
-        aria-label="Bag size inputs"
+        aria-label={t.formLabel}
       >
         <Choice<UnitSystem>
           name={`${id}-unit`}
-          label="Units"
+          label={t.units}
           value={input.unit}
           onChange={(unit) => setInput((prev) => convertBagSize(prev, unit))}
           options={[
-            { value: "metric", label: "cm and kg" },
-            { value: "imperial", label: "inches and lb" },
+            { value: "metric", label: t.unitMetric },
+            { value: "imperial", label: t.unitImperial },
           ]}
         />
 
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-1 text-sm font-semibold text-white">
-            Your bag, packed ({len})
+            {t.yourBag(len)}
           </legend>
           <div className="grid grid-cols-3 gap-3">
             <NumberField
               id={`${id}-bl`}
-              label="Length"
+              label={t.length}
               value={input.bagL}
               onChange={(v) => set({ bagL: v })}
             />
             <NumberField
               id={`${id}-bw`}
-              label="Width"
+              label={t.width}
               value={input.bagW}
               onChange={(v) => set({ bagW: v })}
             />
             <NumberField
               id={`${id}-bh`}
-              label="Depth"
+              label={t.depth}
               value={input.bagH}
               onChange={(v) => set({ bagH: v })}
             />
           </div>
-          <p className="text-xs text-muted-foreground">
-            Include wheels, handles and outside pockets.
-          </p>
+          <p className="text-xs text-muted-foreground">{t.includeExtras}</p>
         </fieldset>
 
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-1 text-sm font-semibold text-white">
-            Your allowance, from your booking
+            {t.allowance}
           </legend>
           <Choice<LimitMode>
             name={`${id}-mode`}
-            label="The limit is given as"
+            label={t.limitGivenAs}
             value={input.mode}
             onChange={(mode) => set({ mode })}
             options={[
-              { value: "dimensions", label: "Length × width × depth" },
-              { value: "total", label: "Total of all three sides" },
+              { value: "dimensions", label: t.modeDimensions },
+              { value: "total", label: t.modeTotal },
             ]}
           />
           {input.mode === "dimensions" ? (
@@ -192,40 +183,37 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
                         : "border-white/10 bg-white/[0.04] text-muted-foreground hover:border-white/25",
                     )}
                   >
-                    {p.label} · {p.dims.join(" × ")} {len}
+                    {t.presets[p.label] ?? p.label} · {p.dims.join(" × ")} {len}
                   </button>
                 ))}
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <NumberField
                   id={`${id}-ll`}
-                  label="Length"
+                  label={t.length}
                   value={input.limL}
                   onChange={(v) => set({ limL: v })}
                 />
                 <NumberField
                   id={`${id}-lw`}
-                  label="Width"
+                  label={t.width}
                   value={input.limW}
                   onChange={(v) => set({ limW: v })}
                 />
                 <NumberField
                   id={`${id}-lh`}
-                  label="Depth"
+                  label={t.depth}
                   value={input.limH}
                   onChange={(v) => set({ limH: v })}
                 />
               </div>
-              <p className="text-xs text-muted-foreground">
-                The buttons are common sizes, not any airline&apos;s rule. Type
-                the size from your booking.
-              </p>
+              <p className="text-xs text-muted-foreground">{t.presetsNote}</p>
             </>
           ) : (
             <div className="sm:max-w-[12rem]">
               <NumberField
                 id={`${id}-lt`}
-                label={`Total limit (${len})`}
+                label={t.totalLimit(len)}
                 value={input.limTotal}
                 onChange={(v) => set({ limTotal: v })}
               />
@@ -235,18 +223,18 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
 
         <fieldset className="flex flex-col gap-3">
           <legend className="mb-1 text-sm font-semibold text-white">
-            Weight (optional)
+            {t.weightTitle}
           </legend>
           <div className="grid grid-cols-2 gap-3 sm:max-w-sm">
             <NumberField
               id={`${id}-w`}
-              label={`Bag weight (${wt})`}
+              label={t.bagWeight(wt)}
               value={input.weight}
               onChange={(v) => set({ weight: v })}
             />
             <NumberField
               id={`${id}-wl`}
-              label={`Weight limit (${wt})`}
+              label={t.weightLimit(wt)}
               value={input.weightLimit}
               onChange={(v) => set({ weightLimit: v })}
             />
@@ -259,7 +247,7 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
           className="self-start"
           onClick={() => setInput(DEFAULT_BAG_SIZE)}
         >
-          Reset
+          {t.reset}
         </Button>
       </form>
 
@@ -269,7 +257,7 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
       >
         <div className="glass rounded-3xl p-6">
           <h2 id={`${id}-result`} className="eyebrow">
-            Your bag
+            {t.resultTitle}
           </h2>
           <div aria-live="polite">
             <p
@@ -282,14 +270,14 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
                 aria-hidden="true"
                 className={cn("size-2.5 rounded-full", style.dot)}
               />
-              {verdict.label}
+              {t.verdicts[result.verdict]}
             </p>
             {result.totalMargin !== null ? (
               <p className="mt-3 text-sm text-foreground/90">
-                Total {result.bagTotal} {len}:{" "}
+                {t.total(`${result.bagTotal} ${len}`)}:{" "}
                 {result.totalMargin >= 0
-                  ? `${fmt(result.totalMargin, len)} under the limit`
-                  : `${fmt(result.totalMargin, len)} over the limit`}
+                  ? t.under(fmt(result.totalMargin, len))
+                  : t.over(fmt(result.totalMargin, len))}
               </p>
             ) : null}
           </div>
@@ -299,7 +287,7 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
               {result.sides.map((s) => (
                 <li key={s.side} className="flex justify-between gap-3">
                   <span className="text-foreground/90">
-                    {SIDE_LABEL[s.side]}: {s.bag} of {s.limit} {len}
+                    {t.sides[s.side]}: {t.sideOf(s.bag, s.limit, len)}
                   </span>
                   <span
                     className={cn(
@@ -308,8 +296,8 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
                     )}
                   >
                     {s.margin < 0
-                      ? `${fmt(s.margin, len)} too big`
-                      : `${fmt(s.margin, len)} spare`}
+                      ? t.tooBig(fmt(s.margin, len))
+                      : t.spare(fmt(s.margin, len))}
                   </span>
                 </li>
               ))}
@@ -318,10 +306,10 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
 
           {result.weightVerdict ? (
             <p className="mt-4 text-sm text-foreground/90">
-              Weight:{" "}
+              {t.weight}:{" "}
               {result.weightVerdict === "under"
-                ? `${fmt(result.weightMargin ?? 0, wt)} under the limit`
-                : `${fmt(result.weightMargin ?? 0, wt)} over the limit`}
+                ? t.under(fmt(result.weightMargin ?? 0, wt))
+                : t.over(fmt(result.weightMargin ?? 0, wt))}
             </p>
           ) : null}
 
@@ -341,18 +329,13 @@ function CheckerForm({ initial }: { initial: BagSizeInput }) {
               ))}
             </ul>
           ) : (
-            <p className="mt-3 text-sm text-muted-foreground">
-              Enter all three sides of your bag and your allowance to check it.
-            </p>
+            <p className="mt-3 text-sm text-muted-foreground">{t.enterSizes}</p>
           )}
 
           <div className="mt-5 flex flex-wrap gap-2">
-            <ShareButton event="bag_size_checker_shared" />
+            <ShareButton event="bag_size_checker_shared" labels={t.share} />
           </div>
-          <p className="mt-3 text-xs text-muted-foreground">
-            A guide only. The airline&apos;s sizer at the airport is the final
-            word.
-          </p>
+          <p className="mt-3 text-xs text-muted-foreground">{t.disclaimer}</p>
         </div>
       </section>
     </div>
