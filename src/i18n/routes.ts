@@ -143,6 +143,9 @@ export const ITINERARY_TRANSLATIONS: Record<string, string> = {
   "rome-3-days": "roma-en-3-dias",
 };
 
+/** Flight search: English and Spanish only (results are noindexed). */
+export const FLIGHTS_PATH = { en: "/flights", es: "/es/vuelos" } as const;
+
 export type SpanishPair = { en: string; es: string };
 
 /** Every English page with a Spanish version (and no French one). */
@@ -160,6 +163,7 @@ function spanishPairs(): SpanishPair[] {
       en: `${ITINERARY_HUB.en}/${en}`,
       es: `${ITINERARY_HUB.es}/${es}`,
     })),
+    { ...FLIGHTS_PATH },
   ];
 }
 

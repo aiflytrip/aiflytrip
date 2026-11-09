@@ -2,6 +2,10 @@
 // (FlightResults), so client components must import from the specific module
 // they need instead of this barrel.
 export { FlightResults } from "./components/flight-results";
+export {
+  FlightSearchPage,
+  flightSearchMetadata,
+} from "./components/flight-search-page";
 export { FlightSearchForm } from "./components/flight-search-form";
 export { ResultsSkeleton } from "./components/results-skeleton";
 export { SearchSummary, searchTitle } from "./components/search-summary";

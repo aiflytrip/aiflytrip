@@ -1,10 +1,19 @@
 import { Card } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FLIGHT_MESSAGES, type FlightLocale } from "@/i18n/messages/flights";
 
-export function ResultsSkeleton({ count = 4 }: { count?: number }) {
+export function ResultsSkeleton({
+  count = 4,
+  locale = "en",
+}: {
+  count?: number;
+  locale?: FlightLocale;
+}) {
   return (
     <div role="status" aria-live="polite" className="flex flex-col gap-4">
-      <span className="sr-only">Searching for flights…</span>
+      <span className="sr-only">
+        {FLIGHT_MESSAGES[locale].results.searching}
+      </span>
       <Skeleton className="h-5 w-40" />
       {Array.from({ length: count }, (_, i) => (
         <Card

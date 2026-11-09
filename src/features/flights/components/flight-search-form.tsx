@@ -17,26 +17,25 @@ import {
 } from "@/features/flights/lib/search-params";
 import {
   CABIN_CLASSES,
-  CABIN_LABELS,
   MAX_TRAVELLERS,
-  type TripType,
+  TRIP_TYPES,
 } from "@/features/flights/types";
+import { FLIGHT_MESSAGES, type FlightLocale } from "@/i18n/messages/flights";
 import { cn } from "@/lib/utils";
-
-const TRIP_OPTIONS: { value: TripType; label: string }[] = [
-  { value: "round_trip", label: "Round trip" },
-  { value: "one_way", label: "One way" },
-];
 
 export function FlightSearchForm({
   defaultValues = DEFAULT_FORM_VALUES,
   errors = {},
   className,
+  locale = "en",
 }: {
   defaultValues?: SearchFormValues;
+  /** Validation messages, already in the form's language. */
   errors?: SearchFieldErrors;
   className?: string;
+  locale?: FlightLocale;
 }) {
+  const t = FLIGHT_MESSAGES[locale];
   const id = useId();
   const today = useToday();
   const [values, setValues] = useState(defaultValues);
@@ -56,13 +55,16 @@ export function FlightSearchForm({
 
   return (
     <Form
-      action="/flights"
+      action={t.path}
       className={cn("flex flex-col gap-4", className)}
-      aria-label="Search flights"
+      aria-label={t.form.label}
     >
       <fieldset className="flex flex-wrap gap-2">
-        <legend className="sr-only">Trip type</legend>
-        {TRIP_OPTIONS.map((option) => (
+        <legend className="sr-only">{t.form.tripType}</legend>
+        {TRIP_TYPES.map((value) => ({
+          value,
+          label: t.form.trips[value],
+        })).map((option) => (
           <label
             key={option.value}
             className={cn(
@@ -94,13 +96,13 @@ export function FlightSearchForm({
       </datalist>
 
       <div className="grid gap-4 md:grid-cols-[1fr_auto_1fr]">
-        <Field id={`${id}-from`} label="From" error={errors.origin}>
+        <Field id={`${id}-from`} label={t.form.from} error={errors.origin}>
           {(props) => (
             <Input
               {...props}
               name={SEARCH_KEYS.origin}
               list={airportListId}
-              placeholder="City or airport code"
+              placeholder={t.form.airportPlaceholder}
               autoComplete="off"
               required
               value={values.origin}
@@ -111,18 +113,18 @@ export function FlightSearchForm({
         <button
           type="button"
           onClick={swapAirports}
-          aria-label="Swap origin and destination"
+          aria-label={t.form.swap}
           className="grid size-11 place-items-center self-end justify-self-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
           <SwapIcon className="size-4 rotate-90 md:rotate-0" />
         </button>
-        <Field id={`${id}-to`} label="To" error={errors.destination}>
+        <Field id={`${id}-to`} label={t.form.to} error={errors.destination}>
           {(props) => (
             <Input
               {...props}
               name={SEARCH_KEYS.destination}
               list={airportListId}
-              placeholder="City or airport code"
+              placeholder={t.form.airportPlaceholder}
               autoComplete="off"
               required
               value={values.destination}
@@ -133,7 +135,11 @@ export function FlightSearchForm({
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_0.8fr_1fr_auto] lg:items-start">
-        <Field id={`${id}-depart`} label="Departure" error={errors.departDate}>
+        <Field
+          id={`${id}-depart`}
+          label={t.form.departure}
+          error={errors.departDate}
+        >
           {(props) => (
             <Input
               {...props}
@@ -148,7 +154,7 @@ export function FlightSearchForm({
         </Field>
         <Field
           id={`${id}-return`}
-          label="Return"
+          label={t.form.returnLabel}
           error={isRoundTrip ? errors.returnDate : undefined}
         >
           {(props) => (
@@ -165,7 +171,11 @@ export function FlightSearchForm({
             />
           )}
         </Field>
-        <Field id={`${id}-adults`} label="Travellers" error={errors.adults}>
+        <Field
+          id={`${id}-adults`}
+          label={t.form.travellers}
+          error={errors.adults}
+        >
           {(props) => (
             <Select
               {...props}
@@ -176,14 +186,14 @@ export function FlightSearchForm({
               {Array.from({ length: MAX_TRAVELLERS }, (_, i) => i + 1).map(
                 (n) => (
                   <option key={n} value={n}>
-                    {n} {n === 1 ? "adult" : "adults"}
+                    {t.form.adults(n)}
                   </option>
                 ),
               )}
             </Select>
           )}
         </Field>
-        <Field id={`${id}-cabin`} label="Cabin" error={errors.cabin}>
+        <Field id={`${id}-cabin`} label={t.form.cabin} error={errors.cabin}>
           {(props) => (
             <Select
               {...props}
@@ -193,13 +203,17 @@ export function FlightSearchForm({
             >
               {CABIN_CLASSES.map((cabin) => (
                 <option key={cabin} value={cabin}>
-                  {CABIN_LABELS[cabin]}
+                  {t.cabins[cabin]}
                 </option>
               ))}
             </Select>
           )}
         </Field>
-        <SubmitButton className="w-full sm:col-span-2 lg:col-span-1 lg:mt-6.5" />
+        <SubmitButton
+          className="w-full sm:col-span-2 lg:col-span-1 lg:mt-6.5"
+          label={t.form.submit}
+          pendingLabel={t.form.pending}
+        />
       </div>
     </Form>
   );

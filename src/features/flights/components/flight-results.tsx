@@ -4,7 +4,6 @@ import { DataSourceNotice } from "@/features/flights/components/data-source-noti
 import { FlightOfferCard } from "@/features/flights/components/flight-offer-card";
 import { ResultsToolbar } from "@/features/flights/components/results-toolbar";
 import { SearchError } from "@/features/flights/components/search-error";
-import { pluralize } from "@/features/flights/lib/format";
 import {
   DEFAULT_RESULT_OPTIONS,
   withResultOptions,
@@ -17,9 +16,17 @@ import {
   type FlightSearchResult,
 } from "@/features/flights/server/search-flights";
 import { type FlightOffer, type FlightSearch } from "@/features/flights/types";
+import {
+  FLIGHT_MESSAGES,
+  type FlightLocale,
+  type FlightMessages,
+} from "@/i18n/messages/flights";
 
 /** Labels for the cheapest and fastest offers among the displayed results. */
-function highlights(offers: FlightOffer[]): Map<string, string> {
+function highlights(
+  offers: FlightOffer[],
+  t: FlightMessages["results"],
+): Map<string, string> {
   const labels = new Map<string, string>();
   const totalMinutes = (o: FlightOffer) =>
     o.outbound.durationMinutes + (o.inbound?.durationMinutes ?? 0);
@@ -34,11 +41,11 @@ function highlights(offers: FlightOffer[]): Map<string, string> {
     (best, o) => (!best || totalMinutes(o) < totalMinutes(best) ? o : best),
     undefined,
   );
-  if (cheapest) labels.set(cheapest.id, "Cheapest");
+  if (cheapest) labels.set(cheapest.id, t.cheapest);
   if (fastest) {
     labels.set(
       fastest.id,
-      fastest === cheapest ? "Cheapest & fastest" : "Fastest",
+      fastest === cheapest ? t.cheapestAndFastest : t.fastest,
     );
   }
   return labels;
@@ -47,13 +54,16 @@ function highlights(offers: FlightOffer[]): Map<string, string> {
 export async function FlightResults({
   search,
   options,
+  locale = "en",
 }: {
   search: FlightSearch;
   options: ResultOptions;
+  locale?: FlightLocale;
 }) {
+  const t = FLIGHT_MESSAGES[locale];
   const searchParams = searchToParams(search);
   const href = (next: ResultOptions) =>
-    `/flights?${withResultOptions(searchParams, next).toString()}`;
+    `${t.path}?${withResultOptions(searchParams, next).toString()}`;
 
   let result: FlightSearchResult;
   try {
@@ -62,28 +72,38 @@ export async function FlightResults({
     // Expected failures get a friendly message; anything else is a bug and
     // goes to the route's error boundary.
     if (error instanceof FlightSearchError) {
-      return <SearchError kind={error.kind} retryHref={href(options)} />;
+      return (
+        <SearchError
+          kind={error.kind}
+          retryHref={href(options)}
+          locale={locale}
+        />
+      );
     }
     throw error;
   }
 
   const { offers, totalMatching, totalBeforeFilters, source } = result;
-  const labels = highlights(offers);
+  const labels = highlights(offers, t.results);
   const filteredOut = totalMatching !== totalBeforeFilters;
 
   return (
     <section aria-labelledby="results-heading" className="flex flex-col gap-4">
-      <DataSourceNotice source={source} />
-      <ResultsToolbar searchParams={searchParams} options={options} />
+      <DataSourceNotice source={source} locale={locale} />
+      <ResultsToolbar
+        searchParams={searchParams}
+        options={options}
+        locale={locale}
+      />
       <h2
         id="results-heading"
         className="text-sm text-muted-foreground"
         aria-live="polite"
       >
-        {pluralize(totalMatching, "flight")} found
-        {filteredOut ? ` (${totalBeforeFilters} before filters)` : ""}
+        {t.results.found(totalMatching)}
+        {filteredOut ? t.results.beforeFilters(totalBeforeFilters) : ""}
         {offers.length < totalMatching
-          ? ` · showing the top ${offers.length}`
+          ? t.results.showingTop(offers.length)
           : ""}
       </h2>
 
@@ -96,6 +116,7 @@ export async function FlightResults({
                 travellers={search.adults}
                 highlight={labels.get(offer.id)}
                 sourceMode={source.mode}
+                locale={locale}
               />
             </li>
           ))}
@@ -103,16 +124,14 @@ export async function FlightResults({
       ) : (
         <Card className="flex flex-col items-center gap-3 p-10 text-center">
           <p className="font-semibold">
-            {totalBeforeFilters > 0
-              ? "No flights match these filters"
-              : "No flights found"}
+            {totalBeforeFilters > 0 ? t.results.noMatch : t.results.noFlights}
           </p>
           <p className="max-w-sm text-sm text-muted-foreground">
             {totalBeforeFilters > 0
-              ? "Try allowing connections to see more options."
+              ? t.results.allowConnections
               : source.mode === "test"
-                ? "The test environment has no flights for this search. Try other dates or a busier route."
-                : "Try different dates or airports."}
+                ? t.results.testEmpty
+                : t.results.tryOther}
           </p>
           {totalBeforeFilters > 0 ? (
             <ButtonLink
@@ -120,7 +139,7 @@ export async function FlightResults({
               variant="secondary"
               scroll={false}
             >
-              Show all flights
+              {t.results.showAll}
             </ButtonLink>
           ) : null}
         </Card>

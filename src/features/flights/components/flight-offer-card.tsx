@@ -6,32 +6,33 @@ import {
   formatDuration,
   formatMoney,
   formatTime,
-  pluralize,
 } from "@/features/flights/lib/format";
 import {
-  CABIN_LABELS,
   type FlightDataSource,
   type FlightItinerary,
   type FlightOffer,
 } from "@/features/flights/types";
-
-const SOURCE_BADGES: Record<FlightDataSource["mode"], string | undefined> = {
-  sample: "Sample data",
-  test: "Test data",
-  live: undefined,
-};
+import {
+  FLIGHT_MESSAGES,
+  type FlightLocale,
+  type FlightMessages,
+} from "@/i18n/messages/flights";
 
 export function FlightOfferCard({
   offer,
   travellers,
   highlight,
   sourceMode,
+  locale = "en",
 }: {
   offer: FlightOffer;
   travellers: number;
   highlight?: string;
   sourceMode: FlightDataSource["mode"];
+  locale?: FlightLocale;
 }) {
+  const t = FLIGHT_MESSAGES[locale];
+  const money = (m: FlightOffer["totalPrice"]) => formatMoney(m, t.intl);
   const segments = [
     ...offer.outbound.segments,
     ...(offer.inbound?.segments ?? []),
@@ -47,7 +48,8 @@ export function FlightOfferCard({
       ),
     ),
   ];
-  const sourceBadge = SOURCE_BADGES[sourceMode];
+  const sourceBadge =
+    sourceMode === "live" ? undefined : t.card.badges[sourceMode];
   const bookingNoteId = `${offer.id}-booking-note`;
 
   return (
@@ -63,35 +65,41 @@ export function FlightOfferCard({
           </div>
           {operatedBy.length > 0 ? (
             <p className="text-xs text-muted-foreground">
-              Operated by {operatedBy.join(", ")}
+              {t.card.operatedBy(operatedBy.join(", "))}
             </p>
           ) : null}
         </div>
-        <ItineraryRow label="Outbound" itinerary={offer.outbound} />
+        <ItineraryRow
+          label={t.card.outbound}
+          itinerary={offer.outbound}
+          t={t}
+        />
         {offer.inbound ? (
-          <ItineraryRow label="Return" itinerary={offer.inbound} />
+          <ItineraryRow
+            label={t.card.inbound}
+            itinerary={offer.inbound}
+            t={t}
+          />
         ) : null}
       </div>
 
       <div className="flex items-center justify-between gap-4 border-t border-border p-5 md:w-56 md:flex-col md:items-end md:justify-center md:border-t-0 md:border-l md:text-right">
         <div>
-          <p className="text-2xl font-semibold">
-            {formatMoney(offer.totalPrice)}
-          </p>
+          <p className="text-2xl font-semibold">{money(offer.totalPrice)}</p>
           <p className="text-xs text-muted-foreground">
             {travellers > 1
-              ? `${formatMoney(offer.pricePerTraveller)} per traveller`
-              : "Total price"}
+              ? t.card.perTraveller(money(offer.pricePerTraveller))
+              : t.card.totalPrice}
             {" · "}
-            {CABIN_LABELS[offer.cabin]}
+            {t.cabins[offer.cabin]}
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
           <Button disabled aria-describedby={bookingNoteId}>
-            Select
+            {t.card.select}
           </Button>
           <p id={bookingNoteId} className="text-xs text-muted-foreground">
-            Booking not available
+            {t.card.bookingUnavailable}
           </p>
         </div>
       </div>
@@ -102,9 +110,11 @@ export function FlightOfferCard({
 function ItineraryRow({
   label,
   itinerary,
+  t,
 }: {
   label: string;
   itinerary: FlightItinerary;
+  t: FlightMessages;
 }) {
   const first = itinerary.segments[0];
   const last = itinerary.segments.at(-1);
@@ -127,7 +137,7 @@ function ItineraryRow({
       </p>
       <div>
         <p className="text-lg font-semibold">
-          {formatTime(first.departAt, first.originTimeZone)}
+          {formatTime(first.departAt, first.originTimeZone, t.intl)}
         </p>
         <p className="text-sm text-muted-foreground">{first.origin}</p>
       </div>
@@ -149,21 +159,18 @@ function ItineraryRow({
         </div>
         <p className="text-xs text-muted-foreground">
           {itinerary.stops === 0
-            ? "Nonstop"
-            : `${pluralize(itinerary.stops, "stop")} · ${connections.join(", ")}`}
+            ? t.card.nonstop
+            : `${t.card.stops(itinerary.stops)} · ${connections.join(", ")}`}
         </p>
       </div>
 
       <div className="text-right">
         <p className="text-lg font-semibold">
-          {formatTime(last.arriveAt, last.destinationTimeZone)}
+          {formatTime(last.arriveAt, last.destinationTimeZone, t.intl)}
           {dayOffset > 0 ? (
             <sup className="ml-0.5 text-xs font-medium text-primary">
-              <span className="sr-only">arrives </span>+{dayOffset}
-              <span className="sr-only">
-                {" "}
-                {dayOffset === 1 ? "day" : "days"} later
-              </span>
+              <span className="sr-only">{t.card.arrives}</span>+{dayOffset}
+              <span className="sr-only">{t.card.daysLater(dayOffset)}</span>
             </sup>
           ) : null}
         </p>

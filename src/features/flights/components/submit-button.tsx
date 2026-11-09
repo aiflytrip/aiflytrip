@@ -6,7 +6,15 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /** Shows instant feedback before the results route has started rendering. */
-export function SubmitButton({ className }: { className?: string }) {
+export function SubmitButton({
+  className,
+  label = "Search flights",
+  pendingLabel = "Searching…",
+}: {
+  className?: string;
+  label?: string;
+  pendingLabel?: string;
+}) {
   const { pending } = useFormStatus();
 
   return (
@@ -16,7 +24,7 @@ export function SubmitButton({ className }: { className?: string }) {
       className={cn("rounded-xl", className)}
       aria-disabled={pending}
     >
-      {pending ? "Searching…" : "Search flights"}
+      {pending ? pendingLabel : label}
     </Button>
   );
 }

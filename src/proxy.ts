@@ -14,6 +14,7 @@ export const config = {
     "/plan",
     "/plans/:path*",
     "/flights",
+    "/es/vuelos",
     "/login",
     "/signup/:path*",
     "/auth/:path*",

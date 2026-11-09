@@ -126,5 +126,7 @@ describe("translated routes", () => {
     expect(plannerHref("en")).toBe("/plan");
     expect(plannerHref("fr")).toBe("/fr/planifier");
     expect(switchPath("/plan", "es")).toBe("/es/planificar");
+    expect(switchPath("/flights", "es")).toBe("/es/vuelos");
+    expect(switchPath("/es/vuelos", "fr")).toBe("/fr");
   });
 });

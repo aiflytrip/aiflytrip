@@ -13,8 +13,12 @@ export function formatDuration(totalMinutes: number): string {
 }
 
 /** Local wall-clock time at the airport, e.g. "7:05 PM". */
-export function formatTime(isoInstant: string, timeZone: string): string {
-  return new Intl.DateTimeFormat(LOCALE, {
+export function formatTime(
+  isoInstant: string,
+  timeZone: string,
+  locale: string = LOCALE,
+): string {
+  return new Intl.DateTimeFormat(locale, {
     timeZone,
     hour: "numeric",
     minute: "2-digit",
@@ -32,8 +36,11 @@ export function formatDate(isoDate: string, locale: string = LOCALE): string {
 }
 
 /** Formats minor units as currency, rounded to whole units for display. */
-export function formatMoney({ amountMinor, currency }: Money): string {
-  return new Intl.NumberFormat(LOCALE, {
+export function formatMoney(
+  { amountMinor, currency }: Money,
+  locale: string = LOCALE,
+): string {
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency,
     maximumFractionDigits: 0,

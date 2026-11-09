@@ -4,19 +4,8 @@ import { type FlightOffer } from "@/features/flights/types";
 export const SORT_OPTIONS = ["price", "duration", "departure"] as const;
 export type SortOption = (typeof SORT_OPTIONS)[number];
 
-export const SORT_LABELS: Record<SortOption, string> = {
-  price: "Cheapest",
-  duration: "Fastest",
-  departure: "Earliest departure",
-};
-
 export const STOPS_OPTIONS = ["any", "nonstop"] as const;
 export type StopsOption = (typeof STOPS_OPTIONS)[number];
-
-export const STOPS_LABELS: Record<StopsOption, string> = {
-  any: "Any stops",
-  nonstop: "Nonstop only",
-};
 
 export type ResultOptions = {
   sort: SortOption;

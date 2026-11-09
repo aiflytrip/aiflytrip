@@ -2,6 +2,7 @@ import { type Locale } from "@/i18n/config";
 import {
   BLOG_HUB,
   DESTINATION_HUB,
+  FLIGHTS_PATH,
   ITINERARY_HUB,
   plannerHref,
   route,
@@ -98,12 +99,16 @@ function localisedChrome(
     itineraries: string;
   },
 ): Pick<SiteMessages, "nav"> & { columns: SiteMessages["footer"]["columns"] } {
-  // The blog, destination guides and itineraries have Spanish editions;
-  // French readers get the English ones.
+  // The blog, destination guides, itineraries and flight search have Spanish
+  // editions; French readers get the English ones.
   const blog: ChromeLink =
     locale === "es"
       ? { href: BLOG_HUB.es, label: text.blog }
       : { href: BLOG_HUB.en, label: text.blog, englishOnly: true };
+  const flights = (label: string): ChromeLink =>
+    locale === "es"
+      ? { href: FLIGHTS_PATH.es, label }
+      : { href: FLIGHTS_PATH.en, label, englishOnly: true };
   const destinationHub = (label: string): ChromeLink =>
     locale === "es"
       ? { href: DESTINATION_HUB.es, label }
@@ -114,7 +119,7 @@ function localisedChrome(
       { href: route("tools", locale), label: text.tools },
       destinationHub(text.destinations),
       blog,
-      { href: "/flights", label: text.flights, englishOnly: true },
+      flights(text.flights),
     ],
     columns: [
       {
@@ -128,7 +133,7 @@ function localisedChrome(
             href: route(key, locale),
             label: text.bagTools[key],
           })),
-          { href: "/flights", label: text.compareFlights, englishOnly: true },
+          flights(text.compareFlights),
         ],
       },
       {

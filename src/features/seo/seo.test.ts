@@ -33,6 +33,7 @@ const PRIVATE_PREFIXES = [
   "/auth",
   "/api",
   "/flights",
+  "/es/vuelos",
 ];
 
 describe("pageMetadata", () => {

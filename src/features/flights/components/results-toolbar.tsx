@@ -1,13 +1,12 @@
 import Link from "next/link";
 
 import {
-  SORT_LABELS,
   SORT_OPTIONS,
-  STOPS_LABELS,
   STOPS_OPTIONS,
   withResultOptions,
   type ResultOptions,
 } from "@/features/flights/lib/result-options";
+import { FLIGHT_MESSAGES, type FlightLocale } from "@/i18n/messages/flights";
 import { cn } from "@/lib/utils";
 
 /**
@@ -17,29 +16,32 @@ import { cn } from "@/lib/utils";
 export function ResultsToolbar({
   searchParams,
   options,
+  locale = "en",
 }: {
   searchParams: URLSearchParams;
   options: ResultOptions;
+  locale?: FlightLocale;
 }) {
+  const t = FLIGHT_MESSAGES[locale];
   const href = (next: Partial<ResultOptions>) =>
-    `/flights?${withResultOptions(searchParams, { ...options, ...next }).toString()}`;
+    `${t.path}?${withResultOptions(searchParams, { ...options, ...next }).toString()}`;
 
   return (
     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
       <OptionGroup
-        label="Sort by"
+        label={t.toolbar.sortBy}
         items={SORT_OPTIONS.map((sort) => ({
           key: sort,
-          label: SORT_LABELS[sort],
+          label: t.toolbar.sorts[sort],
           href: href({ sort }),
           active: options.sort === sort,
         }))}
       />
       <OptionGroup
-        label="Stops"
+        label={t.toolbar.stops}
         items={STOPS_OPTIONS.map((stops) => ({
           key: stops,
-          label: STOPS_LABELS[stops],
+          label: t.toolbar.stopOptions[stops],
           href: href({ stops }),
           active: options.stops === stops,
         }))}

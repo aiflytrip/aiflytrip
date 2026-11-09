@@ -1,19 +1,23 @@
 import { ButtonLink } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import {
-  FLIGHT_SEARCH_ERROR_MESSAGES,
+  FLIGHT_SEARCH_ERROR_RETRY,
   type FlightSearchErrorKind,
 } from "@/features/flights/server/errors";
+import { FLIGHT_MESSAGES, type FlightLocale } from "@/i18n/messages/flights";
 
 /** Explains a failed search without exposing provider details. */
 export function SearchError({
   kind,
   retryHref,
+  locale = "en",
 }: {
   kind: FlightSearchErrorKind;
   retryHref: string;
+  locale?: FlightLocale;
 }) {
-  const message = FLIGHT_SEARCH_ERROR_MESSAGES[kind];
+  const t = FLIGHT_MESSAGES[locale];
+  const message = t.errors[kind];
 
   return (
     <Card
@@ -24,14 +28,14 @@ export function SearchError({
       <p className="max-w-md text-sm text-muted-foreground">
         {message.description}
       </p>
-      {message.canRetry ? (
+      {FLIGHT_SEARCH_ERROR_RETRY[kind] ? (
         <ButtonLink
           href={retryHref}
           variant="secondary"
           scroll={false}
           prefetch={false}
         >
-          Try again
+          {t.tryAgain}
         </ButtonLink>
       ) : null}
     </Card>
