@@ -559,7 +559,7 @@ export const blogPosts: PostInput[] = [
     photo: "documents",
     category: "practical",
     status: "published",
-    lastReviewed: "2026-10-16",
+    lastReviewed: "2026-11-09",
     title: "Dummy ticket or flight itinerary for visa: what's accepted",
     description:
       "What a dummy ticket or flight itinerary for a visa really is, what to submit with your application, the safe and legal options and how to check a booking.",
@@ -604,15 +604,46 @@ export const blogPosts: PostInput[] = [
         ],
       },
       {
-        heading: "Safe and legal options",
+        heading: "Safe and legal ways to show a flight booking",
         paragraphs: [
-          "If you need to show flight plans without risking a lot of money, there are honest ways to do it. Which one suits you depends on what your consulate asks for and how certain your dates are.",
+          "If you need to show flight plans without risking a lot of money, there are honest ways to do it. Which one suits you depends on what your consulate asks for, how certain your dates are and how long you have until your appointment. The sections below explain each option in more detail.",
         ],
         bullets: [
-          "Book a flexible or refundable fare, and read the change and refund rules before you pay.",
-          "Ask whether the airline offers a fare hold or pay-later option; some airlines let you hold a fare for a few days, sometimes for a small fee.",
-          "Ask a travel agent for a genuine reservation and ask how long it will stay active.",
-          "If an itinerary is enough, prepare a clear plan of your intended flights and present it as an itinerary, not as a booking.",
+          "A free or paid fare hold from the airline: a real booking kept for a short time without full payment.",
+          "A booking you can cancel within 24 hours, which US rules require on many flights booked at least a week ahead.",
+          "A fully refundable or flexible fare, which costs more but protects you if the visa is refused or delayed.",
+          "A genuine reservation from a travel agent, with a booking reference you can check with the airline.",
+          "If an itinerary is enough, a clear plan of your intended flights, presented as an itinerary and not as a booking.",
+        ],
+      },
+      {
+        heading: "Airline fare holds",
+        paragraphs: [
+          "Some airlines let you hold a fare at checkout: the booking is created in the airline's system with a booking reference, and you pay later or let it lapse. Holds are usually short, often 24 hours to a few days, and the length, fee and eligible fares vary by airline, route and cabin.",
+          'Emirates is one example. At the time of writing, its Hold My Fare page says you can reserve an Economy Class fare on Emirates flights for 24 hours for free, with departures from some countries excluded. Other airlines offer similar options, sometimes for a fee that may or may not be deducted from the fare. Look for words like "hold", "fare lock" or "pay later" on the airline\'s booking page, and read the conditions before you rely on one.',
+          "The catch is timing. A hold that lasts 24 hours will usually have expired by the time a consulate looks at your application, and an expired booking can no longer be found with the airline. Ask the consulate or visa centre whether a reservation needs to stay active, and if it does, choose an option that lasts longer.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "The 24-hour rule on flights to and from the US",
+        paragraphs: [
+          "US rules require airlines to let you either hold a reservation at the quoted fare without payment, or cancel it without penalty, for at least 24 hours after booking, as long as you book a week or more before departure. This applies to US airlines and to foreign airlines' flights to and from the United States. The airline chooses which of the two it offers, so read its own policy.",
+          "If the airline offers free cancellation rather than a hold, you pay first and get your money back if you cancel within the window. Be honest about what you submit: once you cancel, the booking no longer exists, and presenting it later as an active booking would be misleading. This option works best when your consulate only needs to see a booking at the moment you apply.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Refundable fares and travel agents",
+        paragraphs: [
+          "A fully refundable fare costs more up front, but it stays a real, confirmed booking for as long as you need it, and you can get your money back if the visa is refused or delayed. A flexible fare that allows date changes without a fee is a cheaper middle ground if you plan to travel anyway. Check whether a refund comes back as money or as travel credit, and whether any fee is deducted. Our guide on [how airline pricing works](/blog/how-airline-pricing-works) explains how fare rules and prices relate.",
+          'Travel agents can also hold genuine reservations, sometimes for longer than airlines allow online. Many websites sell "flight reservations for visa" for a fee; some create real held bookings, while others only produce a document. Before you pay anyone, ask these questions.',
+        ],
+        bullets: [
+          "Is it a real booking in the airline's system, with a booking reference I can check on the airline's website?",
+          "How long will it stay active, and what happens when it expires?",
+          "Will it be issued as a ticket, or is it only held?",
+          "What exactly am I paying for, and is any of it refundable?",
         ],
       },
       {
@@ -667,6 +698,16 @@ export const blogPosts: PostInput[] = [
           "It is a genuine booking held in an airline's system, often for a limited time and sometimes without full payment. It has a booking reference that the consulate can check with the airline. It differs from a plan of intended flights, which has no booking behind it.",
       },
       {
+        question: "Can I hold a flight reservation for free?",
+        answer:
+          "Sometimes. Some airlines offer a free fare hold for a short time, often 24 hours, and US rules require a free 24-hour hold or free cancellation on many flights to and from the US booked at least a week ahead. Other airlines charge a fee or offer no hold, so check the airline's own conditions.",
+      },
+      {
+        question: "How long does a flight reservation for a visa stay valid?",
+        answer:
+          "It depends on how it was made. Airline holds often last 24 hours to a few days, travel agent reservations vary, and a paid refundable ticket stays valid until you cancel it. Ask how long yours lasts, and check with the consulate whether it must still be active when your application is reviewed.",
+      },
+      {
         question: "Do I need to buy a flight before I get my visa?",
         answer:
           "Not always. Requirements differ by country and consulate, and some governments, such as the UK, advise you not to book travel until you have a visa decision. Check the official document list for your application.",
@@ -687,6 +728,8 @@ export const blogPosts: PostInput[] = [
       SOURCES.euSchengenVisa,
       SOURCES.govUkVisaProcessing,
       SOURCES.govUkFalseDocuments,
+      SOURCES.usDot24Hour,
+      SOURCES.emiratesHoldMyFare,
       SOURCES.euEntry,
     ],
   },

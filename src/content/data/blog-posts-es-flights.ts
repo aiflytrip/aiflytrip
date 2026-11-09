@@ -363,7 +363,7 @@ export const spanishFlightPosts: PostInput[] = [
     category: "practical",
     status: "published",
     publishAt: "2026-11-08",
-    lastReviewed: "2026-11-08",
+    lastReviewed: "2026-11-09",
     title: "Reserva de vuelo para visado: qué se acepta",
     description:
       "Qué es de verdad un «billete falso» o una reserva de vuelo para el visado, qué presentar en la solicitud, las opciones legales y cómo comprobar una reserva.",
@@ -408,15 +408,46 @@ export const spanishFlightPosts: PostInput[] = [
         ],
       },
       {
-        heading: "Opciones seguras y legales",
+        heading: "Formas seguras y legales de mostrar una reserva de vuelo",
         paragraphs: [
-          "Si necesitas mostrar tus planes de vuelo sin arriesgar mucho dinero, hay formas honestas de hacerlo. La adecuada depende de lo que pida tu consulado y de lo seguras que sean tus fechas.",
+          "Si necesitas mostrar tus planes de vuelo sin arriesgar mucho dinero, hay formas honestas de hacerlo. La adecuada depende de lo que pida tu consulado, de lo seguras que sean tus fechas y del tiempo que falte para tu cita. Las secciones siguientes explican cada opción con más detalle.",
         ],
         bullets: [
-          "Reserva una tarifa flexible o reembolsable, y lee las reglas de cambio y reembolso antes de pagar.",
-          "Pregunta si la aerolínea permite retener una tarifa o pagar más tarde; algunas lo permiten durante unos días, a veces por un pequeño cargo.",
-          "Pide a una agencia de viajes una reserva real y pregunta cuánto tiempo seguirá activa.",
-          "Si basta con un itinerario, prepara un plan claro de tus vuelos previstos y preséntalo como itinerario, no como reserva.",
+          "Una retención de tarifa de la aerolínea, gratis o de pago: una reserva real que se mantiene poco tiempo sin el pago completo.",
+          "Una reserva que puedes cancelar en 24 horas, algo que las normas de EE. UU. exigen en muchos vuelos reservados con al menos una semana de antelación.",
+          "Una tarifa totalmente reembolsable o flexible, que cuesta más pero te protege si deniegan o retrasan el visado.",
+          "Una reserva real de una agencia de viajes, con un localizador que puedes comprobar con la aerolínea.",
+          "Si basta con un itinerario, un plan claro de tus vuelos previstos, presentado como itinerario y no como reserva.",
+        ],
+      },
+      {
+        heading: "Retener la tarifa con la aerolínea",
+        paragraphs: [
+          "Algunas aerolíneas te dejan retener una tarifa al pagar: la reserva se crea en su sistema con un localizador, y pagas más tarde o dejas que caduque. Las retenciones suelen ser cortas, a menudo de 24 horas a unos pocos días, y la duración, el cargo y las tarifas admitidas cambian según la aerolínea, la ruta y la clase.",
+          "Emirates es un ejemplo. En el momento de escribir esto, su página «Mantener mi tarifa» indica que puedes retener gratis durante 24 horas una tarifa en clase Turista en vuelos de Emirates, salvo en las salidas desde algunos países. Otras aerolíneas ofrecen opciones parecidas, a veces con un cargo que puede descontarse o no del precio. Busca palabras como «retener», «bloquear la tarifa» o «pagar más tarde» en la página de reserva de la aerolínea, y lee las condiciones antes de contar con ellas.",
+          "El problema es el plazo. Una retención de 24 horas normalmente habrá caducado cuando el consulado revise tu solicitud, y una reserva caducada ya no se puede encontrar en la aerolínea. Pregunta al consulado o al centro de visados si la reserva tiene que seguir activa y, si es así, elige una opción que dure más.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "La regla de las 24 horas en vuelos con EE. UU.",
+        paragraphs: [
+          "Las normas de Estados Unidos obligan a las aerolíneas a permitirte retener una reserva al precio indicado sin pagar, o cancelarla sin penalización, durante al menos 24 horas después de reservar, siempre que reserves con una semana o más de antelación. Se aplica a las aerolíneas estadounidenses y a los vuelos de aerolíneas extranjeras con origen o destino en Estados Unidos. La aerolínea elige cuál de las dos opciones ofrece, así que lee su propia política.",
+          "Si la aerolínea ofrece cancelación gratuita en lugar de retención, pagas primero y recuperas el dinero si cancelas dentro del plazo. Sé honesto con lo que presentas: una vez cancelada, la reserva ya no existe, y presentarla después como una reserva activa sería engañoso. Esta opción funciona mejor cuando el consulado solo necesita ver una reserva en el momento de la solicitud.",
+        ],
+        bullets: [],
+      },
+      {
+        heading: "Tarifas reembolsables y agencias de viajes",
+        paragraphs: [
+          "Una tarifa totalmente reembolsable cuesta más al principio, pero sigue siendo una reserva real y confirmada todo el tiempo que la necesites, y puedes recuperar el dinero si deniegan o retrasan el visado. Una tarifa flexible que permite cambiar la fecha sin cargo es un punto intermedio más barato si vas a viajar de todos modos. Comprueba si el reembolso se devuelve en dinero o en crédito para viajar, y si se descuenta algún cargo. Nuestra guía sobre [cómo fijan las aerolíneas el precio de los vuelos](/es/blog/como-fijan-las-aerolineas-el-precio-de-los-vuelos) explica cómo se relacionan las reglas de la tarifa y el precio.",
+          "Las agencias de viajes también pueden retener reservas reales, a veces durante más tiempo del que permiten las aerolíneas en su web. Muchas webs venden «reservas de vuelo para visado» por un precio; algunas crean reservas reales retenidas y otras solo generan un documento. Antes de pagar a nadie, haz estas preguntas.",
+        ],
+        bullets: [
+          "¿Es una reserva real en el sistema de la aerolínea, con un localizador que puedo comprobar en su web?",
+          "¿Cuánto tiempo seguirá activa y qué pasa cuando caduque?",
+          "¿Se emitirá como billete o solo queda retenida?",
+          "¿Qué estoy pagando exactamente y se reembolsa algo?",
         ],
       },
       {
@@ -473,6 +504,16 @@ export const spanishFlightPosts: PostInput[] = [
           "Es una reserva real en el sistema de una aerolínea, a menudo durante un tiempo limitado y a veces sin el pago completo. Tiene un localizador que el consulado puede comprobar con la aerolínea. Es distinta de un plan de vuelos previstos, que no tiene reserva detrás.",
       },
       {
+        question: "¿Puedo retener una reserva de vuelo gratis?",
+        answer:
+          "A veces. Algunas aerolíneas permiten retener la tarifa gratis durante poco tiempo, a menudo 24 horas, y las normas de EE. UU. exigen una retención gratuita de 24 horas o la cancelación gratuita en muchos vuelos con origen o destino en Estados Unidos reservados con al menos una semana de antelación. Otras aerolíneas cobran un cargo o no permiten retener, así que revisa sus condiciones.",
+      },
+      {
+        question: "¿Cuánto dura una reserva de vuelo para el visado?",
+        answer:
+          "Depende de cómo se haya hecho. Las retenciones de las aerolíneas suelen durar de 24 horas a unos pocos días, las de las agencias varían y un billete reembolsable pagado sigue siendo válido hasta que lo canceles. Pregunta cuánto dura la tuya y consulta con el consulado si debe seguir activa cuando revisen tu solicitud.",
+      },
+      {
         question: "¿Tengo que comprar el vuelo antes de tener el visado?",
         answer:
           "No siempre. Los requisitos cambian según el país y el consulado, y algunos gobiernos, como el británico, recomiendan no reservar el viaje hasta tener la decisión del visado. Revisa la lista oficial de documentos de tu solicitud.",
@@ -492,6 +533,8 @@ export const spanishFlightPosts: PostInput[] = [
       SOURCES.euSchengenVisa,
       SOURCES.govUkVisaProcessing,
       SOURCES.govUkFalseDocuments,
+      SOURCES.usDot24HourEs,
+      SOURCES.emiratesHoldMyFareEs,
       SOURCES.esTravelAdvice,
     ],
   },

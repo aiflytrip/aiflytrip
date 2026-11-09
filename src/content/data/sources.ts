@@ -103,6 +103,28 @@ export const SOURCES = {
     publisher: "GOV.UK (Home Office guidance)",
     url: "https://www.gov.uk/government/publications/suitability-false-representations-immigration-staff-guidance/part-suitability-deception-false-representations-false-documents-and-non-disclosure-of-relevant-facts-accessible",
   },
+  usDot24Hour: {
+    label: "14 CFR 259.5: holding or cancelling a reservation within 24 hours",
+    publisher: "Electronic Code of Federal Regulations (US government)",
+    url: "https://www.ecfr.gov/current/title-14/chapter-II/subchapter-A/part-259/section-259.5",
+  },
+  usDot24HourEs: {
+    label:
+      "14 CFR 259.5: retener o cancelar una reserva en 24 horas (en inglés)",
+    publisher:
+      "Código electrónico de regulaciones federales (Gobierno de EE. UU.)",
+    url: "https://www.ecfr.gov/current/title-14/chapter-II/subchapter-A/part-259/section-259.5",
+  },
+  emiratesHoldMyFare: {
+    label: "Hold My Fare",
+    publisher: "Emirates",
+    url: "https://www.emirates.com/us/english/book/about-booking-online/hold-my-fare/",
+  },
+  emiratesHoldMyFareEs: {
+    label: "Mantener mi tarifa",
+    publisher: "Emirates",
+    url: "https://www.emirates.com/es/spanish/book/about-booking-online/hold-my-fare/",
+  },
   euAirRightsEs: {
     label: "Derechos de los pasajeros aéreos en la UE",
     publisher: "Unión Europea (Tu Europa)",
