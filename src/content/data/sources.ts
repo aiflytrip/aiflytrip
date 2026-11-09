@@ -383,6 +383,56 @@ export const SOURCES = {
     publisher: "IATA Travel Centre",
     url: "https://www.iatatravelcentre.com/",
   },
+  euRoaming: {
+    label: "Roaming: what you pay to use your phone in another EU country",
+    publisher: "European Union (Your Europe)",
+    url: "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_en.htm",
+  },
+  fccRoaming: {
+    label: "International roaming: mobile phone use abroad",
+    publisher: "U.S. Federal Communications Commission",
+    url: "https://www.fcc.gov/consumers/guides/international-roaming",
+  },
+  fccCyberTravel: {
+    label: "Cybersecurity tips for international travelers",
+    publisher: "U.S. Federal Communications Commission",
+    url: "https://www.fcc.gov/consumers/guides/cybersecurity-tips-international-travelers",
+  },
+  govUkFranceEntry: {
+    label: "France entry requirements (including passport validity)",
+    publisher: "UK Foreign, Commonwealth & Development Office",
+    url: "https://www.gov.uk/foreign-travel-advice/france/entry-requirements",
+  },
+  govUkRenewPassport: {
+    label: "Renew or replace your adult passport",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/renew-adult-passport",
+  },
+  nhsMedicinesAbroad: {
+    label: "Medicines and travel",
+    publisher: "NHS (NaTHNaC)",
+    url: "https://www.nhs.uk/common-health-questions/medicines/can-i-take-my-medicine-abroad/",
+  },
+  govUkControlledDrugs: {
+    label: "Travelling with controlled drugs",
+    publisher: "GOV.UK",
+    url: "https://www.gov.uk/travelling-controlled-drugs",
+  },
+  tsaMedication: {
+    label: "Travelling with medication: screening requirements",
+    publisher: "U.S. Transportation Security Administration",
+    url: "https://www.tsa.gov/travel/frequently-asked-questions/i-am-traveling-medication-are-there-any-requirements-i-should-be",
+  },
+  nhsDvt: {
+    label: "DVT (deep vein thrombosis)",
+    publisher: "NHS",
+    url: "https://www.nhs.uk/conditions/deep-vein-thrombosis-dvt/",
+  },
+  cdcTravelClots: {
+    label: "Understanding your risk for blood clots with travel",
+    publisher: "U.S. Centers for Disease Control and Prevention",
+    url: "https://www.cdc.gov/blood-clots/risk-factors/travel.html",
+  },
   who: {
     label: "International travel and health",
     publisher: "World Health Organization",

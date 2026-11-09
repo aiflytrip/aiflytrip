@@ -13,6 +13,7 @@ import { spanishPlanningPosts } from "@/content/data/blog-posts-es-planning";
 import { frenchHackPosts } from "@/content/data/blog-posts-fr-hacks";
 import { decemberPosts } from "@/content/data/blog-posts-dec-2026";
 import { hackPosts } from "@/content/data/blog-posts-hacks";
+import { hackPostsTwo } from "@/content/data/blog-posts-hacks-2";
 import { novemberPosts } from "@/content/data/blog-posts-nov-2026";
 import { octoberPosts } from "@/content/data/blog-posts-oct-2026";
 import { guides as planningGuides } from "@/content/data/guides";
@@ -89,6 +90,7 @@ export const itineraries: Entry<Itinerary>[] = [
 const guideInputs = [
   ...bagPosts,
   ...hackPosts,
+  ...hackPostsTwo,
   ...decemberPosts,
   ...novemberPosts,
   ...octoberPosts,
