@@ -17,6 +17,8 @@ export type BlogCopy = {
     readMore: string;
     words: string;
     cta: { heading: string; body: string };
+    /** For a small blog: a pointer to the full English blog. */
+    moreInEnglish?: { text: string; label: string };
   };
   categories: Record<Guide["category"], { label: string; description: string }>;
   article: {
@@ -37,6 +39,79 @@ export type BlogCopy = {
     team: string;
     on: string;
   };
+};
+
+const FR: BlogCopy = {
+  intl: "fr-FR",
+  home: { name: "Accueil", path: "/fr" },
+  hub: {
+    path: "/fr/blog",
+    crumb: "Blog",
+    meta: {
+      title: "Blog voyage : astuces et droits des passagers",
+      description:
+        "Des conseils de voyage pratiques : astuces qui marchent, retards et annulations de vol, bagages perdus, contrôle de sécurité et quand réserver un vol.",
+    },
+    heading: "Blog voyage",
+    intro:
+      "Des conseils pratiques et sans détour pour mieux voyager : réserver au bon moment, connaître vos droits en cas de retard et passer l'aéroport sans stress. Chaque article renvoie vers des sources officielles pour les règles qui changent.",
+    categoriesLabel: "Catégories du blog",
+    featured: "À la une",
+    readMore: "Lire l'article →",
+    words: "mots",
+    cta: {
+      heading: "Prêt à planifier votre voyage ?",
+      body: "Notre planificateur de voyage IA transforme vos dates, votre budget et vos envies en un itinéraire jour par jour avec des options de vol. Gratuit, sans inscription.",
+    },
+    moreInEnglish: {
+      text: "Le blog français vient d'ouvrir. Nos autres articles, sur les vols pas chers, les itinéraires et les bagages, sont en anglais :",
+      label: "voir tous les articles (en anglais)",
+    },
+  },
+  categories: {
+    flights: {
+      label: "Vols",
+      description:
+        "Trouver des tarifs moins chers, comparer les options et connaître vos droits.",
+    },
+    itineraries: {
+      label: "Itinéraires",
+      description: "Des programmes jour par jour réalistes et agréables.",
+    },
+    planning: {
+      label: "Préparer son voyage",
+      description: "Les grandes décisions : où, quand et combien de temps.",
+    },
+    practical: {
+      label: "Pratique",
+      description: "Bagages, aéroport et ce qu'il faut régler avant de partir.",
+    },
+  },
+  article: {
+    minRead: "min de lecture",
+    reviewed: "Relu le",
+    onThisPage: "Sur cette page",
+    cta: {
+      heading: "Préparez votre itinéraire en quelques minutes",
+      body: "Notre planificateur de voyage IA transforme vos dates, votre budget et vos envies en un programme jour par jour à ajuster. Vérifiez les détails pratiques auprès des sources officielles avant de partir.",
+    },
+    faqTitle: "Questions fréquentes",
+    related: "Articles liés",
+    itineraries: "Itinéraires prêts à l'emploi",
+    destinations: "Guides de destination",
+  },
+  planner: {
+    href: "/fr/planifier",
+    button: "Créez votre plan de voyage gratuit",
+  },
+  sources: {
+    heading: "Sources officielles et pour aller plus loin",
+    notice:
+      "Les informations pratiques, comme les conditions d'entrée, les prix, les horaires et les jours d'ouverture, changent. Vérifiez-les toujours auprès des sources officielles ci-dessous avant de partir.",
+    reviewedBy: "Relu par",
+    team: "l'équipe éditoriale d'AIFlyTrip",
+    on: "le",
+  },
 };
 
 export const BLOG_COPY: Record<BlogLocale, BlogCopy> = {
@@ -174,4 +249,5 @@ export const BLOG_COPY: Record<BlogLocale, BlogCopy> = {
       on: "el",
     },
   },
+  fr: FR,
 };

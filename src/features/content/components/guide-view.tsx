@@ -154,7 +154,12 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
       />
       <RelatedLinks
         title={t.article.itineraries}
-        links={itineraryLinks(page.related.itineraries, page.locale)}
+        // Itineraries exist in English and Spanish only.
+        links={
+          page.locale === "fr"
+            ? []
+            : itineraryLinks(page.related.itineraries, page.locale)
+        }
       />
       <RelatedLinks
         title={t.article.destinations}

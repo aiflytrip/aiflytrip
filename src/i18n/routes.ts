@@ -110,7 +110,24 @@ export const BLOG_TRANSLATIONS: Record<string, string> = {
   "airport-security-tips": "consejos-control-de-seguridad-aeropuerto",
 };
 
-export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;
+export const BLOG_HUB = {
+  en: "/blog",
+  es: "/es/blog",
+  fr: "/fr/blog",
+} as const;
+
+/**
+ * The French blog has a few posts so far: English post slug -> French post
+ * slug, checked by the content tests against each French post's
+ * translationOf. French readers get the English blog for everything else.
+ */
+export const FRENCH_BLOG_TRANSLATIONS: Record<string, string> = {
+  "travel-hacks-that-work": "astuces-de-voyage-qui-marchent",
+  "flight-delay-compensation": "indemnisation-retard-de-vol",
+  "lost-luggage-what-to-do": "bagage-perdu-que-faire",
+  "best-time-to-book-flights": "quand-reserver-un-vol",
+  "airport-security-tips": "conseils-controle-de-securite-aeroport",
+};
 
 /**
  * Destination guides also exist in English and Spanish only. English path
@@ -151,16 +168,33 @@ export const ITINERARY_TRANSLATIONS: Record<string, string> = {
 /** Flight search: English and Spanish only (results are noindexed). */
 export const FLIGHTS_PATH = { en: "/flights", es: "/es/vuelos" } as const;
 
-export type SpanishPair = { en: string; es: string };
+/** A page's URL in each language it exists in (always English). */
+export type TranslationSet = { en: string } & Partial<
+  Record<Exclude<Locale, "en">, string>
+>;
 
-/** Every English page with a Spanish version (and no French one). */
-function spanishPairs(): SpanishPair[] {
+/** Blog posts with a Spanish and/or French version. */
+function blogSets(): TranslationSet[] {
+  const slugs = new Set([
+    ...Object.keys(BLOG_TRANSLATIONS),
+    ...Object.keys(FRENCH_BLOG_TRANSLATIONS),
+  ]);
+  return [...slugs].map((en) => {
+    const es = BLOG_TRANSLATIONS[en];
+    const fr = FRENCH_BLOG_TRANSLATIONS[en];
+    return {
+      en: `${BLOG_HUB.en}/${en}`,
+      ...(es ? { es: `${BLOG_HUB.es}/${es}` } : {}),
+      ...(fr ? { fr: `${BLOG_HUB.fr}/${fr}` } : {}),
+    };
+  });
+}
+
+/** Every English page with a translation outside the ROUTES table. */
+function translationSets(): TranslationSet[] {
   return [
     { ...BLOG_HUB },
-    ...Object.entries(BLOG_TRANSLATIONS).map(([en, es]) => ({
-      en: `${BLOG_HUB.en}/${en}`,
-      es: `${BLOG_HUB.es}/${es}`,
-    })),
+    ...blogSets(),
     { ...DESTINATION_HUB },
     ...Object.entries(DESTINATION_TRANSLATIONS).map(([en, es]) => ({ en, es })),
     { ...ITINERARY_HUB },
@@ -172,16 +206,16 @@ function spanishPairs(): SpanishPair[] {
   ];
 }
 
-/** The English and Spanish URLs of a blog, destination or itinerary page. */
-export function spanishPair(path: string): SpanishPair | undefined {
+/** The URLs of a blog, destination or itinerary page in each language. */
+export function translationSet(path: string): TranslationSet | undefined {
   const clean = cleanPath(path);
-  return spanishPairs().find((p) => p.en === clean || p.es === clean);
+  return translationSets().find((set) => Object.values(set).includes(clean));
 }
 
 /** Whether a path has a version in the target language. */
 export function hasTranslation(path: string, target: Locale): boolean {
   if (routeKeyForPath(path)) return true;
-  return spanishPair(path) !== undefined && target !== "fr";
+  return translationSet(path)?.[target] !== undefined;
 }
 
 /** Language of a path, from its /es or /fr prefix. */
@@ -197,9 +231,7 @@ export function localeForPath(path: string): Locale {
 export function switchPath(path: string, target: Locale): string {
   const key = routeKeyForPath(path);
   if (key) return ROUTES[key][target];
-  const pair = spanishPair(path);
-  if (pair && target !== "fr") return pair[target];
-  return ROUTES.home[target];
+  return translationSet(path)?.[target] ?? ROUTES.home[target];
 }
 
 /** hreflang alternates for metadata, with English as x-default. */
@@ -218,8 +250,8 @@ export function alternatesForPath(
 ): Record<string, string> | undefined {
   const key = routeKeyForPath(path);
   if (key) return languageAlternates(key);
-  const pair = spanishPair(path);
-  return pair ? { en: pair.en, es: pair.es, "x-default": pair.en } : undefined;
+  const set = translationSet(path);
+  return set ? { ...set, "x-default": set.en } : undefined;
 }
 
 /** Translated pages that are indexable (listed in the sitemap). */

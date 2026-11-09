@@ -99,12 +99,10 @@ function localisedChrome(
     itineraries: string;
   },
 ): Pick<SiteMessages, "nav"> & { columns: SiteMessages["footer"]["columns"] } {
-  // The blog, destination guides, itineraries and flight search have Spanish
-  // editions; French readers get the English ones.
-  const blog: ChromeLink =
-    locale === "es"
-      ? { href: BLOG_HUB.es, label: text.blog }
-      : { href: BLOG_HUB.en, label: text.blog, englishOnly: true };
+  // The blog has Spanish and French editions. Destination guides,
+  // itineraries and flight search have Spanish ones; French readers get
+  // the English ones.
+  const blog: ChromeLink = { href: BLOG_HUB[locale], label: text.blog };
   const flights = (label: string): ChromeLink =>
     locale === "es"
       ? { href: FLIGHTS_PATH.es, label }

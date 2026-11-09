@@ -43,6 +43,11 @@ export function ogTargets(): OgTarget[] {
       eyebrow: "Guía de viaje",
       title: g.headline,
     })),
+    ...publishedGuides("fr").map((g) => ({
+      path: g.path,
+      eyebrow: "Guide de voyage",
+      title: g.headline,
+    })),
   ];
 }
 

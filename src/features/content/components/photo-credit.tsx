@@ -18,6 +18,12 @@ const TEXT = {
     via: "vía",
     changes: "(redimensionada y recortada).",
   },
+  fr: {
+    photo: "Photo",
+    by: "de",
+    via: "via",
+    changes: "(redimensionnée et recadrée).",
+  },
 };
 
 export function PhotoCredit({

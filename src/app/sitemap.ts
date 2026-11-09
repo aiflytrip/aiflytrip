@@ -50,13 +50,15 @@ export const STATIC_PUBLIC_PATHS = [
 
 /**
  * Spanish and French versions of the translated pages, plus the Spanish
- * blog, destination and itinerary hubs (their pages come from the registry).
+ * and French blog hubs and the Spanish destination and itinerary hubs
+ * (their pages come from the registry).
  */
 export const TRANSLATED_PATHS = [
   ...INDEXABLE_ROUTE_KEYS.flatMap((key) =>
     LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
   ),
   BLOG_HUB.es,
+  BLOG_HUB.fr,
   DESTINATION_HUB.es,
   ITINERARY_HUB.es,
 ];

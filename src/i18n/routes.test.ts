@@ -5,6 +5,7 @@ import {
   alternatesForPath,
   BLOG_TRANSLATIONS,
   DESTINATION_TRANSLATIONS,
+  FRENCH_BLOG_TRANSLATIONS,
   hasTranslation,
   ITINERARY_TRANSLATIONS,
   languageAlternates,
@@ -69,16 +70,38 @@ describe("translated routes", () => {
     expect(localeForPath("/es/blog/ejemplo-de-itinerario-de-vuelo")).toBe("es");
   });
 
-  it("builds reciprocal English and Spanish alternates for blog pairs", () => {
+  it("switches blog posts that have a French version to French", () => {
+    expect(switchPath("/blog/flight-delay-compensation", "fr")).toBe(
+      "/fr/blog/indemnisation-retard-de-vol",
+    );
+    expect(switchPath("/fr/blog/indemnisation-retard-de-vol/", "es")).toBe(
+      "/es/blog/indemnizacion-por-retraso-de-vuelo",
+    );
+    expect(switchPath("/fr/blog/quand-reserver-un-vol", "en")).toBe(
+      "/blog/best-time-to-book-flights",
+    );
+    expect(switchPath("/blog", "fr")).toBe("/fr/blog");
+    expect(switchPath("/fr/blog", "es")).toBe("/es/blog");
+    expect(hasTranslation("/blog/flight-delay-compensation", "fr")).toBe(true);
+    expect(localeForPath("/fr/blog/bagage-perdu-que-faire")).toBe("fr");
+  });
+
+  it("builds reciprocal alternates for every translated blog post", () => {
     for (const [en, es] of Object.entries(BLOG_TRANSLATIONS)) {
+      const fr = FRENCH_BLOG_TRANSLATIONS[en];
       const fromEn = alternatesForPath(`/blog/${en}`);
-      const fromEs = alternatesForPath(`/es/blog/${es}`);
-      expect(fromEn).toEqual(fromEs);
+      expect(alternatesForPath(`/es/blog/${es}`)).toEqual(fromEn);
       expect(fromEn).toEqual({
         en: `/blog/${en}`,
         es: `/es/blog/${es}`,
+        ...(fr ? { fr: `/fr/blog/${fr}` } : {}),
         "x-default": `/blog/${en}`,
       });
+    }
+    for (const [en, fr] of Object.entries(FRENCH_BLOG_TRANSLATIONS)) {
+      expect(alternatesForPath(`/fr/blog/${fr}`)).toEqual(
+        alternatesForPath(`/blog/${en}`),
+      );
     }
     expect(
       alternatesForPath("/blog/a-post-with-no-spanish-version"),

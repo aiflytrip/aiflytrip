@@ -6,6 +6,7 @@ import {
   BLOG_TRANSLATIONS,
   DESTINATION_HUB,
   DESTINATION_TRANSLATIONS,
+  FRENCH_BLOG_TRANSLATIONS,
   ITINERARY_HUB,
   ITINERARY_TRANSLATIONS,
   ROUTES,
@@ -125,6 +126,23 @@ describe("internal links", () => {
       // Related posts are always in the page's own language.
       for (const s of g.related.guides)
         expect(anyGuide(s, g.locale), `${g.path} -> ${s}`).toBeDefined();
+    }
+  });
+
+  it("pairs every French post with its English post, both ways", () => {
+    const french = guides.filter((g) => g.locale === "fr");
+    expect(french.length).toBeGreaterThan(0);
+    for (const fr of french) {
+      expect(fr.path.startsWith("/fr/blog/"), fr.path).toBe(true);
+      const en = anyGuide(fr.translationOf ?? "");
+      expect(en, fr.path).toBeDefined();
+      expect(FRENCH_BLOG_TRANSLATIONS[en!.slug], fr.path).toBe(fr.slug);
+      // Same publish date, so hreflang never points at a hidden page.
+      expect(fr.publishAt, fr.path).toBe(en!.publishAt);
+    }
+    for (const [en, fr] of Object.entries(FRENCH_BLOG_TRANSLATIONS)) {
+      expect(anyGuide(en), en).toBeDefined();
+      expect(anyGuide(fr, "fr")?.translationOf, fr).toBe(en);
     }
   });
 

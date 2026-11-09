@@ -534,16 +534,16 @@ const fr: HomeCopy = {
     {
       question: "Les guides de destination et le blog sont-ils en français ?",
       answer:
-        "Pour l'instant, nos guides de destination, itinéraires et articles de blog sont en anglais. Nous traduisons le contenu progressivement et ne publions que des traductions relues.",
+        "Le blog commence à paraître en français, avec des astuces de voyage et des conseils sur les droits des passagers. Nos guides de destination et itinéraires sont pour l'instant en anglais. Nous traduisons le contenu progressivement et ne publions que des traductions relues.",
     },
   ],
   englishGuides: {
-    title: "Guides de destination et blog (en anglais)",
+    title: "Guides de destination et itinéraires (en anglais)",
     body: "Nos guides sur la meilleure période, la durée du séjour et les incontournables, avec des sources officielles, sont pour l'instant en anglais.",
     links: [
       { href: "/destinations", label: "Guides de destination" },
       { href: "/itineraries", label: "Itinéraires" },
-      { href: "/blog", label: "Blog voyage" },
+      { href: "/blog", label: "Blog voyage (tous les articles)" },
     ],
   },
   cta: {

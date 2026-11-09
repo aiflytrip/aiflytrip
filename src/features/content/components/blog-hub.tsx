@@ -43,6 +43,18 @@ export function BlogHub({ locale }: { locale: BlogLocale }) {
         <p className="max-w-3xl text-lg leading-8 text-muted-foreground">
           {t.intro}
         </p>
+        {t.moreInEnglish ? (
+          <p className="max-w-3xl text-sm text-muted-foreground">
+            {t.moreInEnglish.text}{" "}
+            <Link
+              href={BLOG_COPY.en.hub.path}
+              hrefLang="en"
+              className="font-semibold text-primary hover:underline"
+            >
+              {t.moreInEnglish.label}
+            </Link>
+          </p>
+        ) : null}
         <nav aria-label={t.categoriesLabel} className="flex flex-wrap gap-2">
           {categories
             .filter((c) => posts.some((p) => p.category === c.id))

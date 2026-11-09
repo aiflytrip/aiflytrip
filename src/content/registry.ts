@@ -10,6 +10,7 @@ import { spanishFlightPosts } from "@/content/data/blog-posts-es-flights";
 import { spanishHackPosts } from "@/content/data/blog-posts-es-hacks";
 import { spanishPlacePosts } from "@/content/data/blog-posts-es-places";
 import { spanishPlanningPosts } from "@/content/data/blog-posts-es-planning";
+import { frenchHackPosts } from "@/content/data/blog-posts-fr-hacks";
 import { decemberPosts } from "@/content/data/blog-posts-dec-2026";
 import { hackPosts } from "@/content/data/blog-posts-hacks";
 import { novemberPosts } from "@/content/data/blog-posts-nov-2026";
@@ -31,7 +32,7 @@ import {
   type Guide,
   type Itinerary,
 } from "@/content/schema";
-import { DESTINATION_HUB, ITINERARY_HUB } from "@/i18n/routes";
+import { BLOG_HUB, DESTINATION_HUB, ITINERARY_HUB } from "@/i18n/routes";
 
 /**
  * Single source of truth for public content. Routes, the sitemap, internal
@@ -96,14 +97,14 @@ const guideInputs = [
   ...spanishPosts,
   ...spanishFlightPosts,
   ...spanishHackPosts,
+  ...frenchHackPosts,
   ...spanishPlanningPosts,
   ...spanishPlacePosts,
 ];
 
 export type GuideLocale = Guide["locale"];
 
-const guidePath = (g: Guide) =>
-  g.locale === "es" ? `/es/blog/${g.slug}` : `/blog/${g.slug}`;
+const guidePath = (g: Guide) => `${BLOG_HUB[g.locale]}/${g.slug}`;
 
 export const guides: Entry<Guide>[] = guideInputs
   .map((input) => GuideSchema.parse(input))

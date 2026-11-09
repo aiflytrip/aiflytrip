@@ -130,6 +130,40 @@ export const SOURCES = {
     publisher: "Unión Europea (Tu Europa)",
     url: "https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_es.htm",
   },
+  euAirRightsFr: {
+    label: "Droits des passagers aériens dans l'UE",
+    publisher: "Union européenne (L'Europe est à vous)",
+    url: "https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_fr.htm",
+  },
+  euCardChargesFr: {
+    label: "Argent et frais lors d'un voyage dans l'UE",
+    publisher: "Union européenne (L'Europe est à vous)",
+    url: "https://europa.eu/youreurope/citizens/travel/money-charges/index_fr.htm",
+  },
+  eu261Fr: {
+    label:
+      "Règlement (CE) n° 261/2004 sur l'indemnisation et l'assistance des passagers aériens",
+    publisher: "EUR-Lex (Journal officiel de l'UE)",
+    url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32004R0261",
+  },
+  eu1008Fr: {
+    label:
+      "Règlement (CE) n° 1008/2008, dont la transparence des tarifs aériens",
+    publisher: "EUR-Lex (Journal officiel de l'UE)",
+    url: "https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX:32008R1008",
+  },
+  dgacDelays: {
+    label:
+      "Que faire en cas de retard, d'annulation, de refus d'embarquement ou de déclassement ?",
+    publisher: "Ministère chargé des Transports (DGAC)",
+    url: "https://www.ecologie.gouv.fr/politiques-publiques/que-faire-cas-retard-depart-annulation-dun-vol-refus-dembarquement",
+  },
+  dgacBaggage: {
+    label:
+      "Que faire en cas de dommages aux passagers et aux bagages lors d'un vol international ?",
+    publisher: "Ministère chargé des Transports (DGAC)",
+    url: "https://www.ecologie.gouv.fr/politiques-publiques/que-faire-cas-dommage-causes-aux-passagers-aux-bagages-aux-marchandises-lors",
+  },
   euCardChargesEs: {
     label: "Dinero y gastos al viajar por la UE",
     publisher: "Unión Europea (Tu Europa)",
