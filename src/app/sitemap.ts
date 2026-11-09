@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { blogPhoto, destinationPhoto } from "@/content/data/photos";
+import { blogPhoto, destinationPhoto, photoKey } from "@/content/data/photos";
 import {
   allContent,
   getDestinationByPath,
@@ -15,6 +15,7 @@ import { LOCALES } from "@/i18n/config";
 import {
   alternatesForPath,
   BLOG_HUB,
+  DESTINATION_HUB,
   INDEXABLE_ROUTE_KEYS,
   ROUTES,
 } from "@/i18n/routes";
@@ -46,12 +47,16 @@ export const STATIC_PUBLIC_PATHS = [
   "/terms",
 ] as const;
 
-/** Spanish and French versions of the translated pages, plus the Spanish blog. */
+/**
+ * Spanish and French versions of the translated pages, plus the Spanish
+ * blog and destination hubs (their articles come from the registry).
+ */
 export const TRANSLATED_PATHS = [
   ...INDEXABLE_ROUTE_KEYS.flatMap((key) =>
     LOCALES.filter((l) => l !== "en").map((l) => ROUTES[key][l]),
   ),
   BLOG_HUB.es,
+  DESTINATION_HUB.es,
 ];
 
 /** hreflang alternates (absolute URLs) for a page that has translations. */
@@ -70,7 +75,7 @@ function pageImage(
 ): string[] {
   const photo =
     "kind" in entry
-      ? destinationPhoto(entry.slug)
+      ? destinationPhoto(photoKey(entry))
       : "destination" in entry
         ? destinationPhoto(getDestinationByPath(entry.destination)?.slug ?? "")
         : blogPhoto(entry.photo);

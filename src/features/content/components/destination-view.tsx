@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,7 +10,7 @@ import {
   isIndexable,
   type Entry,
 } from "@/content/registry";
-import { destinationPhoto } from "@/content/data/photos";
+import { destinationPhoto, photoKey } from "@/content/data/photos";
 import { type Destination } from "@/content/schema";
 import {
   BulletList,
@@ -35,14 +36,31 @@ import {
   graph,
   type Crumb,
 } from "@/features/seo/json-ld";
+import { pageMetadata } from "@/features/seo/metadata";
+import { ogImagePath } from "@/features/seo/og-targets";
+import { DESTINATION_COPY } from "@/i18n/pages/destinations";
+import { alternatesForPath } from "@/i18n/routes";
+
+/** Metadata for a destination guide, with its other-language version. */
+export function destinationMetadata(page: Entry<Destination>): Metadata {
+  return pageMetadata({
+    title: page.title,
+    description: page.description,
+    path: page.path,
+    type: "article",
+    modifiedTime: page.lastReviewed,
+    noindex: !isIndexable(page),
+    image: ogImagePath(page.path),
+    locale: page.locale,
+    languages: alternatesForPath(page.path),
+  });
+}
 
 export function destinationCrumbs(page: Entry<Destination>): Crumb[] {
-  const crumbs: Crumb[] = [
-    { name: "Home", path: "/" },
-    { name: "Destinations", path: "/destinations" },
-  ];
+  const t = DESTINATION_COPY[page.locale];
+  const crumbs: Crumb[] = [t.home, { name: t.hub.crumb, path: t.hub.path }];
   if (page.kind === "city" && page.country) {
-    const country = getCountry(page.country);
+    const country = getCountry(page.country, page.locale);
     if (country) crumbs.push({ name: country.name, path: country.path });
   }
   crumbs.push({ name: page.name, path: page.path });
@@ -50,10 +68,15 @@ export function destinationCrumbs(page: Entry<Destination>): Crumb[] {
 }
 
 export function DestinationView({ page }: { page: Entry<Destination> }) {
-  const cities = page.kind === "country" ? citiesOf(page.slug) : [];
+  const t = DESTINATION_COPY[page.locale];
+  const cities =
+    page.kind === "country" ? citiesOf(page.slug, page.locale) : [];
   const parent =
-    page.kind === "city" && page.country ? getCountry(page.country) : undefined;
-  const photo = destinationPhoto(page.slug);
+    page.kind === "city" && page.country
+      ? getCountry(page.country, page.locale)
+      : undefined;
+  const key = photoKey(page);
+  const photo = destinationPhoto(key, page.locale);
 
   return (
     <Container className="flex max-w-5xl flex-col gap-12 py-10">
@@ -65,9 +88,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
         <div
           className="relative flex min-h-[360px] flex-col justify-end gap-4 overflow-hidden rounded-[28px] border border-white/10 p-6 sm:min-h-[440px] sm:p-10"
           style={
-            photo
-              ? undefined
-              : { background: destinationArt(page.slug).background }
+            photo ? undefined : { background: destinationArt(key).background }
           }
         >
           {photo ? (
@@ -84,7 +105,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
               aria-hidden="true"
               className="pointer-events-none absolute -right-4 -bottom-8 font-display text-[160px] leading-none font-bold text-white/[0.08] sm:text-[220px]"
             >
-              {destinationArt(page.slug).mark}
+              {destinationArt(key).mark}
             </span>
           )}
           <div
@@ -101,27 +122,29 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
             </p>
             {parent ? (
               <p className="text-sm text-white/85">
-                Part of our{" "}
+                {t.page.partOfLead}{" "}
                 <Link
                   href={parent.path}
                   className="font-semibold text-white underline underline-offset-4"
                 >
-                  {parent.name} travel planning guide
+                  {t.page.partOf(parent.name)}
                 </Link>
                 .
               </p>
             ) : null}
           </div>
         </div>
-        {photo ? <PhotoCredit photo={photo} className="px-2" /> : null}
+        {photo ? (
+          <PhotoCredit photo={photo} className="px-2" locale={page.locale} />
+        ) : null}
       </div>
 
-      <ContentSection id="overview" title={`${page.name} at a glance`}>
+      <ContentSection id="overview" title={t.page.overview(page.name)}>
         <Prose paragraphs={page.overview} />
       </ContentSection>
 
       {cities.length > 0 ? (
-        <ContentSection id="cities" title={`City guides for ${page.name}`}>
+        <ContentSection id="cities" title={t.page.cities(page.name)}>
           <ul className="grid gap-3 sm:grid-cols-2">
             {cities.map((city) => (
               <li key={city.path}>
@@ -130,7 +153,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
                   className="block rounded-2xl border border-border bg-card p-4 hover:border-primary"
                 >
                   <span className="font-medium">
-                    Planning a trip to {city.name}
+                    {t.page.cityLink(city.name)}
                   </span>
                   <span className="mt-1 block text-sm text-muted-foreground">
                     {city.description}
@@ -142,7 +165,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
         </ContentSection>
       ) : null}
 
-      <ContentSection id="best-time" title={`Best time to visit ${page.name}`}>
+      <ContentSection id="best-time" title={t.page.bestTime(page.name)}>
         <Prose paragraphs={[page.bestTime.summary]} />
         <div className="grid gap-3 sm:grid-cols-2">
           {page.bestTime.seasons.map((season) => (
@@ -161,7 +184,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
         </div>
       </ContentSection>
 
-      <ContentSection id="trip-length" title={`How many days in ${page.name}?`}>
+      <ContentSection id="trip-length" title={t.page.tripLength(page.name)}>
         <Prose paragraphs={[page.tripLength.summary]} />
         <dl className="grid gap-3 sm:grid-cols-3">
           {page.tripLength.options.map((option) => (
@@ -175,10 +198,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
         </dl>
       </ContentSection>
 
-      <ContentSection
-        id="highlights"
-        title={`Top things to see in ${page.name}`}
-      >
+      <ContentSection id="highlights" title={t.page.highlights(page.name)}>
         <ul className="grid gap-3 sm:grid-cols-2">
           {page.highlights.map((highlight) => (
             <li
@@ -195,17 +215,21 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
       </ContentSection>
 
       <PlannerCta
-        heading={`Turn this into your own ${page.name} itinerary`}
-        body="Tell us your dates, budget, pace and interests, and our AI trip planner drafts a day-by-day plan with a flight suggestion and budget estimate."
-        href={plannerHref(page)}
+        heading={t.page.cta.heading(page.name)}
+        body={t.page.cta.body}
+        href={plannerHref(page, page.locale)}
+        buttonLabel={t.plannerButton}
         placement="destination"
       />
 
-      <ContentSection id="getting-around" title={`Getting around ${page.name}`}>
+      <ContentSection
+        id="getting-around"
+        title={t.page.gettingAround(page.name)}
+      >
         <BulletList items={page.gettingAround} />
       </ContentSection>
 
-      <ContentSection id="planning" title="Planning considerations">
+      <ContentSection id="planning" title={t.page.planning}>
         <dl className="flex max-w-3xl flex-col gap-4">
           {page.planning.map((item) => (
             <div key={item.topic}>
@@ -218,26 +242,30 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
         </dl>
       </ContentSection>
 
-      <ContentSection id="tips" title={`Tips for visiting ${page.name}`}>
+      <ContentSection id="tips" title={t.page.tips(page.name)}>
         <BulletList items={page.tips} />
       </ContentSection>
 
-      <FaqList faqs={page.faqs} />
+      <FaqList faqs={page.faqs} title={t.page.faqTitle} />
 
       <RelatedLinks
-        title="Ready-made itineraries"
+        title={t.page.itineraries}
         links={itineraryLinks(page.related.itineraries)}
       />
       <RelatedLinks
-        title="Related destinations"
+        title={t.page.destinations}
         links={destinationLinks(page.related.destinations)}
       />
       <RelatedLinks
-        title="Travel planning guides"
-        links={guideLinks(page.related.guides)}
+        title={t.page.guides}
+        links={guideLinks(page.related.guides, page.locale)}
       />
 
-      <SourcesList sources={page.sources} lastReviewed={page.lastReviewed} />
+      <SourcesList
+        sources={page.sources}
+        lastReviewed={page.lastReviewed}
+        locale={page.locale}
+      />
     </Container>
   );
 }

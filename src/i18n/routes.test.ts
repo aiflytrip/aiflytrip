@@ -4,6 +4,7 @@ import { LOCALES } from "@/i18n/config";
 import {
   alternatesForPath,
   BLOG_TRANSLATIONS,
+  DESTINATION_TRANSLATIONS,
   hasTranslation,
   languageAlternates,
   localeForPath,
@@ -81,6 +82,23 @@ describe("translated routes", () => {
     expect(
       alternatesForPath("/blog/a-post-with-no-spanish-version"),
     ).toBeUndefined();
+  });
+
+  it("switches destination guides between English and Spanish only", () => {
+    expect(switchPath("/destinations/japan/tokyo", "es")).toBe(
+      "/es/destinos/japon/tokio",
+    );
+    expect(switchPath("/es/destinos/italia/", "en")).toBe(
+      "/destinations/italy",
+    );
+    expect(switchPath("/destinations", "es")).toBe("/es/destinos");
+    expect(switchPath("/destinations/france", "fr")).toBe("/fr");
+    expect(hasTranslation("/destinations/france", "fr")).toBe(false);
+    expect(hasTranslation("/es/destinos/portugal/lisboa", "en")).toBe(true);
+    for (const [en, es] of Object.entries(DESTINATION_TRANSLATIONS)) {
+      expect(alternatesForPath(en)).toEqual({ en, es, "x-default": en });
+      expect(alternatesForPath(es)).toEqual(alternatesForPath(en));
+    }
   });
 
   it("links to the planner form in each language", () => {

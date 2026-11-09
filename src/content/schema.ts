@@ -43,7 +43,11 @@ const PublishingSchema = z.object({
 export const DestinationSchema = SeoSchema.merge(PublishingSchema).extend({
   kind: z.enum(["country", "city"]),
   slug,
-  /** Parent country slug, for cities. */
+  /** Spanish guides live under /es/destinos and link to Spanish pages. */
+  locale: z.enum(["en", "es"]).default("en"),
+  /** For a Spanish guide, the slug of the English guide it translates. */
+  translationOf: slug.optional(),
+  /** Parent country slug (in the same language), for cities. */
   country: slug.optional(),
   name: text,
   headline: text,

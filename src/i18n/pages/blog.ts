@@ -162,7 +162,7 @@ export const BLOG_COPY: Record<BlogLocale, BlogCopy> = {
       faqTitle: "Preguntas frecuentes",
       related: "Artículos relacionados",
       itineraries: "Itinerarios listos (en inglés)",
-      destinations: "Guías de destino (en inglés)",
+      destinations: "Guías de destino",
     },
     planner: { href: "/es/planificar", button: "Crea tu plan de viaje gratis" },
     sources: {

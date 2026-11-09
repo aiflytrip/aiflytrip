@@ -6,6 +6,8 @@ import {
 } from "@/content/registry";
 import { type Destination, type Guide } from "@/content/schema";
 import { type RelatedLink } from "@/features/content/components/blocks";
+import { DESTINATION_COPY } from "@/i18n/pages/destinations";
+import { ROUTES } from "@/i18n/routes";
 
 /**
  * Resolves related-content references to links. Unknown or unpublished
@@ -19,7 +21,7 @@ export function destinationLinks(paths: string[]): RelatedLink[] {
       ? [
           {
             href: d.path,
-            title: `${d.name} travel guide`,
+            title: DESTINATION_COPY[d.locale].linkTitle(d.name),
             description: d.description,
           },
         ]
@@ -48,10 +50,15 @@ export function guideLinks(
   });
 }
 
-/** Planner link, prefilled with a destination airport when one is supported. */
+/**
+ * Planner link in the page's language, prefilled with a destination
+ * airport when one is supported.
+ */
 export function plannerHref(
   destination: Pick<Entry<Destination>, "airports">,
+  locale: Destination["locale"] = "en",
 ): string {
+  const planner = ROUTES.planner[locale];
   const airport = destination.airports[0];
-  return airport ? `/plan?to=${airport}` : "/plan";
+  return airport ? `${planner}?to=${airport}` : planner;
 }

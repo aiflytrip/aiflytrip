@@ -1,5 +1,5 @@
 import { type Locale } from "@/i18n/config";
-import { BLOG_HUB, plannerHref, route } from "@/i18n/routes";
+import { BLOG_HUB, DESTINATION_HUB, plannerHref, route } from "@/i18n/routes";
 
 /** The packing and baggage tools, linked from the Spanish and French footers. */
 const BAG_TOOL_KEYS = [
@@ -92,16 +92,21 @@ function localisedChrome(
     itineraries: string;
   },
 ): Pick<SiteMessages, "nav"> & { columns: SiteMessages["footer"]["columns"] } {
-  // The blog has a Spanish edition; French readers get the English one.
+  // The blog and destination guides have Spanish editions; French readers
+  // get the English ones.
   const blog: ChromeLink =
     locale === "es"
       ? { href: BLOG_HUB.es, label: text.blog }
       : { href: BLOG_HUB.en, label: text.blog, englishOnly: true };
+  const destinationHub = (label: string): ChromeLink =>
+    locale === "es"
+      ? { href: DESTINATION_HUB.es, label }
+      : { href: DESTINATION_HUB.en, label, englishOnly: true };
   return {
     nav: [
       { href: plannerHref(locale), label: text.planner },
       { href: route("tools", locale), label: text.tools },
-      { href: "/destinations", label: text.destinations, englishOnly: true },
+      destinationHub(text.destinations),
       blog,
       { href: "/flights", label: text.flights, englishOnly: true },
     ],
@@ -123,11 +128,7 @@ function localisedChrome(
       {
         title: text.guides,
         links: [
-          {
-            href: "/destinations",
-            label: text.allDestinations,
-            englishOnly: true,
-          },
+          destinationHub(text.allDestinations),
           { href: "/itineraries", label: text.itineraries, englishOnly: true },
           blog,
         ],

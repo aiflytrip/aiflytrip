@@ -43,7 +43,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "París: Charles de Gaulle y Orly",
         paragraphs: [
           "Desde Charles de Gaulle, el tren de cercanías RER B llega al centro de París, con paradas como Gare du Nord y Châtelet–Les Halles, donde puedes cambiar al metro. Suele ser la opción más práctica si viajas ligero. El Roissybus va a la zona de la Ópera, y los taxis entre el aeropuerto y el centro tienen tarifa fija, lo que quita la preocupación por el tráfico.",
-          "Orly está más cerca de la ciudad y ahora tiene la línea 14 del metro, que cruza el centro de París hacia el norte. También hay autobuses y taxis. Uses el aeropuerto que uses, consulta las rutas vigentes en la web de la RATP antes de ir. Ya en la ciudad, nuestra [guía de París](/destinations/france/paris) y el [itinerario de 3 días en París](/itineraries/paris-3-days), ambos en inglés, te ayudan a seguir.",
+          "Orly está más cerca de la ciudad y ahora tiene la línea 14 del metro, que cruza el centro de París hacia el norte. También hay autobuses y taxis. Uses el aeropuerto que uses, consulta las rutas vigentes en la web de la RATP antes de ir. Ya en la ciudad, nuestra [guía de París](/es/destinos/francia/paris) y el [itinerario de 3 días en París](/itineraries/paris-3-days) (en inglés) te ayudan a seguir.",
         ],
         bullets: [],
       },
@@ -51,7 +51,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Roma: Fiumicino y Ciampino",
         paragraphs: [
           "La mayoría de los vuelos internacionales aterrizan en Fiumicino. El tren Leonardo Express va sin paradas a Roma Termini, la estación principal, que encaja con la mayoría de los hoteles céntricos. Los trenes regionales de la línea FL1 son una alternativa si te alojas cerca de Trastevere u Ostiense, y suelen ser más baratos. Los taxis de Fiumicino al centro histórico tienen tarifa fija.",
-          "Ciampino, que usan sobre todo las aerolíneas de bajo coste, no tiene tren en la terminal; hay autobuses a Termini y a la estación de la localidad de Ciampino para seguir en tren. Consulta las opciones vigentes en la web de Aeroporti di Roma. Nuestra [guía de Roma](/destinations/italy/rome) (en inglés) explica cómo moverte al llegar.",
+          "Ciampino, que usan sobre todo las aerolíneas de bajo coste, no tiene tren en la terminal; hay autobuses a Termini y a la estación de la localidad de Ciampino para seguir en tren. Consulta las opciones vigentes en la web de Aeroporti di Roma. Nuestra [guía de Roma](/es/destinos/italia/roma) explica cómo moverte al llegar.",
         ],
         bullets: [],
       },
@@ -59,7 +59,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Tokio: Haneda y Narita",
         paragraphs: [
           "Haneda es el más cercano de los dos aeropuertos de Tokio. La línea Keikyu y el monorraíl de Tokio lo conectan con la red de trenes del centro, y los autobuses limusina del aeropuerto van directos a muchos hoteles y grandes estaciones, algo práctico con equipaje pesado.",
-          "Narita está más lejos. El JR Narita Express y el Keisei Skyliner son los trenes más rápidos hasta la ciudad, y también hay autobuses más baratos y trenes más lentos. Si llegas cansado tras un vuelo largo, un autobús directo a tu hotel puede compensar. Nuestra [guía de Tokio](/destinations/japan/tokyo) (en inglés) explica las tarjetas IC, que sirven en casi todos los trenes y autobuses de la ciudad.",
+          "Narita está más lejos. El JR Narita Express y el Keisei Skyliner son los trenes más rápidos hasta la ciudad, y también hay autobuses más baratos y trenes más lentos. Si llegas cansado tras un vuelo largo, un autobús directo a tu hotel puede compensar. Nuestra [guía de Tokio](/es/destinos/japon/tokio) explica las tarjetas IC, que sirven en casi todos los trenes y autobuses de la ciudad.",
         ],
         bullets: [],
       },
@@ -67,7 +67,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Lisboa: aeropuerto Humberto Delgado",
         paragraphs: [
           "El aeropuerto de Lisboa está especialmente cerca de la ciudad. La línea roja del metro empieza en el aeropuerto, y puedes cambiar a otras líneas para el centro; es sencillo y económico si tu equipaje es manejable. El Aerobus va a zonas céntricas como la Baixa y Cais do Sodré, y hay taxis y coches con conductor de sobra para el trayecto corto.",
-          "Si tu hotel está en lo alto de una de las muchas colinas de Lisboa, un taxi hasta la puerta te ahorra una cuesta con maletas. Nuestra [guía de Lisboa](/destinations/portugal/lisbon) y el [itinerario de 3 días en Lisboa](/itineraries/lisbon-3-days), ambos en inglés, te ayudan a planear los días siguientes.",
+          "Si tu hotel está en lo alto de una de las muchas colinas de Lisboa, un taxi hasta la puerta te ahorra una cuesta con maletas. Nuestra [guía de Lisboa](/es/destinos/portugal/lisboa) y el [itinerario de 3 días en Lisboa](/itineraries/lisbon-3-days) (en inglés) te ayudan a planear los días siguientes.",
         ],
         bullets: [],
       },
@@ -105,7 +105,12 @@ export const spanishPlacePosts: PostInput[] = [
       },
     ],
     related: {
-      destinations: [],
+      destinations: [
+        "/es/destinos/francia/paris",
+        "/es/destinos/italia/roma",
+        "/es/destinos/japon/tokio",
+        "/es/destinos/portugal/lisboa",
+      ],
       itineraries: [],
       guides: [
         "ejemplo-de-itinerario-de-viaje",
@@ -178,7 +183,7 @@ export const spanishPlacePosts: PostInput[] = [
       {
         heading: "Moverse por las ciudades sin pase",
         paragraphs: [
-          "Dentro de las grandes ciudades, buena parte de tus trayectos serán en metro y líneas privadas que el pase no cubre. Una tarjeta IC recargable, que se pasa al entrar y al salir, suele ser la forma más fácil de pagar trenes y autobuses urbanos. Nuestra [guía de Tokio](/destinations/japan/tokyo) (en inglés) explica cómo funcionan.",
+          "Dentro de las grandes ciudades, buena parte de tus trayectos serán en metro y líneas privadas que el pase no cubre. Una tarjeta IC recargable, que se pasa al entrar y al salir, suele ser la forma más fácil de pagar trenes y autobuses urbanos. Nuestra [guía de Tokio](/es/destinos/japon/tokio) explica cómo funcionan.",
           "Aunque tengas el pase, probablemente usarás también una tarjeta IC, así que compensa conseguirla al principio del viaje.",
         ],
         bullets: [],
@@ -194,7 +199,7 @@ export const spanishPlacePosts: PostInput[] = [
       {
         heading: "Planificar la ruta",
         paragraphs: [
-          "Compres o no el pase, el orden de las paradas importa. Agrupar los lugares en una ruta lógica ahorra tiempo y dinero. Nuestra [guía de Japón](/destinations/japan) (en inglés) cubre la ruta clásica Tokio, Kioto y Osaka, y nuestro [ejemplo de itinerario de viaje](/es/blog/ejemplo-de-itinerario-de-viaje) explica cómo planear días realistas.",
+          "Compres o no el pase, el orden de las paradas importa. Agrupar los lugares en una ruta lógica ahorra tiempo y dinero. Nuestra [guía de Japón](/es/destinos/japon) cubre la ruta clásica Tokio, Kioto y Osaka, y nuestro [ejemplo de itinerario de viaje](/es/blog/ejemplo-de-itinerario-de-viaje) explica cómo planear días realistas.",
           "Si llegas en avión, nuestra guía para ir [del aeropuerto al centro](/es/blog/del-aeropuerto-al-centro-paris-roma-tokio-lisboa) cubre los aeropuertos de Haneda y Narita, y la de [cómo combatir el jet lag](/es/blog/como-combatir-el-jet-lag) te ayuda con el cambio de hora. Nuestro [planificador de viajes con IA](/es/planificar) prepara un plan día a día al que puedes poner precio.",
         ],
         bullets: [],
@@ -218,7 +223,7 @@ export const spanishPlacePosts: PostInput[] = [
       },
     ],
     related: {
-      destinations: [],
+      destinations: ["/es/destinos/japon", "/es/destinos/japon/tokio"],
       itineraries: [],
       guides: [
         "ejemplo-de-itinerario-de-viaje",
@@ -256,7 +261,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "París en invierno",
         paragraphs: [
           "París en invierno suele estar gris y fresco, con algún día frío y luminoso. Diciembre trae luces de Navidad y mercadillos, mientras que enero y febrero suelen ser mucho más tranquilos. Es una gran temporada para sus museos, sus pasajes cubiertos, sus cafés y sus mercados.",
-          "Lleva ropa de abrigo por capas y un impermeable, y deja los museos para las tardes de lluvia. Nuestra [guía de París](/destinations/france/paris) explica las mejores zonas para alojarse, y el [itinerario de 3 días en París](/itineraries/paris-3-days) agrupa la ciudad por barrios, algo que importa más cuando los días son cortos; ambos están en inglés.",
+          "Lleva ropa de abrigo por capas y un impermeable, y deja los museos para las tardes de lluvia. Nuestra [guía de París](/es/destinos/francia/paris) explica las mejores zonas para alojarse, y el [itinerario de 3 días en París](/itineraries/paris-3-days) (en inglés) agrupa la ciudad por barrios, algo que importa más cuando los días son cortos.",
         ],
         bullets: [],
       },
@@ -264,7 +269,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Roma en invierno",
         paragraphs: [
           "Los inviernos de Roma son más suaves que los del norte de Europa, con días frescos y algo de lluvia. Los grandes monumentos, de las ruinas antiguas a las grandes iglesias y museos, tienen mucha menos gente que en primavera y verano, lo que hace del invierno una época muy agradecida para visitarla.",
-          "La Navidad se vive mucho en Roma y se alarga hasta principios de enero, cuando la Epifanía es festivo en Italia, igual que el día de Reyes en España. Comprueba los días de apertura en las fiestas, porque algunos lugares cambian el horario. Nuestra [guía de Roma](/destinations/italy/rome) (en inglés) explica cómo agrupar el Coliseo, el Vaticano y el centro histórico en días asequibles.",
+          "La Navidad se vive mucho en Roma y se alarga hasta principios de enero, cuando la Epifanía es festivo en Italia, igual que el día de Reyes en España. Comprueba los días de apertura en las fiestas, porque algunos lugares cambian el horario. Nuestra [guía de Roma](/es/destinos/italia/roma) explica cómo agrupar el Coliseo, el Vaticano y el centro histórico en días asequibles.",
         ],
         bullets: [],
       },
@@ -272,7 +277,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Lisboa en invierno",
         paragraphs: [
           "Lisboa tiene uno de los inviernos más suaves de las capitales europeas, con muchos días soleados entre rachas de lluvia. Es una época agradable para subir y bajar sus colinas, montar en tranvía y disfrutar de los miradores sin el calor ni la gente del verano.",
-          "Lleva un impermeable ligero y calzado que agarre, porque el empedrado resbala con la lluvia. Nuestra [guía de Lisboa](/destinations/portugal/lisbon) y el [itinerario de 3 días en Lisboa](/itineraries/lisbon-3-days), ambos en inglés, te ayudan a planificar, incluida una excursión a Sintra, que puede estar más fresca y con más niebla que la ciudad.",
+          "Lleva un impermeable ligero y calzado que agarre, porque el empedrado resbala con la lluvia. Nuestra [guía de Lisboa](/es/destinos/portugal/lisboa) y el [itinerario de 3 días en Lisboa](/itineraries/lisbon-3-days) (en inglés) te ayudan a planificar, incluida una excursión a Sintra, que puede estar más fresca y con más niebla que la ciudad.",
         ],
         bullets: [],
       },
@@ -332,7 +337,11 @@ export const spanishPlacePosts: PostInput[] = [
       },
     ],
     related: {
-      destinations: [],
+      destinations: [
+        "/es/destinos/francia/paris",
+        "/es/destinos/italia/roma",
+        "/es/destinos/portugal/lisboa",
+      ],
       itineraries: [],
       guides: [
         "ejemplo-de-itinerario-de-viaje",
@@ -370,7 +379,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Elige primero el barrio",
         paragraphs: [
           "Es más fácil elegir un barrio y luego un alojamiento que al revés. Las zonas céntricas son cómodas pero más bulliciosas y a menudo más caras; las zonas residenciales tranquilas con buen transporte pueden salir mejor de precio y tener un ambiente más local.",
-          "Nuestras guías de destino proponen zonas. Por ejemplo, la [guía de Lisboa](/destinations/portugal/lisbon) compara la Baixa y el Chiado con el tranquilo Príncipe Real y la empinada Alfama, y la [guía de París](/destinations/france/paris) repasa las zonas que encajan en una primera visita; ambas están en inglés.",
+          "Nuestras guías de destino proponen zonas. Por ejemplo, la [guía de Lisboa](/es/destinos/portugal/lisboa) compara la Baixa y el Chiado con el tranquilo Príncipe Real y la empinada Alfama, y la [guía de París](/es/destinos/francia/paris) repasa las zonas que encajan en una primera visita.",
         ],
         bullets: [],
       },
@@ -454,7 +463,10 @@ export const spanishPlacePosts: PostInput[] = [
       },
     ],
     related: {
-      destinations: [],
+      destinations: [
+        "/es/destinos/portugal/lisboa",
+        "/es/destinos/francia/paris",
+      ],
       itineraries: [],
       guides: [
         "ejemplo-de-itinerario-de-viaje",

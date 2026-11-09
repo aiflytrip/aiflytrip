@@ -349,15 +349,15 @@ const es: HomeCopy = {
     {
       question: "¿Las guías de destino y el blog están en español?",
       answer:
-        "El blog ya tiene una edición en español con nuestros artículos más leídos, y vamos añadiendo más. Las guías de destino y los itinerarios están por ahora en inglés. Solo publicamos traducciones revisadas.",
+        "Sí. El blog y las guías de destino de Francia, Italia, Japón, Portugal y sus capitales ya tienen edición en español. Los itinerarios día a día están por ahora en inglés. Solo publicamos traducciones revisadas.",
     },
   ],
   englishGuides: {
     title: "Blog en español y guías de destino",
-    body: "Lee nuestro blog de viajes en español. Las guías sobre cuándo ir, cuánto tiempo quedarse y qué ver, con fuentes oficiales, están por ahora en inglés.",
+    body: "Lee nuestro blog de viajes y nuestras guías de destino en español: cuándo ir, cuánto tiempo quedarse y qué ver, con enlaces a fuentes oficiales.",
     links: [
       { href: "/es/blog", label: "Blog de viajes" },
-      { href: "/destinations", label: "Guías de destino (en inglés)" },
+      { href: "/es/destinos", label: "Guías de destino" },
       { href: "/itineraries", label: "Itinerarios (en inglés)" },
     ],
   },

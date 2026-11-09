@@ -130,6 +130,36 @@ export const SOURCES = {
     publisher: "EUR-Lex (Diario Oficial de la UE)",
     url: "https://eur-lex.europa.eu/legal-content/ES/TXT/?uri=CELEX:32004R0261",
   },
+  franceEs: {
+    label: "Web oficial de turismo de Francia",
+    publisher: "Atout France",
+    url: "https://www.france.fr/es/",
+  },
+  italyEs: {
+    label: "Web oficial de turismo de Italia",
+    publisher: "ENIT – Agencia Nacional de Turismo de Italia",
+    url: "https://www.italia.it/es",
+  },
+  romeEs: {
+    label: "Web oficial de turismo de Roma",
+    publisher: "Roma Capitale",
+    url: "https://www.turismoroma.it/es",
+  },
+  trenitaliaEs: {
+    label: "Billetes y horarios de tren en Italia",
+    publisher: "Trenitalia",
+    url: "https://www.trenitalia.com/es.html",
+  },
+  tokyoEs: {
+    label: "Portal oficial de turismo de Tokio",
+    publisher: "Tokyo Convention & Visitors Bureau",
+    url: "https://www.gotokyo.org/es/",
+  },
+  lisbonEs: {
+    label: "Web oficial de turismo de Lisboa",
+    publisher: "Turismo de Lisboa",
+    url: "https://www.visitlisboa.com/es",
+  },
   esTravellerRegistry: {
     label: "Registro de viajeros",
     publisher: "Ministerio de Asuntos Exteriores de España",

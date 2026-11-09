@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { countries, getCountry, isIndexable } from "@/content/registry";
-import { DestinationView } from "@/features/content/components/destination-view";
-import { pageMetadata } from "@/features/seo/metadata";
-import { ogImagePath } from "@/features/seo/og-targets";
+import { countries, getCountry } from "@/content/registry";
+import {
+  DestinationView,
+  destinationMetadata,
+} from "@/features/content/components/destination-view";
 
 // Links to scheduled itineraries and posts appear on their publish date.
 export const revalidate = 3600;
@@ -19,16 +20,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/destinations/[country]">): Promise<Metadata> {
   const page = getCountry((await params).country);
-  if (!page) return {};
-  return pageMetadata({
-    title: page.title,
-    description: page.description,
-    path: page.path,
-    type: "article",
-    modifiedTime: page.lastReviewed,
-    noindex: !isIndexable(page),
-    image: ogImagePath(page.path),
-  });
+  return page ? destinationMetadata(page) : {};
 }
 
 export default async function CountryPage({

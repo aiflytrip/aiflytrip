@@ -9,6 +9,7 @@ import { countWords } from "@/content/quality";
 import {
   blogPhoto,
   destinationPhoto,
+  photoKey,
   type DestinationPhoto,
 } from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
@@ -143,8 +144,8 @@ export function imageObjectLd(photo: DestinationPhoto): Thing {
   };
 }
 
-function photoLd(slug: string): Thing {
-  const photo = destinationPhoto(slug);
+function photoLd(page: Destination): Thing {
+  const photo = destinationPhoto(photoKey(page), page.locale);
   return photo ? { image: imageObjectLd(photo) } : {};
 }
 
@@ -164,7 +165,7 @@ export function destinationLd(page: Destination & { path: string }): Thing[] {
       name: page.name,
       description: page.intro,
       url: absoluteUrl(page.path),
-      ...photoLd(page.slug),
+      ...photoLd(page),
       includesAttraction: page.highlights.map((h) => ({
         "@type": "TouristAttraction",
         name: h.name,

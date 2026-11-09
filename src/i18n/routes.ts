@@ -107,23 +107,51 @@ export const BLOG_TRANSLATIONS: Record<string, string> = {
 
 export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;
 
-export type BlogPair = { en: string; es: string };
+/**
+ * Destination guides also exist in English and Spanish only. English path
+ * -> Spanish path; the content tests check it against each Spanish guide.
+ */
+export const DESTINATION_HUB = {
+  en: "/destinations",
+  es: "/es/destinos",
+} as const;
 
-/** The English and Spanish URLs of a blog page that exists in both. */
-export function blogPair(path: string): BlogPair | undefined {
+export const DESTINATION_TRANSLATIONS: Record<string, string> = {
+  "/destinations/france": "/es/destinos/francia",
+  "/destinations/france/paris": "/es/destinos/francia/paris",
+  "/destinations/italy": "/es/destinos/italia",
+  "/destinations/italy/rome": "/es/destinos/italia/roma",
+  "/destinations/japan": "/es/destinos/japon",
+  "/destinations/japan/tokyo": "/es/destinos/japon/tokio",
+  "/destinations/portugal": "/es/destinos/portugal",
+  "/destinations/portugal/lisbon": "/es/destinos/portugal/lisboa",
+};
+
+export type SpanishPair = { en: string; es: string };
+
+/** Every English page with a Spanish version (and no French one). */
+function spanishPairs(): SpanishPair[] {
+  return [
+    { ...BLOG_HUB },
+    ...Object.entries(BLOG_TRANSLATIONS).map(([en, es]) => ({
+      en: `${BLOG_HUB.en}/${en}`,
+      es: `${BLOG_HUB.es}/${es}`,
+    })),
+    { ...DESTINATION_HUB },
+    ...Object.entries(DESTINATION_TRANSLATIONS).map(([en, es]) => ({ en, es })),
+  ];
+}
+
+/** The English and Spanish URLs of a blog or destination page in both. */
+export function spanishPair(path: string): SpanishPair | undefined {
   const clean = cleanPath(path);
-  if (clean === BLOG_HUB.en || clean === BLOG_HUB.es) return { ...BLOG_HUB };
-  for (const [en, es] of Object.entries(BLOG_TRANSLATIONS)) {
-    const pair = { en: `${BLOG_HUB.en}/${en}`, es: `${BLOG_HUB.es}/${es}` };
-    if (clean === pair.en || clean === pair.es) return pair;
-  }
-  return undefined;
+  return spanishPairs().find((p) => p.en === clean || p.es === clean);
 }
 
 /** Whether a path has a version in the target language. */
 export function hasTranslation(path: string, target: Locale): boolean {
   if (routeKeyForPath(path)) return true;
-  return blogPair(path) !== undefined && target !== "fr";
+  return spanishPair(path) !== undefined && target !== "fr";
 }
 
 /** Language of a path, from its /es or /fr prefix. */
@@ -139,7 +167,7 @@ export function localeForPath(path: string): Locale {
 export function switchPath(path: string, target: Locale): string {
   const key = routeKeyForPath(path);
   if (key) return ROUTES[key][target];
-  const pair = blogPair(path);
+  const pair = spanishPair(path);
   if (pair && target !== "fr") return pair[target];
   return ROUTES.home[target];
 }
@@ -160,7 +188,7 @@ export function alternatesForPath(
 ): Record<string, string> | undefined {
   const key = routeKeyForPath(path);
   if (key) return languageAlternates(key);
-  const pair = blogPair(path);
+  const pair = spanishPair(path);
   return pair ? { en: pair.en, es: pair.es, "x-default": pair.en } : undefined;
 }
 

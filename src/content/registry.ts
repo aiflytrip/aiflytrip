@@ -2,6 +2,7 @@ import { france, paris } from "@/content/data/destinations/france";
 import { italy, rome } from "@/content/data/destinations/italy";
 import { japan, tokyo } from "@/content/data/destinations/japan";
 import { lisbon, portugal } from "@/content/data/destinations/portugal";
+import { spanishDestinations } from "@/content/data/destinations/spanish";
 import { bagPosts } from "@/content/data/blog-posts-bags";
 import { blogPosts } from "@/content/data/blog-posts";
 import { spanishPosts } from "@/content/data/blog-posts-es";
@@ -27,6 +28,7 @@ import {
   type Guide,
   type Itinerary,
 } from "@/content/schema";
+import { DESTINATION_HUB } from "@/i18n/routes";
 
 /**
  * Single source of truth for public content. Routes, the sitemap, internal
@@ -40,10 +42,13 @@ export type Entry<T> = T & { path: string; quality: QualityReport };
 export const isIndexable = (entry: { quality: QualityReport }) =>
   entry.quality.indexable;
 
+export type DestinationLocale = Destination["locale"];
+
 function destinationPath(d: Destination): string {
+  const hub = DESTINATION_HUB[d.locale];
   return d.kind === "city"
-    ? `/destinations/${d.country}/${d.slug}`
-    : `/destinations/${d.slug}`;
+    ? `${hub}/${d.country}/${d.slug}`
+    : `${hub}/${d.slug}`;
 }
 
 export const destinations: Entry<Destination>[] = [
@@ -55,6 +60,7 @@ export const destinations: Entry<Destination>[] = [
   tokyo,
   portugal,
   lisbon,
+  ...spanishDestinations,
 ]
   .map((input) => DestinationSchema.parse(input))
   .map((d) => ({
@@ -105,16 +111,21 @@ const published = <T extends { status: string; publishAt?: string }>(
   items: T[],
 ) => items.filter(isLive);
 
-export const countries = () =>
-  published(destinations).filter((d) => d.kind === "country");
-export const citiesOf = (country: string) =>
+export const countries = (locale: DestinationLocale = "en") =>
   published(destinations).filter(
-    (d) => d.kind === "city" && d.country === country,
+    (d) => d.kind === "country" && d.locale === locale,
   );
-export const getCountry = (slug: string) =>
-  countries().find((d) => d.slug === slug);
-export const getCity = (country: string, slug: string) =>
-  citiesOf(country).find((d) => d.slug === slug);
+export const citiesOf = (country: string, locale: DestinationLocale = "en") =>
+  published(destinations).filter(
+    (d) => d.kind === "city" && d.country === country && d.locale === locale,
+  );
+export const getCountry = (slug: string, locale: DestinationLocale = "en") =>
+  countries(locale).find((d) => d.slug === slug);
+export const getCity = (
+  country: string,
+  slug: string,
+  locale: DestinationLocale = "en",
+) => citiesOf(country, locale).find((d) => d.slug === slug);
 export const getItinerary = (slug: string) =>
   published(itineraries).find((i) => i.slug === slug);
 export const getGuide = (slug: string, locale: GuideLocale = "en") =>

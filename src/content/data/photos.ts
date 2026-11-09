@@ -117,9 +117,61 @@ export const DESTINATION_PHOTOS: Record<string, DestinationPhoto> = {
   },
 };
 
-export function destinationPhoto(slug: string): DestinationPhoto | undefined {
-  return DESTINATION_PHOTOS[slug];
+/** Spanish alt text and captions for the destination photos. */
+const SPANISH_PHOTO_TEXT: Record<
+  string,
+  Pick<DestinationPhoto, "alt" | "caption">
+> = {
+  japan: {
+    alt: "Una tranquila calle de Kioto iluminada con farolillos en el barrio de Higashiyama, que lleva a la pagoda de cinco pisos de Yasaka",
+    caption: "Yasaka-dōri y la pagoda de Yasaka, Kioto",
+  },
+  tokyo: {
+    alt: "Carteles de neón de colores sobre una calle concurrida de Kabukichō, en Shinjuku, Tokio, de noche",
+    caption: "Kabukichō, Shinjuku, Tokio",
+  },
+  portugal: {
+    alt: "Barcos rabelos tradicionales amarrados en el río Duero, con el casco antiguo de Oporto en la ladera al fondo",
+    caption: "Barcos rabelos en el Duero, Oporto",
+  },
+  lisbon: {
+    alt: "El Arco de la Rua Augusta en la Praça do Comércio de Lisboa, con edificios amarillos porticados",
+    caption: "Arco de la Rua Augusta, Lisboa",
+  },
+  italy: {
+    alt: "El Ponte Vecchio y el río Arno en Florencia al atardecer, vistos desde la Piazzale Michelangelo",
+    caption: "Ponte Vecchio, Florencia",
+  },
+  rome: {
+    alt: "El Coliseo de Roma iluminado al anochecer bajo un cielo azul intenso",
+    caption: "El Coliseo, Roma",
+  },
+  france: {
+    alt: "El Mont-Saint-Michel al amanecer, reflejado en las marismas de Normandía",
+    caption: "Mont-Saint-Michel, Normandía",
+  },
+  paris: {
+    alt: "La Torre Eiffel y el puente Alejandro III sobre el Sena, en París, de noche",
+    caption: "Torre Eiffel y puente Alejandro III, París",
+  },
+};
+
+/**
+ * Photo for a destination guide, keyed by its English slug. Spanish guides
+ * pass their translationOf slug and get Spanish alt text and captions.
+ */
+export function destinationPhoto(
+  slug: string,
+  locale: "en" | "es" = "en",
+): DestinationPhoto | undefined {
+  const photo = DESTINATION_PHOTOS[slug];
+  if (!photo || locale === "en") return photo;
+  return { ...photo, ...SPANISH_PHOTO_TEXT[slug] };
 }
+
+/** The photo key of a destination guide: its English slug. */
+export const photoKey = (d: { slug: string; translationOf?: string }) =>
+  d.translationOf ?? d.slug;
 
 /** City photo for a destination airport, used to illustrate generated plans. */
 const PHOTO_BY_AIRPORT: Record<string, string> = {

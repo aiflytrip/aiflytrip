@@ -99,7 +99,7 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
             />
           </div>
           <figcaption>
-            <PhotoCredit photo={photo} className="px-1" />
+            <PhotoCredit photo={photo} className="px-1" locale={page.locale} />
           </figcaption>
         </figure>
       ) : null}

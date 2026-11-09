@@ -2,7 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { TRANSLATED_PATHS } from "@/app/sitemap";
 import { LIMITS } from "@/content/quality";
-import { BLOG_TRANSLATIONS, ROUTES } from "@/i18n/routes";
+import {
+  BLOG_TRANSLATIONS,
+  DESTINATION_HUB,
+  DESTINATION_TRANSLATIONS,
+  ROUTES,
+} from "@/i18n/routes";
 import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
 import {
   allContent,
@@ -91,8 +96,13 @@ describe("internal links", () => {
         expect(getDestinationByPath(p), `${d.path} -> ${p}`).toBeDefined();
       for (const s of d.related.itineraries)
         expect(anyItinerary(s), `${d.path} -> ${s}`).toBeDefined();
+      // Related posts and destinations are in the guide's own language.
       for (const s of d.related.guides)
-        expect(anyGuide(s), `${d.path} -> ${s}`).toBeDefined();
+        expect(anyGuide(s, d.locale), `${d.path} -> ${s}`).toBeDefined();
+      for (const p of d.related.destinations)
+        expect(getDestinationByPath(p)?.locale, `${d.path} -> ${p}`).toBe(
+          d.locale,
+        );
     }
     for (const it of itineraries) {
       expect(getDestinationByPath(it.destination), it.path).toBeDefined();
@@ -103,7 +113,9 @@ describe("internal links", () => {
     }
     for (const g of guides) {
       for (const p of g.related.destinations)
-        expect(getDestinationByPath(p), `${g.path} -> ${p}`).toBeDefined();
+        expect(getDestinationByPath(p)?.locale, `${g.path} -> ${p}`).toBe(
+          g.locale,
+        );
       // Related posts are always in the page's own language.
       for (const s of g.related.guides)
         expect(anyGuide(s, g.locale), `${g.path} -> ${s}`).toBeDefined();
@@ -125,16 +137,47 @@ describe("internal links", () => {
     }
   });
 
+  it("pairs every Spanish destination guide with its English guide, both ways", () => {
+    const spanish = destinations.filter((d) => d.locale === "es");
+    expect(spanish).toHaveLength(Object.keys(DESTINATION_TRANSLATIONS).length);
+    for (const es of spanish) {
+      expect(es.path.startsWith(`${DESTINATION_HUB.es}/`), es.path).toBe(true);
+      const en = destinations.find(
+        (d) => d.locale === "en" && d.slug === es.translationOf,
+      );
+      expect(en, es.path).toBeDefined();
+      expect(DESTINATION_TRANSLATIONS[en!.path], es.path).toBe(es.path);
+      expect(es.kind, es.path).toBe(en!.kind);
+      expect(es.airports, es.path).toEqual(en!.airports);
+      expect(es.related.itineraries, es.path).toEqual(en!.related.itineraries);
+      // Same structure as the English guide, so nothing was left out.
+      for (const key of ["highlights", "faqs", "tips", "planning"] as const)
+        expect(es[key].length, `${es.path} ${key}`).toBe(en![key].length);
+      expect(es.bestTime.seasons.length).toBe(en!.bestTime.seasons.length);
+    }
+    for (const [en, es] of Object.entries(DESTINATION_TRANSLATIONS)) {
+      expect(getDestinationByPath(en)?.locale, en).toBe("en");
+      expect(getDestinationByPath(es)?.locale, es).toBe("es");
+    }
+  });
+
   it("has no orphan pages: every itinerary and guide has a contextual inbound link", () => {
     const inbound = new Set<string>();
     for (const d of destinations) {
       d.related.destinations.forEach((p) => inbound.add(p));
       d.related.itineraries.forEach((s) => inbound.add(`/itineraries/${s}`));
-      d.related.guides.forEach((s) => inbound.add(`/blog/${s}`));
+      d.related.guides.forEach((s) =>
+        inbound.add(anyGuide(s, d.locale)?.path ?? `/blog/${s}`),
+      );
       // Countries are linked from the hub, cities from their country page.
       if (d.kind === "country") inbound.add(d.path);
       else if (
-        destinations.some((c) => c.kind === "country" && c.slug === d.country)
+        destinations.some(
+          (c) =>
+            c.kind === "country" &&
+            c.slug === d.country &&
+            c.locale === d.locale,
+        )
       )
         inbound.add(d.path);
     }
@@ -177,9 +220,10 @@ describe("destination photos", () => {
   it("has a licensed, credited photo file for every destination", async () => {
     const { existsSync } = await import("node:fs");
     const { join } = await import("node:path");
-    const { destinationPhoto } = await import("@/content/data/photos");
+    const { destinationPhoto, photoKey } =
+      await import("@/content/data/photos");
     for (const d of destinations) {
-      const photo = destinationPhoto(d.slug);
+      const photo = destinationPhoto(photoKey(d), d.locale);
       expect(photo, d.path).toBeDefined();
       expect(
         existsSync(join(process.cwd(), "public", photo!.src)),
@@ -197,6 +241,9 @@ describe("destination photos", () => {
       );
       expect(photo!.author.length, d.path).toBeGreaterThan(1);
       expect(photo!.alt.length, d.path).toBeGreaterThan(30);
+      // Spanish guides describe the photo in Spanish.
+      if (d.locale === "es")
+        expect(photo!.alt, d.path).not.toBe(destinationPhoto(photoKey(d))!.alt);
     }
   });
 });

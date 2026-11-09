@@ -4,24 +4,27 @@ import {
   publishedGuides,
   publishedItineraries,
 } from "@/content/registry";
+import { DESTINATION_COPY } from "@/i18n/pages/destinations";
 
 /** Text for a content page's social card, served at /og/<page path>. */
 export type OgTarget = { path: string; eyebrow: string; title: string };
 
 export function ogTargets(): OgTarget[] {
   return [
-    ...countries().flatMap((country) => [
-      {
-        path: country.path,
-        eyebrow: "Destination guide",
-        title: country.headline,
-      },
-      ...citiesOf(country.slug).map((city) => ({
-        path: city.path,
-        eyebrow: "City guide",
-        title: city.headline,
-      })),
-    ]),
+    ...(["en", "es"] as const).flatMap((locale) =>
+      countries(locale).flatMap((country) => [
+        {
+          path: country.path,
+          eyebrow: DESTINATION_COPY[locale].og.country,
+          title: country.headline,
+        },
+        ...citiesOf(country.slug, locale).map((city) => ({
+          path: city.path,
+          eyebrow: DESTINATION_COPY[locale].og.city,
+          title: city.headline,
+        })),
+      ]),
+    ),
     ...publishedItineraries().map((it) => ({
       path: it.path,
       eyebrow: `${it.days}-day itinerary`,

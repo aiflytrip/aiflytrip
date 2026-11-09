@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { destinationPhoto } from "@/content/data/photos";
 import { destinationArt } from "@/features/content/destination-art";
+import { DESTINATION_COPY } from "@/i18n/pages/destinations";
 import { cn } from "@/lib/utils";
 
 /**
@@ -14,6 +15,7 @@ import { cn } from "@/lib/utils";
 export function DestinationCard({
   href,
   slug,
+  locale = "en",
   name,
   summary,
   badge,
@@ -22,7 +24,9 @@ export function DestinationCard({
   className,
 }: {
   href: string;
+  /** English slug, which keys the photo and fallback art. */
   slug: string;
+  locale?: "en" | "es";
   name: string;
   summary: string;
   badge?: string;
@@ -32,7 +36,7 @@ export function DestinationCard({
   className?: string;
 }) {
   const Name = heading ?? "span";
-  const photo = destinationPhoto(slug);
+  const photo = destinationPhoto(slug, locale);
   const art = destinationArt(slug);
   return (
     <Link
@@ -70,7 +74,7 @@ export function DestinationCard({
       </span>
       {photo ? (
         <span className="relative mt-3 text-[11px] text-white/60">
-          Photo: {photo.author}, {photo.license}
+          {DESTINATION_COPY[locale].photo}: {photo.author}, {photo.license}
         </span>
       ) : null}
     </Link>
