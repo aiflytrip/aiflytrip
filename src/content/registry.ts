@@ -14,6 +14,7 @@ import { novemberPosts } from "@/content/data/blog-posts-nov-2026";
 import { octoberPosts } from "@/content/data/blog-posts-oct-2026";
 import { guides as planningGuides } from "@/content/data/guides";
 import { itineraries as itineraryInputs } from "@/content/data/itineraries";
+import { spanishItineraries } from "@/content/data/itineraries-es";
 import {
   assessDestination,
   assessGuide,
@@ -28,7 +29,7 @@ import {
   type Guide,
   type Itinerary,
 } from "@/content/schema";
-import { DESTINATION_HUB } from "@/i18n/routes";
+import { DESTINATION_HUB, ITINERARY_HUB } from "@/i18n/routes";
 
 /**
  * Single source of truth for public content. Routes, the sitemap, internal
@@ -69,11 +70,16 @@ export const destinations: Entry<Destination>[] = [
     quality: assessDestination(d),
   }));
 
-export const itineraries: Entry<Itinerary>[] = itineraryInputs
+export type ItineraryLocale = Itinerary["locale"];
+
+export const itineraries: Entry<Itinerary>[] = [
+  ...itineraryInputs,
+  ...spanishItineraries,
+]
   .map((input) => ItinerarySchema.parse(input))
   .map((it) => ({
     ...it,
-    path: `/itineraries/${it.slug}`,
+    path: `${ITINERARY_HUB[it.locale]}/${it.slug}`,
     quality: assessItinerary(it),
   }));
 
@@ -126,11 +132,12 @@ export const getCity = (
   slug: string,
   locale: DestinationLocale = "en",
 ) => citiesOf(country, locale).find((d) => d.slug === slug);
-export const getItinerary = (slug: string) =>
-  published(itineraries).find((i) => i.slug === slug);
+export const getItinerary = (slug: string, locale: ItineraryLocale = "en") =>
+  published(itineraries).find((i) => i.slug === slug && i.locale === locale);
 export const getGuide = (slug: string, locale: GuideLocale = "en") =>
   published(guides).find((g) => g.slug === slug && g.locale === locale);
-export const publishedItineraries = () => published(itineraries);
+export const publishedItineraries = (locale: ItineraryLocale = "en") =>
+  published(itineraries).filter((i) => i.locale === locale);
 export const publishedGuides = (locale: GuideLocale = "en") =>
   published(guides).filter((g) => g.locale === locale);
 

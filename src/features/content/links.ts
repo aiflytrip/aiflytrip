@@ -4,7 +4,7 @@ import {
   getItinerary,
   type Entry,
 } from "@/content/registry";
-import { type Destination, type Guide } from "@/content/schema";
+import { type Destination, type Guide, type Itinerary } from "@/content/schema";
 import { type RelatedLink } from "@/features/content/components/blocks";
 import { DESTINATION_COPY } from "@/i18n/pages/destinations";
 import { ROUTES } from "@/i18n/routes";
@@ -29,9 +29,12 @@ export function destinationLinks(paths: string[]): RelatedLink[] {
   });
 }
 
-export function itineraryLinks(slugs: string[]): RelatedLink[] {
+export function itineraryLinks(
+  slugs: string[],
+  locale: Itinerary["locale"] = "en",
+): RelatedLink[] {
   return slugs.flatMap((slug) => {
-    const it = getItinerary(slug);
+    const it = getItinerary(slug, locale);
     return it
       ? [{ href: it.path, title: it.name, description: it.description }]
       : [];

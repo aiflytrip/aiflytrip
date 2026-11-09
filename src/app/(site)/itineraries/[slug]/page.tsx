@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { getItinerary, publishedItineraries } from "@/content/registry";
 import {
-  getItinerary,
-  isIndexable,
-  publishedItineraries,
-} from "@/content/registry";
-import { ItineraryView } from "@/features/content/components/itinerary-view";
-import { pageMetadata } from "@/features/seo/metadata";
-import { ogImagePath } from "@/features/seo/og-targets";
+  ItineraryView,
+  itineraryMetadata,
+} from "@/features/content/components/itinerary-view";
 
 // Scheduled itineraries go live on their publish date without a redeploy:
 // pages regenerate at most hourly (ISR).
@@ -25,16 +22,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/itineraries/[slug]">): Promise<Metadata> {
   const page = getItinerary((await params).slug);
-  if (!page) return {};
-  return pageMetadata({
-    title: page.title,
-    description: page.description,
-    path: page.path,
-    type: "article",
-    modifiedTime: page.lastReviewed,
-    noindex: !isIndexable(page),
-    image: ogImagePath(page.path),
-  });
+  return page ? itineraryMetadata(page) : {};
 }
 
 export default async function ItineraryPage({

@@ -17,6 +17,7 @@ import {
   BLOG_HUB,
   DESTINATION_HUB,
   INDEXABLE_ROUTE_KEYS,
+  ITINERARY_HUB,
   ROUTES,
 } from "@/i18n/routes";
 
@@ -49,7 +50,7 @@ export const STATIC_PUBLIC_PATHS = [
 
 /**
  * Spanish and French versions of the translated pages, plus the Spanish
- * blog and destination hubs (their articles come from the registry).
+ * blog, destination and itinerary hubs (their pages come from the registry).
  */
 export const TRANSLATED_PATHS = [
   ...INDEXABLE_ROUTE_KEYS.flatMap((key) =>
@@ -57,6 +58,7 @@ export const TRANSLATED_PATHS = [
   ),
   BLOG_HUB.es,
   DESTINATION_HUB.es,
+  ITINERARY_HUB.es,
 ];
 
 /** hreflang alternates (absolute URLs) for a page that has translations. */
@@ -69,6 +71,12 @@ function alternatesFor(path: string) {
   return { alternates: { languages } };
 }
 
+/** An itinerary uses its destination guide's photo. */
+function itineraryPhotoKey(entry: Entry<Itinerary>): string {
+  const destination = getDestinationByPath(entry.destination);
+  return destination ? photoKey(destination) : "";
+}
+
 /** The page's main photo, listed so it can appear in image search. */
 function pageImage(
   entry: Entry<Destination> | Entry<Itinerary> | Entry<Guide>,
@@ -77,7 +85,7 @@ function pageImage(
     "kind" in entry
       ? destinationPhoto(photoKey(entry))
       : "destination" in entry
-        ? destinationPhoto(getDestinationByPath(entry.destination)?.slug ?? "")
+        ? destinationPhoto(itineraryPhotoKey(entry))
         : blogPhoto(entry.photo);
   return photo ? [absoluteUrl(photo.src)] : [];
 }

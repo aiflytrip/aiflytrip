@@ -14,6 +14,7 @@ import {
 } from "@/content/data/photos";
 import { absoluteUrl } from "@/features/seo/metadata";
 import { ogImagePath } from "@/features/seo/og-targets";
+import { ITINERARY_COPY } from "@/i18n/pages/itineraries";
 
 /**
  * Schema.org builders. Rules (see SEO.md):
@@ -190,7 +191,7 @@ export function itineraryLd(page: Itinerary & { path: string }): Thing[] {
           itemListElement: page.plan.map((day, i) => ({
             "@type": "ListItem",
             position: i + 1,
-            name: `Day ${i + 1}: ${day.title}`,
+            name: ITINERARY_COPY[page.locale].dayLd(i + 1, day.title),
           })),
         },
       },

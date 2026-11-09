@@ -6,6 +6,8 @@ import {
   BLOG_TRANSLATIONS,
   DESTINATION_HUB,
   DESTINATION_TRANSLATIONS,
+  ITINERARY_HUB,
+  ITINERARY_TRANSLATIONS,
   ROUTES,
 } from "@/i18n/routes";
 import { ENGLISH_TOOL_PATHS } from "@/features/tools/english-tools";
@@ -87,16 +89,17 @@ describe("content quality gate", () => {
 // Related lists may name scheduled posts; the site hides them until live.
 const anyGuide = (slug: string, locale = "en") =>
   guides.find((g) => g.slug === slug && g.locale === locale);
-const anyItinerary = (slug: string) => itineraries.find((i) => i.slug === slug);
+const anyItinerary = (slug: string, locale = "en") =>
+  itineraries.find((i) => i.slug === slug && i.locale === locale);
 
 describe("internal links", () => {
   it("resolves every related reference to a real page (live or scheduled)", () => {
     for (const d of destinations) {
       for (const p of d.related.destinations)
         expect(getDestinationByPath(p), `${d.path} -> ${p}`).toBeDefined();
+      // Related pages are all in the guide's own language.
       for (const s of d.related.itineraries)
-        expect(anyItinerary(s), `${d.path} -> ${s}`).toBeDefined();
-      // Related posts and destinations are in the guide's own language.
+        expect(anyItinerary(s, d.locale), `${d.path} -> ${s}`).toBeDefined();
       for (const s of d.related.guides)
         expect(anyGuide(s, d.locale), `${d.path} -> ${s}`).toBeDefined();
       for (const p of d.related.destinations)
@@ -105,11 +108,14 @@ describe("internal links", () => {
         );
     }
     for (const it of itineraries) {
-      expect(getDestinationByPath(it.destination), it.path).toBeDefined();
+      // An itinerary links only to pages in its own language.
+      expect(getDestinationByPath(it.destination)?.locale, it.path).toBe(
+        it.locale,
+      );
       for (const s of it.related.itineraries)
-        expect(anyItinerary(s), `${it.path} -> ${s}`).toBeDefined();
+        expect(anyItinerary(s, it.locale), `${it.path} -> ${s}`).toBeDefined();
       for (const s of it.related.guides)
-        expect(anyGuide(s), `${it.path} -> ${s}`).toBeDefined();
+        expect(anyGuide(s, it.locale), `${it.path} -> ${s}`).toBeDefined();
     }
     for (const g of guides) {
       for (const p of g.related.destinations)
@@ -149,7 +155,9 @@ describe("internal links", () => {
       expect(DESTINATION_TRANSLATIONS[en!.path], es.path).toBe(es.path);
       expect(es.kind, es.path).toBe(en!.kind);
       expect(es.airports, es.path).toEqual(en!.airports);
-      expect(es.related.itineraries, es.path).toEqual(en!.related.itineraries);
+      expect(es.related.itineraries, es.path).toEqual(
+        en!.related.itineraries.map((s) => ITINERARY_TRANSLATIONS[s]),
+      );
       // Same structure as the English guide, so nothing was left out.
       for (const key of ["highlights", "faqs", "tips", "planning"] as const)
         expect(es[key].length, `${es.path} ${key}`).toBe(en![key].length);
@@ -161,11 +169,46 @@ describe("internal links", () => {
     }
   });
 
+  it("pairs every Spanish itinerary with its English itinerary, both ways", () => {
+    const spanish = itineraries.filter((i) => i.locale === "es");
+    expect(spanish).toHaveLength(Object.keys(ITINERARY_TRANSLATIONS).length);
+    for (const es of spanish) {
+      expect(es.path, es.slug).toBe(`${ITINERARY_HUB.es}/${es.slug}`);
+      const en = anyItinerary(es.translationOf ?? "");
+      expect(en, es.path).toBeDefined();
+      expect(ITINERARY_TRANSLATIONS[en!.slug], es.path).toBe(es.slug);
+      expect(DESTINATION_TRANSLATIONS[en!.destination], es.path).toBe(
+        es.destination,
+      );
+      expect(es.related.itineraries, es.path).toEqual(
+        en!.related.itineraries.map((s) => ITINERARY_TRANSLATIONS[s]),
+      );
+      // Same days and structure as the English itinerary.
+      expect(es.days, es.path).toBe(en!.days);
+      for (const key of [
+        "plan",
+        "adjustments",
+        "practicalNotes",
+        "faqs",
+      ] as const)
+        expect(es[key].length, `${es.path} ${key}`).toBe(en![key].length);
+      es.plan.forEach((day, i) =>
+        expect(Boolean(day.tip), `${es.path} day ${i + 1}`).toBe(
+          Boolean(en!.plan[i]?.tip),
+        ),
+      );
+    }
+    for (const [en, es] of Object.entries(ITINERARY_TRANSLATIONS))
+      expect(anyItinerary(es, "es")?.translationOf, es).toBe(en);
+  });
+
   it("has no orphan pages: every itinerary and guide has a contextual inbound link", () => {
     const inbound = new Set<string>();
     for (const d of destinations) {
       d.related.destinations.forEach((p) => inbound.add(p));
-      d.related.itineraries.forEach((s) => inbound.add(`/itineraries/${s}`));
+      d.related.itineraries.forEach((s) =>
+        inbound.add(anyItinerary(s, d.locale)?.path ?? s),
+      );
       d.related.guides.forEach((s) =>
         inbound.add(anyGuide(s, d.locale)?.path ?? `/blog/${s}`),
       );
@@ -183,8 +226,12 @@ describe("internal links", () => {
     }
     for (const it of itineraries) {
       inbound.add(it.destination);
-      it.related.itineraries.forEach((s) => inbound.add(`/itineraries/${s}`));
-      it.related.guides.forEach((s) => inbound.add(`/blog/${s}`));
+      it.related.itineraries.forEach((s) =>
+        inbound.add(anyItinerary(s, it.locale)?.path ?? s),
+      );
+      it.related.guides.forEach((s) =>
+        inbound.add(anyGuide(s, it.locale)?.path ?? s),
+      );
     }
     for (const g of guides) {
       g.related.destinations.forEach((p) => inbound.add(p));

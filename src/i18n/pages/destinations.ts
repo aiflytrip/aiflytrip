@@ -120,7 +120,7 @@ export const DESTINATION_COPY: Record<DestinationLocale, DestinationCopy> = {
       planning: "Qué tener en cuenta al planificar",
       tips: (name) => `Consejos para visitar ${name}`,
       faqTitle: "Preguntas frecuentes",
-      itineraries: "Itinerarios listos (en inglés)",
+      itineraries: "Itinerarios listos",
       destinations: "Otros destinos",
       guides: "Guías para planificar tu viaje",
     },

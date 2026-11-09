@@ -154,7 +154,7 @@ export function GuideView({ page }: { page: Entry<Guide> }) {
       />
       <RelatedLinks
         title={t.article.itineraries}
-        links={itineraryLinks(page.related.itineraries)}
+        links={itineraryLinks(page.related.itineraries, page.locale)}
       />
       <RelatedLinks
         title={t.article.destinations}

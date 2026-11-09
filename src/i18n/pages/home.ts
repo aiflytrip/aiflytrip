@@ -347,18 +347,18 @@ const es: HomeCopy = {
         "No. AIFlyTrip te ayuda a planificar y comparar opciones, pero no hace reservas. Las opciones de vuelo proceden ahora de un entorno de prueba, así que son ejemplos para planificar y no tarifas reales que se puedan reservar.",
     },
     {
-      question: "¿Las guías de destino y el blog están en español?",
+      question: "¿Las guías, los itinerarios y el blog están en español?",
       answer:
-        "Sí. El blog y las guías de destino de Francia, Italia, Japón, Portugal y sus capitales ya tienen edición en español. Los itinerarios día a día están por ahora en inglés. Solo publicamos traducciones revisadas.",
+        "Sí. El blog, las guías de destino de Francia, Italia, Japón, Portugal y sus capitales, y los itinerarios día a día de París, Roma, Tokio y Lisboa ya tienen edición en español. Solo publicamos traducciones revisadas.",
     },
   ],
   englishGuides: {
-    title: "Blog en español y guías de destino",
-    body: "Lee nuestro blog de viajes y nuestras guías de destino en español: cuándo ir, cuánto tiempo quedarse y qué ver, con enlaces a fuentes oficiales.",
+    title: "Blog, guías de destino e itinerarios en español",
+    body: "Lee nuestro blog de viajes, nuestras guías de destino y nuestros itinerarios día a día en español: cuándo ir, cuánto tiempo quedarse y qué ver, con enlaces a fuentes oficiales.",
     links: [
       { href: "/es/blog", label: "Blog de viajes" },
       { href: "/es/destinos", label: "Guías de destino" },
-      { href: "/itineraries", label: "Itinerarios (en inglés)" },
+      { href: "/es/itinerarios", label: "Itinerarios día a día" },
     ],
   },
   cta: {

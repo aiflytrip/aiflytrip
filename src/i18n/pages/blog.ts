@@ -161,7 +161,7 @@ export const BLOG_COPY: Record<BlogLocale, BlogCopy> = {
       },
       faqTitle: "Preguntas frecuentes",
       related: "Artículos relacionados",
-      itineraries: "Itinerarios listos (en inglés)",
+      itineraries: "Itinerarios listos",
       destinations: "Guías de destino",
     },
     planner: { href: "/es/planificar", button: "Crea tu plan de viaje gratis" },

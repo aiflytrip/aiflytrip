@@ -43,7 +43,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "París: Charles de Gaulle y Orly",
         paragraphs: [
           "Desde Charles de Gaulle, el tren de cercanías RER B llega al centro de París, con paradas como Gare du Nord y Châtelet–Les Halles, donde puedes cambiar al metro. Suele ser la opción más práctica si viajas ligero. El Roissybus va a la zona de la Ópera, y los taxis entre el aeropuerto y el centro tienen tarifa fija, lo que quita la preocupación por el tráfico.",
-          "Orly está más cerca de la ciudad y ahora tiene la línea 14 del metro, que cruza el centro de París hacia el norte. También hay autobuses y taxis. Uses el aeropuerto que uses, consulta las rutas vigentes en la web de la RATP antes de ir. Ya en la ciudad, nuestra [guía de París](/es/destinos/francia/paris) y el [itinerario de 3 días en París](/itineraries/paris-3-days) (en inglés) te ayudan a seguir.",
+          "Orly está más cerca de la ciudad y ahora tiene la línea 14 del metro, que cruza el centro de París hacia el norte. También hay autobuses y taxis. Uses el aeropuerto que uses, consulta las rutas vigentes en la web de la RATP antes de ir. Ya en la ciudad, nuestra [guía de París](/es/destinos/francia/paris) y el [itinerario de 3 días en París](/es/itinerarios/paris-en-3-dias) te ayudan a seguir.",
         ],
         bullets: [],
       },
@@ -67,7 +67,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Lisboa: aeropuerto Humberto Delgado",
         paragraphs: [
           "El aeropuerto de Lisboa está especialmente cerca de la ciudad. La línea roja del metro empieza en el aeropuerto, y puedes cambiar a otras líneas para el centro; es sencillo y económico si tu equipaje es manejable. El Aerobus va a zonas céntricas como la Baixa y Cais do Sodré, y hay taxis y coches con conductor de sobra para el trayecto corto.",
-          "Si tu hotel está en lo alto de una de las muchas colinas de Lisboa, un taxi hasta la puerta te ahorra una cuesta con maletas. Nuestra [guía de Lisboa](/es/destinos/portugal/lisboa) y el [itinerario de 3 días en Lisboa](/itineraries/lisbon-3-days) (en inglés) te ayudan a planear los días siguientes.",
+          "Si tu hotel está en lo alto de una de las muchas colinas de Lisboa, un taxi hasta la puerta te ahorra una cuesta con maletas. Nuestra [guía de Lisboa](/es/destinos/portugal/lisboa) y el [itinerario de 3 días en Lisboa](/es/itinerarios/lisboa-en-3-dias) te ayudan a planear los días siguientes.",
         ],
         bullets: [],
       },
@@ -168,7 +168,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Cuándo suele compensar el pase",
         paragraphs: [
           "El pase es más útil cuando recorres mucho territorio en poco tiempo: por ejemplo, un viaje que combina Tokio, Kioto, Osaka e Hiroshima con excursiones de un día, todo dentro de la validez del pase. Varios trayectos largos en Shinkansen suman rápido.",
-          "Es menos útil en viajes tranquilos que se quedan en uno o dos sitios. Nuestro [itinerario de 5 días en Tokio](/itineraries/tokyo-5-days) (en inglés), por ejemplo, se centra en la ciudad y en excursiones cercanas, donde el transporte local y las tarjetas IC suelen tener más sentido que un pase para todo el país.",
+          "Es menos útil en viajes tranquilos que se quedan en uno o dos sitios. Nuestro [itinerario de 5 días en Tokio](/es/itinerarios/tokio-en-5-dias), por ejemplo, se centra en la ciudad y en excursiones cercanas, donde el transporte local y las tarjetas IC suelen tener más sentido que un pase para todo el país.",
         ],
         bullets: [],
       },
@@ -261,7 +261,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "París en invierno",
         paragraphs: [
           "París en invierno suele estar gris y fresco, con algún día frío y luminoso. Diciembre trae luces de Navidad y mercadillos, mientras que enero y febrero suelen ser mucho más tranquilos. Es una gran temporada para sus museos, sus pasajes cubiertos, sus cafés y sus mercados.",
-          "Lleva ropa de abrigo por capas y un impermeable, y deja los museos para las tardes de lluvia. Nuestra [guía de París](/es/destinos/francia/paris) explica las mejores zonas para alojarse, y el [itinerario de 3 días en París](/itineraries/paris-3-days) (en inglés) agrupa la ciudad por barrios, algo que importa más cuando los días son cortos.",
+          "Lleva ropa de abrigo por capas y un impermeable, y deja los museos para las tardes de lluvia. Nuestra [guía de París](/es/destinos/francia/paris) explica las mejores zonas para alojarse, y el [itinerario de 3 días en París](/es/itinerarios/paris-en-3-dias) agrupa la ciudad por barrios, algo que importa más cuando los días son cortos.",
         ],
         bullets: [],
       },
@@ -277,7 +277,7 @@ export const spanishPlacePosts: PostInput[] = [
         heading: "Lisboa en invierno",
         paragraphs: [
           "Lisboa tiene uno de los inviernos más suaves de las capitales europeas, con muchos días soleados entre rachas de lluvia. Es una época agradable para subir y bajar sus colinas, montar en tranvía y disfrutar de los miradores sin el calor ni la gente del verano.",
-          "Lleva un impermeable ligero y calzado que agarre, porque el empedrado resbala con la lluvia. Nuestra [guía de Lisboa](/es/destinos/portugal/lisboa) y el [itinerario de 3 días en Lisboa](/itineraries/lisbon-3-days) (en inglés) te ayudan a planificar, incluida una excursión a Sintra, que puede estar más fresca y con más niebla que la ciudad.",
+          "Lleva un impermeable ligero y calzado que agarre, porque el empedrado resbala con la lluvia. Nuestra [guía de Lisboa](/es/destinos/portugal/lisboa) y el [itinerario de 3 días en Lisboa](/es/itinerarios/lisboa-en-3-dias) te ayudan a planificar, incluida una excursión a Sintra, que puede estar más fresca y con más niebla que la ciudad.",
         ],
         bullets: [],
       },

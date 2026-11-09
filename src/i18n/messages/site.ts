@@ -1,5 +1,11 @@
 import { type Locale } from "@/i18n/config";
-import { BLOG_HUB, DESTINATION_HUB, plannerHref, route } from "@/i18n/routes";
+import {
+  BLOG_HUB,
+  DESTINATION_HUB,
+  ITINERARY_HUB,
+  plannerHref,
+  route,
+} from "@/i18n/routes";
 
 /** The packing and baggage tools, linked from the Spanish and French footers. */
 const BAG_TOOL_KEYS = [
@@ -92,8 +98,8 @@ function localisedChrome(
     itineraries: string;
   },
 ): Pick<SiteMessages, "nav"> & { columns: SiteMessages["footer"]["columns"] } {
-  // The blog and destination guides have Spanish editions; French readers
-  // get the English ones.
+  // The blog, destination guides and itineraries have Spanish editions;
+  // French readers get the English ones.
   const blog: ChromeLink =
     locale === "es"
       ? { href: BLOG_HUB.es, label: text.blog }
@@ -129,7 +135,13 @@ function localisedChrome(
         title: text.guides,
         links: [
           destinationHub(text.allDestinations),
-          { href: "/itineraries", label: text.itineraries, englishOnly: true },
+          locale === "es"
+            ? { href: ITINERARY_HUB.es, label: text.itineraries }
+            : {
+                href: ITINERARY_HUB.en,
+                label: text.itineraries,
+                englishOnly: true,
+              },
           blog,
         ],
       },

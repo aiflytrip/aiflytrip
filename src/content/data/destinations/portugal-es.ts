@@ -168,7 +168,7 @@ export const portugalEs: DestinationInput = {
       "/es/destinos/francia",
       "/es/destinos/italia",
     ],
-    itineraries: ["lisbon-3-days"],
+    itineraries: ["lisboa-en-3-dias"],
     guides: [
       "como-planificar-un-viaje",
       "cuantos-dias-de-viaje",
@@ -350,7 +350,7 @@ export const lisboa: DestinationInput = {
       "/es/destinos/francia/paris",
       "/es/destinos/italia/roma",
     ],
-    itineraries: ["lisbon-3-days"],
+    itineraries: ["lisboa-en-3-dias"],
     guides: [
       "del-aeropuerto-al-centro-paris-roma-tokio-lisboa",
       "como-planificar-un-viaje",

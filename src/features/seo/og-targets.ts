@@ -5,6 +5,7 @@ import {
   publishedItineraries,
 } from "@/content/registry";
 import { DESTINATION_COPY } from "@/i18n/pages/destinations";
+import { ITINERARY_COPY } from "@/i18n/pages/itineraries";
 
 /** Text for a content page's social card, served at /og/<page path>. */
 export type OgTarget = { path: string; eyebrow: string; title: string };
@@ -25,11 +26,13 @@ export function ogTargets(): OgTarget[] {
         })),
       ]),
     ),
-    ...publishedItineraries().map((it) => ({
-      path: it.path,
-      eyebrow: `${it.days}-day itinerary`,
-      title: it.name,
-    })),
+    ...(["en", "es"] as const).flatMap((locale) =>
+      publishedItineraries(locale).map((it) => ({
+        path: it.path,
+        eyebrow: ITINERARY_COPY[locale].og(it.days),
+        title: it.name,
+      })),
+    ),
     ...publishedGuides().map((g) => ({
       path: g.path,
       eyebrow: "Travel planning guide",

@@ -127,6 +127,22 @@ export const DESTINATION_TRANSLATIONS: Record<string, string> = {
   "/destinations/portugal/lisbon": "/es/destinos/portugal/lisboa",
 };
 
+/**
+ * Itineraries too: English slug -> Spanish slug, checked by the content
+ * tests against each Spanish itinerary's translationOf.
+ */
+export const ITINERARY_HUB = {
+  en: "/itineraries",
+  es: "/es/itinerarios",
+} as const;
+
+export const ITINERARY_TRANSLATIONS: Record<string, string> = {
+  "paris-3-days": "paris-en-3-dias",
+  "tokyo-5-days": "tokio-en-5-dias",
+  "lisbon-3-days": "lisboa-en-3-dias",
+  "rome-3-days": "roma-en-3-dias",
+};
+
 export type SpanishPair = { en: string; es: string };
 
 /** Every English page with a Spanish version (and no French one). */
@@ -139,10 +155,15 @@ function spanishPairs(): SpanishPair[] {
     })),
     { ...DESTINATION_HUB },
     ...Object.entries(DESTINATION_TRANSLATIONS).map(([en, es]) => ({ en, es })),
+    { ...ITINERARY_HUB },
+    ...Object.entries(ITINERARY_TRANSLATIONS).map(([en, es]) => ({
+      en: `${ITINERARY_HUB.en}/${en}`,
+      es: `${ITINERARY_HUB.es}/${es}`,
+    })),
   ];
 }
 
-/** The English and Spanish URLs of a blog or destination page in both. */
+/** The English and Spanish URLs of a blog, destination or itinerary page. */
 export function spanishPair(path: string): SpanishPair | undefined {
   const clean = cleanPath(path);
   return spanishPairs().find((p) => p.en === clean || p.es === clean);

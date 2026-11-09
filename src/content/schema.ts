@@ -77,10 +77,16 @@ export const DestinationSchema = SeoSchema.merge(PublishingSchema).extend({
 
 export const ItinerarySchema = SeoSchema.merge(PublishingSchema).extend({
   slug,
+  /** Spanish itineraries live under /es/itinerarios and link to Spanish pages. */
+  locale: z.enum(["en", "es"]).default("en"),
+  /** For a Spanish itinerary, the slug of the English itinerary it translates. */
+  translationOf: slug.optional(),
   /** Scheduled publishing, as for blog posts: hidden until this UTC date. */
   publishAt: isoDate.optional(),
-  /** Path of the destination page this itinerary belongs to. */
-  destination: z.string().regex(/^\/destinations\/[a-z0-9-]+(\/[a-z0-9-]+)?$/),
+  /** Path of the destination guide (in the same language) this belongs to. */
+  destination: z
+    .string()
+    .regex(/^\/(destinations|es\/destinos)\/[a-z0-9-]+(\/[a-z0-9-]+)?$/),
   name: text,
   headline: text,
   intro: text,

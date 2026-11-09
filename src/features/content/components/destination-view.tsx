@@ -250,7 +250,7 @@ export function DestinationView({ page }: { page: Entry<Destination> }) {
 
       <RelatedLinks
         title={t.page.itineraries}
-        links={itineraryLinks(page.related.itineraries)}
+        links={itineraryLinks(page.related.itineraries, page.locale)}
       />
       <RelatedLinks
         title={t.page.destinations}

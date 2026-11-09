@@ -174,7 +174,7 @@ export const japon: DestinationInput = {
       "/es/destinos/francia",
       "/es/destinos/italia",
     ],
-    itineraries: ["tokyo-5-days"],
+    itineraries: ["tokio-en-5-dias"],
     guides: [
       "japan-rail-pass-merece-la-pena",
       "como-planificar-un-viaje",
@@ -361,7 +361,7 @@ export const tokio: DestinationInput = {
       "/es/destinos/francia/paris",
       "/es/destinos/portugal/lisboa",
     ],
-    itineraries: ["tokyo-5-days"],
+    itineraries: ["tokio-en-5-dias"],
     guides: [
       "del-aeropuerto-al-centro-paris-roma-tokio-lisboa",
       "japan-rail-pass-merece-la-pena",

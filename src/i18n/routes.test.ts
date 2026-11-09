@@ -6,6 +6,7 @@ import {
   BLOG_TRANSLATIONS,
   DESTINATION_TRANSLATIONS,
   hasTranslation,
+  ITINERARY_TRANSLATIONS,
   languageAlternates,
   localeForPath,
   plannerHref,
@@ -98,6 +99,26 @@ describe("translated routes", () => {
     for (const [en, es] of Object.entries(DESTINATION_TRANSLATIONS)) {
       expect(alternatesForPath(en)).toEqual({ en, es, "x-default": en });
       expect(alternatesForPath(es)).toEqual(alternatesForPath(en));
+    }
+  });
+
+  it("switches itineraries between English and Spanish only", () => {
+    expect(switchPath("/itineraries/rome-3-days", "es")).toBe(
+      "/es/itinerarios/roma-en-3-dias",
+    );
+    expect(switchPath("/es/itinerarios/tokio-en-5-dias/", "en")).toBe(
+      "/itineraries/tokyo-5-days",
+    );
+    expect(switchPath("/itineraries", "es")).toBe("/es/itinerarios");
+    expect(switchPath("/itineraries/paris-3-days", "fr")).toBe("/fr");
+    for (const [en, es] of Object.entries(ITINERARY_TRANSLATIONS)) {
+      const fromEn = alternatesForPath(`/itineraries/${en}`);
+      expect(fromEn).toEqual({
+        en: `/itineraries/${en}`,
+        es: `/es/itinerarios/${es}`,
+        "x-default": `/itineraries/${en}`,
+      });
+      expect(alternatesForPath(`/es/itinerarios/${es}`)).toEqual(fromEn);
     }
   });
 
