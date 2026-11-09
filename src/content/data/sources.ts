@@ -164,6 +164,39 @@ export const SOURCES = {
     publisher: "Ministère chargé des Transports (DGAC)",
     url: "https://www.ecologie.gouv.fr/politiques-publiques/que-faire-cas-dommage-causes-aux-passagers-aux-bagages-aux-marchandises-lors",
   },
+  euRoamingEs: {
+    label:
+      "Itinerancia: cuánto se paga por usar el móvil en otro país de la UE",
+    publisher: "Unión Europea (Tu Europa)",
+    url: "https://europa.eu/youreurope/citizens/consumers/internet-telecoms/mobile-roaming-costs/index_es.htm",
+  },
+  incibeTravel: {
+    label: "Viaja seguro: ciberconsejos para usar la tecnología fuera de casa",
+    publisher: "Instituto Nacional de Ciberseguridad (INCIBE)",
+    url: "https://www.incibe.es/ciudadania/blog/viaja-seguro-ciberconsejos-para-usar-tecnologia-fuera-de-casa",
+  },
+  incibeHolidayScams: {
+    label: "Vacaciones ciberseguras: estafas en apps vacacionales",
+    publisher: "Instituto Nacional de Ciberseguridad (INCIBE)",
+    url: "https://www.incibe.es/ciudadania/blog/vacaciones-ciberseguras-estafas-en-apps-vacacionales",
+  },
+  esPassportValidity: {
+    label: "Validez del pasaporte",
+    publisher: "Policía Nacional (Portal DNIe)",
+    url: "https://www.dnielectronico.es/PortalDNIe/PRF1_Cons02.action?pag=REF_1085&id_menu=56",
+  },
+  aempsTravellers: {
+    label: "Medicamentos destinados al tratamiento de los viajeros",
+    publisher:
+      "Agencia Española de Medicamentos y Productos Sanitarios (AEMPS)",
+    url: "https://www.aemps.gob.es/industria-farmaceutica/comercio-exterior/medicamentos-destinados-al-tratamiento-de-los-viajeros/",
+  },
+  medlineDvtEs: {
+    label: "Trombosis venosa profunda",
+    publisher:
+      "MedlinePlus en español (Biblioteca Nacional de Medicina de EE. UU.)",
+    url: "https://medlineplus.gov/spanish/deepveinthrombosis.html",
+  },
   euCardChargesEs: {
     label: "Dinero y gastos al viajar por la UE",
     publisher: "Unión Europea (Tu Europa)",

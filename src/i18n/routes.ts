@@ -108,6 +108,11 @@ export const BLOG_TRANSLATIONS: Record<string, string> = {
   "lost-luggage-what-to-do": "que-hacer-si-pierden-tu-maleta",
   "best-time-to-book-flights": "cuando-reservar-vuelos",
   "airport-security-tips": "consejos-control-de-seguridad-aeropuerto",
+  "using-your-phone-abroad": "usar-el-movil-en-el-extranjero",
+  "passport-validity-rules": "validez-del-pasaporte-para-viajar",
+  "travel-scams-to-avoid": "estafas-de-viaje-comunes",
+  "travelling-with-medication": "viajar-con-medicamentos",
+  "long-haul-flight-tips": "consejos-vuelos-largos",
 };
 
 export const BLOG_HUB = {
