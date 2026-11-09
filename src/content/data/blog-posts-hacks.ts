@@ -488,7 +488,7 @@ export const hackPosts: PostInput[] = [
           "Liquids, gels and aerosols in a clear bag, in containers within the allowed size",
           "Laptops and tablets easy to reach",
           "Cables and chargers in one pouch, not loose",
-          "No sharp items, tools or large power banks in your checked bag",
+          "No sharp items or tools in your cabin bag",
           "Spare batteries and power banks in your cabin bag, as airlines require",
         ],
       },

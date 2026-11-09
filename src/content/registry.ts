@@ -7,6 +7,7 @@ import { bagPosts } from "@/content/data/blog-posts-bags";
 import { blogPosts } from "@/content/data/blog-posts";
 import { spanishPosts } from "@/content/data/blog-posts-es";
 import { spanishFlightPosts } from "@/content/data/blog-posts-es-flights";
+import { spanishHackPosts } from "@/content/data/blog-posts-es-hacks";
 import { spanishPlacePosts } from "@/content/data/blog-posts-es-places";
 import { spanishPlanningPosts } from "@/content/data/blog-posts-es-planning";
 import { decemberPosts } from "@/content/data/blog-posts-dec-2026";
@@ -94,6 +95,7 @@ const guideInputs = [
   ...planningGuides,
   ...spanishPosts,
   ...spanishFlightPosts,
+  ...spanishHackPosts,
   ...spanishPlanningPosts,
   ...spanishPlacePosts,
 ];

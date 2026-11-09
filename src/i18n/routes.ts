@@ -103,6 +103,11 @@ export const BLOG_TRANSLATIONS: Record<string, string> = {
     "escapadas-de-invierno-paris-roma-lisboa",
   "where-to-stay-in-a-new-city": "donde-alojarse-en-una-ciudad-nueva",
   "christmas-new-year-travel-tips": "consejos-para-viajar-en-navidad",
+  "travel-hacks-that-work": "trucos-de-viaje-que-funcionan",
+  "flight-delay-compensation": "indemnizacion-por-retraso-de-vuelo",
+  "lost-luggage-what-to-do": "que-hacer-si-pierden-tu-maleta",
+  "best-time-to-book-flights": "cuando-reservar-vuelos",
+  "airport-security-tips": "consejos-control-de-seguridad-aeropuerto",
 };
 
 export const BLOG_HUB = { en: "/blog", es: "/es/blog" } as const;

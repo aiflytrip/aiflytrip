@@ -130,6 +130,11 @@ export const SOURCES = {
     publisher: "Unión Europea (Tu Europa)",
     url: "https://europa.eu/youreurope/citizens/travel/passenger-rights/air/index_es.htm",
   },
+  euCardChargesEs: {
+    label: "Dinero y gastos al viajar por la UE",
+    publisher: "Unión Europea (Tu Europa)",
+    url: "https://europa.eu/youreurope/citizens/travel/money-charges/index_es.htm",
+  },
   eu1008Es: {
     label:
       "Reglamento (CE) n.º 1008/2008, incluida la transparencia de las tarifas aéreas",
